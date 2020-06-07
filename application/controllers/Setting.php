@@ -15,7 +15,9 @@ class Setting extends CI_Controller
         $this->load->model(
             array(
                 "user_model" => "user_m",
-                "M_goods_model" => "goods"
+                "M_goods_model" => "goods",
+                "S_reference_model" => "ref",
+                "M_unit_model" => "unit",
             )
         );
     }
@@ -59,14 +61,31 @@ class Setting extends CI_Controller
 
     private function barang()
     {
-        if (isset($_POST)) {
-            $this->session->set_flashdata("error", "Belum Diimplementasi");
+        if (count($_POST)) {
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->goods->delete($where_id);
+                } else {
+                    $this->goods->update($where_id, $_POST);
+                }
+            } else {
+                $this->goods->insert($_POST);
+            }
+            $this->session->set_flashdata("success", "Barang berhasil tersimpan");
+            redirect(current_url());
         }
 
         $data['page_title'] = "Master Data Barang";
 
         // get all m_goods join to references
         $content['list_barang'] = $this->goods->get_complete()->result();
+
+        // get division, subdivision, category, subcategory, package, color for goods
+        $content['division'] = $this->ref->get(array("group_data" => "GOODS_DIVISION"))->result();
+        $content['category'] = $this->ref->get(array("group_data" => "GOODS_CATEGORY"))->result();
+        $content['package'] = $this->ref->get(array("group_data" => "GOODS_PACKAGE"))->result();
+        $content['color'] = $this->ref->get(array("group_data" => "GOODS_COLOR"))->result();
 
         $data['page_content'] = $this->load->view("setting/master/barang/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/barang/index_js", "", true);
@@ -389,6 +408,120 @@ class Setting extends CI_Controller
     {
         $data['page_title'] = "Parameter Keuangan > Kode Rekening";
         $data['page_content'] = $this->load->view("setting/parameter/keuangan/kode_rekening", "", true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    public function system($path, $next_path = '')
+    {
+        switch ($path) {
+            case 's_reference':
+                $this->s_reference($next_path);
+                break;
+            case 'm_unit':
+                $this->m_unit($next_path);
+                break;
+
+            default:
+                # code...
+                break;
+        }
+    }
+
+    private function s_reference($path)
+    {
+        if (count($_POST)) {
+
+            $entry_data = array(
+                "group_data" => $_POST['group_data'],
+                "detail_data" => $_POST['detail_data']
+            );
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->ref->delete($where_id);
+                } else {
+                    $this->ref->update($where_id, $entry_data);
+                }
+            } else {
+                $this->ref->insert($entry_data);
+            }
+
+            $this->session->set_flashdata("success", "Reference berhasil tersimpan");
+
+            if (array_key_exists("back", $_POST)) {
+                redirect($_POST['back']);
+            } else {
+                $content['back_url'] = $_POST['back_url'];
+            }
+        }
+
+        if ($path) {
+            $data['page_title'] = "Konfigurasi s_reference";
+            if ($path  == 'goods_division') {
+                $content['group_data'] = "GOODS_DIVISION";
+            } else if ($path == "goods_category") {
+                $content['group_data'] = "GOODS_CATEGORY";
+            } else if ($path == "goods_package") {
+                $content['group_data'] = "GOODS_PACKAGE";
+            } else if ($path == "goods_color") {
+                $content['group_data'] = "GOODS_COLOR";
+            }
+            $data['page_content'] = $this->load->view("setting/system/s_reference/tambah", $content, true);
+        } else {
+            $data['page_title'] = "Setting > System > Daftar S_Reference";
+            $content['s_reference'] = $this->ref->get_all()->result();
+            $content['group_data'] = $this->ref->get_group_data()->result_array();
+            $data['page_content'] = $this->load->view("setting/system/s_reference/index", $content, true);
+            $data['page_js'] = $this->load->view("setting/system/s_reference/index_js", $content, true);
+        }
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_unit($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->unit->delete($where_id);
+                    $this->session->set_flashdata("success", "Unit berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "name" => $_POST['name'],
+                        "quantity" => $_POST['quantity']
+                    );
+                    $this->unit->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Unit berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "name" => $_POST['name'],
+                    "quantity" => $_POST['quantity']
+                );
+                $this->unit->insert($entry_data);
+                $this->session->set_flashdata("success", "Unit berhasil tersimpan");
+            }
+
+
+            if (array_key_exists("back", $_POST)) {
+                redirect($_POST['back']);
+            } else {
+                $content['back_url'] = $_POST['back_url'];
+            }
+        }
+
+        $data['page_title'] = "Setting > System > Daftar M_Unit";
+        $content['m_unit'] = $this->unit->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_unit/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_unit/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

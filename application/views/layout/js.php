@@ -76,3 +76,13 @@
     <script src="<?= base_url() ?>assets/js/pages/crud/datatables/basic/paginations.js"></script>
     <!--end::Page Scripts-->
     <?= isset($page_js) ? $page_js : "" ?>
+    <?php if ($this->session->flashdata("error")) { ?>
+        <script>
+            Swal.fire("Error!", "<?= $this->session->flashdata("error") ?>", "error");
+        </script>
+    <?php } ?>
+    <?php if ($this->session->flashdata("success")) { ?>
+        <script>
+            Swal.fire("Success!", "<?= $this->session->flashdata("success") ?>", "success");
+        </script>
+    <?php } ?>

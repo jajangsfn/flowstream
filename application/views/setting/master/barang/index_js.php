@@ -2,16 +2,24 @@
     $(document).ready(() => {
         $("#master_barang_table").DataTable({
             responsive: true,
-            paging_type: 'full_numbers'
+            paging_type: 'full_numbers',
+            columnDefs: [{
+                    responsivePriority: 1,
+                    targets: 0
+                },
+                {
+                    responsivePriority: 2,
+                    targets: -1
+                },
+                {
+                    targets: -1,
+                    orderable: false,
+                },
+            ]
         })
 
         $('.select2').select2({
-            width: 'resolve'
+            width: '100%'
         });
     })
 </script>
-<?php if ($this->session->flashdata("error")) { ?>
-    <script>
-        Swal.fire("Error!", "<?= $this->session->flashdata("error") ?>", "error");
-    </script>
-<?php } ?>

@@ -31,6 +31,7 @@
                     <th>HPP</th>
                     <th>Quantity</th>
                     <th>Tax</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,7 +39,7 @@
                     $barang = $list_barang[$i]; ?>
                     <tr>
                         <td><?= $i + 1 ?></td>
-                        <td><?= $barang->name ?></td>
+                        <td nowrap="nowrap"><?= $barang->name ?></td>
                         <td><?= $barang->barcode ?></td>
                         <td><?= $barang->sku_code ?></td>
                         <td><?= $barang->plu_code ?></td>
@@ -52,6 +53,15 @@
                         <td><?= $barang->hpp ?></td>
                         <td><?= $barang->quantity ?></td>
                         <td><?= $barang->tax ?></td>
+                        <td nowrap="nowrap">
+                            <!-- Button trigger modal-->
+                            <button type="button" class="btn btn-icon btn-sm btn-light-success" data-toggle="modal" data-target="#edit_<?= $barang->id ?>">
+                                <i class="flaticon2-pen"></i>
+                            </button>
+                            <button type="button" class="btn btn-icon btn-sm btn-light-danger" data-toggle="modal" data-target="#delete_<?= $barang->id ?>">
+                                <i class="flaticon2-trash"></i>
+                            </button>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -107,18 +117,27 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group w-100">
+                        <div class="form-group">
                             <select class="form-control select2" name="division">
                                 <option value="" selected disabled>Pilih Division</option>
-                                <option value="AK">Alaska</option>
+                                <?php foreach ($division as $division_option) { ?>
+                                    <option value="<?= $division_option->id ?>"><?= $division_option->detail_data ?></option>
+                                <?php } ?>
                             </select>
+                            <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_division") ?>">
+                                <div class="my-3">
+                                    (Manage division)
+                                </div>
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group w-100">
                             <select class="form-control select2" name="sub_division">
                                 <option value="" selected disabled>Pilih Sub Division</option>
-                                <option value="AK">Alaska</option>
+                                <?php foreach ($division as $division_option) { ?>
+                                    <option value="<?= $division_option->id ?>"><?= $division_option->detail_data ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
@@ -126,15 +145,24 @@
                         <div class="form-group w-100">
                             <select class="form-control select2" name="category">
                                 <option value="" selected disabled>Pilih Category</option>
-                                <option value="AK">Alaska</option>
+                                <?php foreach ($category as $category_option) { ?>
+                                    <option value="<?= $category_option->id ?>"><?= $category_option->detail_data ?></option>
+                                <?php } ?>
                             </select>
+                            <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_category") ?>">
+                                <div class="my-3">
+                                    (Manage Category)
+                                </div>
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group w-100">
                             <select class="form-control select2" name="sub_category">
                                 <option value="" selected disabled>Pilih Sub Category</option>
-                                <option value="AK">Alaska</option>
+                                <?php foreach ($category as $category_option) { ?>
+                                    <option value="<?= $category_option->id ?>"><?= $category_option->detail_data ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
@@ -142,16 +170,30 @@
                         <div class="form-group w-100">
                             <select class="form-control select2" name="package">
                                 <option value="" selected disabled>Pilih Package</option>
-                                <option value="AK">Alaska</option>
+                                <?php foreach ($package as $package_option) { ?>
+                                    <option value="<?= $package_option->id ?>"><?= $package_option->detail_data ?></option>
+                                <?php } ?>
                             </select>
+                            <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_package") ?>">
+                                <div class="my-3">
+                                    (Manage Package)
+                                </div>
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group w-100">
                             <select class="form-control select2" name="color">
                                 <option value="" selected disabled>Pilih Color</option>
-                                <option value="AK">Alaska</option>
+                                <?php foreach ($color as $color_option) { ?>
+                                    <option value="<?= $color_option->id ?>"><?= $color_option->detail_data ?></option>
+                                <?php } ?>
                             </select>
+                            <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_color") ?>">
+                                <div class="my-3">
+                                    (Manage Color)
+                                </div>
+                            </a>
                         </div>
                     </div>
 

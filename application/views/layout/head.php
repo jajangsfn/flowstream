@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Metronic | Pagination Options Examples</title>
+    <title>Flowstream</title>
     <meta name="description" content="Pagination options datatables examples" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!--begin::Fonts-->
@@ -19,7 +19,6 @@
     <!--end::Global Theme Styles-->
     <!--begin::Layout Themes(used by all pages)-->
     <!--end::Layout Themes-->
-    <link rel="shortcut icon" href="<?= base_url() ?>assets/media/logos/favicon.ico" />
 
 </head>
 
