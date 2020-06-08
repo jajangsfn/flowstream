@@ -86,6 +86,7 @@ class Setting extends CI_Controller
         $content['category'] = $this->ref->get(array("group_data" => "GOODS_CATEGORY"))->result();
         $content['package'] = $this->ref->get(array("group_data" => "GOODS_PACKAGE"))->result();
         $content['color'] = $this->ref->get(array("group_data" => "GOODS_COLOR"))->result();
+        $content['unit'] = $this->unit->get_all()->result();
 
         $data['page_content'] = $this->load->view("setting/master/barang/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/barang/index_js", "", true);
