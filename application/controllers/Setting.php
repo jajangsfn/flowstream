@@ -18,6 +18,9 @@ class Setting extends CI_Controller
                 "M_goods_model" => "goods",
                 "S_reference_model" => "ref",
                 "M_unit_model" => "unit",
+                "M_branch_model" => "branch",
+                "M_master_model" => "master",
+                "M_partner_model" => "partner",
             )
         );
     }
@@ -424,6 +427,15 @@ class Setting extends CI_Controller
             case 'm_unit':
                 $this->m_unit($next_path);
                 break;
+            case 'm_branch':
+                $this->m_branch($next_path);
+                break;
+            case 'm_master':
+                $this->m_master($next_path);
+                break;
+            case 'm_partner':
+                $this->m_partner($next_path);
+                break;
 
             default:
                 # code...
@@ -523,6 +535,164 @@ class Setting extends CI_Controller
         $content['m_unit'] = $this->unit->get_all()->result();
         $data['page_content'] = $this->load->view("setting/system/m_unit/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_unit/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_branch($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->branch->delete($where_id);
+                    $this->session->set_flashdata("success", "Branch berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "name" => $_POST['name'],
+                        "owner" => $_POST['owner'],
+                        "address" => $_POST['address'],
+                        "npwp" => $_POST['npwp'],
+                        "tax_status" => $_POST['tax_status'],
+                        "online_status" => $_POST['online_status']
+                    );
+                    $this->branch->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Branch berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "name" => $_POST['name'],
+                    "owner" => $_POST['owner'],
+                    "address" => $_POST['address'],
+                    "npwp" => $_POST['npwp'],
+                    "tax_status" => $_POST['tax_status'],
+                    "online_status" => $_POST['online_status']
+                );
+                $this->branch->insert($entry_data);
+                $this->session->set_flashdata("success", "Branch berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar M_Branch";
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_branch/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_branch/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_master($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->master->delete($where_id);
+                    $this->session->set_flashdata("success", "Master berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "code" => $_POST['code'],
+                        "name" => $_POST['name'],
+                        "description" => $_POST['description'],
+                    );
+                    $this->master->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Master berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "code" => $_POST['code'],
+                    "name" => $_POST['name'],
+                    "description" => $_POST['description'],
+                );
+                $this->master->insert($entry_data);
+                $this->session->set_flashdata("success", "Master berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar M_Master";
+        $content['m_master'] = $this->master->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_master/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_master/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_partner($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->partner->delete($where_id);
+                    $this->session->set_flashdata("success", "Partner berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "master_id" => $_POST['master_id'],
+                        "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
+                        "partner_code" => $_POST['partner_code'],
+                        "name" => $_POST['name'],
+                        "address_1" => $_POST['address_1'],
+                        "address_2" => $_POST['address_2'],
+                        "city" => $_POST['city'],
+                        "province" => $_POST['province'],
+                        "zip_code" => $_POST['zip_code'],
+                        "phone" => $_POST['phone'],
+                        "fax" => $_POST['fax'],
+                        "tax_number" => $_POST['tax_number'],
+                        "salesman" => $_POST['salesman'],
+                        "partner_type" => $_POST['partner_type'],
+                        "sales_price_level" => $_POST['sales_price_level'],
+                        "tax_address" => $_POST['tax_address'],
+                        "is_customer" => isset($_POST['is_customer']) ? 1 : 0,
+                        "is_supplier" => isset($_POST['is_supplier']) ? 1 : 0
+                    );
+                    $this->partner->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Partner berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "master_id" => $_POST['master_id'],
+                    "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
+                    "partner_code" => $_POST['partner_code'],
+                    "name" => $_POST['name'],
+                    "address_1" => $_POST['address_1'],
+                    "address_2" => $_POST['address_2'],
+                    "city" => $_POST['city'],
+                    "province" => $_POST['province'],
+                    "zip_code" => $_POST['zip_code'],
+                    "phone" => $_POST['phone'],
+                    "fax" => $_POST['fax'],
+                    "tax_number" => $_POST['tax_number'],
+                    "salesman" => $_POST['salesman'],
+                    "partner_type" => $_POST['partner_type'],
+                    "sales_price_level" => $_POST['sales_price_level'],
+                    "tax_address" => $_POST['tax_address'],
+                    "is_customer" => isset($_POST['is_customer']) ? 1 : 0,
+                    "is_supplier" => isset($_POST['is_supplier']) ? 1 : 0
+                );
+                $this->partner->insert($entry_data);
+                $this->session->set_flashdata("success", "Partner berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar M_Partner";
+        $content['m_partner'] = $this->partner->get_all()->result();
+        $content['m_master'] = $this->master->get_all()->result();
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_partner/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_partner/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

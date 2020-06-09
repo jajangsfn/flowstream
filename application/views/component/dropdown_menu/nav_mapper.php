@@ -854,7 +854,31 @@ $nav = array(
                         "m_unit",
                         null,
                         null,
-                    )
+                    ),
+                    new NavItem(
+                        null,
+                        null,
+                        "/index.php/setting/system/m_branch",
+                        "m_branch",
+                        null,
+                        null,
+                    ),
+                    new NavItem(
+                        null,
+                        null,
+                        "/index.php/setting/system/m_master",
+                        "m_master",
+                        null,
+                        null,
+                    ),
+                    new NavItem(
+                        null,
+                        null,
+                        "/index.php/setting/system/m_partner",
+                        "m_partner",
+                        null,
+                        null,
+                    ),
                 )
             )
         ),
