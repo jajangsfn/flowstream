@@ -23,9 +23,7 @@
                                     <!--begin::Page Heading-->
                                     <div class="d-flex align-items-baseline mr-5">
                                         <!--begin::Page Title-->
-                                        <?php if (isset($back_url)) { ?>
-                                            <a class="fa la-angle-left mr-5 text-primary icon-md" href="<?= $back_url ?>"> </a>
-                                        <?php } ?>
+                                        <a class="fa la-angle-left mr-5 text-primary icon-md" href="<?= isset($back_url) ? $back_url : $_SERVER['HTTP_REFERER'] ?>"> </a>
                                         <h5 class="text-dark font-weight-bold my-2 mr-5">
                                             <?= $page_title ?></h5>
                                         <!--end::Page Title-->

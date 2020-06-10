@@ -16,16 +16,19 @@ class Landing extends CI_Controller
 
 	public function index()
 	{
-		// if already login, redirect to dashboard
+		// if already login, show index page
 		if ($this->session->userdata('login')) {
-			redirect(
-				base_url("/index.php/dashboard")
-			);
-		}
+			$data['page_title'] = "Welcome";
+			$data['page_content'] = $this->load->view("landing/index", "", true);
 
-		$this->load->view('landing/head');
-		$this->load->view('landing/login');
-		$this->load->view('landing/js');
+			$this->load->view('layout/head');
+			$this->load->view('layout/base', $data);
+			$this->load->view('layout/js');
+		} else {
+			$this->load->view('landing/head');
+			$this->load->view('landing/login');
+			$this->load->view('landing/js');
+		}
 	}
 
 	public function register()

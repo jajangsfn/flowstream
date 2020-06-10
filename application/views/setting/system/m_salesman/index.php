@@ -2,35 +2,35 @@
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
-            <h3 class="card-label">Daftar S_Reference</h3>
+            <h3 class="card-label">Daftar M_Salesman</h3>
         </div>
         <div class="card-toolbar">
             <!-- Button trigger modal-->
-            <button type="button" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#tambah_s_reference">
+            <button type="button" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#tambah_m_salesman">
                 <i class="la la-plus"></i>Tambah
             </button>
         </div>
     </div>
     <div class="card-body">
         <!--begin: Datatable-->
-        <table class="table table-separate table-head-custom table-checkable" id="s_reference_table">
+        <table class="table table-separate table-head-custom table-checkable" id="m_salesman_table">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Branch</th>
-                    <th>Group Data</th>
-                    <th>Detail Data</th>
+                    <th>Partner</th>
+                    <th>Name</th>
+                    <th>Phone</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <?php for ($i = 0; $i < count($s_reference); $i++) {
-                    $focus = $s_reference[$i]; ?>
+                <?php for ($i = 0; $i < count($m_salesman); $i++) {
+                    $focus = $m_salesman[$i]; ?>
                     <tr>
                         <td></td>
-                        <td><?= $focus->branch_name ?></td>
-                        <td nowrap="nowrap"><?= $focus->group_data ?></td>
-                        <td><?= $focus->detail_data ?></td>
+                        <td nowrap="nowrap"><?= $focus->partner_name ?></td>
+                        <td><?= $focus->name ?></td>
+                        <td><?= $focus->phone ?></td>
                         <td nowrap="nowrap">
                             <!-- Button trigger modal-->
                             <button type="button" class="btn btn-icon btn-sm btn-light-success" data-toggle="modal" data-target="#edit_<?= $focus->id ?>">
@@ -49,71 +49,73 @@
 </div>
 <!--end::Card-->
 
-<div class="modal fade" id="tambah_s_reference" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="tambah_m_salesman" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <form action="<?= current_url() ?>" method="POST" class="modal-content">
             <input type="hidden" name="back" value="<?= current_url() ?>">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Reference</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Salesman</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="card-body">
+            <div class="modal-body row">
+                <div class="col-12">
                     <div class="form-group w-100">
-                        <label>Branch:</label>
-                        <select class="form-control select2" name="branch_id">
-                            <?php foreach ($m_branch as $option) { ?>
+                        <label>Partner:</label>
+                        <select class="form-control select2" name="partner_id">
+                            <?php foreach ($m_partner as $option) { ?>
                                 <option value="<?= $option->id ?>"><?= $option->name ?></option>
                             <?php } ?>
                         </select>
-                        <a class="text-info" href="<?= base_url("/index.php/setting/system/m_branch") ?>">
+                        <a class="text-info" href="<?= base_url("/index.php/setting/system/m_partner") ?>">
                             <div class="my-2">
-                                (Manage Branch)
+                                (Manage Partner)
                             </div>
                         </a>
                     </div>
+                </div>
+                <div class="col-12">
                     <div class="form-group">
-                        <label>Group Data:</label>
-                        <div class="typeahead">
-                            <input type="text" name="group_data" class="form-control w-100 group_data_suggest" placeholder="Enter Group Data" required />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Detail Data:</label>
-                        <input type="text" name="detail_data" class="form-control" placeholder="Enter Detail Data" required />
+                        <label>Name:</label>
+                        <input type="text" name="name" class="form-control" placeholder="Enter Name" required />
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label>Phone Number:</label>
+                        <input type="text" name="phone" class="form-control" placeholder="Enter Phone Number" required />
+                    </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
             </div>
         </form>
     </div>
 </div>
 
-<?php for ($i = 0; $i < count($s_reference); $i++) {
-    $focus = $s_reference[$i]; ?>
-    <div class="modal fade" id="edit_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+<?php for ($i = 0; $i < count($m_salesman); $i++) {
+    $focus = $m_salesman[$i]; ?>
+    <div class="modal fade" id="edit_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <form action="<?= current_url() ?>" method="POST" class="modal-content">
                 <input type="hidden" name="back" value="<?= current_url() ?>">
                 <input type="hidden" name="id" value="<?= $focus->id ?>">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Reference</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Salesman</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="card-body">
+                <div class="modal-body row">
+                    <div class="col-12">
                         <div class="form-group w-100">
-                            <label>Branch:</label>
-                            <select class="form-control select2" name="branch_id">
+                            <label>Partner:</label>
+                            <select class="form-control select2" name="partner_id">
                                 <?php $found = false; ?>
-                                <?php foreach ($m_branch as $option) { ?>
-                                    <?php if ($focus->branch_id == $option->id) { ?>
+                                <?php foreach ($m_partner as $option) { ?>
+                                    <?php if ($focus->partner_id == $option->id) { ?>
                                         <option value="<?= $option->id ?>" selected><?= $option->name ?></option>
                                         <?php $found = true; ?>
                                     <?php } else { ?>
@@ -121,47 +123,50 @@
                                     <?php } ?>
                                 <?php } ?>
                                 <?php if (!$found) { ?>
-                                    <option value="<?= $focus->branch_id ?>" selected><?= $focus->branch_name ?></option>
+                                    <option value="<?= $focus->partner_id ?>" selected><?= $focus->partner_name ?> <span>(Deleted)</span></option>
+                                    <?php $found = false; ?>
                                 <?php } ?>
                             </select>
-                            <a class="text-info" href="<?= base_url("/index.php/setting/system/m_branch") ?>">
+                            <a class="text-info" href="<?= base_url("/index.php/setting/system/m_partner") ?>">
                                 <div class="my-2">
-                                    (Manage Branch)
+                                    (Manage Partner)
                                 </div>
                             </a>
                         </div>
+                    </div>
+                    <div class="col-12">
                         <div class="form-group">
-                            <label>Group Data:</label>
-                            <div class="typeahead">
-                                <input type="text" name="group_data" class="form-control w-100 group_data_suggest" placeholder="Enter Group Data" required value="<?= $focus->group_data ?>" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Detail Data:</label>
-                            <input type="text" name="detail_data" class="form-control" placeholder="Enter Detail Data" required value="<?= $focus->detail_data ?>" />
+                            <label>Name:</label>
+                            <input type="text" name="name" class="form-control" placeholder="Enter Name" required value="<?= $focus->name ?>" />
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Phone Number:</label>
+                            <input type="text" name="phone" class="form-control" placeholder="Enter Phone Number" required value="<?= $focus->phone ?>" />
+                        </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
                 </div>
             </form>
         </div>
     </div>
-    <div class="modal fade" id="delete_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal fade" id="delete_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="<?= current_url() ?>" method="POST" class="modal-content">
                 <input type="hidden" name="back" value="<?= current_url() ?>">
                 <input type="hidden" name="id" value="<?= $focus->id ?>">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Reference</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Partner</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p class="m-0">anda akan menghapus referensi <?= $focus->detail_data ?></p>
-                    <small class="m-0 text-info">Seluruh data yang menggunakan referensi ini tidak akan ikut terhapus</small>
+                    <p class="m-0">anda akan menghapus data salesman <?= $focus->name ?></p>
+                    <small class="m-0 text-info">Seluruh data yang terkait dengan salesman ini tidak akan ikut terhapus</small>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" name="delete" class="btn btn-danger mr-2">Delete</button>

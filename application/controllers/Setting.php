@@ -21,14 +21,17 @@ class Setting extends CI_Controller
                 "M_branch_model" => "branch",
                 "M_master_model" => "master",
                 "M_partner_model" => "partner",
+                "M_salesman_model" => "salesman",
+                "M_salesman_map_model" => "salesman_map",
             )
         );
     }
 
     public function index()
     {
+        $data['back_url'] = base_url();
         $data['page_title'] = "Setting dan Konfigurasi";
-        $data['page_content'] = $this->load->view("profile/content", "", true);
+        $data['page_content'] = $this->load->view("setting/index", "", true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
@@ -436,6 +439,12 @@ class Setting extends CI_Controller
             case 'm_partner':
                 $this->m_partner($next_path);
                 break;
+            case 'm_salesman':
+                $this->m_salesman($next_path);
+                break;
+            case 'm_salesman_map':
+                $this->m_salesman_map($next_path);
+                break;
 
             default:
                 # code...
@@ -448,6 +457,7 @@ class Setting extends CI_Controller
         if (count($_POST)) {
 
             $entry_data = array(
+                "branch_id" => $_POST['branch_id'],
                 "group_data" => $_POST['group_data'],
                 "detail_data" => $_POST['detail_data']
             );
@@ -488,6 +498,7 @@ class Setting extends CI_Controller
             $data['page_title'] = "Setting > System > Daftar S_Reference";
             $content['s_reference'] = $this->ref->get_all()->result();
             $content['group_data'] = $this->ref->get_group_data()->result_array();
+            $content['m_branch'] = $this->branch->get_all()->result();
             $data['page_content'] = $this->load->view("setting/system/s_reference/index", $content, true);
             $data['page_js'] = $this->load->view("setting/system/s_reference/index_js", $content, true);
         }
@@ -693,6 +704,87 @@ class Setting extends CI_Controller
         $content['m_branch'] = $this->branch->get_all()->result();
         $data['page_content'] = $this->load->view("setting/system/m_partner/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_partner/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_salesman($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->salesman->delete($where_id);
+                    $this->session->set_flashdata("success", "Salesman berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "partner_id" => $_POST['partner_id'],
+                        "name" => $_POST['name'],
+                        "phone" => $_POST['phone'],
+                    );
+                    $this->salesman->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Salesman berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "partner_id" => $_POST['partner_id'],
+                    "name" => $_POST['name'],
+                    "phone" => $_POST['phone'],
+                );
+                $this->salesman->insert($entry_data);
+                $this->session->set_flashdata("success", "Salesman berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar M_Salesman";
+        $content['m_salesman'] = $this->salesman->get_all()->result();
+        $content['m_partner'] = $this->partner->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_salesman/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_salesman/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_salesman_map($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->salesman_map->delete($where_id);
+                    $this->session->set_flashdata("success", "Salesman Map berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "salesman_id" => $_POST['salesman_id'],
+                        "goods_id" => $_POST['goods_id'],
+                    );
+                    $this->salesman_map->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Salesman Map berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "salesman_id" => $_POST['salesman_id'],
+                    "goods_id" => $_POST['goods_id'],
+                );
+                $this->salesman_map->insert($entry_data);
+                $this->session->set_flashdata("success", "Salesman Map berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar M_Salesman_Map";
+        $content['m_salesman'] = $this->salesman->get_all()->result();
+        $content['m_goods'] = $this->goods->get_all()->result();
+        $content['m_salesman_map'] = $this->salesman_map->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_salesman_map/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_salesman_map/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

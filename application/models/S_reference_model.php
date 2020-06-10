@@ -9,7 +9,14 @@ class S_reference_model extends CI_Model
 
     function get_all()
     {
-        return $this->db->get_where("s_reference", array("flag <>" => 99));
+        return $this->db->query(
+            "
+            SELECT s_reference.*, m_branch.name AS branch_name
+            FROM s_reference
+            LEFT JOIN m_branch on s_reference.branch_id = m_branch.id
+            WHERE s_reference.flag <> 99
+            "
+        );
     }
 
     function get_group_data()

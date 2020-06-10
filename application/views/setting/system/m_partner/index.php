@@ -233,7 +233,7 @@
                 <input type="hidden" name="back" value="<?= current_url() ?>">
                 <input type="hidden" name="id" value="<?= $focus->id ?>">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Master</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Partner</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
@@ -255,8 +255,18 @@
                         <div class="form-group w-100">
                             <label>Master:</label>
                             <select class="form-control select2" name="master_id">
+                                <?php $found = false; ?>
                                 <?php foreach ($m_master as $option) { ?>
-                                    <option value="<?= $option->id ?>" <?= $focus->master_id == $option->id ? "selected" : "" ?>><?= $option->name ?></option>
+                                    <?php if ($focus->master_id == $option->id) { ?>
+                                        <option value="<?= $option->id ?>" selected><?= $option->name ?></option>
+                                        <?php $found = true; ?>
+                                    <?php } else { ?>
+                                        <option value="<?= $option->id ?>"><?= $option->name ?></option>
+                                    <?php } ?>
+                                <?php } ?>
+                                <?php if (!$found) { ?>
+                                    <option value="<?= $focus->master_id ?>" selected><?= $focus->master ?> <span>(Deleted)</span></option>
+                                    <?php $found = false; ?>
                                 <?php } ?>
                             </select>
                             <a class="text-info" href="<?= base_url("/index.php/setting/system/m_master") ?>">
@@ -270,8 +280,17 @@
                         <div class="form-group w-100">
                             <label>Branch:</label>
                             <select class="form-control select2" name="branch_id">
+                                <?php $found = false; ?>
                                 <?php foreach ($m_branch as $option) { ?>
-                                    <option value="<?= $option->id ?>" <?= $focus->branch_id == $option->id ? "selected" : "" ?>><?= $option->name ?></option>
+                                    <?php if ($focus->branch_id == $option->id) { ?>
+                                        <option value="<?= $option->id ?>" selected><?= $option->name ?></option>
+                                        <?php $found = true; ?>
+                                    <?php } else { ?>
+                                        <option value="<?= $option->id ?>"><?= $option->name ?></option>
+                                    <?php } ?>
+                                <?php } ?>
+                                <?php if (!$found) { ?>
+                                    <option value="<?= $focus->branch_id ?>" selected><?= $focus->branch ?> <span>(Deleted)</span></option>
                                 <?php } ?>
                             </select>
                             <a class="text-info" href="<?= base_url("/index.php/setting/system/m_branch") ?>">
