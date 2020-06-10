@@ -23,6 +23,7 @@ class Setting extends CI_Controller
                 "M_partner_model" => "partner",
                 "M_salesman_model" => "salesman",
                 "M_salesman_map_model" => "salesman_map",
+                "M_event_model" => "event",
             )
         );
     }
@@ -445,6 +446,9 @@ class Setting extends CI_Controller
             case 'm_salesman_map':
                 $this->m_salesman_map($next_path);
                 break;
+            case 'm_event':
+                $this->m_event($next_path);
+                break;
 
             default:
                 # code...
@@ -785,6 +789,53 @@ class Setting extends CI_Controller
         $content['m_salesman_map'] = $this->salesman_map->get_all()->result();
         $data['page_content'] = $this->load->view("setting/system/m_salesman_map/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_salesman_map/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_event($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->event->delete($where_id);
+                    $this->session->set_flashdata("success", "Event berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "branch_id" => $_POST['branch_id'],
+                        "name" => $_POST['name'],
+                        "description" => $_POST['description'],
+                        "start_date" => $_POST['start_date'],
+                        "end_date" => $_POST['end_date'],
+                        "created_by" => $this->session->userdata("id"),
+                    );
+                    $this->event->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Event berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "branch_id" => $_POST['branch_id'],
+                    "name" => $_POST['name'],
+                    "description" => $_POST['description'],
+                    "start_date" => $_POST['start_date'],
+                    "end_date" => $_POST['end_date'],
+                    "created_by" => $this->session->userdata("id"),
+                );
+                $this->event->insert($entry_data);
+                $this->session->set_flashdata("success", "Event berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar M_Event";
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $content['m_event'] = $this->event->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_event/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_event/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

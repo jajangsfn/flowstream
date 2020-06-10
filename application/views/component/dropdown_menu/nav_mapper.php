@@ -908,6 +908,14 @@ if (stripos(current_url(), "/dashboard")) {
                     null,
                     null,
                 ),
+                new NavItem(
+                    null,
+                    null,
+                    "/index.php/setting/system/m_event",
+                    "m_event",
+                    null,
+                    null,
+                ),
             )
         )
     );

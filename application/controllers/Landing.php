@@ -60,7 +60,8 @@ class Landing extends CI_Controller
 					"login" => true,
 					"username" => $_POST['username'],
 					"name" => $user_query->row()->name,
-					"email" => $user_query->row()->email
+					"email" => $user_query->row()->email,
+					"id" => $user_query->row()->id,
 				)
 			);
 		} else {
@@ -79,7 +80,7 @@ class Landing extends CI_Controller
 		);
 
 		// insert to database
-		$this->user_m->insert($signup_data);
+		$user_query = $this->user_m->insert($signup_data);
 
 		// do login
 		$this->session->set_userdata(
@@ -88,6 +89,7 @@ class Landing extends CI_Controller
 				"username" => $_POST['username'],
 				"name" => $_POST['fullname'],
 				"email" => $_POST['email'],
+				"id" => $user_query->row()->id,
 			)
 		);
 		redirect(base_url());
