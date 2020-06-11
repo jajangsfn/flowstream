@@ -28,6 +28,7 @@ class Setting extends CI_Controller
                 "M_delivery_model" => "delivery",
                 "M_warehouse_model" => "warehouse",
                 "Production_model" => "production",
+                "Production_detail_model" => "production_detail",
             )
         );
     }
@@ -977,6 +978,46 @@ class Setting extends CI_Controller
         $content['m_branch'] = $this->branch->get_all()->result();
         $data['page_content'] = $this->load->view("setting/system/m_warehouse/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_warehouse/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function production_detail($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->production_detail->delete($where_id);
+                    $this->session->set_flashdata("success", "Production detail berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "production_id" => $_POST['production_id'],
+                        "goods_id" => $_POST['goods_id'],
+                    );
+                    $this->production_detail->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Production detail berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "production_id" => $_POST['production_id'],
+                    "goods_id" => $_POST['goods_id'],
+                );
+                $this->production_detail->insert($entry_data);
+                $this->session->set_flashdata("success", "Production detail berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar Production Detail";
+        $content['production'] = $this->production->get_all()->result();
+        $content['m_goods'] = $this->goods->get_all()->result();
+        $content['production_detail'] = $this->production_detail->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/production_detail/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/production_detail/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

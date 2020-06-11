@@ -973,6 +973,14 @@ if (stripos(current_url(), "/dashboard")) {
                             null,
                             null,
                         ),
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/setting/system/production_detail",
+                            "production_detail",
+                            null,
+                            null,
+                        ),
                     ),
                 ),
             )
