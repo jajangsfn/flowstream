@@ -14,7 +14,7 @@
                 },
             ],
             "drawCallback": function(settings) {
-                if ($("tbody tr:first-child td").length > 1) {
+                if ($("#m_salesman_map_table").DataTable().row().data() !== undefined) {
                     $("tbody td:first-child").each(function(index, elem) {
                         $(elem).text(index + 1);
                     })

@@ -2,7 +2,7 @@
     var state = false;
     var numtest = 0;
     $(document).ready(() => {
-        $("#m_unit_table").DataTable({
+        $("#m_delivery_table").DataTable({
             responsive: true,
             paging_type: 'full_numbers',
             columnDefs: [{
@@ -19,13 +19,15 @@
                 },
             ],
             "drawCallback": function(settings) {
-                if ($("#m_unit_table").DataTable().row().data() !== undefined) {
+                if ($("#m_delivery_table").DataTable().row().data() !== undefined) {
                     $("tbody td:first-child").each(function(index, elem) {
-                        $(elem).text(index + 1);
+                        $(elem).text(index + 1).addClass("text-center");
                     })
                 }
             },
         })
-
+        $('.select2').select2({
+            width: '100%'
+        });
     })
 </script>

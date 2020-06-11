@@ -1,6 +1,4 @@
 <script>
-    var state = false;
-    var numtest = 0;
     $(document).ready(() => {
         $("#s_reference_table").DataTable({
             responsive: true,
@@ -19,9 +17,11 @@
                 },
             ],
             "drawCallback": function(settings) {
-                $("tbody td:first-child").each(function(index, elem) {
-                    $(elem).text(index + 1);
-                })
+                if ($("#m_unit_table").DataTable().row().data() !== undefined) {
+                    $("tbody td:first-child").each(function(index, elem) {
+                        $(elem).text(index + 1);
+                    })
+                }
             },
         })
 

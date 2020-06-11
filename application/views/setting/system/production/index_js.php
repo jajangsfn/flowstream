@@ -2,7 +2,7 @@
     var state = false;
     var numtest = 0;
     $(document).ready(() => {
-        $("#m_unit_table").DataTable({
+        $("#production_table").DataTable({
             responsive: true,
             paging_type: 'full_numbers',
             columnDefs: [{
@@ -19,9 +19,9 @@
                 },
             ],
             "drawCallback": function(settings) {
-                if ($("#m_unit_table").DataTable().row().data() !== undefined) {
+                if ($("#production_table").DataTable().row().data() !== undefined) {
                     $("tbody td:first-child").each(function(index, elem) {
-                        $(elem).text(index + 1);
+                        $(elem).text(index + 1).addClass("text-center");
                     })
                 }
             },

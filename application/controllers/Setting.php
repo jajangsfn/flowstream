@@ -15,8 +15,8 @@ class Setting extends CI_Controller
         $this->load->model(
             array(
                 "user_model" => "user_m",
-                "M_goods_model" => "goods",
                 "S_reference_model" => "ref",
+                "M_goods_model" => "goods",
                 "M_unit_model" => "unit",
                 "M_branch_model" => "branch",
                 "M_master_model" => "master",
@@ -24,6 +24,10 @@ class Setting extends CI_Controller
                 "M_salesman_model" => "salesman",
                 "M_salesman_map_model" => "salesman_map",
                 "M_event_model" => "event",
+                "M_promo_model" => "promo",
+                "M_delivery_model" => "delivery",
+                "M_warehouse_model" => "warehouse",
+                "Production_model" => "production",
             )
         );
     }
@@ -424,36 +428,7 @@ class Setting extends CI_Controller
 
     public function system($path, $next_path = '')
     {
-        switch ($path) {
-            case 's_reference':
-                $this->s_reference($next_path);
-                break;
-            case 'm_unit':
-                $this->m_unit($next_path);
-                break;
-            case 'm_branch':
-                $this->m_branch($next_path);
-                break;
-            case 'm_master':
-                $this->m_master($next_path);
-                break;
-            case 'm_partner':
-                $this->m_partner($next_path);
-                break;
-            case 'm_salesman':
-                $this->m_salesman($next_path);
-                break;
-            case 'm_salesman_map':
-                $this->m_salesman_map($next_path);
-                break;
-            case 'm_event':
-                $this->m_event($next_path);
-                break;
-
-            default:
-                # code...
-                break;
-        }
+        $this->$path($next_path);
     }
 
     private function s_reference($path)
@@ -836,6 +811,172 @@ class Setting extends CI_Controller
         $content['m_event'] = $this->event->get_all()->result();
         $data['page_content'] = $this->load->view("setting/system/m_event/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_event/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_promo($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->promo->delete($where_id);
+                    $this->session->set_flashdata("success", "Promo berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "name" => $_POST['name'],
+                    );
+                    $this->promo->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Promo berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "name" => $_POST['name'],
+                );
+                $this->promo->insert($entry_data);
+                $this->session->set_flashdata("success", "Promo berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar M_Promo";
+        $content['m_promo'] = $this->promo->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_promo/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_promo/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_delivery($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->delivery->delete($where_id);
+                    $this->session->set_flashdata("success", "Delivery berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "branch_id" => $_POST['branch_id'],
+                        "name" => $_POST['name'],
+                        "rekening_no" => $_POST['rekening_no'],
+                        "description" => $_POST['description'],
+                    );
+                    $this->delivery->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Delivery berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "branch_id" => $_POST['branch_id'],
+                    "name" => $_POST['name'],
+                    "rekening_no" => $_POST['rekening_no'],
+                    "description" => $_POST['description'],
+                );
+                $this->delivery->insert($entry_data);
+                $this->session->set_flashdata("success", "Delivery berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar M_Delivery";
+        $content['m_delivery'] = $this->delivery->get_all()->result();
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_delivery/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_delivery/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function production($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->production->delete($where_id);
+                    $this->session->set_flashdata("success", "Production berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "name" => $_POST['name'],
+                    );
+                    $this->production->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Production berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "name" => $_POST['name'],
+                );
+                $this->production->insert($entry_data);
+                $this->session->set_flashdata("success", "Production berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar Production";
+        $content['production'] = $this->production->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/production/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/production/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_warehouse($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->warehouse->delete($where_id);
+                    $this->session->set_flashdata("success", "Warehouse berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "branch_id" => $_POST['branch_id'],
+                        "code" => $_POST['code'],
+                        "name" => $_POST['name'],
+                        "address" => $_POST['address'],
+                        "length" => $_POST['length'],
+                        "width" => $_POST['width'],
+                        "capacity" => $_POST['capacity'],
+                        "description" => $_POST['description'],
+                    );
+                    $this->warehouse->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Warehouse berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "branch_id" => $_POST['branch_id'],
+                    "code" => $_POST['code'],
+                    "name" => $_POST['name'],
+                    "address" => $_POST['address'],
+                    "length" => $_POST['length'],
+                    "width" => $_POST['width'],
+                    "capacity" => $_POST['capacity'],
+                    "description" => $_POST['description'],
+                );
+                $this->warehouse->insert($entry_data);
+                $this->session->set_flashdata("success", "Warehouse berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar M_Warehouse";
+        $content['m_warehouse'] = $this->warehouse->get_all()->result();
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_warehouse/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_warehouse/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

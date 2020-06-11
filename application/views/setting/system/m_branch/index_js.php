@@ -14,7 +14,7 @@
                 },
             ],
             "drawCallback": function(settings) {
-                if ($("tbody td:first-child").length > 0) {
+                if ($("#m_branch_table").DataTable().row().data() !== undefined) {
                     $("tbody td:first-child").each(function(index, elem) {
                         $(elem).text(index + 1);
                     })

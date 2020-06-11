@@ -14,7 +14,7 @@
                 },
             ],
             "drawCallback": function(settings) {
-                if ($("tbody tr:first-child td").length > 0) {
+                if ($("#m_salesman_table").DataTable().row().data() !== undefined) {
                     $("tbody td:first-child").each(function(index, elem) {
                         $(elem).text(index + 1);
                     })
