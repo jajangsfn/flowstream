@@ -14,8 +14,8 @@ class Setting extends CI_Controller
         }
         $this->load->model(
             array(
-                "user_model" => "user_m",
-                "S_reference_model" => "ref",
+                "Delivery_order_model" => "delivery_order",
+                "Delivery_team_model" => "delivery_team",
                 "M_goods_model" => "goods",
                 "M_unit_model" => "unit",
                 "M_branch_model" => "branch",
@@ -33,6 +33,8 @@ class Setting extends CI_Controller
                 "Ol_group_detail_model" => "group_det",
                 "Production_model" => "production",
                 "Production_detail_model" => "production_detail",
+                "S_reference_model" => "ref",
+                "User_model" => "user_m",
             )
         );
     }
@@ -1194,6 +1196,92 @@ class Setting extends CI_Controller
         $content['ol_group_detail'] = $this->group_det->get_all()->result();
         $data['page_content'] = $this->load->view("setting/system/ol_group_detail/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/ol_group_detail/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function delivery_order($path)
+    {
+        if (count($_POST)) {
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->delivery_order->delete($where_id);
+                    $this->session->set_flashdata("success", "Delivery Order berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "branch_id" => $_POST['branch_id'],
+                        "delivery_no" => $_POST['delivery_no'],
+                        "description" => $_POST['description'],
+                        "delivery_date" => $_POST['delivery_date'],
+                        "car_number" => $_POST['car_number'],
+                    );
+                    $this->delivery_order->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Delivery Order berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "branch_id" => $_POST['branch_id'],
+                    "delivery_no" => $_POST['delivery_no'],
+                    "description" => $_POST['description'],
+                    "delivery_date" => $_POST['delivery_date'],
+                    "car_number" => $_POST['car_number'],
+                );
+                $this->delivery_order->insert($entry_data);
+                $this->session->set_flashdata("success", "Delivery Order berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar delivery_order";
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $content['delivery_order'] = $this->delivery_order->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/delivery_order/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/delivery_order/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function delivery_team($path)
+    {
+        if (count($_POST)) {
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->delivery_team->delete($where_id);
+                    $this->session->set_flashdata("success", "Delivery Order berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "delivery_order_id" => $_POST['delivery_order_id'],
+                        "user_id" => $_POST['user_id'],
+                        "description" => $_POST['description'],
+                        "job_description" => $_POST['job_description'],
+                    );
+                    $this->delivery_team->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Delivery Order berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "delivery_order_id" => $_POST['delivery_order_id'],
+                    "user_id" => $_POST['user_id'],
+                    "description" => $_POST['description'],
+                    "job_description" => $_POST['job_description'],
+                );
+                $this->delivery_team->insert($entry_data);
+                $this->session->set_flashdata("success", "Delivery Order berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar delivery_order";
+        $content['delivery_team'] = $this->delivery_team->get_all()->result();
+        $content['delivery_order'] = $this->delivery_order->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/delivery_team/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/delivery_team/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

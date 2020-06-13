@@ -1022,6 +1022,22 @@ if (stripos(current_url(), "/dashboard")) {
                             null,
                             null,
                         ),
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/setting/system/delivery_order",
+                            "delivery_order",
+                            null,
+                            null,
+                        ),
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/setting/system/delivery_team",
+                            "delivery_team",
+                            null,
+                            null,
+                        ),
                     ),
                 ),
             )
