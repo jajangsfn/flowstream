@@ -68,26 +68,56 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Name:</label>
-                    <input type="text" name="name" class="form-control" placeholder="Enter Nama Branch" required />
-                </div>
-                <div class="form-group">
-                    <label>Owner:</label>
-                    <input type="text" name="owner" class="form-control" placeholder="Enter Owner" required />
-                </div>
-                <div class="form-group">
-                    <label for="address">Address:</label>
-                    <textarea class="form-control" id="address" name="address" placeholder="Enter Address" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>NPWP:</label>
-                    <input type="text" name="npwp" class="form-control" placeholder="Enter NPWP" required />
-                </div>
-                <div class="form-group">
-                    <label>Tax Status:</label>
-                    <input type="number" name="tax_status" class="form-control" placeholder="Enter Tax Status" required />
-                </div>
+                <?= $this->load->view("component/input/flowstream_input", array(
+                    "name" => "name",
+                    "required" => true,
+                    "placeholder" => "Enter Nama Branch",
+                    "type" => "text",
+                    "label" => "Name:",
+
+                    "required" => true,
+                    "value" => false
+                ), true); ?>
+                <?= $this->load->view("component/input/flowstream_input", array(
+                    "name" => "owner",
+                    "required" => true,
+                    "placeholder" => "Enter Owner",
+                    "type" => "text",
+                    "label" => "Owner:",
+
+                    "required" => true,
+                    "value" => false
+                ), true); ?>
+                <?= $this->load->view("component/input/flowstream_input", array(
+                    "name" => "address",
+                    "required" => true,
+                    "placeholder" => "Enter Address",
+                    "type" => "textarea",
+                    "label" => "Address:",
+
+                    "required" => true,
+                    "value" => false
+                ), true); ?>
+                <?= $this->load->view("component/input/flowstream_input", array(
+                    "name" => "npwp",
+                    "required" => true,
+                    "placeholder" => "Enter NPWP",
+                    "type" => "text",
+                    "label" => "NPWP:",
+
+                    "required" => true,
+                    "value" => false
+                ), true); ?>
+                <?= $this->load->view("component/input/flowstream_input", array(
+                    "name" => "tax_status",
+                    "required" => true,
+                    "placeholder" => "Enter Tax Status",
+                    "type" => "number",
+                    "label" => "Tax Status:",
+
+                    "required" => true,
+                    "value" => false
+                ), true); ?>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -110,26 +140,56 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>Name:</label>
-                        <input type="text" name="name" class="form-control" placeholder="Enter Nama Unit" required value="<?= $focus->name ?>" />
-                    </div>
-                    <div class="form-group">
-                        <label>Owner:</label>
-                        <input type="text" name="owner" class="form-control" placeholder="Enter Owner" required value="<?= $focus->owner ?>" />
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Address:</label>
-                        <textarea class="form-control" id="address" name="address" placeholder="Enter Address" rows="3"><?= $focus->address ?></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>NPWP:</label>
-                        <input type="text" name="npwp" class="form-control" placeholder="Enter NPWP" required value="<?= $focus->npwp ?>" />
-                    </div>
-                    <div class="form-group">
-                        <label>Tax Status:</label>
-                        <input type="number" name="tax_status" class="form-control" placeholder="Enter Tax Status" required value="<?= $focus->tax_status ?>" />
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "name",
+                        "required" => true,
+                        "placeholder" => "Enter Nama Branch",
+                        "type" => "text",
+                        "label" => "Name:",
+
+                        "required" => true,
+                        "value" => $focus->name
+                    ), true); ?>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "owner",
+                        "required" => true,
+                        "placeholder" => "Enter Owner",
+                        "type" => "text",
+                        "label" => "Owner:",
+
+                        "required" => true,
+                        "value" => $focus->owner
+                    ), true); ?>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "address",
+                        "required" => true,
+                        "placeholder" => "Enter Address",
+                        "type" => "textarea",
+                        "label" => "Address:",
+
+                        "required" => true,
+                        "value" => $focus->address
+                    ), true); ?>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "npwp",
+                        "required" => true,
+                        "placeholder" => "Enter NPWP",
+                        "type" => "text",
+                        "label" => "NPWP:",
+
+                        "required" => true,
+                        "value" => $focus->npwp
+                    ), true); ?>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "tax_status",
+                        "required" => true,
+                        "placeholder" => "Enter Tax Status",
+                        "type" => "number",
+                        "label" => "Tax Status:",
+
+                        "required" => true,
+                        "value" => $focus->tax_status
+                    ), true); ?>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -137,26 +197,10 @@
             </form>
         </div>
     </div>
-    <div class="modal fade" id="delete_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="<?= current_url() ?>" method="POST" class="modal-content">
-                <input type="hidden" name="back" value="<?= current_url() ?>">
-                <input type="hidden" name="id" value="<?= $focus->id ?>">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Branch</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i aria-hidden="true" class="ki ki-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="m-0">anda akan menghapus branch <?= $focus->name ?></p>
-                    <small class="m-0 text-info">Seluruh data yang terkait dengan branch ini tidak akan ikut terhapus</small>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="delete" class="btn btn-danger mr-2">Delete</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
+    <?= $this->load->view("component/modal/delete", array(
+        "id" => $focus->id,
+        "object_name" => "Branch",
+        "detail" => "anda akan menghapus branch $focus->name",
+        "subdetail" => "Seluruh data yang terkait dengan branch ini tidak akan ikut terhapus"
+    ), true); ?>
 <?php } ?>

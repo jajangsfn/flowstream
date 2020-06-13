@@ -52,21 +52,34 @@
         <form action="<?= current_url() ?>" method="POST" class="modal-content">
             <input type="hidden" name="back" value="<?= current_url() ?>">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Unit</h5>
+                <h5 class="modal-title">Tambah Unit</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <div class="form-group">
-                        <label>Name:</label>
-                        <input type="text" name="name" class="form-control" placeholder="Enter Nama Unit" required />
-                    </div>
-                    <div class="form-group">
-                        <label>Quantity:</label>
-                        <input type="number" name="quantity" class="form-control" placeholder="Enter Quantity" required />
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "name",
+                        "required" => true,
+                        "placeholder" => "Enter Nama Unit",
+                        "type" => "text",
+                        "label" => "Name:",
+
+                        "required" => true,
+                        "value" => false
+                    ), true); ?>
+
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "quantity",
+                        "required" => true,
+                        "placeholder" => "Enter Quantity",
+                        "type" => "number",
+                        "label" => "Quantity:",
+
+                        "required" => true,
+                        "value" => false
+                    ), true); ?>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -91,42 +104,44 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body">
-                        <div class="form-group">
-                            <label>Name:</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter Nama Unit" required value="<?= $focus->name ?>" />
-                        </div>
-                        <div class="form-group">
-                            <label>Quantity:</label>
-                            <input type="number" name="quantity" class="form-control" placeholder="Enter Quantity" required value="<?= $focus->quantity ?>" />
-                        </div>
+                        <?= $this->load->view("component/input/flowstream_input", array(
+                            "name" => "name",
+                            "required" => true,
+                            "placeholder" => "Enter Nama Unit",
+                            "type" => "text",
+                            "label" => "Name:",
+
+                            "required" => true,
+                            "value" => $focus->name
+                        ), true); ?>
+
+                        <?= $this->load->view("component/input/flowstream_input", array(
+                            "name" => "quantity",
+                            "required" => true,
+                            "placeholder" => "Enter Quantity",
+                            "type" => "number",
+                            "label" => "Quantity:",
+
+                            "required" => true,
+                            "value" => $focus->quantity
+                        ), true); ?>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        <?php $this->load->view("component/input/submit_button", array(
+                            "variant" => "danger",
+                            "text" => "delete",
+                            "name" => false
+                        ), true); ?>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <div class="modal fade" id="delete_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="<?= current_url() ?>" method="POST" class="modal-content">
-                <input type="hidden" name="back" value="<?= current_url() ?>">
-                <input type="hidden" name="id" value="<?= $focus->id ?>">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Unit</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i aria-hidden="true" class="ki ki-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="m-0">anda akan menghapus unit <?= $focus->name ?></p>
-                    <small class="m-0 text-info">Seluruh data yang menggunakan referensi ini tidak akan ikut terhapus</small>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="delete" class="btn btn-danger mr-2">Delete</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <?= $this->load->view("component/modal/delete", array(
+        "id" => $focus->id,
+        "object_name" => "Unit",
+        "detail" => "anda akan menghapus unit $focus->name",
+        "subdetail" => "Seluruh data yang menggunakan referensi ini tidak akan ikut terhapus"
+    ), true); ?>
 
 <?php } ?>

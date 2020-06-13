@@ -17,7 +17,7 @@
                 },
             ],
             "drawCallback": function(settings) {
-                if ($("#m_unit_table").DataTable().row().data() !== undefined) {
+                if ($("#s_reference_table").DataTable().row().data() !== undefined) {
                     $("tbody td:first-child").each(function(index, elem) {
                         $(elem).text(index + 1);
                     })

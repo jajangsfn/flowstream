@@ -54,39 +54,46 @@
         <form action="<?= current_url() ?>" method="POST" class="modal-content">
             <input type="hidden" name="back" value="<?= current_url() ?>">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Reference</h5>
+                <h5 class="modal-title">Tambah Reference</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <div class="form-group w-100">
-                        <label>Branch:</label>
-                        <select class="form-control select2" name="branch_id">
-                            <?php foreach ($m_branch as $option) { ?>
-                                <option value="<?= $option->id ?>"><?= $option->name ?></option>
-                            <?php } ?>
-                        </select>
-                        <a class="text-info" href="<?= base_url("/index.php/setting/system/m_branch") ?>">
-                            <div class="my-2">
-                                (Manage Branch)
-                            </div>
-                        </a>
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_select", array(
+                        "title" => "Branch:",
+                        "name" => "branch_id",
+                        "list" => $m_branch,
+                        "identifier" => "id",
+                        "showable" => "name",
+                        "manage_url" => base_url("/index.php/setting/system/m_branch"),
+                        "object_name" => "Branch",
+
+                        "selected" => false
+                    ), true); ?>
                     <div class="form-group">
                         <label>Group Data:</label>
                         <div class="typeahead">
                             <input type="text" name="group_data" class="form-control w-100 group_data_suggest" placeholder="Enter Group Data" required />
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Detail Data:</label>
-                        <input type="text" name="detail_data" class="form-control" placeholder="Enter Detail Data" required />
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "detail_data",
+                        "required" => true,
+                        "placeholder" => "Enter Detail Data",
+                        "type" => "text",
+                        "label" => "Detail Data:",
+
+                        "id" => false,
+                    ), true); ?>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <?= $this->load->view("component/input/submit_button", array(
+                        "variant" => "primary",
+                        "name" => null,
+                        "text" => "Send"
+                    ), true); ?>
                 </div>
             </div>
         </form>
@@ -108,66 +115,49 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body">
-                        <div class="form-group w-100">
-                            <label>Branch:</label>
-                            <select class="form-control select2" name="branch_id">
-                                <?php $found = false; ?>
-                                <?php foreach ($m_branch as $option) { ?>
-                                    <?php if ($focus->branch_id == $option->id) { ?>
-                                        <option value="<?= $option->id ?>" selected><?= $option->name ?></option>
-                                        <?php $found = true; ?>
-                                    <?php } else { ?>
-                                        <option value="<?= $option->id ?>"><?= $option->name ?></option>
-                                    <?php } ?>
-                                <?php } ?>
-                                <?php if (!$found) { ?>
-                                    <option value="<?= $focus->branch_id ?>" selected><?= $focus->branch_name ?></option>
-                                <?php } ?>
-                            </select>
-                            <a class="text-info" href="<?= base_url("/index.php/setting/system/m_branch") ?>">
-                                <div class="my-2">
-                                    (Manage Branch)
-                                </div>
-                            </a>
-                        </div>
+                        <?= $this->load->view("component/input/flowstream_select", array(
+                            "title" => "Branch:",
+                            "name" => "branch_id",
+                            "list" => $m_branch,
+                            "identifier" => "id",
+                            "showable" => "name",
+                            "manage_url" => base_url("/index.php/setting/system/m_branch"),
+                            "object_name" => "Branch",
+
+                            "selected" => $focus->branch_id,
+                            "not_found_value" => $focus->branch_id,
+                            "not_found_showable" => $focus->branch_name
+                        ), true); ?>
                         <div class="form-group">
                             <label>Group Data:</label>
                             <div class="typeahead">
                                 <input type="text" name="group_data" class="form-control w-100 group_data_suggest" placeholder="Enter Group Data" required value="<?= $focus->group_data ?>" />
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>Detail Data:</label>
-                            <input type="text" name="detail_data" class="form-control" placeholder="Enter Detail Data" required value="<?= $focus->detail_data ?>" />
-                        </div>
+                        <?= $this->load->view("component/input/flowstream_input", array(
+                            "name" => "detail_data",
+                            "required" => true,
+                            "placeholder" => "Enter Detail Data",
+                            "type" => "text",
+                            "label" => "Detail Data:",
+                            "value" => $focus->detail_data
+                        ), true); ?>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        <?= $this->load->view("component/input/submit_button", array(
+                            "variant" => "primary",
+                            "name" => null,
+                            "text" => "Send"
+                        ), true); ?>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <div class="modal fade" id="delete_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="<?= current_url() ?>" method="POST" class="modal-content">
-                <input type="hidden" name="back" value="<?= current_url() ?>">
-                <input type="hidden" name="id" value="<?= $focus->id ?>">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Reference</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i aria-hidden="true" class="ki ki-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="m-0">anda akan menghapus referensi <?= $focus->detail_data ?></p>
-                    <small class="m-0 text-info">Seluruh data yang menggunakan referensi ini tidak akan ikut terhapus</small>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="delete" class="btn btn-danger mr-2">Delete</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
+    <?= $this->load->view("component/modal/delete", array(
+        "id" => $focus->id,
+        "object_name" => "Reference",
+        "detail" => "anda akan menghapus referensi $focus->detail_data",
+        "subdetail" => "Seluruh data yang menggunakan referensi ini tidak akan ikut terhapus"
+    ), true); ?>
 <?php } ?>

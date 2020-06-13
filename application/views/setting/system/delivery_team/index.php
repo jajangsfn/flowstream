@@ -158,7 +158,7 @@
                             "name" => "job_description",
                             "type" => "textarea",
                             "placeholder" => "Masukan Deskripsi Pekerjaan",
-                            "content" => $focus->job_description
+                            "value" => $focus->job_description
                         ), true); ?>
                     </div>
                     <div class="col-md-12">
@@ -167,7 +167,7 @@
                             "name" => "description",
                             "type" => "textarea",
                             "placeholder" => "Masukan Deskripsi",
-                            "content" => $focus->description
+                            "value" => $focus->description
                         ), true); ?>
                     </div>
                 </div>

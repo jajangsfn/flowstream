@@ -62,18 +62,36 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Code:</label>
-                    <input type="text" name="code" class="form-control" placeholder="Enter Code" required />
-                </div>
-                <div class="form-group">
-                    <label>Name:</label>
-                    <input type="text" name="name" class="form-control" placeholder="Enter Nama" required />
-                </div>
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea class="form-control" id="description" name="description" placeholder="Enter Description" rows="3"></textarea>
-                </div>
+                <?= $this->load->view("component/input/flowstream_input", array(
+                    "name" => "code",
+                    "required" => true,
+                    "placeholder" => "Enter Owner",
+                    "type" => "text",
+                    "label" => "Owner:",
+
+                    "required" => true,
+                    "value" => false
+                ), true); ?>
+                <?= $this->load->view("component/input/flowstream_input", array(
+                    "name" => "name",
+                    "required" => true,
+                    "placeholder" => "Enter Nama",
+                    "type" => "text",
+                    "label" => "Name:",
+
+                    "required" => true,
+                    "value" => false
+                ), true); ?>
+                <?= $this->load->view("component/input/flowstream_input", array(
+                    "name" => "description",
+                    "required" => true,
+                    "placeholder" => "Enter Description",
+                    "type" => "textarea",
+                    "label" => "Description:",
+
+                    "required" => true,
+                    "value" => false
+                ), true); ?>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -96,18 +114,37 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>Code:</label>
-                        <input type="text" name="code" class="form-control" placeholder="Enter Code" required value="<?= $focus->code ?>" />
-                    </div>
-                    <div class="form-group">
-                        <label>Name:</label>
-                        <input type="text" name="name" class="form-control" placeholder="Enter Nama" required value="<?= $focus->name ?>" />
-                    </div>
-                    <div class="form-group">
-                        <label for="description_<?= $focus->id ?>">Description:</label>
-                        <textarea class="form-control" id="description_<?= $focus->id ?>" name="description" placeholder="Enter Description" rows="3"><?= $focus->description ?></textarea>
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "code",
+                        "required" => true,
+                        "placeholder" => "Enter Owner",
+                        "type" => "text",
+                        "label" => "Owner:",
+
+                        "required" => true,
+                        "value" => $focus->code
+                    ), true); ?>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "name",
+                        "required" => true,
+                        "placeholder" => "Enter Nama",
+                        "type" => "text",
+                        "label" => "Name:",
+
+                        "required" => true,
+                        "value" => $focus->name
+                    ), true); ?>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "description",
+                        "required" => true,
+                        "placeholder" => "Enter Description",
+                        "type" => "textarea",
+                        "label" => "Description:",
+                        "id" => "description_$focus->id",
+
+                        "required" => true,
+                        "value" => $focus->description,
+                    ), true); ?>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -115,26 +152,10 @@
             </form>
         </div>
     </div>
-    <div class="modal fade" id="delete_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="<?= current_url() ?>" method="POST" class="modal-content">
-                <input type="hidden" name="back" value="<?= current_url() ?>">
-                <input type="hidden" name="id" value="<?= $focus->id ?>">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Master</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i aria-hidden="true" class="ki ki-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="m-0">anda akan menghapus master <?= $focus->name ?> (<?= $focus->code ?>)</p>
-                    <small class="m-0 text-info">Seluruh data yang terkait dengan master ini tidak akan ikut terhapus</small>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="delete" class="btn btn-danger mr-2">Delete</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
+    <?= $this->load->view("component/modal/delete", array(
+        "id" => $focus->id,
+        "object_name" => "Branch",
+        "detail" => "anda akan menghapus master $focus->name ($focus->code)",
+        "subdetail" => "Seluruh data yang terkait dengan master ini tidak akan ikut terhapus"
+    ), true); ?>
 <?php } ?>

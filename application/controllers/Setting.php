@@ -452,14 +452,15 @@ class Setting extends CI_Controller
                 $where_id['id'] = $_POST['id'];
                 if (array_key_exists("delete", $_POST)) {
                     $this->ref->delete($where_id);
+                    $this->session->set_flashdata("success", "Reference berhasil terhapus");
                 } else {
                     $this->ref->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Reference berhasil tersimpan");
                 }
             } else {
                 $this->ref->insert($entry_data);
+                $this->session->set_flashdata("success", "Reference berhasil tersimpan");
             }
-
-            $this->session->set_flashdata("success", "Reference berhasil tersimpan");
 
             if (array_key_exists("back", $_POST)) {
                 redirect($_POST['back']);
