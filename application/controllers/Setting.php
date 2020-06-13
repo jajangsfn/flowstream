@@ -23,10 +23,14 @@ class Setting extends CI_Controller
                 "M_partner_model" => "partner",
                 "M_salesman_model" => "salesman",
                 "M_salesman_map_model" => "salesman_map",
+                "M_map_model" => "map",
                 "M_event_model" => "event",
                 "M_promo_model" => "promo",
                 "M_delivery_model" => "delivery",
                 "M_warehouse_model" => "warehouse",
+                "Ol_connection_model" => "connection",
+                "Ol_group_model" => "group",
+                "Ol_group_detail_model" => "group_det",
                 "Production_model" => "production",
                 "Production_detail_model" => "production_detail",
             )
@@ -1018,6 +1022,178 @@ class Setting extends CI_Controller
         $content['production_detail'] = $this->production_detail->get_all()->result();
         $data['page_content'] = $this->load->view("setting/system/production_detail/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/production_detail/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_map($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->map->delete($where_id);
+                    $this->session->set_flashdata("success", "Map berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "partner_id" => $_POST['partner_id'],
+                        "event_id" => $_POST['event_id'],
+                        "goods_id" => $_POST['goods_id'],
+                        "price" => $_POST['price'],
+                    );
+                    $this->map->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Map berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "partner_id" => $_POST['partner_id'],
+                    "event_id" => $_POST['event_id'],
+                    "goods_id" => $_POST['goods_id'],
+                    "price" => $_POST['price'],
+                );
+                $this->map->insert($entry_data);
+                $this->session->set_flashdata("success", "Map berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar M_Map";
+        $content['m_partner'] = $this->partner->get_all()->result();
+        $content['m_goods'] = $this->goods->get_all()->result();
+        $content['m_event'] = $this->event->get_all()->result();
+        $content['m_map'] = $this->map->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_map/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_map/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function ol_connection($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->connection->delete($where_id);
+                    $this->session->set_flashdata("success", "Connection berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "receive_id" => array_key_exists("receive_id", $_POST) ?  $_POST['receive_id'] : null,
+                        "request_id" => array_key_exists("request_id", $_POST) ?  $_POST['request_id'] : null,
+                        "request_status" => array_key_exists("request_status", $_POST) ?  $_POST['request_status'] : null,
+                        "receive_status" => array_key_exists("receive_status", $_POST) ?  $_POST['receive_status'] : null,
+                    );
+                    $this->connection->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Connection berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "receive_id" => array_key_exists("receive_id", $_POST) ?  $_POST['receive_id'] : null,
+                    "request_id" => array_key_exists("request_id", $_POST) ?  $_POST['request_id'] : null,
+                    "request_status" => array_key_exists("request_status", $_POST) ?  $_POST['request_status'] : null,
+                    "receive_status" => array_key_exists("receive_status", $_POST) ?  $_POST['receive_status'] : null,
+                );
+                $this->connection->insert($entry_data);
+                $this->session->set_flashdata("success", "Connection berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar ol_connection";
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $content['ol_connection'] = $this->connection->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/ol_connection/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/ol_connection/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function ol_group($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->group->delete($where_id);
+                    $this->session->set_flashdata("success", "Group berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "connection_id" => $_POST['connection_id'],
+                        "maker_id" => array_key_exists("maker_id", $_POST) ?  $_POST['maker_id'] : null,
+                        "name" => $_POST['name'],
+                        "description" => array_key_exists("description", $_POST) ?  $_POST['description'] : null,
+                    );
+                    $this->group->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Group berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "connection_id" => $_POST['connection_id'],
+                    "maker_id" => array_key_exists("maker_id", $_POST) ?  $_POST['maker_id'] : null,
+                    "name" => $_POST['name'],
+                    "description" => array_key_exists("description", $_POST) ?  $_POST['description'] : null,
+                );
+                $this->group->insert($entry_data);
+                $this->session->set_flashdata("success", "Group berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar ol_group";
+        $content['ol_group'] = $this->group->get_all()->result();
+        $content['ol_connection'] = $this->connection->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/ol_group/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/ol_group/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function ol_group_detail($path)
+    {
+        if (count($_POST)) {
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->group_det->delete($where_id);
+                    $this->session->set_flashdata("success", "Group detail berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "group_id" => $_POST['group_id'],
+                        "member_id" => $_POST['member_id'],
+                        "is_admin" => $_POST['is_admin'] ? 1 : 0
+                    );
+                    $this->group_det->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Group detail berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "group_id" => $_POST['group_id'],
+                    "member_id" => $_POST['member_id'],
+                    "is_admin" => $_POST['is_admin'] ? 1 : 0
+                );
+                $this->group_det->insert($entry_data);
+                $this->session->set_flashdata("success", "Group detail berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar ol_group_detail";
+        $content['ol_group'] = $this->group->get_all()->result();
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $content['ol_group_detail'] = $this->group_det->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/ol_group_detail/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/ol_group_detail/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

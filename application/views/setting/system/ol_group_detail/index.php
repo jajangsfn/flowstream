@@ -2,33 +2,35 @@
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
-            <h3 class="card-label">Daftar Production Detail</h3>
+            <h3 class="card-label">Daftar ol_group_detail</h3>
         </div>
         <div class="card-toolbar">
             <!-- Button trigger modal-->
-            <button type="button" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#tambah_production_detail">
+            <button type="button" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#tambah_ol_group_detail">
                 <i class="la la-plus"></i>Tambah
             </button>
         </div>
     </div>
     <div class="card-body">
         <!--begin: Datatable-->
-        <table class="table table-separate table-head-custom table-checkable" id="production_detail_table">
+        <table class="table table-separate table-head-custom table-checkable" id="ol_group_detail_table">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Production</th>
-                    <th>Goods</th>
+                    <th>Group</th>
+                    <th>Member</th>
+                    <th>Is admin</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <?php for ($i = 0; $i < count($production_detail); $i++) {
-                    $focus = $production_detail[$i]; ?>
+                <?php for ($i = 0; $i < count($ol_group_detail); $i++) {
+                    $focus = $ol_group_detail[$i]; ?>
                     <tr>
                         <td></td>
-                        <td nowrap class="w-50"><?= $focus->production_name ?></td>
-                        <td nowrap class="w-50"><?= $focus->goods_name ?></td>
+                        <td nowrap><?= $focus->group_name ?></td>
+                        <td nowrap><?= $focus->branch_name ?></td>
+                        <td nowrap><?= $focus->is_admin ? "True" : "False" ?></td>
                         <td nowrap="nowrap">
                             <!-- Button trigger modal-->
                             <button type="button" class="btn btn-icon btn-sm btn-light-success" data-toggle="modal" data-target="#edit_<?= $focus->id ?>">
@@ -47,47 +49,55 @@
 </div>
 <!--end::Card-->
 
-<div class="modal fade" id="tambah_production_detail" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="tambah_ol_group_detail" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <form action="<?= current_url() ?>" method="POST" class="modal-content">
             <input type="hidden" name="back" value="<?= current_url() ?>">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Production Detail</h5>
+                <h5 class="modal-title">Tambah Group Detail</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body row">
-                <div class="col-12">
+                <div class="col-md-6">
                     <div class="form-group w-100">
-                        <label>Production:</label>
-                        <select class="form-control select2" name="production_id" required>
-                            <option value="" selected disabled>Choose Production</option>
-                            <?php foreach ($production as $option) { ?>
+                        <label>Group:</label>
+                        <select class="form-control select2" name="group_id">
+                            <option value="" disabled selected>Choose Group</option>
+                            <?php foreach ($ol_group as $option) { ?>
                                 <option value="<?= $option->id ?>"><?= $option->name ?></option>
                             <?php } ?>
                         </select>
-                        <a class="text-info" href="<?= base_url("/index.php/setting/system/production") ?>">
+                        <a class="text-info" href="<?= base_url("/index.php/setting/system/ol_group") ?>">
                             <div class="my-2">
-                                (Manage Production)
+                                (Manage Group)
                             </div>
                         </a>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6">
                     <div class="form-group w-100">
-                        <label>Goods:</label>
-                        <select class="form-control select2" name="goods_id" required>
-                            <option value="" selected disabled>Choose Goods</option>
-                            <?php foreach ($m_goods as $option) { ?>
+                        <label>Member:</label>
+                        <select class="form-control select2" name="member_id">
+                            <option value="" disabled selected>Choose Member</option>
+                            <?php foreach ($m_branch as $option) { ?>
                                 <option value="<?= $option->id ?>"><?= $option->name ?></option>
                             <?php } ?>
                         </select>
-                        <a class="text-info" href="<?= base_url("/index.php/setting/master/barang") ?>">
+                        <a class="text-info" href="<?= base_url("/index.php/setting/system/m_branch") ?>">
                             <div class="my-2">
-                                (Manage Goods)
+                                (Manage Branch)
                             </div>
                         </a>
+                    </div>
+                </div>
+                <div class="col-md-12 checkbox-list text-center">
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input type="checkbox" name="is_admin" /> Mark As Admin
+                            <span></span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -98,27 +108,27 @@
     </div>
 </div>
 
-<?php for ($i = 0; $i < count($production_detail); $i++) {
-    $focus = $production_detail[$i]; ?>
+<?php for ($i = 0; $i < count($ol_group_detail); $i++) {
+    $focus = $ol_group_detail[$i]; ?>
     <div class="modal fade" id="edit_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <form action="<?= current_url() ?>" method="POST" class="modal-content">
                 <input type="hidden" name="back" value="<?= current_url() ?>">
                 <input type="hidden" name="id" value="<?= $focus->id ?>">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Production Detail</h5>
+                    <h5 class="modal-title">Edit Salesman Map</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
                 </div>
                 <div class="modal-body row">
-                    <div class="col-12">
+                    <div class="col-md-6">
                         <div class="form-group w-100">
-                            <label>Production:</label>
-                            <select class="form-control select2" name="production_id" required>
+                            <label>Group:</label>
+                            <select class="form-control select2" name="group_id">
                                 <?php $found = false; ?>
-                                <?php foreach ($production as $option) { ?>
-                                    <?php if ($focus->production_id == $option->id) { ?>
+                                <?php foreach ($ol_group as $option) { ?>
+                                    <?php if ($focus->group_id == $option->id) { ?>
                                         <option value="<?= $option->id ?>" selected><?= $option->name ?></option>
                                         <?php $found = true; ?>
                                     <?php } else { ?>
@@ -126,24 +136,24 @@
                                     <?php } ?>
                                 <?php } ?>
                                 <?php if (!$found) { ?>
-                                    <option value="<?= $focus->production_id ?>" selected><?= $focus->production_name ?> <span>(Deleted)</span></option>
+                                    <option value="<?= $focus->group_id ?>"><?= $focus->group_name ?></option>
                                     <?php $found = false; ?>
                                 <?php } ?>
                             </select>
-                            <a class="text-info" href="<?= base_url("/index.php/setting/system/production") ?>">
+                            <a class="text-info" href="<?= base_url("/index.php/setting/system/ol_group") ?>">
                                 <div class="my-2">
-                                    (Manage Production)
+                                    (Manage Group)
                                 </div>
                             </a>
                         </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-md-6">
                         <div class="form-group w-100">
-                            <label>Goods:</label>
-                            <select class="form-control select2" name="goods_id" required>
+                            <label>Member:</label>
+                            <select class="form-control select2" name="member_id">
                                 <?php $found = false; ?>
-                                <?php foreach ($m_goods as $option) { ?>
-                                    <?php if ($focus->goods_id == $option->id) { ?>
+                                <?php foreach ($m_branch as $option) { ?>
+                                    <?php if ($focus->member_id == $option->id) { ?>
                                         <option value="<?= $option->id ?>" selected><?= $option->name ?></option>
                                         <?php $found = true; ?>
                                     <?php } else { ?>
@@ -151,15 +161,23 @@
                                     <?php } ?>
                                 <?php } ?>
                                 <?php if (!$found) { ?>
-                                    <option value="<?= $focus->goods_id ?>" selected><?= $focus->goods_name ?> <span>(Deleted)</span></option>
+                                    <option value="<?= $focus->member_id ?>"><?= $focus->branch_name ?></option>
                                     <?php $found = false; ?>
                                 <?php } ?>
                             </select>
-                            <a class="text-info" href="<?= base_url("/index.php/setting/master/barang") ?>">
+                            <a class="text-info" href="<?= base_url("/index.php/setting/system/m_branch") ?>">
                                 <div class="my-2">
-                                    (Manage Goods)
+                                    (Manage Branch)
                                 </div>
                             </a>
+                        </div>
+                    </div>
+                    <div class="col-md-12 checkbox-list text-center">
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <input type="checkbox" name="is_admin" <?= $focus->is_admin ? "checked" : "" ?> /> Mark As Admin
+                                <span></span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -175,14 +193,14 @@
                 <input type="hidden" name="back" value="<?= current_url() ?>">
                 <input type="hidden" name="id" value="<?= $focus->id ?>">
                 <div class="modal-header">
-                    <h5 class="modal-title">Delete Production Detail</h5>
+                    <h5 class="modal-title">Delete Group Detail</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p class="m-0">anda akan menghapus production detail <?= $focus->production_name ?> => <?= $focus->goods_name ?></p>
-                    <small class="m-0 text-info">Seluruh data yang terkait dengan production detail ini tidak akan ikut terhapus</small>
+                    <p class="m-0">anda akan menghapus Group Detail</p>
+                    <small class="m-0 text-info">Seluruh data yang terkait dengan detail ini <span class="text-danger">akan</span> ikut terhapus</small>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" name="delete" class="btn btn-danger mr-2">Delete</button>
@@ -190,4 +208,5 @@
             </form>
         </div>
     </div>
+
 <?php } ?>
