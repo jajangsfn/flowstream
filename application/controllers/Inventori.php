@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Inventory extends CI_Controller
+class Inventori extends CI_Controller
 {
 
     public function __construct()
@@ -18,6 +18,17 @@ class Inventory extends CI_Controller
                 "user_model" => "user_m"
             )
         );
+    }
+
+    public function index()
+    {
+        $data['back_url'] = base_url();
+        $data['page_title'] = "Inventori";
+        $data['page_content'] = $this->load->view("inventori/index", "", true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
     }
 
     public function receiving()

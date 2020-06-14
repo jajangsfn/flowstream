@@ -19,6 +19,16 @@ class Keuangan extends CI_Controller
         );
     }
 
+    public function index()
+    {
+        $data['page_title'] = "Keuangan";
+        $data['page_content'] = $this->load->view("keuangan/index", "", true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
     public function registrasi($path)
     {
         switch ($path) {
@@ -422,5 +432,4 @@ class Keuangan extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
-
 }

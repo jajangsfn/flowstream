@@ -19,7 +19,7 @@ class NavItem
     }
 }
 
-if (stripos(current_url(), "/dashboard")) {
+if (stripos(current_url(), "/index.php/dashboard")) {
     $nav = array(
         new NavItem(
             "/dashboard",
@@ -70,7 +70,7 @@ if (stripos(current_url(), "/dashboard")) {
             null
         ),
     );
-} else if (stripos(current_url(), "/penjualan")) {
+} else if (stripos(current_url(), "/index.php/penjualan")) {
     $nav = array(
         new NavItem(
             "/index.php/penjualan/order_request",
@@ -156,7 +156,7 @@ if (stripos(current_url(), "/dashboard")) {
             )
         )
     );
-} else if (stripos(current_url(), "/pembelian")) {
+} else if (stripos(current_url(), "/index.php/pembelian")) {
     $nav = array(
         new NavItem(
             "/index.php/pembelian/purchase_order",
@@ -235,12 +235,12 @@ if (stripos(current_url(), "/dashboard")) {
             )
         ),
     );
-} else if (stripos(current_url(), "/inventory")) {
+} else if (stripos(current_url(), "/index.php/inventori")) {
     $nav = array(
         new NavItem(
             null,
             null,
-            "/index.php/inventory/receiving",
+            "/index.php/inventori/receiving",
             "Receiving",
             null,
             null,
@@ -248,7 +248,7 @@ if (stripos(current_url(), "/dashboard")) {
         new NavItem(
             null,
             null,
-            "/index.php/inventory/gudang",
+            "/index.php/inventori/gudang",
             "Gudang",
             null,
             null,
@@ -270,7 +270,7 @@ if (stripos(current_url(), "/dashboard")) {
                         new NavItem(
                             null,
                             null,
-                            "/index.php/inventory/laporan/receiving/harian",
+                            "/index.php/inventori/laporan/receiving/harian",
                             "Laporan Harian",
                             null,
                             null,
@@ -278,7 +278,7 @@ if (stripos(current_url(), "/dashboard")) {
                         new NavItem(
                             null,
                             null,
-                            "/index.php/inventory/laporan/receiving/bulanan",
+                            "/index.php/inventori/laporan/receiving/bulanan",
                             "Laporan Bulanan",
                             null,
                             null,
@@ -295,7 +295,7 @@ if (stripos(current_url(), "/dashboard")) {
                         new NavItem(
                             null,
                             null,
-                            "/index.php/inventory/laporan/gudang/harian",
+                            "/index.php/inventori/laporan/gudang/harian",
                             "Laporan Harian",
                             null,
                             null,
@@ -303,7 +303,7 @@ if (stripos(current_url(), "/dashboard")) {
                         new NavItem(
                             null,
                             null,
-                            "/index.php/inventory/laporan/gudang/bulanan",
+                            "/index.php/inventori/laporan/gudang/bulanan",
                             "Laporan Bulanan",
                             null,
                             null,
@@ -313,7 +313,7 @@ if (stripos(current_url(), "/dashboard")) {
             ),
         ),
     );
-} else if (stripos(current_url(), "/keuangan") && !stripos(current_url(), "/setting")) {
+} else if (stripos(current_url(), "/index.php/keuangan") && !stripos(current_url(), "/index.php/setting")) {
     $nav = array(
         new NavItem(
             null,
@@ -606,7 +606,7 @@ if (stripos(current_url(), "/dashboard")) {
             ),
         ),
     );
-} else if (stripos(current_url(), "/setting")) {
+} else if (stripos(current_url(), "/index.php/setting")) {
     $nav = array(
         new NavItem(
             "/user",
