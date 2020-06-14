@@ -194,7 +194,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/pembelian/laporan/pembelian/harian",
                             "Laporan Harian",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -202,9 +202,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/pembelian/laporan/pembelian/bulanan",
                             "Laporan Bulanan",
                             null,
-                            null,
+                            null
                         ),
-                    ),
+                    )
                 ),
                 new NavItem(
                     null,
@@ -219,7 +219,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/pembelian/laporan/retur/harian",
                             "Laporan Harian",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -227,10 +227,10 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/pembelian/laporan/retur/bulanan",
                             "Laporan Bulanan",
                             null,
-                            null,
+                            null
                         ),
-                    ),
-                ),
+                    )
+                )
 
             )
         ),
@@ -243,7 +243,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "/index.php/inventori/receiving",
             "Receiving",
             null,
-            null,
+            null
         ),
         new NavItem(
             null,
@@ -251,7 +251,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "/index.php/inventori/gudang",
             "Gudang",
             null,
-            null,
+            null
         ),
         new NavItem(
             null,
@@ -273,7 +273,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/inventori/laporan/receiving/harian",
                             "Laporan Harian",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -281,9 +281,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/inventori/laporan/receiving/bulanan",
                             "Laporan Bulanan",
                             null,
-                            null,
+                            null
                         ),
-                    ),
+                    )
                 ),
                 new NavItem(
                     null,
@@ -298,7 +298,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/inventori/laporan/gudang/harian",
                             "Laporan Harian",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -306,11 +306,11 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/inventori/laporan/gudang/bulanan",
                             "Laporan Bulanan",
                             null,
-                            null,
+                            null
                         ),
-                    ),
-                ),
-            ),
+                    )
+                )
+            )
         ),
     );
 } else if (stripos(current_url(), "/index.php/keuangan") && !stripos(current_url(), "/index.php/setting")) {
@@ -328,7 +328,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/registrasi/register_jurnal",
                     "Register Jurnal",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -336,7 +336,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/registrasi/list_jurnal",
                     "List Jurnal",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -344,9 +344,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/registrasi/cetak_ulang_jurnal",
                     "Cetak Ulang Jurnal",
                     null,
-                    null,
+                    null
                 ),
-            ),
+            )
         ),
         new NavItem(
             null,
@@ -371,7 +371,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     null,
                     null
                 ),
-            ),
+            )
         ),
         new NavItem(
             null,
@@ -386,7 +386,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/jurnal/jurnal_kas_masuk",
                     "Jurnal Kas Masuk (JKM)",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -394,7 +394,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/jurnal/jurnal_kas_keluar",
                     "Jurnal Kas Keluar (JKK)",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -402,7 +402,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/jurnal/jurnal_rupa_rupa",
                     "Jurnal Rupa-rupa (JRR)",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -410,9 +410,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/jurnal/antar_buku_bantu",
                     "Antar Buku Bantu (ABB)",
                     null,
-                    null,
+                    null
                 ),
-            ),
+            )
         ),
         new NavItem(
             null,
@@ -427,7 +427,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/koreksi/koreksi_kantor_cabang",
                     "Koreksi Kantor Cabang (KKC)",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -435,7 +435,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/koreksi/koreksi_kantor_pusat",
                     "Koreksi Kantor Pusat (KKP)",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -443,9 +443,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/koreksi/koreksi_akuntan_publik",
                     "Koreksi Akuntan Publik (KAP)",
                     null,
-                    null,
+                    null
                 ),
-            ),
+            )
         ),
         new NavItem(
             null,
@@ -460,7 +460,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/tutup_buku/bulanan",
                     "Tutup Buku Bulanan",
                     null,
-                    array(),
+                    null
                 ),
                 new NavItem(
                     null,
@@ -468,9 +468,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/tutup_buku/status",
                     "Status Tutup Buku",
                     null,
-                    array(),
+                    null
                 ),
-            ),
+            )
         ),
         new NavItem(
             null,
@@ -492,7 +492,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/keuangan/report/harian/mutasi_harian_kas_bank",
                             "Mutasi Harian Kas Bank",
                             null,
-                            array(),
+                            array()
                         ),
                         new NavItem(
                             null,
@@ -500,9 +500,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/keuangan/report/harian/mutasi_jurnal_harian",
                             "Mutasi Jurnal Harian",
                             null,
-                            array(),
+                            array()
                         ),
-                    ),
+                    )
                 ),
                 new NavItem(
                     null,
@@ -517,7 +517,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/keuangan/report/bulanan/neraca_saldo",
                             "Neraca Saldo",
                             null,
-                            array(),
+                            array()
                         ),
                         new NavItem(
                             null,
@@ -525,7 +525,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/keuangan/report/bulanan/faktur_pajak_harian",
                             "Faktur Pajak Harian",
                             null,
-                            array(),
+                            array()
                         ),
                         new NavItem(
                             null,
@@ -533,11 +533,11 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/keuangan/report/bulanan/laba_rugi",
                             "Laba Rugi",
                             null,
-                            array(),
+                            array()
                         ),
-                    ),
-                ),
-            ),
+                    )
+                )
+            )
         ),
         new NavItem(
             null,
@@ -552,7 +552,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/report/ikhtisar/buku_besar",
                     "Ikhtisar Buku Besar",
                     null,
-                    array(),
+                    array()
                 ),
                 new NavItem(
                     null,
@@ -560,7 +560,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/report/ikhtisar/pajak",
                     "Ikhtisar Pajak",
                     null,
-                    array(),
+                    array()
                 ),
                 new NavItem(
                     null,
@@ -568,7 +568,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/report/ikhtisar/pendapatan",
                     "Ikhtisar Pendapatan",
                     null,
-                    array(),
+                    array()
                 ),
                 new NavItem(
                     null,
@@ -576,9 +576,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/report/ikhtisar/pembelian",
                     "Ikhtisar Pembelian",
                     null,
-                    array(),
+                    array()
                 ),
-            ),
+            )
         ),
         new NavItem(
             null,
@@ -593,7 +593,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/report/aging/piutang",
                     "Aging Piutang",
                     null,
-                    array(),
+                    array()
                 ),
                 new NavItem(
                     null,
@@ -601,10 +601,10 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/keuangan/report/aging/hutang",
                     "Aging Hutang",
                     null,
-                    array(),
+                    array()
                 ),
-            ),
-        ),
+            )
+        )
     );
 } else if (stripos(current_url(), "/index.php/setting")) {
     $nav = array(
@@ -621,7 +621,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/user/user_management",
                     "User Management",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -629,9 +629,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/user/role_management",
                     "User Role",
                     null,
-                    null,
+                    null
                 ),
-            ),
+            )
         ),
         new NavItem(
             "/master",
@@ -646,7 +646,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/master/barang",
                     "Master Barang",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -654,7 +654,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/master/supplier",
                     "Master Supplier",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -662,7 +662,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/master/customer",
                     "Master Customer",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -670,7 +670,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/master/gudang",
                     "Master Gudang",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -678,7 +678,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/master/discount",
                     "Master Discount",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -693,7 +693,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/master/keuangan/kode_rekening",
                             "Kode Rekening",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -701,7 +701,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/master/keuangan/kode_jenis_biaya",
                             "Kode Jenis Biaya",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -709,7 +709,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/master/keuangan/mata_uang",
                             "Mata Uang",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -717,7 +717,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/master/keuangan/sumber_dana",
                             "Sumber Dana",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -725,7 +725,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/master/keuangan/tipe_jurnal",
                             "Tipe Jurnal",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -733,7 +733,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/master/keuangan/pembagian_laba_rugi",
                             "Pembagian Laba Rugi",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -741,7 +741,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/master/keuangan/ikhtisar_kode_rekening",
                             "Ikhtisar Kode Rekening",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -749,7 +749,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/master/keuangan/aging_kode_rekening",
                             "Aging Kode Rekening",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -757,7 +757,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/master/keuangan/kelompok_rekening",
                             "Kelompok Rekening",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -765,11 +765,11 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/master/keuangan/kelompok_jenis_biaya",
                             "Kelompok Jenis Biaya",
                             null,
-                            null,
+                            null
                         ),
-                    ),
-                ),
-            ),
+                    )
+                )
+            )
         ),
         new NavItem(
             "/parameter",
@@ -784,7 +784,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/parameter/pembelian",
                     "Parameter Pembelian",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -792,7 +792,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/parameter/penjualan",
                     "Parameter Penjualan",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -800,7 +800,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/parameter/barang",
                     "Parameter Barang",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -808,7 +808,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/parameter/inventori",
                     "Parameter Inventori",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -823,7 +823,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/parameter/keuangan/master",
                             "Parameter Master",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -831,7 +831,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/parameter/keuangan/akuntansi",
                             "Parameter Akuntansi",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -839,11 +839,11 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/parameter/keuangan/kode_rekening",
                             "Parameter Kode Rekening",
                             null,
-                            null,
+                            null
                         )
-                    ),
-                ),
-            ),
+                    )
+                )
+            )
         ),
         new NavItem(
             "/system",
@@ -865,9 +865,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/s_reference",
                             "s_reference",
                             null,
-                            null,
+                            null
                         ),
-                    ),
+                    )
                 ),
                 new NavItem(
                     null,
@@ -882,7 +882,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/m_unit",
                             "m_unit",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -890,7 +890,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/m_branch",
                             "m_branch",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -898,7 +898,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/m_master",
                             "m_master",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -906,7 +906,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/m_partner",
                             "m_partner",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -914,7 +914,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/m_salesman",
                             "m_salesman",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -922,7 +922,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/m_salesman_map",
                             "m_salesman_map",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -930,7 +930,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/m_event",
                             "m_event",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -938,7 +938,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/m_event_detail",
                             "m_event_detail",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -946,7 +946,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/m_promo",
                             "m_promo",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -954,7 +954,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/m_delivery",
                             "m_delivery",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -962,9 +962,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/m_map",
                             "m_map",
                             null,
-                            null,
+                            null
                         ),
-                    ),
+                    )
                 ),
                 new NavItem(
                     null,
@@ -979,7 +979,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/ol_connection",
                             "ol_connection",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -987,7 +987,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/ol_group",
                             "ol_group",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -995,9 +995,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/ol_group_detail",
                             "ol_group_detail",
                             null,
-                            null,
+                            null
                         ),
-                    ),
+                    )
                 ),
                 new NavItem(
                     null,
@@ -1012,7 +1012,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/production",
                             "production",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -1020,7 +1020,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/production_detail",
                             "production_detail",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -1028,7 +1028,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/delivery_order",
                             "delivery_order",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -1036,7 +1036,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/delivery_team",
                             "delivery_team",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -1044,7 +1044,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/delivery_cost",
                             "delivery_cost",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -1052,10 +1052,10 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/purchase_order_parameter",
                             "purchase_order_parameter",
                             null,
-                            null,
+                            null
                         ),
-                    ),
-                ),
+                    )
+                )
             )
         )
     );
