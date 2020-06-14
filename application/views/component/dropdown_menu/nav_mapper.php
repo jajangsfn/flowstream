@@ -25,7 +25,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "/dashboard",
             null,
             "/index.php/dashboard",
-            "Dashboard",
+            $this->lang->line('menu_dashboard'),
             "la-tachometer-alt",
             null
         ),
@@ -33,7 +33,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "/penjualan",
             null,
             "/index.php/penjualan",
-            "Penjualan",
+            $this->lang->line('menu_sales'),
             null,
             null
         ),
@@ -41,7 +41,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "/pembelian",
             null,
             "/index.php/pembelian",
-            "Pembelian",
+            $this->lang->line('menu_purchases'),
             null,
             null
         ),
@@ -49,7 +49,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "/inventori",
             null,
             "/index.php/inventori",
-            "Inventori",
+            $this->lang->line('menu_inventory'),
             null,
             null
         ),
@@ -57,7 +57,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "/keuangan",
             null,
             "/index.php/keuangan",
-            "Keuangan",
+            $this->lang->line('menu_finance'),
             null,
             null
         ),
@@ -65,7 +65,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "/setting",
             null,
             "/index.php/setting",
-            "Setting dan Konfigurasi",
+            $this->lang->line('menu_setting_and_config'),
             null,
             null
         ),
@@ -1043,6 +1043,22 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             null,
                             "/index.php/setting/system/delivery_cost",
                             "delivery_cost",
+                            null,
+                            null,
+                        ),
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/setting/system/purchase_order",
+                            "purchase_order",
+                            null,
+                            null,
+                        ),
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/setting/system/purchase_order_detail",
+                            "purchase_order_detail",
                             null,
                             null,
                         ),

@@ -5,7 +5,7 @@
                 <i class="flaticon2-graphic display-3"></i>
             </a>
             <h3 class="mt-2">
-                Dashboard
+                <?= $this->lang->line('menu_dashboard') ?>
             </h3>
         </div>
         <div class="col-4 p-5 text-center">
@@ -13,7 +13,7 @@
                 <i class="flaticon2-shopping-cart-1  display-3"></i>
             </a>
             <h3 class="mt-2">
-                Penjualan
+                <?= $this->lang->line('menu_sales') ?>
             </h3>
         </div>
         <div class="col-4 p-5 text-center">
@@ -21,7 +21,7 @@
                 <i class="flaticon2-lorry  display-3"></i>
             </a>
             <h3 class="mt-2">
-                Pembelian
+                <?= $this->lang->line('menu_purchases') ?>
             </h3>
         </div>
         <div class="col-4 p-5 text-center">
@@ -29,7 +29,7 @@
                 <i class="flaticon2-open-box  display-3"></i>
             </a>
             <h3 class="mt-2">
-                Inventori
+                <?= $this->lang->line('menu_inventory') ?>
             </h3>
         </div>
         <div class="col-4 p-5 text-center">
@@ -37,7 +37,7 @@
                 <i class="flaticon-piggy-bank  display-3"></i>
             </a>
             <h3 class="mt-2">
-                Keuangan
+                <?= $this->lang->line('menu_finance') ?>
             </h3>
         </div>
         <div class="col-4 p-5 text-center">
@@ -45,7 +45,7 @@
                 <i class="flaticon2-gear  display-3"></i>
             </a>
             <h3 class="mt-2">
-                Setting dan Konfigurasi
+                <?= $this->lang->line('menu_setting_and_config') ?>
             </h3>
         </div>
     </div>

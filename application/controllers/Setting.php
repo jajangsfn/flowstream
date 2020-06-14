@@ -12,6 +12,13 @@ class Setting extends CI_Controller
                 base_url()
             );
         }
+        $this->lang->load('label_lang', 'indonesian');
+        $this->lang->load('help_lang', 'indonesian');
+        $this->lang->load('placeholders_lang', 'indonesian');
+        $this->lang->load('modal_lang', 'indonesian');
+        $this->lang->load('object_lang', 'indonesian');
+        $this->lang->load('general_lang', 'indonesian');
+        $this->lang->load('menu_lang', 'indonesian');
         $this->load->model(
             array(
                 "Delivery_order_model" => "delivery_order",
@@ -37,10 +44,19 @@ class Setting extends CI_Controller
                 "Purchase_order_parameter_model" => "param_purchase_order",
                 "Production_model" => "production",
                 "Production_detail_model" => "production_detail",
+                "Purchase_order_model" => "po",
+                "Purchase_order_detail_model" => "po_det",
                 "S_reference_model" => "ref",
                 "User_model" => "user_m",
             )
         );
+    }
+
+    private function baseloader($data)
+    {
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
     }
 
     public function index()
@@ -49,36 +65,42 @@ class Setting extends CI_Controller
         $data['page_title'] = "Setting dan Konfigurasi";
         $data['page_content'] = $this->load->view("setting/index", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        $this->baseloader($data);
     }
 
     public function master($category, $next_path = '')
     {
-        switch ($category) {
-            case 'barang':
-                $this->barang();
-                break;
-            case 'supplier':
-                $this->supplier();
-                break;
-            case 'customer':
-                $this->customer();
-                break;
-            case 'gudang':
-                $this->gudang();
-                break;
-            case 'discount':
-                $this->discount();
-                break;
-            case 'keuangan':
-                $this->keuangan($next_path);
-                break;
-            default:
-                # code...
-                break;
+        $data = $this->$category($next_path);
+        $this->baseloader($data);
+    }
+
+
+    public function parameter($path, $next_path = '')
+    {
+        if ($path == "keuangan") {
+            $hal = "parameter_$next_path";
+        } else {
+            $hal = "parameter_$path";
         }
+        $data = $this->$hal();
+        $this->baseloader($data);
+    }
+
+    private function keuangan($path)
+    {
+        return $this->$path();
+    }
+
+    public function user($category)
+    {
+        $data = $this->$category();
+        $this->baseloader($data);
+    }
+
+    public function system($path, $next_path = '')
+    {
+        $data = $this->$path($next_path);
+        $this->baseloader($data);
     }
 
     private function barang()
@@ -98,7 +120,7 @@ class Setting extends CI_Controller
             redirect(current_url());
         }
 
-        $data['page_title'] = "Master Data Barang";
+        $data['page_title'] = $this->lang->line("general_list_goods_page");
 
         // get all m_goods join to references
         $content['list_barang'] = $this->goods->get_complete()->result();
@@ -112,14 +134,13 @@ class Setting extends CI_Controller
 
         $data['page_content'] = $this->load->view("setting/master/barang/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/barang/index_js", "", true);
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+
+        return $data;
     }
 
     private function supplier()
     {
-        $data['page_title'] = "Master Data Supplier";
+        $data['page_title'] = $this->lang->line("general_list_supplier_page");
 
         if (count($_POST)) {
 
@@ -186,14 +207,12 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/master/supplier/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/supplier/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function customer()
     {
-        $data['page_title'] = "Master Data Customer";
+        $data['page_title'] = $this->lang->line("general_list_customer_page");
 
         if (count($_POST)) {
 
@@ -260,9 +279,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/master/customer/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/customer/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function gudang()
@@ -311,9 +328,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/master/gudang/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/gudang/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function discount()
@@ -321,47 +336,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Discount";
         $data['page_content'] = $this->load->view("setting/master/discount", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    private function keuangan($path)
-    {
-        switch ($path) {
-            case 'kode_rekening':
-                $this->kode_rekening();
-                break;
-            case 'kode_jenis_biaya':
-                $this->kode_jenis_biaya();
-                break;
-            case 'mata_uang':
-                $this->mata_uang();
-                break;
-            case 'sumber_dana':
-                $this->sumber_dana();
-                break;
-            case 'tipe_jurnal':
-                $this->tipe_jurnal();
-                break;
-            case 'pembagian_laba_rugi':
-                $this->pembagian_laba_rugi();
-                break;
-            case 'ikhtisar_kode_rekening':
-                $this->ikhtisar_kode_rekening();
-                break;
-            case 'aging_kode_rekening':
-                $this->aging_kode_rekening();
-                break;
-            case 'kelompok_rekening':
-                $this->kelompok_rekening();
-                break;
-            case 'kelompok_jenis_biaya':
-                $this->kelompok_jenis_biaya();
-                break;
-            default:
-                break;
-        }
+        return $data;
     }
 
     private function kode_rekening()
@@ -397,9 +372,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/master/keuangan/kode_rekening/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/keuangan/kode_rekening/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function kode_jenis_biaya()
@@ -407,9 +380,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Kode Jenis Biaya";
         $data['page_content'] = $this->load->view("setting/master/keuangan/kode_jenis_biaya", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function mata_uang()
@@ -417,9 +388,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Mata Uang";
         $data['page_content'] = $this->load->view("setting/master/keuangan/mata_uang", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function sumber_dana()
@@ -427,9 +396,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Sumber Dana";
         $data['page_content'] = $this->load->view("setting/master/keuangan/sumber_dana", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function tipe_jurnal()
@@ -437,9 +404,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Tipe Jurnal";
         $data['page_content'] = $this->load->view("setting/master/keuangan/tipe_jurnal", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function pembagian_laba_rugi()
@@ -447,9 +412,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Pembagian Laba Rugi";
         $data['page_content'] = $this->load->view("setting/master/keuangan/pembagian_laba_rugi", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function ikhtisar_kode_rekening()
@@ -457,9 +420,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Ikhtisar Kode Rekening";
         $data['page_content'] = $this->load->view("setting/master/keuangan/ikhtisar_kode_rekening", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function aging_kode_rekening()
@@ -467,9 +428,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Aging Kode Rekening";
         $data['page_content'] = $this->load->view("setting/master/keuangan/aging_kode_rekening", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function kelompok_rekening()
@@ -477,9 +436,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Kelompok Rekening";
         $data['page_content'] = $this->load->view("setting/master/keuangan/kelompok_rekening", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function kelompok_jenis_biaya()
@@ -487,23 +444,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Kelompok Jenis Biaya";
         $data['page_content'] = $this->load->view("setting/master/keuangan/kelompok_jenis_biaya", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    public function user($category)
-    {
-        switch ($category) {
-            case 'user_management':
-                $this->user_management();
-                break;
-            case 'role_management':
-                $this->role_management();
-                break;
-            default:
-                break;
-        }
+        return $data;
     }
 
     private function user_management()
@@ -511,9 +452,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "User Management";
         $data['page_content'] = $this->load->view("setting/user/user_management", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function role_management()
@@ -521,46 +460,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Role Management";
         $data['page_content'] = $this->load->view("setting/user/role_management", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    public function parameter($path, $next_path = '')
-    {
-        switch ($path) {
-            case 'pembelian':
-                $this->parameter_pembelian();
-                break;
-            case 'penjualan':
-                $this->parameter_penjualan();
-                break;
-            case 'barang':
-                $this->parameter_barang();
-                break;
-            case 'inventori':
-                $this->parameter_inventori();
-                break;
-            case 'keuangan':
-                switch ($next_path) {
-                    case 'master':
-                        $this->parameter_master();
-                        break;
-                    case 'akuntansi':
-                        $this->parameter_akuntansi();
-                        break;
-                    case 'kode_rekening':
-                        $this->parameter_kode_rekening();
-                        break;
-
-                    default:
-                        break;
-                }
-                break;
-
-            default:
-                break;
-        }
+        return $data;
     }
 
     private function parameter_pembelian()
@@ -568,9 +468,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Parameter Pembelian";
         $data['page_content'] = $this->load->view("setting/parameter/pembelian", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function parameter_penjualan()
@@ -578,9 +476,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Parameter Penjualan";
         $data['page_content'] = $this->load->view("setting/parameter/penjualan", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function parameter_barang()
@@ -588,9 +484,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Parameter Barang";
         $data['page_content'] = $this->load->view("setting/parameter/barang", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function parameter_inventori()
@@ -598,9 +492,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Parameter Inventori";
         $data['page_content'] = $this->load->view("setting/parameter/inventori", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function parameter_master()
@@ -608,9 +500,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Parameter Keuangan > Master";
         $data['page_content'] = $this->load->view("setting/parameter/keuangan/master", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function parameter_akuntansi()
@@ -618,9 +508,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Parameter Keuangan > Akuntansi";
         $data['page_content'] = $this->load->view("setting/parameter/keuangan/akuntansi", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function parameter_kode_rekening()
@@ -628,14 +516,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Parameter Keuangan > Kode Rekening";
         $data['page_content'] = $this->load->view("setting/parameter/keuangan/kode_rekening", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    public function system($path, $next_path = '')
-    {
-        $this->$path($next_path);
+        return $data;
     }
 
     private function s_reference($path)
@@ -690,9 +571,7 @@ class Setting extends CI_Controller
             $data['page_js'] = $this->load->view("setting/system/s_reference/index_js", $content, true);
         }
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function m_unit($path)
@@ -734,9 +613,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/m_unit/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_unit/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function m_branch($path)
@@ -780,9 +657,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/m_branch/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_branch/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function m_master($path)
@@ -820,9 +695,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/m_master/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_master/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function m_partner($path)
@@ -892,9 +765,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/m_partner/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_partner/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function m_salesman($path)
@@ -933,9 +804,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/m_salesman/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_salesman/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function m_salesman_map($path)
@@ -973,9 +842,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/m_salesman_map/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_salesman_map/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function m_event($path)
@@ -1020,9 +887,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/m_event/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_event/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function m_event_detail($path)
@@ -1073,9 +938,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/m_event_detail/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_event_detail/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function m_promo($path)
@@ -1109,9 +972,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/m_promo/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_promo/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function m_delivery($path)
@@ -1152,9 +1013,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/m_delivery/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_delivery/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function production($path)
@@ -1188,9 +1047,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/production/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/production/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function production_detail($path)
@@ -1228,9 +1085,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/production_detail/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/production_detail/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function m_map($path)
@@ -1273,9 +1128,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/m_map/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_map/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function ol_connection($path)
@@ -1316,9 +1169,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/ol_connection/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/ol_connection/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function ol_group($path)
@@ -1359,9 +1210,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/ol_group/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/ol_group/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function ol_group_detail($path)
@@ -1400,9 +1249,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/ol_group_detail/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/ol_group_detail/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function delivery_order($path)
@@ -1444,9 +1291,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/delivery_order/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/delivery_order/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function delivery_team($path)
@@ -1486,9 +1331,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/delivery_team/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/delivery_team/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function delivery_cost($path)
@@ -1526,9 +1369,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/delivery_cost/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/delivery_cost/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function purchase_order_parameter($path)
@@ -1562,8 +1403,90 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/system/purchase_order_parameter/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/purchase_order_parameter/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
+    }
+
+    private function purchase_order($path)
+    {
+        if (count($_POST)) {
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->po->delete($where_id);
+                    $this->session->set_flashdata("success", "Purchase Order berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "branch_id" => $_POST['branch_id'],
+                        "salesman_id" => $_POST['salesman_id'],
+                        "purchase_order_no" => $_POST['purchase_order_no'],
+                        "reference_no" => $_POST['reference_no'],
+                        "description" => $_POST['description'],
+                        "created_by" => $this->session->userdata("id"),
+                    );
+                    $this->po->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Purchase Order berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "branch_id" => $_POST['branch_id'],
+                    "salesman_id" => $_POST['salesman_id'],
+                    "purchase_order_no" => $_POST['purchase_order_no'],
+                    "reference_no" => $_POST['reference_no'],
+                    "description" => $_POST['description'],
+                    "created_by" => $this->session->userdata("id"),
+                );
+                $this->po->insert($entry_data);
+                $this->session->set_flashdata("success", "Purchase Order berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar Purchase Order";
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $content['m_salesman'] = $this->salesman->get_all()->result();
+        $content['purchase_order'] = $this->po->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/purchase_order/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/purchase_order/index_js", $content, true);
+
+        return $data;
+    }
+
+    private function purchase_order_detail($path)
+    {
+        if (count($_POST)) {
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->po_det->delete($where_id);
+                    $this->session->set_flashdata("success", "Purchase Order Detail berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "purchase_order_id" => $_POST['purchase_order_id'],
+                        "goods_id" => $_POST['goods_id'],
+                        "quantity" => $_POST['quantity'],
+                    );
+                    $this->po_det->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Purchase Order Detail berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "purchase_order_id" => $_POST['purchase_order_id'],
+                    "goods_id" => $_POST['goods_id'],
+                    "quantity" => $_POST['quantity'],
+                );
+                $this->po_det->insert($entry_data);
+                $this->session->set_flashdata("success", "Purchase Order Detail berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar Purchase Order Detail";
+        $content['m_goods'] = $this->goods->get_all()->result();
+        $content['purchase_order'] = $this->po->get_all()->result();
+        $content['purchase_order_detail'] = $this->po_det->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/purchase_order_detail/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/purchase_order_detail/index_js", $content, true);
+
+        return $data;
     }
 }

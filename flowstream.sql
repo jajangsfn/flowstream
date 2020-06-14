@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2020 at 10:35 AM
+-- Generation Time: Jun 14, 2020 at 12:33 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -119,6 +119,24 @@ CREATE TABLE `m_event` (
   `updated_by` int(11) DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `flag` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `m_event_detail`
+--
+
+CREATE TABLE `m_event_detail` (
+  `id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `promo_id` int(11) NOT NULL,
+  `goods_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `multiple_flag` int(11) NOT NULL,
+  `percentage` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `free_goods` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -461,6 +479,15 @@ ALTER TABLE `m_event`
   ADD KEY `branch_id` (`branch_id`);
 
 --
+-- Indexes for table `m_event_detail`
+--
+ALTER TABLE `m_event_detail`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `event_id` (`event_id`),
+  ADD KEY `goods_id` (`goods_id`),
+  ADD KEY `promo_id` (`promo_id`);
+
+--
 -- Indexes for table `m_goods`
 --
 ALTER TABLE `m_goods`
@@ -634,6 +661,12 @@ ALTER TABLE `m_event`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `m_event_detail`
+--
+ALTER TABLE `m_event_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `m_goods`
 --
 ALTER TABLE `m_goods`
@@ -775,6 +808,14 @@ ALTER TABLE `m_delivery`
 --
 ALTER TABLE `m_event`
   ADD CONSTRAINT `m_event_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `m_branch` (`id`);
+
+--
+-- Constraints for table `m_event_detail`
+--
+ALTER TABLE `m_event_detail`
+  ADD CONSTRAINT `m_event_detail_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `m_event` (`id`),
+  ADD CONSTRAINT `m_event_detail_ibfk_2` FOREIGN KEY (`goods_id`) REFERENCES `m_goods` (`id`),
+  ADD CONSTRAINT `m_event_detail_ibfk_3` FOREIGN KEY (`promo_id`) REFERENCES `m_event` (`id`);
 
 --
 -- Constraints for table `m_goods`
