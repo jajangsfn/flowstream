@@ -28,7 +28,7 @@ class Pembelian extends CI_Controller
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        $this->load->view('layout/js'); 
     }
 
     public function purchase_order()

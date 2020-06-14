@@ -60,7 +60,7 @@ class Setting extends CI_Controller
             case 'barang':
                 $this->barang();
                 break;
-            case 'supplier':
+            case 'supplier': 
                 $this->supplier();
                 break;
             case 'customer':

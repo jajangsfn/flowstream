@@ -28,4 +28,9 @@ class Account extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
+
+    function get_md5($char='admin')
+    {
+        echo md5($char);
+    }
 }
