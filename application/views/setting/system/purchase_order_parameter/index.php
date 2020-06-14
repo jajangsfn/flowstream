@@ -85,7 +85,7 @@
                 <input type="hidden" name="back" value="<?= current_url() ?>">
                 <input type="hidden" name="id" value="<?= $focus->id ?>">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Production Detail</h5>
+                    <h5 class="modal-title">Edit Purchase Order Parameter</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
@@ -112,25 +112,10 @@
             </form>
         </div>
     </div>
-    <div class="modal fade" id="delete_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="<?= current_url() ?>" method="POST" class="modal-content">
-                <input type="hidden" name="back" value="<?= current_url() ?>">
-                <input type="hidden" name="id" value="<?= $focus->id ?>">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete Production Detail</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i aria-hidden="true" class="ki ki-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="m-0">anda akan menghapus production detail <?= $focus->production_name ?> => <?= $focus->goods_name ?></p>
-                    <small class="m-0 text-info">Seluruh data yang terkait dengan production detail ini tidak akan ikut terhapus</small>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="delete" class="btn btn-danger mr-2">Delete</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <?= $this->load->view("component/modal/delete", array(
+        "id" => $focus->id,
+        "object_name" => "Purchase Order Parameter",
+        "detail" => "anda akan menghapus purchase order parameter ini",
+        "subdetail" => "Seluruh data yang menggunakan purchase order parameter tidak akan ikut terhapus"
+    ), true); ?>
 <?php } ?>

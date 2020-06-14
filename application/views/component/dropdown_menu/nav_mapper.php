@@ -935,6 +935,14 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                         new NavItem(
                             null,
                             null,
+                            "/index.php/setting/system/m_event_detail",
+                            "m_event_detail",
+                            null,
+                            null,
+                        ),
+                        new NavItem(
+                            null,
+                            null,
                             "/index.php/setting/system/m_promo",
                             "m_promo",
                             null,

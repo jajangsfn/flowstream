@@ -26,6 +26,7 @@ class Setting extends CI_Controller
                 "M_salesman_map_model" => "salesman_map",
                 "M_map_model" => "map",
                 "M_event_model" => "event",
+                "M_event_detail_model" => "event_detail",
                 "M_promo_model" => "promo",
                 "M_delivery_model" => "delivery",
                 "M_warehouse_model" => "warehouse",
@@ -1018,6 +1019,59 @@ class Setting extends CI_Controller
         $content['m_event'] = $this->event->get_all()->result();
         $data['page_content'] = $this->load->view("setting/system/m_event/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_event/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function m_event_detail($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->event_detail->delete($where_id);
+                    $this->session->set_flashdata("success", "Event detail berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "goods_id" => $_POST['goods_id'],
+                        "promo_id" => $_POST['promo_id'],
+                        "event_id" => $_POST['event_id'],
+                        "quantity" => $_POST['quantity'],
+                        "multiple_flag" => $_POST['multiple_flag'],
+                        "percentage" => $_POST['percentage'],
+                        "price" => $_POST['price'],
+                        "free_goods" => $_POST['free_goods'],
+                    );
+                    $this->event_detail->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Event detail berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "goods_id" => $_POST['goods_id'],
+                    "promo_id" => $_POST['promo_id'],
+                    "event_id" => $_POST['event_id'],
+                    "quantity" => $_POST['quantity'],
+                    "multiple_flag" => $_POST['multiple_flag'],
+                    "percentage" => $_POST['percentage'],
+                    "price" => $_POST['price'],
+                    "free_goods" => $_POST['free_goods'],
+                );
+                $this->event_detail->insert($entry_data);
+                $this->session->set_flashdata("success", "Event detail berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar m_event_detail";
+        $content['m_goods'] = $this->goods->get_all()->result();
+        $content['m_promo'] = $this->promo->get_all()->result();
+        $content['m_event'] = $this->event->get_all()->result();
+        $content['m_event_detail'] = $this->event_detail->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/m_event_detail/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/m_event_detail/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
