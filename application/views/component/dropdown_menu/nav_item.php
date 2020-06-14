@@ -1,4 +1,7 @@
-<li class="menu-item menu-item-submenu menu-item-rel <?= ($nav_data->unidentifier && stripos(current_url(), $nav_data->identifier) && !stripos(current_url(), $nav_data->unidentifier)) || (!$nav_data->unidentifier && stripos(current_url(), $nav_data->identifier)) ? "menu-item-here" : "" ?>" data-menu-toggle="click" aria-haspopup="true">
+<li class="menu-item menu-item-submenu menu-item-rel 
+<?php if ($nav_data->identifier && stripos(current_url(), $nav_data->identifier)) {
+    echo "menu-item-here";
+} ?>" data-menu-toggle="click" aria-haspopup="true">
     <?php if ($nav_data->url) { ?>
 
         <a href="<?= base_url($nav_data->url) ?>" class="menu-link">

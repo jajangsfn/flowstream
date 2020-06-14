@@ -13,11 +13,12 @@
                 <?php } ?>
             <?php } ?>
             <?php if (!$found) { ?>
-                <option value="<?= $not_found_value ?>" selected><?= $not_found_showable ?></option>
+                <option value="<?= $selected ?>" selected><?= $not_found_showable ?></option>
             <?php } ?>
 
         <?php } else { ?>
 
+            <option value="" selected disabled>Choose <?= $object_name ?></option>
             <?php foreach ($list as $option) { ?>
                 <option value="<?= $option->$identifier ?>"><?= $option->$showable ?></option>
             <?php } ?>

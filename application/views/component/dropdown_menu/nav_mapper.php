@@ -73,7 +73,7 @@ if (stripos(current_url(), "/dashboard")) {
 } else if (stripos(current_url(), "/penjualan")) {
     $nav = array(
         new NavItem(
-            null,
+            "/index.php/penjualan/order_request",
             null,
             "/index.php/penjualan/order_request",
             "Order Request",
@@ -81,7 +81,7 @@ if (stripos(current_url(), "/dashboard")) {
             null
         ),
         new NavItem(
-            null,
+            "/index.php/penjualan/pos",
             null,
             "/index.php/penjualan/pos",
             "Point of Sales (POS)",
@@ -89,7 +89,7 @@ if (stripos(current_url(), "/dashboard")) {
             null
         ),
         new NavItem(
-            null,
+            "/index.php/penjualan/retur",
             null,
             "/index.php/penjualan/retur",
             "Retur Penjualan",
@@ -97,7 +97,7 @@ if (stripos(current_url(), "/dashboard")) {
             null
         ),
         new NavItem(
-            null,
+            "/index.php/penjualan/laporan",
             null,
             null,
             "Laporan",
@@ -159,7 +159,7 @@ if (stripos(current_url(), "/dashboard")) {
 } else if (stripos(current_url(), "/pembelian")) {
     $nav = array(
         new NavItem(
-            null,
+            "/index.php/pembelian/purchase_order",
             null,
             "/index.php/pembelian/purchase_order",
             "Purchase Order",
@@ -167,7 +167,7 @@ if (stripos(current_url(), "/dashboard")) {
             null
         ),
         new NavItem(
-            null,
+            "/index.php/pembelian/retur",
             null,
             "/index.php/pembelian/retur",
             "Retur Pembelian",
@@ -175,7 +175,7 @@ if (stripos(current_url(), "/dashboard")) {
             null
         ),
         new NavItem(
-            null,
+            "/index.php/pembelian/laporan",
             null,
             null,
             "Laporan",
@@ -951,14 +951,6 @@ if (stripos(current_url(), "/dashboard")) {
                         new NavItem(
                             null,
                             null,
-                            "/index.php/setting/system/m_warehouse",
-                            "m_warehouse",
-                            null,
-                            null,
-                        ),
-                        new NavItem(
-                            null,
-                            null,
                             "/index.php/setting/system/m_map",
                             "m_map",
                             null,
@@ -1035,6 +1027,22 @@ if (stripos(current_url(), "/dashboard")) {
                             null,
                             "/index.php/setting/system/delivery_team",
                             "delivery_team",
+                            null,
+                            null,
+                        ),
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/setting/system/delivery_cost",
+                            "delivery_cost",
+                            null,
+                            null,
+                        ),
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/setting/system/purchase_order_parameter",
+                            "purchase_order_parameter",
                             null,
                             null,
                         ),

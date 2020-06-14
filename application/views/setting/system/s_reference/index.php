@@ -125,7 +125,6 @@
                             "object_name" => "Branch",
 
                             "selected" => $focus->branch_id,
-                            "not_found_value" => $focus->branch_id,
                             "not_found_showable" => $focus->branch_name
                         ), true); ?>
                         <div class="form-group">

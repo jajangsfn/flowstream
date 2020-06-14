@@ -4,7 +4,19 @@ class M_partner_model extends CI_Model
 {
     function get($where)
     {
-        return $this->db->get_where("m_partner", $where);
+        if (is_array($where)) {
+            return $this->db->get_where("m_partner", $where);
+        }
+        return $this->db->query(
+            "SELECT p.*, 
+            b.name as branch, 
+            m.name as master
+            FROM m_partner p
+            LEFT JOIN m_branch b on b.id = p.branch_id
+            LEFT JOIN m_master m on m.id = p.master_id
+            
+            WHERE p.flag <> 99 AND " . $where
+        );
     }
 
     function get_all()

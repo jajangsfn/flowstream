@@ -20,6 +20,17 @@ class Pembelian extends CI_Controller
         );
     }
 
+    public function index()
+    {
+        $data['back_url'] = base_url();
+        $data['page_title'] = "Pembelian";
+        $data['page_content'] = $this->load->view("pembelian/index", "", true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
     public function purchase_order()
     {
         $data['page_title'] = "Purchase Order";
