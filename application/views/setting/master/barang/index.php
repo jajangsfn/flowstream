@@ -2,12 +2,14 @@
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
-            <h3 class="card-label">Daftar Barang</h3>
+            <h3 class="card-label">
+                <?= $this->lang->line("general_list_goods"); ?>
+            </h3>
         </div>
         <div class="card-toolbar">
             <!-- Button trigger modal-->
             <button type="button" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#tambahMasterBarangModal">
-                <i class="la la-plus"></i>Tambah
+                <i class="la la-plus"></i><?= $this->lang->line("general_add"); ?>
             </button>
         </div>
     </div>
@@ -16,22 +18,22 @@
         <table class="table table-separate table-head-custom table-checkable" id="master_barang_table">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Name</th>
-                    <th>Barcode</th>
-                    <th>SKU</th>
-                    <th>PLU</th>
-                    <th>Division</th>
-                    <th>Sub-Division</th>
-                    <th>Category</th>
-                    <th>Sub-Category</th>
-                    <th>Package</th>
-                    <th>Color</th>
-                    <th>Unit</th>
-                    <th>HPP</th>
-                    <th>Quantity</th>
-                    <th>Tax</th>
-                    <th>Action</th>
+                    <th><?= $this->lang->line("general_number"); ?></th>
+                    <th><?= $this->lang->line("general_name"); ?></th>
+                    <th><?= $this->lang->line("general_barcode"); ?></th>
+                    <th><?= $this->lang->line("general_sku"); ?></th>
+                    <th><?= $this->lang->line("general_plu"); ?></th>
+                    <th><?= $this->lang->line("general_division"); ?></th>
+                    <th><?= $this->lang->line("general_subdivision"); ?></th>
+                    <th><?= $this->lang->line("general_category"); ?></th>
+                    <th><?= $this->lang->line("general_subcategory"); ?></th>
+                    <th><?= $this->lang->line("general_package"); ?></th>
+                    <th><?= $this->lang->line("general_color"); ?></th>
+                    <th><?= $this->lang->line("general_unit"); ?></th>
+                    <th><?= $this->lang->line("general_hpp"); ?></th>
+                    <th><?= $this->lang->line("general_quantity"); ?></th>
+                    <th><?= $this->lang->line("general_tax"); ?></th>
+                    <th><?= $this->lang->line("general_action"); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -54,13 +56,8 @@
                         <td><?= $barang->quantity ?></td>
                         <td><?= $barang->tax ?></td>
                         <td nowrap="nowrap">
-                            <!-- Button trigger modal-->
-                            <button type="button" class="btn btn-icon btn-sm btn-light-success" data-toggle="modal" data-target="#edit_<?= $barang->id ?>">
-                                <i class="flaticon2-pen"></i>
-                            </button>
-                            <button type="button" class="btn btn-icon btn-sm btn-light-danger" data-toggle="modal" data-target="#delete_<?= $barang->id ?>">
-                                <i class="flaticon2-trash"></i>
-                            </button>
+                            <?= $this->load->view("component/icon_button/edit", array("id" => $barang->id), true); ?>
+                            <?= $this->load->view("component/icon_button/delete", array("id" => $barang->id), true); ?>
                         </td>
                     </tr>
                 <?php } ?>
@@ -72,129 +69,68 @@
 <!--end::Card-->
 
 <!-- Modal-->
-<div class="modal fade" id="tambahMasterBarangModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+<div class="modal fade" id="tambahMasterBarangModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <form class="form card" method="POST" action="<?= current_url() ?>">
                 <div class="card-header">
-                    Tambah Master Data Barang
+                    <?= $this->lang->line("general_add"); ?> Master Data <?= $this->lang->line("object_goods"); ?>
                 </div>
                 <div class="card-body row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Name:</label>
-                            <input type="text" class="form-control" placeholder="Masukan nama barang" name="name" required />
-                            <span class="form-text text-muted">Masukan nama barang</span>
-                        </div>
+                        <?= $this->load->view("component/input/flowstream_input", array(
+                            "name" => "name",
+                            "type" => "text",
+                            "required" => true,
+
+                            "placeholder" => $this->lang->line("placeholders_add_goods_name"),
+                            "label" => $this->lang->line("label_add_goods_name"),
+                            "help" => $this->lang->line("help_add_goods_name"),
+
+                            "value" => false
+                        ), true); ?>
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Barcode:</label>
-                            <input type="number" class="form-control" placeholder="Masukan barcode" name="barcode" required />
-                            <span class="form-text text-muted">Masukan angka pada barcode</span>
-                        </div>
+                        <?= $this->load->view("component/input/flowstream_input", array(
+                            "name" => "barcode",
+                            "type" => "number",
+                            "required" => true,
+
+                            "placeholder" => $this->lang->line("placeholders_add_goods_barcode"),
+                            "label" => $this->lang->line("label_add_goods_barcode"),
+                            "help" => $this->lang->line("help_add_goods_barcode"),
+
+                            "value" => false
+                        ), true); ?>
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label>SKU Code:</label>
-                            <input type="text" class="form-control" placeholder="Masukan Kode SKU" name="sku_code" required />
-                            <span class="form-text text-muted">Masukan kode <em>Stock Keeping Unit</em></span>
-                        </div>
+                        <?= $this->load->view("component/input/flowstream_input", array(
+                            "name" => "sku_code",
+                            "type" => "text",
+                            "required" => true,
+
+                            "placeholder" => $this->lang->line("placeholders_add_goods_sku"),
+                            "label" => $this->lang->line("label_add_goods_sku"),
+                            "help" => $this->lang->line("help_add_goods_sku"),
+
+                            "value" => false
+                        ), true); ?>
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label>PLU Code:</label>
-                            <input type="text" class="form-control" placeholder="Masukan Kode PLU" name="plu_code" required />
-                            <span class="form-text text-muted">Masukan kode <em>Price Look-Up</em></span>
-                        </div>
-                    </div>
+                        <?= $this->load->view("component/input/flowstream_input", array(
+                            "name" => "plu_code",
+                            "type" => "text",
+                            "required" => true,
 
-                    <div class="col-md-12 py-5">
-                        <hr />
-                    </div>
+                            "placeholder" => $this->lang->line("placeholders_add_goods_plu"),
+                            "label" => $this->lang->line("label_add_goods_plu"),
+                            "help" => $this->lang->line("help_add_goods_plu"),
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <select class="form-control select2" name="division">
-                                <option value="" selected disabled>Pilih Division</option>
-                                <?php foreach ($division as $division_option) { ?>
-                                    <option value="<?= $division_option->id ?>"><?= $division_option->detail_data ?></option>
-                                <?php } ?>
-                            </select>
-                            <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_division") ?>">
-                                <div class="my-3">
-                                    (Manage division)
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group w-100">
-                            <select class="form-control select2" name="sub_division">
-                                <option value="" selected disabled>Pilih Sub Division</option>
-                                <?php foreach ($division as $division_option) { ?>
-                                    <option value="<?= $division_option->id ?>"><?= $division_option->detail_data ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group w-100">
-                            <select class="form-control select2" name="category">
-                                <option value="" selected disabled>Pilih Category</option>
-                                <?php foreach ($category as $category_option) { ?>
-                                    <option value="<?= $category_option->id ?>"><?= $category_option->detail_data ?></option>
-                                <?php } ?>
-                            </select>
-                            <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_category") ?>">
-                                <div class="my-3">
-                                    (Manage Category)
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group w-100">
-                            <select class="form-control select2" name="sub_category">
-                                <option value="" selected disabled>Pilih Sub Category</option>
-                                <?php foreach ($category as $category_option) { ?>
-                                    <option value="<?= $category_option->id ?>"><?= $category_option->detail_data ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group w-100">
-                            <select class="form-control select2" name="package">
-                                <option value="" selected disabled>Pilih Package</option>
-                                <?php foreach ($package as $package_option) { ?>
-                                    <option value="<?= $package_option->id ?>"><?= $package_option->detail_data ?></option>
-                                <?php } ?>
-                            </select>
-                            <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_package") ?>">
-                                <div class="my-3">
-                                    (Manage Package)
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group w-100">
-                            <select class="form-control select2" name="color">
-                                <option value="" selected disabled>Pilih Color</option>
-                                <?php foreach ($color as $color_option) { ?>
-                                    <option value="<?= $color_option->id ?>"><?= $color_option->detail_data ?></option>
-                                <?php } ?>
-                            </select>
-                            <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_color") ?>">
-                                <div class="my-3">
-                                    (Manage Color)
-                                </div>
-                            </a>
-                        </div>
+                            "value" => false
+                        ), true); ?>
                     </div>
 
                     <div class="col-md-12 py-5">
@@ -202,57 +138,175 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label>HPP:</label>
-                            <input type="text" class="form-control" placeholder="Masukan HPP" name="hpp" />
-                            <span class="form-text text-muted">Masukan HPP</span>
-                        </div>
+                        <?= $this->load->view("component/input/flowstream_select", array(
+                            "name" => "division",
+                            "title" => $this->lang->line("general_division"),
+
+                            "list" => $division,
+                            "identifier" => "id",
+                            "showable" => "detail_data",
+
+                            "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                            "object_name" => $this->lang->line("general_division"),
+
+                            "selected" => false,
+                        ), true); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $this->load->view("component/input/flowstream_select", array(
+                            "name" => "sub_division",
+                            "title" => $this->lang->line("general_subdivision"),
+
+                            "list" => $division,
+                            "identifier" => "id",
+                            "showable" => "detail_data",
+
+                            "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                            "object_name" => $this->lang->line("general_division"),
+
+                            "selected" => false,
+                        ), true); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $this->load->view("component/input/flowstream_select", array(
+                            "name" => "category",
+                            "title" => $this->lang->line("general_category"),
+
+                            "list" => $category,
+                            "identifier" => "id",
+                            "showable" => "detail_data",
+
+                            "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                            "object_name" => $this->lang->line("general_category"),
+
+                            "selected" => false,
+                        ), true); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $this->load->view("component/input/flowstream_select", array(
+                            "name" => "sub_category",
+                            "title" => $this->lang->line("general_subcategory"),
+
+                            "list" => $category,
+                            "identifier" => "id",
+                            "showable" => "detail_data",
+
+                            "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                            "object_name" => $this->lang->line("general_category"),
+
+                            "selected" => false,
+                        ), true); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $this->load->view("component/input/flowstream_select", array(
+                            "name" => "package",
+                            "title" => $this->lang->line("general_package"),
+
+                            "list" => $package,
+                            "identifier" => "id",
+                            "showable" => "detail_data",
+
+                            "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                            "object_name" => $this->lang->line("general_package"),
+
+                            "selected" => false,
+                        ), true); ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $this->load->view("component/input/flowstream_select", array(
+                            "name" => "color",
+                            "title" => $this->lang->line("general_color"),
+
+                            "list" => $package,
+                            "identifier" => "id",
+                            "showable" => "detail_data",
+
+                            "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                            "object_name" => $this->lang->line("general_color"),
+
+                            "selected" => false,
+                        ), true); ?>
+                    </div>
+
+                    <div class="col-md-12 py-5">
+                        <hr />
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Tax:</label>
-                            <input type="number" class="form-control" placeholder="Masukan Pajak" name="tax" />
-                            <span class="form-text text-muted">Masukan Pajak / tax</span>
-                        </div>
+                        <?= $this->load->view("component/input/flowstream_input", array(
+                            "name" => "hpp",
+                            "type" => "number",
+                            "required" => true,
+
+                            "placeholder" => $this->lang->line("placeholders_add_goods_hpp"),
+                            "label" => $this->lang->line("label_add_goods_hpp"),
+                            "help" => $this->lang->line("help_add_goods_hpp"),
+
+                            "value" => false
+                        ), true); ?>
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Quantity:</label>
-                            <input type="number" class="form-control" placeholder="Masukan Kuantitas" name="quantity" />
-                            <span class="form-text text-muted">Masukan Quantity</span>
-                        </div>
+                        <?= $this->load->view("component/input/flowstream_input", array(
+                            "name" => "tax",
+                            "type" => "number",
+                            "required" => true,
+
+                            "placeholder" => $this->lang->line("placeholders_add_goods_tax"),
+                            "label" => $this->lang->line("label_add_goods_tax"),
+                            "help" => $this->lang->line("help_add_goods_tax"),
+
+                            "value" => false
+                        ), true); ?>
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group w-100">
-                            <label>Unit:</label>
-                            <select class="form-control select2" name="unit">
-                                <option value="" selected disabled>Pilih Jenis Unit</option>
-                                <?php foreach ($unit as $unit_option) { ?>
-                                    <option value="<?= $unit_option->id ?>"><?= $unit_option->name ?></option>
-                                <?php } ?>
-                            </select>
-                            <a class="text-info" href="<?= base_url("/index.php/setting/system/m_unit") ?>">
-                                <div class="my-3">
-                                    (Manage Unit)
-                                </div>
-                            </a>
-                        </div>
+                        <?= $this->load->view("component/input/flowstream_input", array(
+                            "name" => "quantity",
+                            "type" => "number",
+                            "required" => true,
+
+                            "placeholder" => $this->lang->line("placeholders_quantity"),
+                            "label" => $this->lang->line("label_quantity"),
+                            "help" => $this->lang->line("help_quantity"),
+
+                            "value" => false
+                        ), true); ?>
+                    </div>
+
+                    <div class="col-md-6">
+                        <?= $this->load->view("component/input/flowstream_select", array(
+                            "name" => "unit",
+                            "title" => $this->lang->line("general_unit"),
+
+                            "list" => $unit,
+                            "identifier" => "id",
+                            "showable" => "name",
+
+                            "manage_url" => base_url("/index.php/setting/system/m_unit"),
+                            "object_name" => $this->lang->line("general_unit"),
+
+                            "selected" => false,
+                        ), true); ?>
                     </div>
 
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Nomor Rekening:</label>
-                            <input type="text" class="form-control" placeholder="Not Implemented" readonly disabled />
-                            <span class="form-text text-danger">Not Implemented</span>
-                        </div>
+                        <?= $this->load->view("component/input/flowstream_input", array(
+                            "name" => "rekening_no",
+                            "type" => "number",
+                            "required" => true,
+
+                            "placeholder" => $this->lang->line("placeholders_add_goods_rekening_no"),
+                            "label" => $this->lang->line("label_add_goods_rekening_no"),
+                            "help" => $this->lang->line("help_add_goods_rekening_no"),
+
+                            "value" => "1"
+                        ), true); ?>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <button data-dismiss="modal" aria-label="Close" class="btn btn-secondary">Cancel</button>
+                    <?= $this->load->view("component/button/submit", "", true); ?>
+                    <?= $this->load->view("component/button/close", "", true); ?>
                 </div>
             </form>
         </div>
@@ -261,151 +315,69 @@
 
 <?php for ($i = 0; $i < count($list_barang); $i++) {
     $barang = $list_barang[$i]; ?>
-    <div class="modal fade" id="edit_<?= $barang->id ?>" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal fade" id="edit_<?= $barang->id ?>" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form class="form card" method="POST" action="<?= current_url() ?>">
                     <input type="hidden" value="<?= $barang->id ?>" name="id">
                     <div class="card-header">
-                        Ubah Barang
+                        <?= $this->lang->line("modal_edit_goods") ?>
                     </div>
                     <div class="card-body row">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Name:</label>
-                                <input type="text" class="form-control" placeholder="Masukan nama barang" name="name" required value="<?= $barang->name ?>" />
-                                <span class="form-text text-muted">Masukan nama barang</span>
-                            </div>
+                            <?= $this->load->view("component/input/flowstream_input", array(
+                                "name" => "name",
+                                "type" => "text",
+                                "required" => true,
+
+                                "placeholder" => $this->lang->line("placeholders_add_goods_name"),
+                                "label" => $this->lang->line("label_add_goods_name"),
+                                "help" => $this->lang->line("help_add_goods_name"),
+
+                                "value" => $barang->name
+                            ), true); ?>
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Barcode:</label>
-                                <input type="number" class="form-control" placeholder="Masukan barcode" name="barcode" required value="<?= $barang->barcode ?>" />
-                                <span class="form-text text-muted">Masukan angka pada barcode</span>
-                            </div>
+                            <?= $this->load->view("component/input/flowstream_input", array(
+                                "name" => "barcode",
+                                "type" => "number",
+                                "required" => true,
+
+                                "placeholder" => $this->lang->line("placeholders_add_goods_barcode"),
+                                "label" => $this->lang->line("label_add_goods_barcode"),
+                                "help" => $this->lang->line("help_add_goods_barcode"),
+
+                                "value" => $barang->barcode
+                            ), true); ?>
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>SKU Code:</label>
-                                <input type="text" class="form-control" placeholder="Masukan Kode SKU" name="sku_code" required value="<?= $barang->sku_code ?>" />
-                                <span class="form-text text-muted">Masukan kode <em>Stock Keeping Unit</em></span>
-                            </div>
+                            <?= $this->load->view("component/input/flowstream_input", array(
+                                "name" => "sku_code",
+                                "type" => "text",
+                                "required" => true,
+
+                                "placeholder" => $this->lang->line("placeholders_add_goods_sku"),
+                                "label" => $this->lang->line("label_add_goods_sku"),
+                                "help" => $this->lang->line("help_add_goods_sku"),
+
+                                "value" => $barang->sku_code
+                            ), true); ?>
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>PLU Code:</label>
-                                <input type="text" class="form-control" placeholder="Masukan Kode PLU" name="plu_code" required value="<?= $barang->plu_code ?>" />
-                                <span class="form-text text-muted">Masukan kode <em>Price Look-Up</em></span>
-                            </div>
-                        </div>
+                            <?= $this->load->view("component/input/flowstream_input", array(
+                                "name" => "plu_code",
+                                "type" => "text",
+                                "required" => true,
 
-                        <div class="col-md-12 py-5">
-                            <hr />
-                        </div>
+                                "placeholder" => $this->lang->line("placeholders_add_goods_plu"),
+                                "label" => $this->lang->line("label_add_goods_plu"),
+                                "help" => $this->lang->line("help_add_goods_plu"),
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <select class="form-control select2" name="division">
-                                    <?php foreach ($division as $division_option) { ?>
-                                        <?php if ($barang->division_id == $division_option->id) { ?>
-                                            <option value="<?= $division_option->id ?>" selected><?= $division_option->detail_data ?></option>
-                                        <?php } else { ?>
-                                            <option value="<?= $division_option->id ?>"><?= $division_option->detail_data ?></option>
-                                        <?php } ?>
-                                    <?php } ?>
-                                </select>
-                                <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_division") ?>">
-                                    <div class="my-3">
-                                        (Manage division)
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group w-100">
-                                <select class="form-control select2" name="sub_division">
-                                    <option value="" selected disabled>Pilih Sub Division</option>
-                                    <?php foreach ($division as $division_option) { ?>
-                                        <?php if ($barang->sub_division_id == $division_option->id) { ?>
-                                            <option value="<?= $division_option->id ?>" selected><?= $division_option->detail_data ?></option>
-                                        <?php } else { ?>
-                                            <option value="<?= $division_option->id ?>"><?= $division_option->detail_data ?></option>
-                                        <?php } ?>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group w-100">
-                                <select class="form-control select2" name="category">
-                                    <option value="" selected disabled>Pilih Category</option>
-                                    <?php foreach ($category as $category_option) { ?>
-                                        <?php if ($barang->category_id == $category_option->id) { ?>
-                                            <option value="<?= $category_option->id ?>" selected><?= $category_option->detail_data ?></option>
-                                        <?php } else { ?>
-                                            <option value="<?= $category_option->id ?>"><?= $category_option->detail_data ?></option>
-                                        <?php } ?>
-                                    <?php } ?>
-                                </select>
-                                <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_category") ?>">
-                                    <div class="my-3">
-                                        (Manage Category)
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group w-100">
-                                <select class="form-control select2" name="sub_category">
-                                    <option value="" selected disabled>Pilih Sub Category</option>
-                                    <?php foreach ($category as $category_option) { ?>
-                                        <?php if ($barang->sub_category_id == $category_option->id) { ?>
-                                            <option value="<?= $category_option->id ?>" selected><?= $category_option->detail_data ?></option>
-                                        <?php } else { ?>
-                                            <option value="<?= $category_option->id ?>"><?= $category_option->detail_data ?></option>
-                                        <?php } ?>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group w-100">
-                                <select class="form-control select2" name="package">
-                                    <?php foreach ($package as $package_option) { ?>
-                                        <?php if ($barang->package_id == $package_option->id) { ?>
-                                            <option value="<?= $package_option->id ?>" selected><?= $package_option->detail_data ?></option>
-                                        <?php } else { ?>
-                                            <option value="<?= $package_option->id ?>"><?= $package_option->detail_data ?></option>
-                                        <?php } ?>
-                                    <?php } ?>
-                                </select>
-                                <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_package") ?>">
-                                    <div class="my-3">
-                                        (Manage Package)
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group w-100">
-                                <select class="form-control select2" name="color">
-                                    <?php foreach ($color as $color_option) { ?>
-                                        <?php if ($barang->color_id == $color_option->id) { ?>
-                                            <option value="<?= $color_option->id ?>" selected><?= $color_option->detail_data ?></option>
-                                        <?php } else { ?>
-                                            <option value="<?= $color_option->id ?>"><?= $color_option->detail_data ?></option>
-                                        <?php } ?>
-                                    <?php } ?>
-                                </select>
-                                <a class="text-info" href="<?= base_url("/index.php/setting/system/s_reference/goods_color") ?>">
-                                    <div class="my-3">
-                                        (Manage Color)
-                                    </div>
-                                </a>
-                            </div>
+                                "value" => $barang->plu_code
+                            ), true); ?>
                         </div>
 
                         <div class="col-md-12 py-5">
@@ -413,63 +385,192 @@
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>HPP:</label>
-                                <input type="text" class="form-control" placeholder="Masukan HPP" name="hpp" value="<?= $barang->hpp ?>" />
-                                <span class="form-text text-muted">Masukan HPP</span>
-                            </div>
+                            <?= $this->load->view("component/input/flowstream_select", array(
+                                "name" => "division",
+                                "title" => $this->lang->line("general_division"),
+
+                                "list" => $division,
+                                "identifier" => "id",
+                                "showable" => "detail_data",
+
+                                "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                "object_name" => $this->lang->line("general_division"),
+
+                                "selected" => $barang->division_id,
+                                "not_found_showable" => $barang->division
+                            ), true); ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $this->load->view("component/input/flowstream_select", array(
+                                "name" => "sub_division",
+                                "title" => $this->lang->line("general_subdivision"),
+
+                                "list" => $division,
+                                "identifier" => "id",
+                                "showable" => "detail_data",
+
+                                "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                "object_name" => $this->lang->line("general_division"),
+
+                                "selected" => $barang->sub_division_id,
+                                "not_found_showable" => $barang->sub_division
+                            ), true); ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $this->load->view("component/input/flowstream_select", array(
+                                "name" => "category",
+                                "title" => $this->lang->line("general_category"),
+
+                                "list" => $category,
+                                "identifier" => "id",
+                                "showable" => "detail_data",
+
+                                "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                "object_name" => $this->lang->line("general_category"),
+
+                                "selected" => $barang->category_id,
+                                "not_found_showable" => $barang->category
+                            ), true); ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $this->load->view("component/input/flowstream_select", array(
+                                "name" => "sub_category",
+                                "title" => $this->lang->line("general_subcategory"),
+
+                                "list" => $category,
+                                "identifier" => "id",
+                                "showable" => "detail_data",
+
+                                "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                "object_name" => $this->lang->line("general_category"),
+
+                                "selected" => $barang->sub_category_id,
+                                "not_found_showable" => $barang->sub_category
+                            ), true); ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $this->load->view("component/input/flowstream_select", array(
+                                "name" => "package",
+                                "title" => $this->lang->line("general_package"),
+
+                                "list" => $package,
+                                "identifier" => "id",
+                                "showable" => "detail_data",
+
+                                "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                "object_name" => $this->lang->line("general_package"),
+
+                                "selected" => $barang->package_id,
+                                "not_found_showable" => $barang->package
+                            ), true); ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $this->load->view("component/input/flowstream_select", array(
+                                "name" => "color",
+                                "title" => $this->lang->line("general_color"),
+
+                                "list" => $color,
+                                "identifier" => "id",
+                                "showable" => "detail_data",
+
+                                "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                "object_name" => $this->lang->line("general_color"),
+
+                                "selected" => $barang->color_id,
+                                "not_found_showable" => $barang->color
+                            ), true); ?>
+                        </div>
+
+                        <div class="col-md-12 py-5">
+                            <hr />
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Tax:</label>
-                                <input type="number" class="form-control" placeholder="Masukan Pajak" name="tax" value="<?= $barang->tax ?>" />
-                                <span class="form-text text-muted">Masukan Pajak / tax</span>
-                            </div>
+                            <?= $this->load->view("component/input/flowstream_input", array(
+                                "name" => "hpp",
+                                "type" => "number",
+                                "required" => true,
+
+                                "placeholder" => $this->lang->line("placeholders_add_goods_hpp"),
+                                "label" => $this->lang->line("label_add_goods_hpp"),
+                                "help" => $this->lang->line("help_add_goods_hpp"),
+
+                                "value" => $barang->hpp
+                            ), true); ?>
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Quantity:</label>
-                                <input type="number" class="form-control" placeholder="Masukan Kuantitas" name="quantity" value="<?= $barang->quantity ?>" />
-                                <span class="form-text text-muted">Masukan Quantity</span>
-                            </div>
+                            <?= $this->load->view("component/input/flowstream_input", array(
+                                "name" => "tax",
+                                "type" => "number",
+                                "required" => true,
+
+                                "placeholder" => $this->lang->line("placeholders_add_goods_tax"),
+                                "label" => $this->lang->line("label_add_goods_tax"),
+                                "help" => $this->lang->line("help_add_goods_tax"),
+
+                                "value" => $barang->tax
+                            ), true); ?>
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group w-100">
-                                <label>Unit:</label>
-                                <select class="form-control select2" name="unit">
-                                    <?php foreach ($unit as $unit_option) { ?>
-                                        <?php if ($barang->unit_id == $unit_option->id) { ?>
-                                            <option value="<?= $unit_option->id ?>" selected><?= $unit_option->name ?></option>
-                                        <?php } else { ?>
-                                            <option value="<?= $unit_option->id ?>"><?= $unit_option->name ?></option>
-                                        <?php } ?>
-                                    <?php } ?>
-                                </select>
-                                <a class="text-info" href="<?= base_url("/index.php/setting/system/m_unit") ?>">
-                                    <div class="my-3">
-                                        (Manage Unit)
-                                    </div>
-                                </a>
-                            </div>
+                            <?= $this->load->view("component/input/flowstream_input", array(
+                                "name" => "quantity",
+                                "type" => "number",
+                                "required" => true,
+
+                                "placeholder" => $this->lang->line("placeholders_quantity"),
+                                "label" => $this->lang->line("label_quantity"),
+                                "help" => $this->lang->line("help_quantity"),
+
+                                "value" => $barang->quantity
+                            ), true); ?>
+                        </div>
+
+                        <div class="col-md-6">
+                            <?= $this->load->view("component/input/flowstream_select", array(
+                                "name" => "unit",
+                                "title" => $this->lang->line("general_unit"),
+
+                                "list" => $unit,
+                                "identifier" => "id",
+                                "showable" => "name",
+
+                                "manage_url" => base_url("/index.php/setting/system/m_unit"),
+                                "object_name" => $this->lang->line("general_unit"),
+
+                                "selected" => $barang->unit_id,
+                                "not_found_showable" => $barang->unit
+                            ), true); ?>
                         </div>
 
                         <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Nomor Rekening:</label>
-                                <input type="text" class="form-control" placeholder="Not Implemented" readonly disabled value="<?= $barang->rekening_no ?>" />
-                                <span class="form-text text-danger">Not Implemented</span>
-                            </div>
+                            <?= $this->load->view("component/input/flowstream_input", array(
+                                "name" => "rekening_no",
+                                "type" => "number",
+                                "required" => true,
+
+                                "placeholder" => $this->lang->line("placeholders_add_goods_rekening_no"),
+                                "label" => $this->lang->line("label_add_goods_rekening_no"),
+                                "help" => $this->lang->line("help_add_goods_rekening_no"),
+
+                                "value" => $barang->rekening_no
+                            ), true); ?>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                        <button data-dismiss="modal" aria-label="Close" class="btn btn-secondary">Cancel</button>
+                        <?= $this->load->view("component/button/submit", "", true); ?>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <?= $this->load->view("component/modal/delete", array(
+        "id" => $barang->id,
+        "object_name" => $this->lang->line("object_goods"),
+        "detail" =>  $this->lang->line("modal_delete_goods_description"),
+        "subdetail" =>  $this->lang->line("modal_delete_goods_subdescription")
+    ), true); ?>
+
 <?php } ?>

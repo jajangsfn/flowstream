@@ -30,13 +30,8 @@
                         <td nowrap="nowrap"><?= $focus->name ?></td>
                         <td><?= $focus->created_date ?></td>
                         <td nowrap="nowrap">
-                            <!-- Button trigger modal-->
-                            <button type="button" class="btn btn-icon btn-sm btn-light-success" data-toggle="modal" data-target="#edit_<?= $focus->id ?>">
-                                <i class="flaticon2-pen"></i>
-                            </button>
-                            <button type="button" class="btn btn-icon btn-sm btn-light-danger" data-toggle="modal" data-target="#delete_<?= $focus->id ?>">
-                                <i class="flaticon2-trash"></i>
-                            </button>
+                            <?= $this->load->view("component/icon_button/edit", array("id" => $focus->id), true); ?>
+                            <?= $this->load->view("component/icon_button/delete", array("id" => $focus->id), true); ?>
                         </td>
                     </tr>
                 <?php } ?>
@@ -52,7 +47,7 @@
         <form action="<?= current_url() ?>" method="POST" class="modal-content">
             <input type="hidden" name="back" value="<?= current_url() ?>">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Promo</h5>
+                <h5 class="modal-title">Tambah Promo</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -65,7 +60,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <?= $this->load->view("component/button/submit", "", true); ?>
                 </div>
             </div>
         </form>
@@ -80,7 +75,7 @@
                 <input type="hidden" name="back" value="<?= current_url() ?>">
                 <input type="hidden" name="id" value="<?= $focus->id ?>">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Promo</h5>
+                    <h5 class="modal-title">Edit Promo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
@@ -93,7 +88,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        <?= $this->load->view("component/button/submit", "", true); ?>
                     </div>
                 </div>
             </form>
@@ -105,7 +100,7 @@
                 <input type="hidden" name="back" value="<?= current_url() ?>">
                 <input type="hidden" name="id" value="<?= $focus->id ?>">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Promo</h5>
+                    <h5 class="modal-title">Delete Promo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>

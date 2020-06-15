@@ -38,7 +38,8 @@ class M_goods_model extends CI_Model
         ref5.id as package_id,
         ref6.detail_data as color,
         ref6.id as color_id,
-        ref7.name as unit
+        ref7.name as unit,
+        ref7.id as unit_id
         
         FROM `m_goods`
         

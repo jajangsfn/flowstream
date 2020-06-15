@@ -13,6 +13,7 @@ class Penjualan extends CI_Controller
                 base_url()
             );
         }
+        $this->lang->load('menu_lang', 'indonesian');
         $this->load->model(
             array(
                 "user_model" => "user_m"

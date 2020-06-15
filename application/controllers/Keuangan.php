@@ -17,6 +17,7 @@ class Keuangan extends CI_Controller
                 "user_model" => "user_m"
             )
         );
+        $this->lang->load('menu_lang', 'indonesian');
     }
 
     public function index()
