@@ -103,6 +103,74 @@ class Setting extends CI_Controller
         $this->baseloader($data);
     }
 
+    private function cabang()
+    {
+        if (count($_POST)) {
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->branch->delete($where_id);
+                    $this->session->set_flashdata("success", "Branch berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "name" => $_POST['name'],
+                        "owner" => $_POST['owner'],
+                        "address" => $_POST['address'],
+                        "npwp" => $_POST['npwp'],
+                        "tax_status" => $_POST['tax_status'],
+                    );
+
+                    if ($_FILES['logo']['name']) {
+                        // upload logo
+                        $config['upload_path']          = 'attachment/';
+                        $config['allowed_types']        = ['jpg', 'png', 'jpeg'];
+                        $config['encrypt_name']         = TRUE;
+                        $this->load->library('upload', $config);
+                        $this->upload->initialize($config);
+                        $this->upload->do_upload('logo');
+
+                        $uploadData = $this->upload->data();
+                        $entry_data['logo'] = $uploadData['file_name'];
+                    }
+                    $this->branch->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Branch berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "name" => $_POST['name'],
+                    "owner" => $_POST['owner'],
+                    "address" => $_POST['address'],
+                    "npwp" => $_POST['npwp'],
+                    "tax_status" => $_POST['tax_status'],
+                );
+
+                if ($_FILES['logo']['name']) {
+                    // upload logo
+                    $config['upload_path']          = 'attachment/';
+                    $config['allowed_types']        = ['jpg', 'png', 'jpeg'];
+                    $config['encrypt_name']         = TRUE;
+                    $this->load->library('upload', $config);
+                    $this->upload->initialize($config);
+                    $this->upload->do_upload('logo');
+
+                    $uploadData = $this->upload->data();
+                    $entry_data['logo'] = $uploadData['file_name'];
+                }
+
+                $this->branch->insert($entry_data);
+                $this->session->set_flashdata("success", "Branch berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar Cabang";
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/master/cabang/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/master/cabang/index_js", $content, true);
+
+        return $data;
+    }
+
     private function barang()
     {
         if (count($_POST)) {
@@ -612,50 +680,6 @@ class Setting extends CI_Controller
         $content['m_unit'] = $this->unit->get_all()->result();
         $data['page_content'] = $this->load->view("setting/system/m_unit/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_unit/index_js", $content, true);
-
-        return $data;
-    }
-
-    private function m_branch($path)
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->branch->delete($where_id);
-                    $this->session->set_flashdata("success", "Branch berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "name" => $_POST['name'],
-                        "owner" => $_POST['owner'],
-                        "address" => $_POST['address'],
-                        "npwp" => $_POST['npwp'],
-                        "tax_status" => $_POST['tax_status'],
-                        "online_status" => $_POST['online_status']
-                    );
-                    $this->branch->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Branch berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "name" => $_POST['name'],
-                    "owner" => $_POST['owner'],
-                    "address" => $_POST['address'],
-                    "npwp" => $_POST['npwp'],
-                    "tax_status" => $_POST['tax_status'],
-                    "online_status" => $_POST['online_status']
-                );
-                $this->branch->insert($entry_data);
-                $this->session->set_flashdata("success", "Branch berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Setting > System > Daftar M_Branch";
-        $content['m_branch'] = $this->branch->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/system/m_branch/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/system/m_branch/index_js", $content, true);
 
         return $data;
     }
