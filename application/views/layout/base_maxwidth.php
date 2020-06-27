@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 
-<body id="kt_body" class="header-fixed subheader-enabled page-loading">
+<body id="kt_body" class="header-fixed subheader-enabled page-loading"> 
     <!--begin::Main-->
     <div class="d-flex flex-column flex-root">
         <!--begin::Page-->
@@ -12,7 +12,7 @@
                 <?php $this->load->view("component/header_menu"); ?>
 
                 <!--begin::Container-->
-                <div class="d-flex flex-row flex-column-fluid container">
+                <div class="d-flex flex-row flex-column-fluid">
                     <!--begin::Content Wrapper-->
                     <div class="main d-flex flex-column flex-row-fluid">
                         <!--begin::Subheader-->

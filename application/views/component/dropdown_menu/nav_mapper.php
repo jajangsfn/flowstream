@@ -1052,7 +1052,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/purchase_order",
                             "purchase_order",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,
@@ -1060,7 +1060,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "/index.php/setting/system/purchase_order_detail",
                             "purchase_order_detail",
                             null,
-                            null,
+                            null
                         ),
                         new NavItem(
                             null,

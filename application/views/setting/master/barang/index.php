@@ -117,7 +117,7 @@
 
                             "value" => false
                         ), true); ?>
-                    </div>
+                    </div> 
 
                     <div class="col-md-6">
                         <?= $this->load->view("component/input/flowstream_input", array(
