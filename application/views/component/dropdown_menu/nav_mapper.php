@@ -691,6 +691,14 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                 new NavItem(
                     null,
                     null,
+                    "/index.php/setting/master/unit",
+                    "Master Unit",
+                    null,
+                    null,
+                ),
+                new NavItem(
+                    null,
+                    null,
                     null,
                     "Master Keuangan",
                     null,
@@ -884,14 +892,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Group M",
                     null,
                     array(
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_unit",
-                            "m_unit",
-                            null,
-                            null,
-                        ),
                         new NavItem(
                             null,
                             null,

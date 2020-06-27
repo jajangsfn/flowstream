@@ -171,7 +171,7 @@ class Setting extends CI_Controller
         return $data;
     }
 
-    private function barang()
+    private function barang($id = '', $next_path = '')
     {
         if (count($_POST)) {
             if (array_key_exists("id", $_POST)) {
@@ -179,12 +179,47 @@ class Setting extends CI_Controller
                 if (array_key_exists("delete", $_POST)) {
                     $this->goods->delete($where_id);
                 } else {
-                    $this->goods->update($where_id, $_POST);
+                    $entry_data = array(
+                        "name" => $_POST['name'],
+                        "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
+                        "sku_code" => $_POST['sku_code'],
+                        "plu_code" => $_POST['plu_code'],
+                        "hpp" => $_POST['hpp'],
+                        "tax" => $_POST['tax'],
+                        "quantity" => $_POST['quantity'],
+                        "rekening_no" => $_POST['rekening_no'],
+                        "division" => $_POST['division'],
+                        "sub_division" => $_POST['sub_division'],
+                        "category" => $_POST['category'],
+                        "sub_category" => $_POST['sub_category'],
+                        "package" => $_POST['package'],
+                        "color" => $_POST['color'],
+                        "unit" => $_POST['unit'],
+                    );
+                    $this->goods->update($where_id, $entry_data);
                 }
             } else {
-                $this->goods->insert($_POST);
+                $entry_data = array(
+                    "name" => $_POST['name'],
+                    "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
+                    "sku_code" => $_POST['sku_code'],
+                    "plu_code" => $_POST['plu_code'],
+                    "hpp" => $_POST['hpp'],
+                    "tax" => $_POST['tax'],
+                    "quantity" => $_POST['quantity'],
+                    "rekening_no" => $_POST['rekening_no'],
+                    "division" => $_POST['division'],
+                    "sub_division" => $_POST['sub_division'],
+                    "category" => $_POST['category'],
+                    "sub_category" => $_POST['sub_category'],
+                    "package" => $_POST['package'],
+                    "color" => $_POST['color'],
+                    "unit" => $_POST['unit'],
+                );
+                $_POST['id'] = $this->goods->insert($entry_data)->row()->id;
             }
             $this->session->set_flashdata("success", "Barang berhasil tersimpan");
+
             redirect(current_url());
         }
 
@@ -223,6 +258,7 @@ class Setting extends CI_Controller
                         "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
                         "partner_code" => $_POST['partner_code'],
                         "name" => $_POST['name'],
+                        "email" => $_POST['email'],
                         "address_1" => $_POST['address_1'],
                         "address_2" => $_POST['address_2'],
                         "city" => $_POST['city'],
@@ -247,6 +283,7 @@ class Setting extends CI_Controller
                     "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
                     "partner_code" => $_POST['partner_code'],
                     "name" => $_POST['name'],
+                    "email" => $_POST['email'],
                     "address_1" => $_POST['address_1'],
                     "address_2" => $_POST['address_2'],
                     "city" => $_POST['city'],
@@ -297,6 +334,7 @@ class Setting extends CI_Controller
                         "name" => $_POST['name'],
                         "address_1" => $_POST['address_1'],
                         "address_2" => $_POST['address_2'],
+                        "email" => $_POST['email'],
                         "city" => $_POST['city'],
                         "province" => $_POST['province'],
                         "zip_code" => $_POST['zip_code'],
@@ -321,6 +359,7 @@ class Setting extends CI_Controller
                     "name" => $_POST['name'],
                     "address_1" => $_POST['address_1'],
                     "address_2" => $_POST['address_2'],
+                    "email" => $_POST['email'],
                     "city" => $_POST['city'],
                     "province" => $_POST['province'],
                     "zip_code" => $_POST['zip_code'],
@@ -403,6 +442,44 @@ class Setting extends CI_Controller
     {
         $data['page_title'] = "Master Data Discount";
         $data['page_content'] = $this->load->view("setting/master/discount", "", true);
+
+        return $data;
+    }
+
+    private function unit()
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->unit->delete($where_id);
+                    $this->session->set_flashdata("success", "Unit berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "name" => $_POST['name'],
+                        "initial" => $_POST['initial'],
+                        "quantity" => $_POST['quantity']
+                    );
+                    $this->unit->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Unit berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "name" => $_POST['name'],
+                    "initial" => $_POST['initial'],
+                    "quantity" => $_POST['quantity']
+                );
+                $this->unit->insert($entry_data);
+                $this->session->set_flashdata("success", "Unit berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > Master > Daftar Unit";
+        $content['m_unit'] = $this->unit->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/master/unit/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/master/unit/index_js", $content, true);
 
         return $data;
     }
@@ -638,48 +715,6 @@ class Setting extends CI_Controller
             $data['page_content'] = $this->load->view("setting/system/s_reference/index", $content, true);
             $data['page_js'] = $this->load->view("setting/system/s_reference/index_js", $content, true);
         }
-
-        return $data;
-    }
-
-    private function m_unit($path)
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->unit->delete($where_id);
-                    $this->session->set_flashdata("success", "Unit berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "name" => $_POST['name'],
-                        "quantity" => $_POST['quantity']
-                    );
-                    $this->unit->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Unit berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "name" => $_POST['name'],
-                    "quantity" => $_POST['quantity']
-                );
-                $this->unit->insert($entry_data);
-                $this->session->set_flashdata("success", "Unit berhasil tersimpan");
-            }
-
-
-            if (array_key_exists("back", $_POST)) {
-                redirect($_POST['back']);
-            } else {
-                $content['back_url'] = $_POST['back_url'];
-            }
-        }
-
-        $data['page_title'] = "Setting > System > Daftar M_Unit";
-        $content['m_unit'] = $this->unit->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/system/m_unit/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/system/m_unit/index_js", $content, true);
 
         return $data;
     }
