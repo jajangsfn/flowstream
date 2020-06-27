@@ -76,9 +76,16 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
+	// local
 	'username' => 'root',
 	'password' => '',
 	'database' => 'flowstream',
+	// dev
+	// 'username' => 'u7642356_devflowstream',
+	// 'password' => '4dmin1234',
+	// 'database' => 'u7642356_devflowstream',
+
+
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

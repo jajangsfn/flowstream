@@ -29,4 +29,6 @@ class Account extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
+
+
 }

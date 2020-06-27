@@ -1,0 +1,12 @@
+.header-menu-wrapper {
+	/*left: -30px;*/
+}
+
+.br-1{
+	border-right: 1px solid #000;
+}
+
+.table thead tr th,
+.table tbody tr td{
+	font-size: 10px;
+}

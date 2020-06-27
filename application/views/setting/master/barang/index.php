@@ -74,4 +74,5 @@
 <!-- Modal-->
 <?= $this->load->view("component/modal/barang/tambah_barang", '', true); ?>
 
+
 <?= $this->load->view("component/modal/barang/ubah_hapus_barang", '', true); ?>

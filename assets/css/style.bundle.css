@@ -21716,7 +21716,7 @@ a.text-dark-75:hover, a.text-dark-75:focus {
     height: 1000px;
     position: absolute;
     z-index: 1;
-    top: 0;
+    top: 0; 
     left: 45%;
     -webkit-transform: rotate(20deg);
     transform: rotate(20deg);

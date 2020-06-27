@@ -12,7 +12,7 @@ class Pembelian extends CI_Controller
             redirect(
                 base_url()
             );
-        }
+        } 
         $this->lang->load('menu_lang', 'indonesian');
         $this->load->model(
             array(
@@ -24,12 +24,13 @@ class Pembelian extends CI_Controller
     public function index()
     {
         $data['back_url'] = base_url();
-        $data['page_title'] = "Pembelian";
+        $data['page_title'] = "Daftar Pembelian";
         $data['page_content'] = $this->load->view("pembelian/index", "", true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        // $this->load->view('layout/base', $data);
+        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/js'); 
     }
 
     public function purchase_order()
@@ -38,7 +39,8 @@ class Pembelian extends CI_Controller
         $data['page_content'] = $this->load->view("pembelian/purchase_order", "", true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
+        // $this->load->view('layout/base', $data);
+        $this->load->view('layout/base_maxwidth', $data);
         $this->load->view('layout/js');
     }
 
@@ -48,7 +50,8 @@ class Pembelian extends CI_Controller
         $data['page_content'] = $this->load->view("pembelian/retur", "", true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
+        // $this->load->view('layout/base', $data);
+        $this->load->view('layout/base_maxwidth', $data);
         $this->load->view('layout/js');
     }
 
@@ -100,7 +103,8 @@ class Pembelian extends CI_Controller
         $data['page_content'] = $this->load->view("pembelian/laporan/pembelian/harian", "", true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
+        // $this->load->view('layout/base', $data);
+        $this->load->view('layout/base_maxwidth', $data);
         $this->load->view('layout/js');
     }
 
@@ -110,7 +114,8 @@ class Pembelian extends CI_Controller
         $data['page_content'] = $this->load->view("pembelian/laporan/pembelian/bulanan", "", true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
+        // $this->load->view('layout/base', $data);
+        $this->load->view('layout/base_maxwidth', $data);
         $this->load->view('layout/js');
     }
 
@@ -120,7 +125,8 @@ class Pembelian extends CI_Controller
         $data['page_content'] = $this->load->view("pembelian/laporan/retur/harian", "", true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
+        // $this->load->view('layout/base', $data);
+        $this->load->view('layout/base_maxwidth', $data);
         $this->load->view('layout/js');
     }
 
@@ -130,7 +136,23 @@ class Pembelian extends CI_Controller
         $data['page_content'] = $this->load->view("pembelian/laporan/retur/bulanan", "", true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
+        // $this->load->view('layout/base', $data);
+        $this->load->view('layout/base_maxwidth', $data);
         $this->load->view('layout/js');
+    }
+
+
+    public function add_purchase()
+    {
+        $data['page_title']   = "Tambah Pembelian";
+        $data['customer']     = array(0=>array("name"=>"PT. A"));
+
+        $data['page_content'] = $this->load->view("pembelian/add_purchase", $data ,true);
+
+        $this->load->view('layout/head');
+        // $this->load->view('layout/base', $data);
+        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/js');
+        $this->load->view("pembelian/pembelian_js");
     }
 }
