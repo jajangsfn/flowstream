@@ -654,7 +654,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/master/cabang",
                     "Master Cabang",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
@@ -694,7 +694,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "/index.php/setting/master/unit",
                     "Master Unit",
                     null,
-                    null,
+                    null
                 ),
                 new NavItem(
                     null,
