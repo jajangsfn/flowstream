@@ -23,6 +23,7 @@ class Penjualan extends CI_Controller
 
     public function index()
     {
+        // tampilkan list of order request
         $data['back_url'] = base_url();
         $data['page_title'] = "Penjualan";
         $data['page_content'] = $this->load->view("penjualan/index", "", true);

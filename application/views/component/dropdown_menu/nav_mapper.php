@@ -651,6 +651,14 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                 new NavItem(
                     null,
                     null,
+                    "/index.php/setting/master/cabang",
+                    "Master Cabang",
+                    null,
+                    null,
+                ),
+                new NavItem(
+                    null,
+                    null,
                     "/index.php/setting/master/supplier",
                     "Master Supplier",
                     null,
@@ -679,6 +687,14 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Master Discount",
                     null,
                     null
+                ),
+                new NavItem(
+                    null,
+                    null,
+                    "/index.php/setting/master/unit",
+                    "Master Unit",
+                    null,
+                    null,
                 ),
                 new NavItem(
                     null,
@@ -876,22 +892,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Group M",
                     null,
                     array(
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_unit",
-                            "m_unit",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_branch",
-                            "m_branch",
-                            null,
-                            null
-                        ),
                         new NavItem(
                             null,
                             null,

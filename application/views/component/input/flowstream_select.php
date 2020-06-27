@@ -25,7 +25,7 @@
 
         <?php } ?>
     </select>
-    <a class="text-info" href="<?= $manage_url ?>">
+    <a class="form-text text-info" href="<?= $manage_url ?>">
         <div class="my-2">
             (Manage <?= $object_name ?>)
         </div>

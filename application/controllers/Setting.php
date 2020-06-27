@@ -81,7 +81,75 @@ class Setting extends CI_Controller
         }
     }
 
-    private function barang()
+    private function cabang()
+    {
+        if (count($_POST)) {
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->branch->delete($where_id);
+                    $this->session->set_flashdata("success", "Branch berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "name" => $_POST['name'],
+                        "owner" => $_POST['owner'],
+                        "address" => $_POST['address'],
+                        "npwp" => $_POST['npwp'],
+                        "tax_status" => $_POST['tax_status'],
+                    );
+
+                    if ($_FILES['logo']['name']) {
+                        // upload logo
+                        $config['upload_path']          = 'attachment/';
+                        $config['allowed_types']        = ['jpg', 'png', 'jpeg'];
+                        $config['encrypt_name']         = TRUE;
+                        $this->load->library('upload', $config);
+                        $this->upload->initialize($config);
+                        $this->upload->do_upload('logo');
+
+                        $uploadData = $this->upload->data();
+                        $entry_data['logo'] = $uploadData['file_name'];
+                    }
+                    $this->branch->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Branch berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "name" => $_POST['name'],
+                    "owner" => $_POST['owner'],
+                    "address" => $_POST['address'],
+                    "npwp" => $_POST['npwp'],
+                    "tax_status" => $_POST['tax_status'],
+                );
+
+                if ($_FILES['logo']['name']) {
+                    // upload logo
+                    $config['upload_path']          = 'attachment/';
+                    $config['allowed_types']        = ['jpg', 'png', 'jpeg'];
+                    $config['encrypt_name']         = TRUE;
+                    $this->load->library('upload', $config);
+                    $this->upload->initialize($config);
+                    $this->upload->do_upload('logo');
+
+                    $uploadData = $this->upload->data();
+                    $entry_data['logo'] = $uploadData['file_name'];
+                }
+
+                $this->branch->insert($entry_data);
+                $this->session->set_flashdata("success", "Branch berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar Cabang";
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/master/cabang/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/master/cabang/index_js", $content, true);
+
+        return $data;
+    }
+
+    private function barang($id = '', $next_path = '')
     {
         if (count($_POST)) {
             if (array_key_exists("id", $_POST)) {
@@ -89,12 +157,47 @@ class Setting extends CI_Controller
                 if (array_key_exists("delete", $_POST)) {
                     $this->goods->delete($where_id);
                 } else {
-                    $this->goods->update($where_id, $_POST);
+                    $entry_data = array(
+                        "name" => $_POST['name'],
+                        "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
+                        "sku_code" => $_POST['sku_code'],
+                        "plu_code" => $_POST['plu_code'],
+                        "hpp" => $_POST['hpp'],
+                        "tax" => $_POST['tax'],
+                        "quantity" => $_POST['quantity'],
+                        "rekening_no" => $_POST['rekening_no'],
+                        "division" => $_POST['division'],
+                        "sub_division" => $_POST['sub_division'],
+                        "category" => $_POST['category'],
+                        "sub_category" => $_POST['sub_category'],
+                        "package" => $_POST['package'],
+                        "color" => $_POST['color'],
+                        "unit" => $_POST['unit'],
+                    );
+                    $this->goods->update($where_id, $entry_data);
                 }
             } else {
-                $this->goods->insert($_POST);
+                $entry_data = array(
+                    "name" => $_POST['name'],
+                    "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
+                    "sku_code" => $_POST['sku_code'],
+                    "plu_code" => $_POST['plu_code'],
+                    "hpp" => $_POST['hpp'],
+                    "tax" => $_POST['tax'],
+                    "quantity" => $_POST['quantity'],
+                    "rekening_no" => $_POST['rekening_no'],
+                    "division" => $_POST['division'],
+                    "sub_division" => $_POST['sub_division'],
+                    "category" => $_POST['category'],
+                    "sub_category" => $_POST['sub_category'],
+                    "package" => $_POST['package'],
+                    "color" => $_POST['color'],
+                    "unit" => $_POST['unit'],
+                );
+                $_POST['id'] = $this->goods->insert($entry_data)->row()->id;
             }
             $this->session->set_flashdata("success", "Barang berhasil tersimpan");
+
             redirect(current_url());
         }
 
@@ -134,6 +237,7 @@ class Setting extends CI_Controller
                         "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
                         "partner_code" => $_POST['partner_code'],
                         "name" => $_POST['name'],
+                        "email" => $_POST['email'],
                         "address_1" => $_POST['address_1'],
                         "address_2" => $_POST['address_2'],
                         "city" => $_POST['city'],
@@ -158,6 +262,7 @@ class Setting extends CI_Controller
                     "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
                     "partner_code" => $_POST['partner_code'],
                     "name" => $_POST['name'],
+                    "email" => $_POST['email'],
                     "address_1" => $_POST['address_1'],
                     "address_2" => $_POST['address_2'],
                     "city" => $_POST['city'],
@@ -210,6 +315,7 @@ class Setting extends CI_Controller
                         "name" => $_POST['name'],
                         "address_1" => $_POST['address_1'],
                         "address_2" => $_POST['address_2'],
+                        "email" => $_POST['email'],
                         "city" => $_POST['city'],
                         "province" => $_POST['province'],
                         "zip_code" => $_POST['zip_code'],
@@ -234,6 +340,7 @@ class Setting extends CI_Controller
                     "name" => $_POST['name'],
                     "address_1" => $_POST['address_1'],
                     "address_2" => $_POST['address_2'],
+                    "email" => $_POST['email'],
                     "city" => $_POST['city'],
                     "province" => $_POST['province'],
                     "zip_code" => $_POST['zip_code'],
@@ -362,6 +469,44 @@ class Setting extends CI_Controller
             default:
                 break;
         }
+    }
+
+    private function unit()
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->unit->delete($where_id);
+                    $this->session->set_flashdata("success", "Unit berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "name" => $_POST['name'],
+                        "initial" => $_POST['initial'],
+                        "quantity" => $_POST['quantity']
+                    );
+                    $this->unit->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Unit berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "name" => $_POST['name'],
+                    "initial" => $_POST['initial'],
+                    "quantity" => $_POST['quantity']
+                );
+                $this->unit->insert($entry_data);
+                $this->session->set_flashdata("success", "Unit berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > Master > Daftar Unit";
+        $content['m_unit'] = $this->unit->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/master/unit/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/master/unit/index_js", $content, true);
+
+        return $data;
     }
 
     private function kode_rekening()
@@ -689,96 +834,6 @@ class Setting extends CI_Controller
             $data['page_content'] = $this->load->view("setting/system/s_reference/index", $content, true);
             $data['page_js'] = $this->load->view("setting/system/s_reference/index_js", $content, true);
         }
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    private function m_unit($path)
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->unit->delete($where_id);
-                    $this->session->set_flashdata("success", "Unit berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "name" => $_POST['name'],
-                        "quantity" => $_POST['quantity']
-                    );
-                    $this->unit->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Unit berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "name" => $_POST['name'],
-                    "quantity" => $_POST['quantity']
-                );
-                $this->unit->insert($entry_data);
-                $this->session->set_flashdata("success", "Unit berhasil tersimpan");
-            }
-
-
-            if (array_key_exists("back", $_POST)) {
-                redirect($_POST['back']);
-            } else {
-                $content['back_url'] = $_POST['back_url'];
-            }
-        }
-
-        $data['page_title'] = "Setting > System > Daftar M_Unit";
-        $content['m_unit'] = $this->unit->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/system/m_unit/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/system/m_unit/index_js", $content, true);
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    private function m_branch($path)
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->branch->delete($where_id);
-                    $this->session->set_flashdata("success", "Branch berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "name" => $_POST['name'],
-                        "owner" => $_POST['owner'],
-                        "address" => $_POST['address'],
-                        "npwp" => $_POST['npwp'],
-                        "tax_status" => $_POST['tax_status'],
-                        "online_status" => $_POST['online_status']
-                    );
-                    $this->branch->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Branch berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "name" => $_POST['name'],
-                    "owner" => $_POST['owner'],
-                    "address" => $_POST['address'],
-                    "npwp" => $_POST['npwp'],
-                    "tax_status" => $_POST['tax_status'],
-                    "online_status" => $_POST['online_status']
-                );
-                $this->branch->insert($entry_data);
-                $this->session->set_flashdata("success", "Branch berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Setting > System > Daftar M_Branch";
-        $content['m_branch'] = $this->branch->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/system/m_branch/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/system/m_branch/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
