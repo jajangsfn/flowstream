@@ -19,7 +19,6 @@
                     <th>No</th>
                     <th>Nama</th>
                     <th>Master</th>
-                    <th>Cabang</th>
                     <th>Kode Partner</th>
                     <th>Alamat 1</th>
                     <th>Alamat 2</th>
@@ -46,7 +45,6 @@
                         <td></td>
                         <td nowrap="nowrap"><?= $focus->name ?></td>
                         <td><?= $focus->master ?></td>
-                        <td><?= $focus->branch ?></td>
                         <td><?= $focus->partner_code ?></td>
                         <td><?= $focus->address_1 ?></td>
                         <td><?= $focus->address_2 ?></td>
