@@ -77,6 +77,7 @@
         <!--end::Page-->
     </div>
     <!--end::Main-->
+    <?= isset($page_modal) ? $page_modal : "" ?>
     <?php $this->load->view("component/scroll_top_button"); ?>
 </body>
 
