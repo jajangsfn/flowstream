@@ -38,6 +38,7 @@ class Penjualan extends CI_Controller
         $data['page_title'] = "Order Request";
         $data['page_content'] = $this->load->view("penjualan/order_request", "", true);
 
+        $data['transactional'] = true;
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
