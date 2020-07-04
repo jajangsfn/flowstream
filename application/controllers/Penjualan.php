@@ -16,7 +16,9 @@ class Penjualan extends CI_Controller
         $this->lang->load('menu_lang', 'indonesian');
         $this->load->model(
             array(
-                "user_model" => "user_m"
+                "user_model" => "user_m",
+                "m_partner_model" => "partner",
+                "m_goods_model" => "goods",
             )
         );
     }
@@ -36,8 +38,16 @@ class Penjualan extends CI_Controller
     public function order_request()
     {
         $data['page_title'] = "Order Request";
-        $data['page_content'] = $this->load->view("penjualan/order_request", "", true);
 
+        $content = array(
+            "customers" => $this->partner->get_customer()->result(),
+            "goods" => $this->goods->get_complete()->result()
+        );
+        $data['page_content'] = $this->load->view("penjualan/order_request/index", $content, true);
+        $data['page_js'] = $this->load->view("penjualan/order_request/index_js", "", true);
+        $data['page_modal'] = $this->load->view("penjualan/order_request/modal", "", true);
+
+        $data['transactional'] = true;
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');

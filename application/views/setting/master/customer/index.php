@@ -19,7 +19,6 @@
                     <th><?= $this->lang->line("general_number") ?></th>
                     <th><?= $this->lang->line("general_name") ?></th>
                     <th><?= $this->lang->line("general_master") ?></th>
-                    <th><?= $this->lang->line("general_branch") ?></th>
                     <th><?= $this->lang->line("general_partner_code") ?></th>
                     <th><?= $this->lang->line("general_address_1") ?></th>
                     <th><?= $this->lang->line("general_address_2") ?></th>
@@ -46,7 +45,6 @@
                         <td></td>
                         <td nowrap="nowrap"><?= $focus->name ?></td>
                         <td><?= $focus->master ?></td>
-                        <td><?= $focus->branch ?></td>
                         <td><?= $focus->partner_code ?></td>
                         <td><?= $focus->address_1 ?></td>
                         <td><?= $focus->address_2 ?></td>
