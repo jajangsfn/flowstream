@@ -131,4 +131,31 @@ class M_goods_model extends CI_Model
     {
         $this->db->update("m_price_alternate", $data, $where);
     }
+  
+    function get_goods_price($where)
+    {
+        $this->db->select("m_goods.*,m_price.price,
+                    ifnull(sum(m_price_alternate.price)/count(*),0) price_alternate");
+        $this->db->from("m_goods");
+        $this->db->join("m_price","m_price.goods_id=m_goods.id","left");
+        $this->db->join("m_price_alternate","m_price_alternate.price_id=m_price.id","left");
+
+        $this->db->where($where);
+
+        return $this->db->get();
+    }
+
+    function get_goods_per_supplier($where)
+    {
+        $this->db->select("tab1.id partner_id,tab1.name partner_name,tab1.tax_number,tab1.branch_id,tab5.name branch_name,tab2.id salesman_id,tab2.name salesman,tab4.*");
+        $this->db->from("m_partner tab1");
+        $this->db->join("m_partner_salesman tab2","tab2.partner_id=tab1.id");
+        $this->db->join("m_salesman_map tab3","tab3.salesman_id=tab2.id");
+        $this->db->join("m_goods tab4","tab4.id=tab3.goods_id");
+        $this->db->join("m_branch tab5","tab5.id=tab1.branch_id");
+        $this->db->where($where);
+        $this->db->order_by("tab4.brand_description");
+
+        return $this->db->get();
+    }
 }
