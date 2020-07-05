@@ -248,30 +248,4 @@
             </form>
         </div>
     </div>
-
-    <?= $this->load->view("component/modal/delete", array(
-        "id" => $barang->id,
-        "object_name" => $this->lang->line("object_goods"),
-        "detail" =>  $this->lang->line("modal_delete_goods_description"),
-        "subdetail" =>  $this->lang->line("modal_delete_goods_subdescription")
-    ), true); ?>
-
-    <div class="modal fade" id="edit_harga_<?= $barang->id ?>" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <form class="form modal-content" method="POST" action="<?= current_url() ?>">
-                <div class="modal-header">
-                    <h5>
-                        Ubah Harga Jual Barang
-                    </h5>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer text-right">
-                    <?= $this->load->view("component/button/submit", "", true); ?>
-                    <?= $this->load->view("component/button/close", "", true); ?>
-                </div>
-            </form>
-        </div>
-    </div>
 <?php } ?>

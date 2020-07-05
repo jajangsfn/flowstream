@@ -2,9 +2,9 @@
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             <form class="form card" method="POST" action="<?= current_url() ?>">
-                <div class="card-header">
-                    <?= $this->lang->line("general_add"); ?> Master Data <?= $this->lang->line("object_goods"); ?>
-                </div>
+                <h3 class="card-header border-0">
+                    Tambah Barang
+                </h3>
                 <div class="card-body row">
                     <div class="col-lg-6">
                         <div class="row">
@@ -14,9 +14,9 @@
                                     "type" => "text",
                                     "required" => true,
 
-                                    "placeholder" => $this->lang->line("placeholders_add_goods_name"),
-                                    "label" => $this->lang->line("label_add_goods_name"),
-                                    "help" => $this->lang->line("help_add_goods_name"),
+                                    "placeholder" => "Nama barang",
+                                    "label" => "Nama barang",
+                                    "help" => "Masukan nama barang",
 
                                     "value" => false
                                 ), true); ?>
@@ -28,9 +28,9 @@
                                     "type" => "number",
                                     "required" => true,
 
-                                    "placeholder" => $this->lang->line("placeholders_add_goods_barcode"),
-                                    "label" => $this->lang->line("label_add_goods_barcode"),
-                                    "help" => $this->lang->line("help_add_goods_barcode"),
+                                    "placeholder" => "Barcode",
+                                    "label" => "Barcode",
+                                    "help" => "Masukan kode barcode untuk barang ini",
 
                                     "value" => false
                                 ), true); ?>
@@ -42,9 +42,9 @@
                                     "type" => "text",
                                     "required" => true,
 
-                                    "placeholder" => $this->lang->line("placeholders_add_goods_sku"),
-                                    "label" => $this->lang->line("label_add_goods_sku"),
-                                    "help" => $this->lang->line("help_add_goods_sku"),
+                                    "placeholder" => "Kode SKU",
+                                    "label" => "Kode SKU",
+                                    "help" => "Masukan kode SKU untuk barang ini",
 
                                     "value" => false
                                 ), true); ?>
@@ -56,9 +56,9 @@
                                     "type" => "text",
                                     "required" => true,
 
-                                    "placeholder" => $this->lang->line("placeholders_add_goods_plu"),
-                                    "label" => $this->lang->line("label_add_goods_plu"),
-                                    "help" => $this->lang->line("help_add_goods_plu"),
+                                    "placeholder" => "Kode PLU",
+                                    "label" => "Kode PLU",
+                                    "help" => "Masukan kode PLU untuk abrang ini",
 
                                     "value" => false
                                 ), true); ?>
@@ -69,9 +69,9 @@
                                     "type" => "number",
                                     "required" => true,
 
-                                    "placeholder" => $this->lang->line("placeholders_add_goods_tax"),
-                                    "label" => $this->lang->line("label_add_goods_tax"),
-                                    "help" => $this->lang->line("help_add_goods_tax"),
+                                    "placeholder" => "Pajak",
+                                    "label" => "Pajak",
+                                    "help" => "Masukan persen pajak untuk barang ini",
 
                                     "value" => false
                                 ), true); ?>
@@ -83,9 +83,9 @@
                                     "type" => "number",
                                     "required" => true,
 
-                                    "placeholder" => $this->lang->line("placeholders_quantity"),
-                                    "label" => $this->lang->line("label_quantity"),
-                                    "help" => $this->lang->line("help_quantity"),
+                                    "placeholder" => "Jumlah",
+                                    "label" => "Jumlah",
+                                    "help" => "Masukan jumlah awal barang",
 
                                     "value" => false
                                 ), true); ?>
@@ -96,9 +96,9 @@
                                     "type" => "number",
                                     "required" => true,
 
-                                    "placeholder" => $this->lang->line("placeholders_add_goods_rekening_no"),
-                                    "label" => $this->lang->line("label_add_goods_rekening_no"),
-                                    "help" => $this->lang->line("help_add_goods_rekening_no"),
+                                    "placeholder" => "Masukan nomor akun untuk barang ini",
+                                    "label" => "Nomor Akun",
+                                    "help" => "Masukan nomor rekening",
 
                                     "value" => "1"
                                 ), true); ?>
@@ -110,14 +110,14 @@
                             <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "division",
-                                    "title" => $this->lang->line("general_division"),
+                                    "title" => "Divisi",
 
                                     "list" => $division,
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/system/s_reference"),
-                                    "object_name" => $this->lang->line("general_division"),
+                                    "object_name" => "Divisi",
 
                                     "selected" => false,
                                 ), true); ?>
@@ -125,14 +125,14 @@
                             <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "sub_division",
-                                    "title" => $this->lang->line("general_subdivision"),
+                                    "title" => "Subdivisi",
 
                                     "list" => $division,
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/system/s_reference"),
-                                    "object_name" => $this->lang->line("general_division"),
+                                    "object_name" => "Divisi",
 
                                     "selected" => false,
                                 ), true); ?>
@@ -140,14 +140,14 @@
                             <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "category",
-                                    "title" => $this->lang->line("general_category"),
+                                    "title" => "Kategori",
 
                                     "list" => $category,
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/system/s_reference"),
-                                    "object_name" => $this->lang->line("general_category"),
+                                    "object_name" => "Kategori",
 
                                     "selected" => false,
                                 ), true); ?>
@@ -155,14 +155,14 @@
                             <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "sub_category",
-                                    "title" => $this->lang->line("general_subcategory"),
+                                    "title" => "Subkategori",
 
                                     "list" => $category,
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/system/s_reference"),
-                                    "object_name" => $this->lang->line("general_category"),
+                                    "object_name" => "Kategori",
 
                                     "selected" => false,
                                 ), true); ?>
@@ -170,14 +170,14 @@
                             <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "package",
-                                    "title" => $this->lang->line("general_package"),
+                                    "title" => "Paket",
 
                                     "list" => $package,
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/system/s_reference"),
-                                    "object_name" => $this->lang->line("general_package"),
+                                    "object_name" => "Paket",
 
                                     "selected" => false,
                                 ), true); ?>
@@ -185,14 +185,14 @@
                             <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "color",
-                                    "title" => $this->lang->line("general_color"),
+                                    "title" => "Warna",
 
                                     "list" => $package,
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/system/s_reference"),
-                                    "object_name" => $this->lang->line("general_color"),
+                                    "object_name" => "Warna",
 
                                     "selected" => false,
                                 ), true); ?>
@@ -200,14 +200,14 @@
                             <div class="col-md-12">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "unit",
-                                    "title" => $this->lang->line("general_unit"),
+                                    "title" => "Unit",
 
                                     "list" => $unit,
                                     "identifier" => "id",
                                     "showable" => "name",
 
                                     "manage_url" => base_url("/index.php/setting/master/unit"),
-                                    "object_name" => $this->lang->line("general_unit"),
+                                    "object_name" => "Unit",
 
                                     "selected" => false,
                                 ), true); ?>
