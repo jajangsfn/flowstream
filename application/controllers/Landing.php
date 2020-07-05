@@ -48,7 +48,7 @@ class Landing extends CI_Controller
 	public function do_login()
 	{
 		$login_data = array(
-			"username" => $_POST['username'],
+			"user_id" => $_POST['username'],
 			"password" => md5($_POST['password'])
 		);
 
