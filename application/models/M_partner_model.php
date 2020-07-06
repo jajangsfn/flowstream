@@ -13,7 +13,7 @@ class M_partner_model extends CI_Model
             m.name as master
             FROM m_partner p
             LEFT JOIN m_branch b on b.id = p.branch_id
-            LEFT JOIN m_master m on m.id = p.master_id
+            LEFT JOIN m_master m on m.code = p.master_code
             
             WHERE p.flag <> 99 AND " . $where
         );
@@ -27,9 +27,11 @@ class M_partner_model extends CI_Model
             m.name as master
             FROM m_partner p
             LEFT JOIN m_branch b on b.id = p.branch_id
-            LEFT JOIN m_master m on m.id = p.master_id
+            LEFT JOIN m_master m on m.code = p.master_code
             
-            WHERE p.flag <> 99 AND p.is_customer = 1"
+            WHERE p.flag <> 99 AND p.is_customer = 1
+            
+            ORDER BY p.id desc"
         );
     }
 
@@ -41,9 +43,11 @@ class M_partner_model extends CI_Model
             m.name as master
             FROM m_partner p
             LEFT JOIN m_branch b on b.id = p.branch_id
-            LEFT JOIN m_master m on m.id = p.master_id
+            LEFT JOIN m_master m on m.code = p.master_code
             
-            WHERE p.flag <> 99 AND p.is_supplier = 1"
+            WHERE p.flag <> 99 AND p.is_supplier = 1
+            
+            ORDER BY p.id desc"
         );
     }
 

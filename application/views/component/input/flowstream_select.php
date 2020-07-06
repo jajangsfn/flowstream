@@ -1,6 +1,6 @@
 <div class="form-group w-100">
     <label><?= $title ?></label>
-    <select class="form-control select2" name="<?= $name ?>">
+    <select class="form-control select2" name="<?= $name ?>" <?= isset($id) ? "id='$id'" : "" ?>>
         <?php if (isset($selected) && $selected) { ?>
 
             <?php $found = false; ?>
@@ -17,17 +17,18 @@
             <?php } ?>
 
         <?php } else { ?>
-
-            <option value="" selected disabled>Choose <?= $object_name ?></option>
             <?php foreach ($list as $option) { ?>
-                <option value="<?= $option->$identifier ?>"><?= $option->$showable ?></option>
+                <?php if ($option->$showable == "General") : ?>
+                    <option value="<?= $option->$identifier ?>" selected><?= $option->$showable ?></option>
+                <?php else : ?>
+                    <option value="<?= $option->$identifier ?>"><?= $option->$showable ?></option>
+                <?php endif ?>
             <?php } ?>
-
         <?php } ?>
     </select>
     <a class="form-text text-info" href="<?= $manage_url ?>">
         <div class="my-2">
-            (Manage <?= $object_name ?>)
+            (Kelola <?= $object_name ?>)
         </div>
     </a>
 </div>

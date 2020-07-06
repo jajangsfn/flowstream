@@ -32,11 +32,51 @@ class Api extends CI_Controller
     public function get_barang($id)
     {
         $data_query = $this->goods->get("m_goods.id = $id")->row();
-        $response = array();
-        foreach ($data_query as $key => $val) {
-            $response[$key] = $val;
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
+    public function barang()
+    {
+        $data_query = $this->goods->get_complete()->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
+    public function ubah_harga_barang()
+    {
+        if ($_POST['price_index'] == 0) {
+            echo json_encode(array("message" => "masuk 0"));
+
+            $this->goods->change_main_price(
+                array(
+                    "goods_id" => $_POST['id']
+                ),
+                array(
+                    "price" => $_POST['price'],
+                )
+            );
+        } else {
+            echo json_encode(array("message" => "masuk lain"));
+            $price_id = $this->goods->get_price(array(
+                "goods_id" => $_POST['id']
+            ))->row()->id;
+            $this->goods->change_price_alternate(
+                array(
+                    "price_id" => $price_id,
+                    "price_index" => $_POST['price_index'],
+                ),
+                array(
+                    "price" => $_POST['price'],
+                )
+            );
         }
-        $data['data'] = $response;
+    }
+
+    public function customer()
+    {
+        $data_query = $this->partner->get_customer()->result();
+        $data['data'] = $data_query;
         echo json_encode($data);
     }
 }

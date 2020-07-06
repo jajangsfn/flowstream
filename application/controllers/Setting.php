@@ -54,13 +54,13 @@ class Setting extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    public function master($category, $next_path = '')
+    public function master($category, $next_path = '', $continue_tab = '')
     {
         switch ($category) {
             case 'barang':
-                $this->barang();
+                $this->barang($next_path);
                 break;
-            case 'supplier': 
+            case 'supplier':
                 $this->supplier();
                 break;
             case 'customer':
@@ -156,13 +156,13 @@ class Setting extends CI_Controller
                 $where_id['id'] = $_POST['id'];
                 if (array_key_exists("delete", $_POST)) {
                     $this->goods->delete($where_id);
+                    $this->session->set_flashdata("success", "Barang berhasil dihapus");
                 } else {
                     $entry_data = array(
-                        "name" => $_POST['name'],
+                        "brand_description" => $_POST['brand_description'],
                         "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
                         "sku_code" => $_POST['sku_code'],
-                        "plu_code" => $_POST['plu_code'],
-                        "hpp" => $_POST['hpp'],
+                        "plu_code" => isset($_POST['plu_code']) ? $_POST['plu_code'] : null,
                         "tax" => $_POST['tax'],
                         "quantity" => $_POST['quantity'],
                         "rekening_no" => $_POST['rekening_no'],
@@ -176,13 +176,13 @@ class Setting extends CI_Controller
                     );
                     $this->goods->update($where_id, $entry_data);
                 }
+                $this->session->set_flashdata("success", "Barang berhasil tersimpan");
             } else {
                 $entry_data = array(
-                    "name" => $_POST['name'],
+                    "brand_description" => $_POST['brand_description'],
                     "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
                     "sku_code" => $_POST['sku_code'],
                     "plu_code" => $_POST['plu_code'],
-                    "hpp" => $_POST['hpp'],
                     "tax" => $_POST['tax'],
                     "quantity" => $_POST['quantity'],
                     "rekening_no" => $_POST['rekening_no'],
@@ -195,26 +195,37 @@ class Setting extends CI_Controller
                     "unit" => $_POST['unit'],
                 );
                 $_POST['id'] = $this->goods->insert($entry_data)->row()->id;
+                $this->session->set_flashdata("success", "Barang berhasil tersimpan");
             }
-            $this->session->set_flashdata("success", "Barang berhasil tersimpan");
 
             redirect(current_url());
         }
 
-        $data['page_title'] = "Master Data Barang";
+        if ($id == "harga") {
+            $data['page_title'] = "Harga Barang";
 
-        // get all m_goods join to references
-        $content['list_barang'] = $this->goods->get_complete()->result();
+            $data['transactional'] = true;
 
-        // get division, subdivision, category, subcategory, package, color for goods
-        $content['division'] = $this->ref->get(array("group_data" => "GOODS_DIVISION"))->result();
-        $content['category'] = $this->ref->get(array("group_data" => "GOODS_CATEGORY"))->result();
-        $content['package'] = $this->ref->get(array("group_data" => "GOODS_PACKAGE"))->result();
-        $content['color'] = $this->ref->get(array("group_data" => "GOODS_COLOR"))->result();
-        $content['unit'] = $this->unit->get_all()->result();
+            $data['page_content'] = $this->load->view("setting/master/barang/harga", '', true);
+            $data['page_js'] = $this->load->view("setting/master/barang/harga_js", "", true);
+        } else {
+            $data['page_title'] = "Master Data Barang";
 
-        $data['page_content'] = $this->load->view("setting/master/barang/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/master/barang/index_js", "", true);
+            // get all m_goods join to references
+            $content['list_barang'] = $this->goods->get_complete()->result();
+
+            // get division, subdivision, category, subcategory, package, color for goods
+            $content['division'] = $this->ref->get(array("group_data" => "GOODS_DIVISION"))->result();
+            $content['sub_division'] = $this->ref->get(array("group_data" => "GOODS_SUB_DIVISION"))->result();
+            $content['category'] = $this->ref->get(array("group_data" => "GOODS_CATEGORY"))->result();
+            $content['sub_category'] = $this->ref->get(array("group_data" => "GOODS_SUB_CATEGORY"))->result();
+            $content['package'] = $this->ref->get(array("group_data" => "GOODS_PACKAGE"))->result();
+            $content['color'] = $this->ref->get(array("group_data" => "GOODS_COLOR"))->result();
+            $content['unit'] = $this->unit->get_all()->result();
+
+            $data['page_content'] = $this->load->view("setting/master/barang/index", $content, true);
+            $data['page_js'] = $this->load->view("setting/master/barang/index_js", "", true);
+        }
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
@@ -298,10 +309,9 @@ class Setting extends CI_Controller
 
     private function customer()
     {
-        $data['page_title'] = "Master Data Customer";
+        $data['page_title'] = "Daftar Customer";
 
         if (count($_POST)) {
-
             if (array_key_exists("id", $_POST)) {
                 $where_id['id'] = $_POST['id'];
                 if (array_key_exists("delete", $_POST)) {
@@ -309,50 +319,48 @@ class Setting extends CI_Controller
                     $this->session->set_flashdata("success", "Partner berhasil terhapus");
                 } else {
                     $entry_data = array(
-                        "master_id" => $_POST['master_id'],
-                        "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
-                        "partner_code" => $_POST['partner_code'],
                         "name" => $_POST['name'],
+                        "email" => $_POST['email'],
+                        "partner_code" => $_POST['partner_code'],
+                        "master_code" => $_POST['master_code'],
+                        "branch_id" => $_POST['branch_id'],
                         "address_1" => $_POST['address_1'],
                         "address_2" => $_POST['address_2'],
-                        "email" => $_POST['email'],
                         "city" => $_POST['city'],
                         "province" => $_POST['province'],
                         "zip_code" => $_POST['zip_code'],
                         "phone" => $_POST['phone'],
                         "fax" => $_POST['fax'],
                         "tax_number" => $_POST['tax_number'],
-                        "salesman" => $_POST['salesman'],
                         "partner_type" => $_POST['partner_type'],
                         "sales_price_level" => $_POST['sales_price_level'],
                         "tax_address" => $_POST['tax_address'],
-                        "is_customer" => isset($_POST['is_customer']) ? 1 : 0,
-                        "is_supplier" => isset($_POST['is_supplier']) ? 1 : 0
+                        "is_customer" => $_POST['is_customer'],
+                        "is_supplier" => $_POST['is_supplier'],
                     );
                     $this->partner->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Partner berhasil tersimpan");
+                    $this->session->set_flashdata("success", "Partner berhasil diperbarui");
                 }
             } else {
                 $entry_data = array(
-                    "master_id" => $_POST['master_id'],
-                    "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
-                    "partner_code" => $_POST['partner_code'],
                     "name" => $_POST['name'],
+                    "email" => $_POST['email'],
+                    "partner_code" => $_POST['partner_code'],
+                    "master_code" => $_POST['master_code'],
+                    "branch_id" => $_POST['branch_id'],
                     "address_1" => $_POST['address_1'],
                     "address_2" => $_POST['address_2'],
-                    "email" => $_POST['email'],
                     "city" => $_POST['city'],
                     "province" => $_POST['province'],
                     "zip_code" => $_POST['zip_code'],
                     "phone" => $_POST['phone'],
                     "fax" => $_POST['fax'],
                     "tax_number" => $_POST['tax_number'],
-                    "salesman" => $_POST['salesman'],
                     "partner_type" => $_POST['partner_type'],
                     "sales_price_level" => $_POST['sales_price_level'],
                     "tax_address" => $_POST['tax_address'],
-                    "is_customer" => isset($_POST['is_customer']) ? 1 : 0,
-                    "is_supplier" => isset($_POST['is_supplier']) ? 1 : 0
+                    "is_customer" => $_POST['is_customer'],
+                    "is_supplier" => $_POST['is_supplier'],
                 );
                 $this->partner->insert($entry_data);
                 $this->session->set_flashdata("success", "Partner berhasil tersimpan");
@@ -360,10 +368,9 @@ class Setting extends CI_Controller
             redirect(current_url());
         }
 
-        $where = "is_customer = 1";
-        $content['m_partner'] = $this->partner->get($where)->result();
         $content['m_master'] = $this->master->get_all()->result();
         $content['m_branch'] = $this->branch->get_all()->result();
+        
         $data['page_content'] = $this->load->view("setting/master/customer/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/customer/index_js", $content, true);
 

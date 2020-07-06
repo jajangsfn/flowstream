@@ -1,1 +1,1 @@
-<button data-dismiss="modal" aria-label="Close" class="btn btn-secondary">Cancel</button>
+<button data-dismiss="modal" aria-label="Close" class="btn btn-secondary">Batalkan</button>

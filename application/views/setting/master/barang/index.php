@@ -3,13 +3,16 @@
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
             <h3 class="card-label">
-                <?= $this->lang->line("general_list_goods"); ?>
+                Daftar Barang
             </h3>
         </div>
         <div class="card-toolbar">
             <!-- Button trigger modal-->
+            <a href="<?= base_url("/index.php/setting/master/barang/harga") ?>" class="btn btn-warning mr-3 font-weight-bolder">
+                <i class="la la-money"></i>Atur Harga Barang
+            </a>
             <button type="button" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#tambahMasterBarangModal">
-                <i class="la la-plus"></i><?= $this->lang->line("general_add"); ?>
+                <i class="la la-plus"></i>Tambah Barang
             </button>
         </div>
     </div>
@@ -18,61 +21,530 @@
         <table class="table table-separate table-head-custom table-checkable" id="master_barang_table">
             <thead>
                 <tr>
-                    <th><?= $this->lang->line("general_number"); ?></th>
-                    <th><?= $this->lang->line("general_name"); ?></th>
-                    <th><?= $this->lang->line("general_barcode"); ?></th>
-                    <th><?= $this->lang->line("general_sku"); ?></th>
-                    <th><?= $this->lang->line("general_plu"); ?></th>
-                    <th><?= $this->lang->line("general_division"); ?></th>
-                    <th><?= $this->lang->line("general_subdivision"); ?></th>
-                    <th><?= $this->lang->line("general_category"); ?></th>
-                    <th><?= $this->lang->line("general_subcategory"); ?></th>
-                    <th><?= $this->lang->line("general_package"); ?></th>
-                    <th><?= $this->lang->line("general_color"); ?></th>
-                    <th><?= $this->lang->line("general_unit"); ?></th>
-                    <th><?= $this->lang->line("general_hpp"); ?></th>
-                    <th><?= $this->lang->line("general_quantity"); ?></th>
-                    <th><?= $this->lang->line("general_tax"); ?></th>
-                    <th><?= $this->lang->line("general_action"); ?></th>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Barcode</th>
+                    <th>SKU</th>
+                    <th>PLU</th>
+                    <th>Divisi</th>
+                    <th>Kategori</th>
+                    <th>Paket</th>
+                    <th>Warna</th>
+                    <th>Unit</th>
+                    <th>HPP</th>
+                    <th>Jumlah</th>
+                    <th>Pajak</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php for ($i = 0; $i < count($list_barang); $i++) {
-                    $barang = $list_barang[$i]; ?>
-                    <tr>
-                        <td><?= $i + 1 ?></td>
-                        <td nowrap="nowrap"><?= $barang->name ?></td>
-                        <td><?= $barang->barcode ?></td>
-                        <td><?= $barang->sku_code ?></td>
-                        <td><?= $barang->plu_code ?></td>
-                        <td><?= $barang->division ?></td>
-                        <td><?= $barang->sub_division ?></td>
-                        <td><?= $barang->category ?></td>
-                        <td><?= $barang->sub_category ?></td>
-                        <td><?= $barang->package ?></td>
-                        <td><?= $barang->color ?></td>
-                        <td><?= $barang->unit ?></td>
-                        <td><?= $barang->hpp ?></td>
-                        <td><?= $barang->quantity ?></td>
-                        <td><?= $barang->tax ?></td>
-                        <td nowrap="nowrap">
-                            <button type="button" class="btn btn-icon btn-sm btn-light-warning" data-toggle="modal" data-target="#edit_harga_<?= $barang->id ?>">
-                                <i class="fa la-money-bill"></i>
-                            </button>
-                            <?= $this->load->view("component/icon_button/edit", array("id" => $barang->id), true); ?>
-                            <?= $this->load->view("component/icon_button/delete", array("id" => $barang->id), true); ?>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
         </table>
         <!--end: Datatable-->
     </div>
 </div>
 <!--end::Card-->
 
-<!-- Modal-->
-<?= $this->load->view("component/modal/barang/tambah_barang", '', true); ?>
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <form action="<?= current_url() ?>" method="POST" class="modal-content">
+            <input type="hidden" name="id" id="id_hapus">
+            <div class="modal-header">
+                <h5 class="modal-title">Konfirmasi Hapus Barang</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="m-0">Anda akan menghapus barang <span id="brand_description_hapus"></span></p>
+                <small class="m-0 text-info">Data yang menggunakan barang ini tidak akan ikut terhapus</small>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" type="button" data-dismiss="modal">Batalkan</button>
+                <button class="btn btn-danger" name="delete" value="delete" type="submit">Konfirmasi</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="tambahMasterBarangModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form class="form card" method="POST" action="<?= current_url() ?>">
+                <h3 class="card-header border-0">
+                    Tambah Barang
+                </h3>
+                <div class="card-body row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "brand_description",
+                                    "type" => "text",
+                                    "required" => true,
+
+                                    "placeholder" => "Nama barang",
+                                    "label" => "Nama barang",
+                                    "help" => "Masukan nama barang",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "barcode",
+                                    "type" => "number",
+                                    "required" => true,
+
+                                    "placeholder" => "Barcode",
+                                    "label" => "Barcode",
+                                    "help" => "Masukan kode barcode untuk barang ini",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "sku_code",
+                                    "type" => "text",
+                                    "required" => true,
+
+                                    "placeholder" => "Kode SKU",
+                                    "label" => "Kode SKU",
+                                    "help" => "Masukan kode SKU untuk barang ini",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "plu_code",
+                                    "type" => "text",
+                                    "required" => false,
+
+                                    "placeholder" => "Kode PLU",
+                                    "label" => "Kode PLU",
+                                    "help" => "Masukan kode PLU untuk abrang ini",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "tax",
+                                    "type" => "number",
+                                    "required" => true,
+
+                                    "placeholder" => "Pajak",
+                                    "label" => "Pajak",
+                                    "help" => "Masukan persen pajak untuk barang ini",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "quantity",
+                                    "type" => "number",
+                                    "required" => true,
+
+                                    "placeholder" => "Jumlah",
+                                    "label" => "Jumlah",
+                                    "help" => "Masukan jumlah awal barang",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+                            <div class="col-md-12">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "rekening_no",
+                                    "type" => "number",
+                                    "required" => true,
+
+                                    "placeholder" => "Masukan nomor akun untuk barang ini",
+                                    "label" => "Nomor Akun",
+                                    "help" => "Masukan nomor rekening",
+
+                                    "value" => "1"
+                                ), true); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "division",
+                                    "title" => "Divisi",
+
+                                    "list" => $division,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Divisi",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "sub_division",
+                                    "title" => "Subdivisi",
+
+                                    "list" => $sub_division,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Divisi",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "category",
+                                    "title" => "Kategori",
+
+                                    "list" => $category,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Kategori",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "sub_category",
+                                    "title" => "Subkategori",
+
+                                    "list" => $sub_category,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Kategori",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "package",
+                                    "title" => "Paket",
+
+                                    "list" => $package,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Paket",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "color",
+                                    "title" => "Warna",
+
+                                    "list" => $color,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Warna",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-md-12">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "unit",
+                                    "title" => "Unit",
+
+                                    "list" => $unit,
+                                    "identifier" => "id",
+                                    "showable" => "name",
+
+                                    "manage_url" => base_url("/index.php/setting/master/unit"),
+                                    "object_name" => "Unit",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <?= $this->load->view("component/button/submit", "", true); ?>
+                    <?= $this->load->view("component/button/close", "", true); ?>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
-<?= $this->load->view("component/modal/barang/ubah_hapus_barang", '', true); ?>
+<div class="modal fade" id="edit_barang" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form class="form card" method="POST" action="<?= current_url() ?>">
+                <input type="hidden" name="id" id="id_barang_edit">
+                <h3 class="card-header border-0">
+                    Ubah Barang
+                </h3>
+                <div class="card-body row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "brand_description",
+                                    "type" => "text",
+                                    "required" => true,
+
+                                    "id" => "brand_description_edit",
+
+                                    "placeholder" => "Nama barang",
+                                    "label" => "Nama barang",
+                                    "help" => "Masukan nama barang",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "barcode",
+                                    "type" => "number",
+                                    "required" => true,
+
+                                    "id" => "barcode_edit",
+
+                                    "placeholder" => "Barcode",
+                                    "label" => "Barcode",
+                                    "help" => "Masukan kode barcode untuk barang ini",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "sku_code",
+                                    "type" => "text",
+                                    "required" => true,
+
+                                    "id" => "sku_edit",
+
+                                    "placeholder" => "Kode SKU",
+                                    "label" => "Kode SKU",
+                                    "help" => "Masukan kode SKU untuk barang ini",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "plu_code",
+                                    "type" => "text",
+                                    "required" => false,
+
+                                    "id" => "plu_edit",
+
+                                    "placeholder" => "Kode PLU",
+                                    "label" => "Kode PLU",
+                                    "help" => "Masukan kode PLU untuk abrang ini",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "tax",
+                                    "type" => "number",
+                                    "required" => true,
+
+                                    "id" => "tax_edit",
+
+                                    "placeholder" => "Pajak",
+                                    "label" => "Pajak",
+                                    "help" => "Masukan persen pajak untuk barang ini",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "quantity",
+                                    "type" => "number",
+                                    "required" => true,
+
+                                    "id" => "quantity_edit",
+
+                                    "placeholder" => "Jumlah",
+                                    "label" => "Jumlah",
+                                    "help" => "Masukan jumlah awal barang",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+                            <div class="col-md-12">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "rekening_no",
+                                    "type" => "number",
+                                    "required" => true,
+
+                                    "id" => "rekening_no_edit",
+
+                                    "placeholder" => "Masukan nomor akun untuk barang ini",
+                                    "label" => "Nomor Akun",
+                                    "help" => "Masukan nomor rekening",
+
+                                    "value" => "1"
+                                ), true); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "division",
+                                    "title" => "Divisi",
+
+                                    "list" => $division,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "id" => "division_edit",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Divisi",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "sub_division",
+                                    "title" => "Subdivisi",
+
+                                    "list" => $sub_division,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "id" => "sub_division_edit",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Divisi",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "category",
+                                    "title" => "Kategori",
+
+                                    "list" => $category,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "id" => "category_edit",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Kategori",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "sub_category",
+                                    "title" => "Subkategori",
+
+                                    "list" => $sub_category,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "id" => "sub_category_edit",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Kategori",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "package",
+                                    "title" => "Paket",
+
+                                    "list" => $package,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "id" => "package_edit",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Paket",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "color",
+                                    "title" => "Warna",
+
+                                    "list" => $color,
+                                    "identifier" => "id",
+                                    "showable" => "detail_data",
+
+                                    "id" => "color_edit",
+
+                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "object_name" => "Warna",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                            <div class="col-md-12">
+                                <?= $this->load->view("component/input/flowstream_select", array(
+                                    "name" => "unit",
+                                    "title" => "Unit",
+
+                                    "list" => $unit,
+                                    "identifier" => "id",
+                                    "showable" => "name",
+
+                                    "id" => "unit_edit",
+
+                                    "manage_url" => base_url("/index.php/setting/master/unit"),
+                                    "object_name" => "Unit",
+
+                                    "selected" => false,
+                                ), true); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <?= $this->load->view("component/button/submit", "", true); ?>
+                    <?= $this->load->view("component/button/close", "", true); ?>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
