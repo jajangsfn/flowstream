@@ -24,25 +24,25 @@
 	</div>
 
 	<div class="col-md-9">
-		<?=$this->session->flashdata('msg');?>
 		<div class="card card-custom">
 			<div class="card-header flex-wrap border-0 pt-6 pb-0">
 				<div class="card-title text-center">
 		            <h3 class="card-label">
-		                Add Purchase Order
+		                Edit Purchase Order
 		            </h3>
 		        </div>
 		    </div>
 
 			<div class="card-body">
 				<form method="post" action="<?=base_url()?>index.php/pembelian" id="form_purchase">
-					<input type="hidden" name="salesman_id" id="salesman_id">
-					<input type="hidden" name="branch_id" id="branch_id">
-					<input type="hidden" name="branch_name" id="branch_name">
-					<input type="hidden" name="partner_name" id="partner_name">
-					<input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=date('Y-m-d')?>">
+					<input type="hidden" name="id" id="po_id" value="<?=($master) ? $master[0]->id : ""?>">
+					<input type="hidden" name="salesman_id" id="salesman_id" value="<?=($master) ? $master[0]->salesman_id : ""?>">
+					<input type="hidden" name="branch_id" id="branch_id" value="<?=($master) ? $master[0]->branch_id : ""?>">
+					<input type="hidden" name="branch_name" id="branch_name" value="<?=($master) ? $master[0]->branch_name : ""?>">
+					<input type="hidden" name="partner_name" id="partner_name" value="<?=($master) ? $master[0]->partner_name : ""?>">
+					<input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=($master) ? $master[0]->purchase_order_date : date('Y-m-d')?>">
 
-				<div class="row">
+					<div class="row">
 					<div class="col-md-1"></div>
 					<label class="col-form-label col-md-2">Supplier</label>
 					<div class="form-group col-md-3">
@@ -50,29 +50,34 @@
 	                        <select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" onchange="show_supplier_detail()">
 	                        	<option value="" selected>Pilih Supplier</option>
 	                        	<?php
-	                        	foreach ($supplier as $key => $val) { ?>
+	                        	foreach ($supplier as $key => $val) {
+	                        		if ($master && $master[0]->partner_id == $val->id){
+	                        		 ?>
+	                        		<option value="<?=$val->id?>" selected><?=$val->name?></option>
+	                        	<?php }else { ?>
 	                        		<option value="<?=$val->id?>"><?=$val->name?></option>
 	                        	<?php }
+	                        	}
 	                        	?>
 	                        </select>
 	                    </div>
 					</div>
 					<label class="col-form-label col-md-2 text-right">No Purchase Order</label>
-					<input type="text" name="purchase_order_no" class="form-control col-md-3" readonly value="<?=$po_no?>">
+					<input type="text" name="purchase_order_no" class="form-control col-md-3" readonly value="<?=($master) ? $master[0]->purchase_order_no : $po_no?>">
 				</div>
 				<div class="row mb-5">
 					<div class="col-md-1"></div>
 					<label class="col-form-label col-md-2">Salesman</label>
 					<input type="text" name="salesman" class="col-md-3 form-control" id="partner_salesman" readonly>
 					<label class="col-form-label col-md-2 text-right">No Referensi</label>
-					<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=$po_no?>">
+					<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=($master) ? $master[0]->reference_no : ""?>">
 					
 				</div>
 
 				<div class="row mb-5">
 					<div class="col-md-1"></div>
 					<label class="col-form-label col-md-2">Deskripsi</label>
-					<textarea name="description" class="form-control col-md-3"></textarea>
+					<textarea name="description" class="form-control col-md-3"><?=($master) ? $master[0]->description : ""?></textarea>
 				</div>
 
 				<hr>
@@ -104,13 +109,9 @@
 						<tfoot>
 							<tr>
 								<td colspan="9" class="text-center">
-									<button type='button' class="btn btn-light-success btn-md" id="btn_save_purchase">
+									<button type='button' class="btn btn-success btn-xs" id="btn_save_purchase">
 										<span class="fa fa-save"></span>
-										Save
 									</button>
-									<a href="<?=base_url()?>index.php/pembelian" class="btn btn-light-danger btn-md">
-									<span class="fa la-arrow-left"></span> Cancel
-								</a>
 								</td>
 							</tr>
 						</tfoot>
