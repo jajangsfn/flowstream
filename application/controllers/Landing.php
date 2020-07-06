@@ -51,7 +51,7 @@ class Landing extends CI_Controller
 			"username" => $_POST['username'],
 			"password" => md5($_POST['password'])
 		);
-
+ 
 		// check if login data match in database
 		$user_query = $this->user_m->get($login_data);
 		if ($user_query->num_rows()) {
@@ -63,6 +63,8 @@ class Landing extends CI_Controller
 					"name" => $user_query->row()->name,
 					"email" => $user_query->row()->email,
 					"id" => $user_query->row()->id,
+					"branch_id" => $user_query->row()->branch_id,
+					"branch_name" => $user_query->row()->branch_name,
 				)
 			);
 		} else {

@@ -90,7 +90,7 @@ class Setting extends CI_Controller
                     $this->branch->delete($where_id);
                     $this->session->set_flashdata("success", "Branch berhasil terhapus");
                 } else {
-                    $entry_data = array(
+                    $entry_data = array( 
                         "name" => $_POST['name'],
                         "owner" => $_POST['owner'],
                         "address" => $_POST['address'],
