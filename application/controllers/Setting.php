@@ -309,10 +309,9 @@ class Setting extends CI_Controller
 
     private function customer()
     {
-        $data['page_title'] = "Master Data Customer";
+        $data['page_title'] = "Daftar Customer";
 
         if (count($_POST)) {
-
             if (array_key_exists("id", $_POST)) {
                 $where_id['id'] = $_POST['id'];
                 if (array_key_exists("delete", $_POST)) {
@@ -320,50 +319,48 @@ class Setting extends CI_Controller
                     $this->session->set_flashdata("success", "Partner berhasil terhapus");
                 } else {
                     $entry_data = array(
-                        "master_id" => $_POST['master_id'],
-                        "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
-                        "partner_code" => $_POST['partner_code'],
                         "name" => $_POST['name'],
+                        "email" => $_POST['email'],
+                        "partner_code" => $_POST['partner_code'],
+                        "master_code" => $_POST['master_code'],
+                        "branch_id" => $_POST['branch_id'],
                         "address_1" => $_POST['address_1'],
                         "address_2" => $_POST['address_2'],
-                        "email" => $_POST['email'],
                         "city" => $_POST['city'],
                         "province" => $_POST['province'],
                         "zip_code" => $_POST['zip_code'],
                         "phone" => $_POST['phone'],
                         "fax" => $_POST['fax'],
                         "tax_number" => $_POST['tax_number'],
-                        "salesman" => $_POST['salesman'],
                         "partner_type" => $_POST['partner_type'],
                         "sales_price_level" => $_POST['sales_price_level'],
                         "tax_address" => $_POST['tax_address'],
-                        "is_customer" => isset($_POST['is_customer']) ? 1 : 0,
-                        "is_supplier" => isset($_POST['is_supplier']) ? 1 : 0
+                        "is_customer" => $_POST['is_customer'],
+                        "is_supplier" => $_POST['is_supplier'],
                     );
                     $this->partner->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Partner berhasil tersimpan");
+                    $this->session->set_flashdata("success", "Partner berhasil diperbarui");
                 }
             } else {
                 $entry_data = array(
-                    "master_id" => $_POST['master_id'],
-                    "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
-                    "partner_code" => $_POST['partner_code'],
                     "name" => $_POST['name'],
+                    "email" => $_POST['email'],
+                    "partner_code" => $_POST['partner_code'],
+                    "master_code" => $_POST['master_code'],
+                    "branch_id" => $_POST['branch_id'],
                     "address_1" => $_POST['address_1'],
                     "address_2" => $_POST['address_2'],
-                    "email" => $_POST['email'],
                     "city" => $_POST['city'],
                     "province" => $_POST['province'],
                     "zip_code" => $_POST['zip_code'],
                     "phone" => $_POST['phone'],
                     "fax" => $_POST['fax'],
                     "tax_number" => $_POST['tax_number'],
-                    "salesman" => $_POST['salesman'],
                     "partner_type" => $_POST['partner_type'],
                     "sales_price_level" => $_POST['sales_price_level'],
                     "tax_address" => $_POST['tax_address'],
-                    "is_customer" => isset($_POST['is_customer']) ? 1 : 0,
-                    "is_supplier" => isset($_POST['is_supplier']) ? 1 : 0
+                    "is_customer" => $_POST['is_customer'],
+                    "is_supplier" => $_POST['is_supplier'],
                 );
                 $this->partner->insert($entry_data);
                 $this->session->set_flashdata("success", "Partner berhasil tersimpan");
@@ -371,10 +368,9 @@ class Setting extends CI_Controller
             redirect(current_url());
         }
 
-        $where = "is_customer = 1";
-        $content['m_partner'] = $this->partner->get($where)->result();
         $content['m_master'] = $this->master->get_all()->result();
         $content['m_branch'] = $this->branch->get_all()->result();
+        
         $data['page_content'] = $this->load->view("setting/master/customer/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/customer/index_js", $content, true);
 

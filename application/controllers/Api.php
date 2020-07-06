@@ -72,4 +72,11 @@ class Api extends CI_Controller
             );
         }
     }
+
+    public function customer()
+    {
+        $data_query = $this->partner->get_customer()->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
 }

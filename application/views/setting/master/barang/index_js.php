@@ -140,7 +140,6 @@
         $("#barcode_edit").val(barcode)
         $("#sku_edit").val(sku_code)
         $("#plu_edit").val(plu_code)
-        console.log("unit " + unit);
         $("#division_edit").val(division)
         $("#sub_division_edit").val(sub_division)
         $("#category_edit").val(category)
