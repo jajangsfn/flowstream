@@ -7,11 +7,6 @@ class Api extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('login') == null) {
-            redirect(
-                base_url()
-            );
-        }
         header('Content-Type: application/json');
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
@@ -27,6 +22,63 @@ class Api extends CI_Controller
                 "m_goods_model" => "goods",
             )
         );
+    }
+
+    public function register()
+    {
+        $signup_data = array(
+            "email" => $_POST['email'],
+            "user_id" => $_POST['username'],
+            "password" => md5($_POST['password'])
+        );
+
+        // insert to database
+        $user_query = $this->user_m->insert($signup_data);
+
+        // do login
+        $this->session->set_userdata(
+            array(
+                "login" => true,
+                "username" => $_POST['username'],
+                "name" => $user_query->row()->name,
+                "email" => $user_query->row()->email,
+                "id" => $user_query->row()->id,
+                "branch_id" => $user_query->row()->branch_id,
+                "branch_name" => $user_query->row()->branch_name,
+            )
+        );
+
+        // report last login
+        $this->user_m->login(array("id" => $user_query->row()->id));
+        redirect(base_url());
+    }
+
+    public function login()
+    {
+        $login_data = array(
+            "m_user.user_id" => $_POST['username'],
+            "password" => md5($_POST['password'])
+        );
+
+        // check if login data match in database
+        $user_query = $this->user_m->get($login_data);
+        if ($user_query->num_rows()) {
+            // do login
+            $this->session->set_userdata(
+                array(
+                    "login" => true,
+                    "username" => $_POST['username'],
+                    "name" => $user_query->row()->name,
+                    "email" => $user_query->row()->email,
+                    "id" => $user_query->row()->id,
+                    "branch_id" => $user_query->row()->branch_id,
+                    "branch_name" => $user_query->row()->branch_name,
+                )
+            );
+        } else {
+            $this->session->set_flashdata('error', 'Username and password did not match');
+        }
+        redirect(base_url());
     }
 
     public function get_barang($id)

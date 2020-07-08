@@ -75,7 +75,7 @@
                         </div>
                         <!--end::Symbol-->
                         <!--begin::Text-->
-                        <div class="text-dark m-0 flex-grow-1 mr-3 font-size-h5"><?= $this->session->name; ?></div>
+                        <div class="text-dark m-0 flex-grow-1 mr-3 font-size-h5"><?= $this->session->username; ?></div>
                         <!--end::Text-->
                     </div>
                     <div class="separator separator-solid"></div>
