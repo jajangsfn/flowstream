@@ -35,6 +35,6 @@ class User_Model extends CI_Model
 
     function login($where)
     {
-        $this->db->update("m_user", $where, array("last_login" => date("Y m d h:i:s")));
+        $this->db->update("m_user", array("last_login" => date("Y-m-d h:i:s")), $where);
     }
 }

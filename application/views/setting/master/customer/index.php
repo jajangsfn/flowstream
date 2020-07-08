@@ -13,7 +13,7 @@
     </div>
     <div class="card-body">
         <!--begin: Datatable-->
-        <table class="table table-separate table-head-custom table-checkable" id="m_partner_table">
+        <table class="table table-separate table-head-custom table-checkable" id="customer_table">
             <thead>
                 <tr>
                     <th width="1">No</th>
@@ -43,9 +43,9 @@
 
 <div class="modal fade" id="tambah_customer" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <form action="<?= current_url() ?>" method="POST" class="modal-content">
+        <form action="<?= base_url("/index.php/api/add_customer") ?>" method="POST" class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Partner</h5>
+                <h5 class="modal-title">Tambah Customer</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -57,9 +57,9 @@
                         "type" => "text",
                         "required" => true,
 
-                        "placeholder" => "Nama Partner",
-                        "label" => "Nama Partner",
-                        "help" => "Masukan Nama Partner",
+                        "placeholder" => "Nama Customer",
+                        "label" => "Nama Customer",
+                        "help" => "Masukan Nama Customer",
 
                         "value" => false
                     ), true); ?>
@@ -72,7 +72,7 @@
 
                         "placeholder" => "Email",
                         "label" => "Email",
-                        "help" => "Masukan Email Partner",
+                        "help" => "Masukan Email Customer",
 
                         "value" => false
                     ), true); ?>
@@ -83,9 +83,9 @@
                         "type" => "text",
                         "required" => true,
 
-                        "placeholder" => "Kode Partner",
-                        "label" => "Kode Partner",
-                        "help" => "Masukan Kode Partner",
+                        "placeholder" => "Kode Customer",
+                        "label" => "Kode Customer",
+                        "help" => "Masukan Kode Customer",
 
                         "value" => false
                     ), true); ?>
@@ -273,12 +273,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="edit_m_partner" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="edit_customer" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <form action="<?= current_url() ?>" method="POST" class="modal-content">
+        <form action="<?= base_url("/index.php/api/edit_customer") ?>" method="POST" class="modal-content">
             <input type="hidden" name="id" id="id_edit">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Partner</h5>
+                <h5 class="modal-title">Edit Customer</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -292,9 +292,9 @@
 
                         "id" => "name_edit",
 
-                        "placeholder" => "Nama Partner",
-                        "label" => "Nama Partner",
-                        "help" => "Masukan Nama Partner",
+                        "placeholder" => "Nama Customer",
+                        "label" => "Nama Customer",
+                        "help" => "Masukan Nama Customer",
 
                         "value" => false
                     ), true); ?>
@@ -309,7 +309,7 @@
 
                         "placeholder" => "Email",
                         "label" => "Email",
-                        "help" => "Masukan Email Partner",
+                        "help" => "Masukan Email Customer",
 
                         "value" => false
                     ), true); ?>
@@ -528,8 +528,6 @@
                         "value" => false
                     ), true); ?>
                 </div>
-                <input type="hidden" name="is_customer" value="1">
-                <input type="hidden" name="is_supplier" value="0">
             </div>
             <div class="modal-footer">
                 <?= $this->load->view("component/button/submit", "", true); ?>
@@ -540,7 +538,7 @@
 
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <form action="<?= current_url() ?>" method="POST" class="modal-content">
+        <form action="<?= base_url("/index.php/api/delete_customer") ?>" method="POST" class="modal-content">
             <input type="hidden" name="id" id="id_delete">
             <div class="modal-header">
                 <h5 class="modal-title">Konfirmasi Hapus Customer</h5>

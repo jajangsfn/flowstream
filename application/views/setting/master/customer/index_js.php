@@ -1,6 +1,6 @@
 <script>
     $(document).ready(() => {
-        $("#m_partner_table").DataTable({
+        $("#customer_table").DataTable({
             responsive: true,
             paging_type: 'full_numbers',
             ajax: "<?= base_url("/index.php/api/customer") ?>",
@@ -145,7 +145,7 @@
         $("#tax_address_edit").val(tax_address);
 
         $('.select2').trigger('change');
-        $("#edit_m_partner").modal('show');
+        $("#edit_customer").modal('show');
     }
 
     function delete_trigger(id, name, code) {
