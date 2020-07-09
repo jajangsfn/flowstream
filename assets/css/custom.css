@@ -10,3 +10,8 @@
 .table tbody tr td{
 	font-size: 10px;
 }
+
+label.required::after {
+	content: " *";
+	color: red;
+}

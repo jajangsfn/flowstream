@@ -24,7 +24,7 @@ class M_partner_model extends CI_Model
         return $this->db->query(
             "SELECT p.*, 
             b.name as branch, 
-            m.name as master,
+            m.name as master
             FROM m_partner p
             LEFT JOIN m_branch b on b.id = p.branch_id
             LEFT JOIN m_master m on m.code = p.master_code

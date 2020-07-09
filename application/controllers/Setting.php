@@ -22,6 +22,7 @@ class Setting extends CI_Controller
                 "M_branch_model" => "branch",
                 "M_master_model" => "master",
                 "M_partner_model" => "partner",
+                "M_partner_type_model" => "partner_type",
                 "M_salesman_model" => "salesman",
                 "M_salesman_map_model" => "salesman_map",
                 "M_map_model" => "map",
@@ -253,6 +254,7 @@ class Setting extends CI_Controller
 
         $content['m_master'] = $this->master->get_all()->result();
         $content['m_branch'] = $this->branch->get_all()->result();
+        $content['m_partner_type'] = $this->partner_type->get_all()->result();
 
         $data['page_content'] = $this->load->view("setting/master/customer/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/customer/index_js", $content, true);

@@ -225,16 +225,18 @@
                     ), true); ?>
                 </div>
                 <div class="col-md-6">
-                    <?= $this->load->view("component/input/flowstream_input", array(
+                    <?= $this->load->view("component/input/flowstream_select", array(
                         "name" => "partner_type",
-                        "type" => "text",
-                        "required" => true,
+                        "title" => "Tipe Partner",
 
-                        "placeholder" => "Tipe Partner",
-                        "label" => "Tipe Partner",
-                        "help" => "Masukan Tipe Partner",
+                        "list" => $m_partner_type,
+                        "identifier" => "type",
+                        "showable" => "type",
 
-                        "value" => false
+                        "manage_url" => base_url("/index.php/setting/master/cabang"),
+                        "object_name" => "Not Implemented",
+
+                        "selected" => false,
                     ), true); ?>
                 </div>
                 <div class="col-md-6">
@@ -484,18 +486,20 @@
                     ), true); ?>
                 </div>
                 <div class="col-md-6">
-                    <?= $this->load->view("component/input/flowstream_input", array(
+                    <?= $this->load->view("component/input/flowstream_select", array(
                         "name" => "partner_type",
-                        "type" => "text",
-                        "required" => true,
+                        "title" => "Tipe Partner",
+
+                        "list" => $m_partner_type,
+                        "identifier" => "type",
+                        "showable" => "type",
 
                         "id" => "partner_type_edit",
 
-                        "placeholder" => "Tipe Partner",
-                        "label" => "Tipe Partner",
-                        "help" => "Masukan Tipe Partner",
+                        "manage_url" => base_url("/index.php/setting/master/cabang"),
+                        "object_name" => "Not Implemented",
 
-                        "value" => false
+                        "selected" => false,
                     ), true); ?>
                 </div>
                 <div class="col-md-6">
