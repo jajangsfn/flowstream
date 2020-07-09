@@ -22,6 +22,7 @@ class Setting extends CI_Controller
                 "M_branch_model" => "branch",
                 "M_master_model" => "master",
                 "M_partner_model" => "partner",
+                "M_partner_type_model" => "partner_type",
                 "M_salesman_model" => "salesman",
                 "M_salesman_map_model" => "salesman_map",
                 "M_map_model" => "map",
