@@ -73,56 +73,6 @@ class Setting extends CI_Controller
 
     private function barang($id = '', $next_path = '')
     {
-        if (count($_POST)) {
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->goods->delete($where_id);
-                    $this->session->set_flashdata("success", "Barang berhasil dihapus");
-                } else {
-                    $entry_data = array(
-                        "brand_description" => $_POST['brand_description'],
-                        "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
-                        "sku_code" => $_POST['sku_code'],
-                        "plu_code" => isset($_POST['plu_code']) ? $_POST['plu_code'] : null,
-                        "tax" => $_POST['tax'],
-                        "quantity" => $_POST['quantity'],
-                        "rekening_no" => $_POST['rekening_no'],
-                        "division" => $_POST['division'],
-                        "sub_division" => $_POST['sub_division'],
-                        "category" => $_POST['category'],
-                        "sub_category" => $_POST['sub_category'],
-                        "package" => $_POST['package'],
-                        "color" => $_POST['color'],
-                        "unit" => $_POST['unit'],
-                    );
-                    $this->goods->update($where_id, $entry_data);
-                }
-                $this->session->set_flashdata("success", "Barang berhasil tersimpan");
-            } else {
-                $entry_data = array(
-                    "brand_description" => $_POST['brand_description'],
-                    "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
-                    "sku_code" => $_POST['sku_code'],
-                    "plu_code" => $_POST['plu_code'],
-                    "tax" => $_POST['tax'],
-                    "quantity" => $_POST['quantity'],
-                    "rekening_no" => $_POST['rekening_no'],
-                    "division" => $_POST['division'],
-                    "sub_division" => $_POST['sub_division'],
-                    "category" => $_POST['category'],
-                    "sub_category" => $_POST['sub_category'],
-                    "package" => $_POST['package'],
-                    "color" => $_POST['color'],
-                    "unit" => $_POST['unit'],
-                );
-                $_POST['id'] = $this->goods->insert($entry_data)->row()->id;
-                $this->session->set_flashdata("success", "Barang berhasil tersimpan");
-            }
-
-            redirect(current_url());
-        }
-
         if ($id == "harga") {
             $data['page_title'] = "Harga Barang";
 
@@ -148,9 +98,7 @@ class Setting extends CI_Controller
             $data['page_content'] = $this->load->view("setting/master/barang/index", $content, true);
             $data['page_js'] = $this->load->view("setting/master/barang/index_js", "", true);
         }
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function supplier()
@@ -274,7 +222,7 @@ class Setting extends CI_Controller
             redirect(current_url());
         }
 
-        $data['page_title'] = "Setting > Master > Daftar Unit";
+        $data['page_title'] = "Daftar Unit";
         $content['m_unit'] = $this->unit->get_all()->result();
         $data['page_content'] = $this->load->view("setting/master/unit/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/unit/index_js", $content, true);

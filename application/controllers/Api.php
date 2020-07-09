@@ -100,6 +100,61 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
+    public function add_barang()
+    {
+        $entry_data = array(
+            "brand_description" => $_POST['brand_description'],
+            "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
+            "sku_code" => $_POST['sku_code'],
+            "plu_code" => $_POST['plu_code'],
+            "tax" => $_POST['tax'],
+            "quantity" => $_POST['quantity'],
+            "rekening_no" => $_POST['rekening_no'],
+            "division" => $_POST['division'],
+            "sub_division" => $_POST['sub_division'],
+            "category" => $_POST['category'],
+            "sub_category" => $_POST['sub_category'],
+            "package" => $_POST['package'],
+            "color" => $_POST['color'],
+            "unit" => $_POST['unit'],
+        );
+        $_POST['id'] = $this->goods->insert($entry_data)->row()->id;
+        $this->session->set_flashdata("success", "Barang berhasil tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function edit_barang()
+    {
+        $where_id['id'] = $_POST['id'];
+        $entry_data = array(
+            "brand_description" => $_POST['brand_description'],
+            "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
+            "sku_code" => $_POST['sku_code'],
+            "plu_code" => isset($_POST['plu_code']) ? $_POST['plu_code'] : null,
+            "tax" => $_POST['tax'],
+            "quantity" => $_POST['quantity'],
+            "rekening_no" => $_POST['rekening_no'],
+            "division" => $_POST['division'],
+            "sub_division" => $_POST['sub_division'],
+            "category" => $_POST['category'],
+            "sub_category" => $_POST['sub_category'],
+            "package" => $_POST['package'],
+            "color" => $_POST['color'],
+            "unit" => $_POST['unit'],
+        );
+        $this->goods->update($where_id, $entry_data);
+        $this->session->set_flashdata("success", "Barang berhasil tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_barang()
+    {
+        $where_id['id'] = $_POST['id'];
+        $this->goods->delete($where_id);
+        $this->session->set_flashdata("success", "Barang berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     public function ubah_harga_barang()
     {
         if ($_POST['price_index'] == 0) {
