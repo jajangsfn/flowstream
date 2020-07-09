@@ -38,28 +38,26 @@
         </div>
     </div>
 </div>
-<?php foreach ($goods as $good) : ?>
-    <div class="modal fade" id="tambah_baru_<?= $good->id ?>" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Tambah <?= $good->name ?></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i aria-hidden="true" class="ki ki-close"></i>
-                    </button>
+<div class="modal fade" id="tambah_barang" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah <span id="nama_barang_tambah"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="jumlah_tambah_baru">Jumlah <span id="desk_barang_tambah"></label>
+                    <input type="number" id="jumlah_tambah_baru" class="form-control" value="1" min="1">
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="jumlah_tambah_baru_<?= $good->id ?>">Jumlah <?= $good->name ?></label>
-                        <input type="number" id="jumlah_tambah_baru_<?= $good->id ?>" class="form-control" value="1" min="1">
-                    </div>
-                    <div class="text-right">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="tambah_barang(<?= $good->id ?>)">
-                            Tambah
-                        </button>
-                    </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="tombol_tambah_baru" onclick="tambah_barang(this)">
+                        Tambah
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-<?php endforeach ?>
+</div>
