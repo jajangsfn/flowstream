@@ -64,19 +64,14 @@
                     data: 'tax_number'
                 },
                 {
-                    data: 'salesman_name',
+                    data: 'salesman_total',
                     responsivePriority: 1,
                     render: function(data, type, row, meta) {
                         return `
                         <div class="d-flex justify-content-center align-items-center">
-                            ${data}
-                            <button type="button" class="ml-2 btn btn-icon btn-sm btn-light-warning" onclick="edit_salesman(
-                                '${row.salesman_id}',
-                                '${row.salesman_name}',
-                                '${row.salesman_phone}',
-                            )">
-                                <i class="flaticon2-user"></i>
-                            </button>
+                            <a href="<?= base_url("/index.php/setting/master/supplier/") ?>${row.id}/salesman" class="btn btn-sm btn-light-warning">
+                            ${data} <i class="flaticon2-user px-0 mx-0"></i>
+                            </a>
                         </div>
                         `;
                     }
@@ -169,15 +164,5 @@
         $("#code_delete").text(code);
 
         $("#delete_modal").modal('show');
-    }
-
-    function edit_salesman(id, name, phone) {
-        $("#id_salesman").val(id);
-        $("#name_salesman").val(name);
-        if (phone !== "null") {
-            $("#phone_salesman").val(phone);
-        }
-
-        $("#salesman_modal").modal('show');
     }
 </script>

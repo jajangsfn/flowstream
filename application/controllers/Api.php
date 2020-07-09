@@ -222,7 +222,7 @@ class Api extends CI_Controller
 
         // done
         $this->session->set_flashdata("success", "Supplier berhasil tersimpan");
-        redirect($_SERVER['HTTP_REFERER']);
+        // redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function edit_supplier()
@@ -331,14 +331,30 @@ class Api extends CI_Controller
     }
 
     // Salesman
+
+    public function add_salesman()
+    {
+        $this->part_salesman->insert($_POST);
+        $this->session->set_flashdata("success", "Salesman berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     public function edit_salesman()
     {
         $where['id'] = $_POST['id'];
         $data['name'] = $_POST['name'];
         $data['phone'] = $_POST['phone'];
+        $data['updated_date'] = date("Y-m-d H:i:s");
 
         $this->part_salesman->update($where, $data);
         $this->session->set_flashdata("success", "Data salesman berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+    
+    public function delete_salesman()
+    {
+        $this->part_salesman->delete(array("id" => $_POST['id']));
+        $this->session->set_flashdata("success", "Salesman telah dihapus");
         redirect($_SERVER['HTTP_REFERER']);
     }
 

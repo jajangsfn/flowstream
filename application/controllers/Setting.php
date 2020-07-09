@@ -22,6 +22,7 @@ class Setting extends CI_Controller
                 "M_branch_model" => "branch",
                 "M_master_model" => "master",
                 "M_partner_model" => "partner",
+                "M_partner_salesman_model" => "part_salesman",
                 "M_partner_type_model" => "partner_type",
                 "M_salesman_model" => "salesman",
                 "M_salesman_map_model" => "salesman_map",
@@ -102,16 +103,37 @@ class Setting extends CI_Controller
         return $data;
     }
 
-    private function supplier()
+    private function supplier($id = '', $next_path = '')
     {
-        $data['page_title'] = "Daftar Supplier";
+        if ($next_path == "salesman") {
+            $content['data_supplier'] = $this->partner->get(
+                array(
+                    "id" => $id,
+                )
+            )->row();
+            $content['data_salesman'] = $this->part_salesman->get(
+                array(
+                    "partner_id" => $id,
+                    "flag <> " => "99"
+                )
+            )->result();
+            $data['page_title'] = "Salesman " . $content['data_supplier']->name;
 
-        $content['m_master'] = $this->master->get_all()->result();
-        $content['m_branch'] = $this->branch->get_all()->result();
+            $data['transactional'] = true;
 
-        $data['page_content'] = $this->load->view("setting/master/supplier/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/master/supplier/index_js", $content, true);
-        $data['transactional'] = true;
+            $data['page_content'] = $this->load->view("setting/master/supplier/salesman", $content, true);
+            $data['page_js'] = $this->load->view("setting/master/supplier/salesman_js", "", true);
+        } else {
+            $data['page_title'] = "Daftar Supplier";
+
+            $content['m_master'] = $this->master->get_all()->result();
+            $content['m_branch'] = $this->branch->get_all()->result();
+
+            $data['page_content'] = $this->load->view("setting/master/supplier/index", $content, true);
+            $data['page_js'] = $this->load->view("setting/master/supplier/index_js", $content, true);
+            $data['transactional'] = true;
+        }
+
 
         return $data;
     }
