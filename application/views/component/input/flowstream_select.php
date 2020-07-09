@@ -1,6 +1,6 @@
 <div class="form-group w-100">
-    <label><?= $title ?></label>
-    <select class="form-control select2" name="<?= $name ?>" <?= isset($id) ? "id='$id'" : "" ?>>
+    <label class="required"><?= $title ?></label>
+    <select class="form-control select2" name="<?= $name ?>" <?= isset($id) ? "id='$id'" : "" ?> required>
         <?php if (isset($selected) && $selected) { ?>
 
             <?php $found = false; ?>

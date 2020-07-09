@@ -22,25 +22,15 @@
                             <h3>Create a new Account</h3>
                             <div class="text-muted font-weight-bold">Enter your details:</div>
                         </div>
-                        <form class="form" action="<?= base_url("/index.php/landing/do_register") ?>" method="POST">
+                        <form class="form" action="<?= base_url("/index.php/api/register") ?>" method="POST">
                             <div class="form-group mb-5">
-                                <input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Full Name" name="fullname" required />
-                            </div>
-                            <div class="form-group mb-5">
-                                <input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Email" name="email" autocomplete="off" required />
+                                <input class="form-control h-auto form-control-solid py-4 px-8" type="email" placeholder="Email" name="email" autocomplete="off" required />
                             </div>
                             <div class="form-group mb-5">
                                 <input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Username" name="username" autocomplete="off" required />
                             </div>
                             <div class="form-group mb-5">
                                 <input class="form-control h-auto form-control-solid py-4 px-8" type="password" placeholder="Password" name="password" required />
-                            </div>
-                            <div class="form-group mb-5 text-left">
-                                <label class="checkbox m-0">
-                                    <input type="checkbox" name="agree" required />I Agree the
-                                    <a href="#" class="font-weight-bold">terms and conditions</a>.
-                                    <span></span></label>
-                                <div class="form-text text-muted text-center"></div>
                             </div>
                             <div class="form-group d-flex flex-wrap flex-center mt-10">
                                 <button type="submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-2">Sign Up</button>
