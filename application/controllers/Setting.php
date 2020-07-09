@@ -413,6 +413,10 @@ class Setting extends CI_Controller
                     "width" => $_POST['width'],
                     "capacity" => $_POST['capacity'],
                     "description" => $_POST['description'],
+                    "flag" => 1,
+                    "created_date" => date('Y-m-d H:i:s'),
+                    "updated_date" => date('Y-m-d H:i:s'),
+                    "created_by" => $this->session->userdata('id'),
                 );
                 $this->warehouse->insert($entry_data);
                 $this->session->set_flashdata("success", "Warehouse berhasil tersimpan");

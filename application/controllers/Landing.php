@@ -48,7 +48,7 @@ class Landing extends CI_Controller
 	public function do_login()
 	{
 		$login_data = array(
-			"user_id" => $_POST['username'],
+			"username" => $_POST['username'],
 			"password" => md5($_POST['password'])
 		);
  
@@ -69,7 +69,8 @@ class Landing extends CI_Controller
 			);
 		} else {
 			$this->session->set_flashdata('error', 'Username and password did not match');
-		}
+		} 
+
 		redirect(base_url());
 	}
 
