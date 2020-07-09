@@ -17,11 +17,13 @@ class Inventori extends CI_Controller
             array(
                 "user_model" => "user_m",
                 "M_partner_model"=>"partner",
-                "M_warehouse_model"=>"warehouse",
+                "M_warehouse_model"=>"m_ws",
+                "M_goods_model"=>"goods",
                 "Purchase_order_model" => "po",
                 "Receiving_model" => "rm",
                 "Receiving_detail_model" => "rdm",
                 "S_history_model" => "history",
+                "Warehouse_model" => "t_ws",
             )
         );
         $this->lang->load('menu_lang', 'indonesian');
@@ -139,7 +141,7 @@ class Inventori extends CI_Controller
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_receive_no();
         $data['master']       = null;
-        $data['warehouse']    = $this->warehouse->get("flag<>99")->result();
+        $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
         
         $data['page_content'] = $this->load->view("inventori/receiving/add_receiving", $data ,true);
 
@@ -157,7 +159,7 @@ class Inventori extends CI_Controller
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_receive_no();
         $data['master']       = $this->rm->get_all_receive(array("tab1.id"=>$rv_id),array("tab2.id"))->result(); 
-        $data['warehouse']    = $this->warehouse->get("flag<>99")->result();
+        $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
         $data['page_content'] = $this->load->view("inventori/receiving/edit_receiving", $data ,true);
 
         $this->load->view('layout/head');
@@ -176,27 +178,29 @@ class Inventori extends CI_Controller
             return json_encode($data);
         }
 
-        return $data->result();
+        return $data->result(); 
     }
-
+ 
     public function get_po_list($type = 1)
     {
 
         if ( $type == 1 ) {
-            $where['tab4.id']   = $this->input->get('supplier_id');
-            $where['tab1.flag'] = 2;
-            $group              = array("tab1.id");
-            $data               = $this->po->get_all_trx($where,$group)->result();
+            // $where['tab4.id']   = $this->input->get('supplier_id');
+            // $where['tab1.flag'] = 2;
+            $where              = "tab4.id=". $this->input->get('supplier_id');
+            $data               = $this->rm->get_goods_receive($where)->result();
+
         } elseif ( $type == 2 ) {
 
-            $where['tab1.id']   = $this->input->get('po_id');
-            $group              = array("tab5.id");
-            $data               = $this->po->get_all_trx($where,$group)->result();
+            $where             = "tab1.id =".$this->input->get('po_id');
+            $data               = $this->rm->get_goods_receive($where)->result();
 
         } elseif ( $type == 3 ) {
 
-            $pod_id             = $this->input->get('po_detail_id');
-            $data               = $this->rm->get_goods_receive($pod_id)->result();
+           $where               = "tab2.id =".$this->input->get('po_detail_id');
+            
+            $data               = $this->rm->get_goods_receive($where)->result();
+
         }
 
         echo json_encode($data);
@@ -225,13 +229,164 @@ class Inventori extends CI_Controller
 
     public function gudang()
     {
+
+         if ( count($_POST) ) {
+
+            $id_user           = $this->session->userdata('id');
+            $name              = $this->session->userdata('name');
+            $branch_id         = $this->session->userdata('branch_id');
+            $branch_name         = $this->session->userdata('branch_name');
+
+            if (array_key_exists("id", $_POST) ) {
+                $id = $_POST['id'];
+                $ws = array(
+                            "branch_id" => $this->session->userdata('branch_id'),
+                            "reference_no" => $_POST['ref_no'],
+                            "physical_warehouse_no" => $_POST['trans_no'],
+                            "previous_warehouse" => $_POST['prev_ws'],
+                            "actual_warehouse" => $_POST['act_ws'],
+                            "updated_by" => $this->session->userdata('id'),
+                            "updated_date" => date('Y-m-d H:i:s'),
+                            );
+                // echo json_encode($_POST);exit;
+                // update t_pyhsical_warehouse
+                $ws_id  = $this->t_ws->update($id,$ws)->row()->id;
+                // delete warehouse detail
+                $this->t_ws->delete_detail($ws_id);
+                // insert warehouse detail
+                $this->t_ws->insert_detail($ws_id, $_POST);
+
+                 // insert hitory activity
+                $history_data  = array("branch_id" => $branch_id,
+                                "branch_name" => $branch_name,
+                                "created_by" => $id_user,
+                                "created_name" => $name,
+                                "activity"  => "Memperbaharui Transaksi Pemindahan Barang di Gudang",
+                                "created_date" => date('Y-m-d H:i:s'),
+                               );
+
+                $this->history->insert($history_data);
+
+                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Data Barang berhasil diperbaharui</div>');
+
+
+            } else {
+
+                $ws = array(
+                            "branch_id" => $this->session->userdata('branch_id'),
+                            "reference_no" => $_POST['ref_no'],
+                            "physical_warehouse_no" => $_POST['trans_no'],
+                            "previous_warehouse" => $_POST['prev_ws'],
+                            "actual_warehouse" => $_POST['act_ws'],
+                            "updated_by" => $this->session->userdata('id'),
+                            "updated_date" => date('Y-m-d H:i:s'),
+                            "created_by" => $this->session->userdata('id'),
+                            "created_date" => date('Y-m-d H:i:s'),
+                            "flag" => 1,
+                            );
+                // echo json_encode($ws);exit;
+                // insert t_physical_warehouse
+                $ws_id  = $this->t_ws->insert($ws)->row()->id;
+                // insert t_physical_warehouse_detail
+                $ws_detail = $this->t_ws->insert_detail($ws_id, $_POST);
+
+                // insert hitory activity
+                $history_data  = array("branch_id" => $branch_id,
+                                "branch_name" => $branch_name,
+                                "created_by" => $id_user,
+                                "created_name" => $name,
+                                "activity"  => "Membuat Transaksi Pemindahan Barang di Gudang",
+                                "created_date" => date('Y-m-d H:i:s'),
+                               );
+
+                $this->history->insert($history_data);
+
+                $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Data Barang berhasil disimpan</div>');
+
+                redirect('inventori/add_warehouse');
+            }
+        }
+
+        $data['warehouse']  = $this->t_ws->get_all()->result();
         $data['page_title'] = "Gudang";
-        $data['page_content'] = $this->load->view("inventori/gudang", "", true);
+        $data['page_content'] = $this->load->view("inventori/gudang", $data, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
+        $this->load->view('inventori/warehouse/warehouse_js');
     }
+
+
+    public function add_warehouse() 
+    {
+       
+        $data['page_title'] = "Add New Warehouse";
+        $data['prev_ws']    = $this->m_ws->get_all()->result();
+        $data['act_ws']     = $this->m_ws->get("id<>1")->result();
+        $data['ws_no']      = generate_ws_no();
+
+        $data['page_content'] = $this->load->view("inventori/warehouse/add_warehouse", $data, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+        $this->load->view('inventori/warehouse/warehouse_js');
+    }
+
+
+    public function get_goods()
+    {
+        $branch_id = $this->session->userdata('branch_id');
+        $search = trim( $this->input->get('kode_barang') );
+        
+        $where  = "tab4.brand_description='" . $search . "' or tab4.sku_code='" . $search . "' or tab4.plu_code='" . $search . "' and tab5.id=".$branch_id;
+        $data   = $this->goods->get_goods_per_supplier($where)->result();
+
+        echo json_encode($data);
+
+    }
+
+    public function approve_warehouse()
+    {
+        $id = $this->input->get("ws_id");
+        $set['flag']= 2;
+
+        $msg   = $this->t_ws->update($id,$set);
+
+        echo json_encode($msg);
+    }
+
+
+    public function print_warehouse($id)
+    {
+        
+        $data = $this->t_ws->get_all(array("tab1.id"=>$id),array("tab2.id"))->result(); 
+        
+        $this->pdf->print_warehouse(1,$data); 
+    }
+
+    public function edit_warehouse($ws_id) 
+    {
+       
+        $data['page_title'] = "Add New Warehouse";
+        $data['prev_ws']    = $this->m_ws->get_all()->result();
+        $data['act_ws']     = $this->m_ws->get("id<>1")->result();
+        $data['ws_no']      =  generate_ws_no();
+        $data['warehouse']  = $this->t_ws->get_all(array("tab1.id"=>$ws_id), array("tab2.id"))->result();
+        // echo json_encode($data['warehouse']);exit;
+        $data['page_content'] = $this->load->view("inventori/warehouse/edit_warehouse", $data, true);
+        
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+        $this->load->view('inventori/warehouse/warehouse_js');
+    }
+
+
+
+
+    // report
 
     public function laporan($path, $next_path = '')
     {

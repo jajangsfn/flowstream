@@ -9,9 +9,9 @@
 		});
 	});
 	
-</script>
+</script> 
 <script>
-	
+	 
 	function get_po_list()
 	{
 		var supplier_id_temp= $("#supplier_id_temp").val();
@@ -111,7 +111,7 @@
 		.done( function (data) {
 			
 			var goods_detail = jQuery.parseJSON(data);
-			
+			console.log
 			$("#goods_code").val(goods_detail[0].sku_code);
 			$("#goods_id").val(goods_detail[0].goods_id);
 			$("#goods_name").val(goods_detail[0].goods_name);
@@ -263,13 +263,13 @@
 		        icon: "warning",
 		        showCancelButton: true,
 		        confirmButtonText: "Proses"
-		    }).then(function(result) {
+		    }).then(function(result) { 
 		        if (result.value) {
 
 		        	 $.get("<?=base_url()?>index.php/inventori/approve_receive/",
 		        	 	{"rv_id":rv_id})
 		        	 .done(function(msg){
-
+		        	 	// console.log(msg);
 		        	 	if (msg) {
 		        	 		Swal.fire(
 				                "Tersimpan!",

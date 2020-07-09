@@ -20,7 +20,7 @@
 			                    </select>
 			                </div>
 						</div>
-						<label class="col-form-label col-md-2 text-right">No Purchase Receive</label>
+						<label class="col-form-label col-md-3 text-right">No Purchase Receive</label>
 						<input type="text" name="purchase_receive_no" class="form-control col-md-3" readonly value="<?=$po_no?>">
 					</div>
 
@@ -34,7 +34,7 @@
 
 						</div>
 						
-						<label class="col-form-label col-md-2 text-right">Tanggal Receive</label>
+						<label class="col-form-label col-md-3 text-right">Tanggal Receive</label>
 						<input type="text" name="tgl_receive" class="col-md-3 form-control" value="<?=date('Y-m-d')?>" readonly>
 						
 					</div>
@@ -54,14 +54,14 @@
 			                </div>
 						</div>
 
-						<label class="col-form-label col-md-2 text-right">No Referensi</label>
+						<label class="col-form-label col-md-3 text-right">No Referensi</label>
 						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=$po_no?>">
 						
 					</div>
 
 					<div class="row ml-30">
-						<div class="col-md-1"></div>
-						<label class="col-form-label col-md-1 text-right">Deskripsi</label>
+						<!-- <div class="col-md-1"></div> -->
+						<label class="col-form-label col-md-2 text-right">Deskripsi</label>
 						<div class="col-md-3">
 							<textarea name="description" id="description" class="form-control"></textarea>	
 						</div>
@@ -144,7 +144,7 @@
 							</table>
 
 							<div class="text-center">
-								<button type="button" class="btn btn-light-success btn-md" id="btn_save_receive">
+								<button type="button" class="btn btn-light-success btn-md" id="btn_save_receiving">
 									<span class="fa la-save"></span> Save
 								</button>
 

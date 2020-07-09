@@ -15,7 +15,7 @@
 			$("#goods_list").html('');
 
 
-			if(id_supplier){
+			if(id_supplier){ 
 
 				$.get("<?=base_url()?>index.php/pembelian/get_goods_json/",
 					{"goods":goods,"id_supplier":id_supplier})
@@ -104,7 +104,7 @@
 			const goods_arr = JSON.parse(data);
 
 			$.each(goods_arr,function(id,val){
-				var code = (val.plu_code) ? val.plu_code : 'Kosong';
+				var code = (val.sku_code) ? val.sku_code : 'Kosong';
 				$("#id_goods").val(val.id);
 				$("#goods_code").html(code);
 				$("#goods_name").html(val.brand_description);

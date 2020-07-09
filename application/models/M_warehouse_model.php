@@ -15,7 +15,7 @@ class M_warehouse_model extends CI_Model
             FROM m_warehouse p
             LEFT JOIN m_branch b on b.id = p.branch_id
             
-            WHERE p.flag <> 99"
+            WHERE p.flag <> 99" 
         );
     }
 

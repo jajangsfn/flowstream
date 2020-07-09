@@ -127,7 +127,7 @@ class M_goods_model extends CI_Model
         $this->db->update("m_price", $data);
     }
 
-    function change_price_alternate($where, $data)
+    function change_price_alternate($where, $data) 
     {
         $this->db->update("m_price_alternate", $data, $where);
     }
@@ -149,13 +149,14 @@ class M_goods_model extends CI_Model
     {
         $this->db->select("tab1.id partner_id,tab1.name partner_name,tab1.tax_number,tab1.branch_id,tab5.name branch_name,tab2.id salesman_id,tab2.name salesman,tab4.*");
         $this->db->from("m_partner tab1");
-        $this->db->join("m_partner_salesman tab2","tab2.partner_id=tab1.id");
-        $this->db->join("m_salesman_map tab3","tab3.salesman_id=tab2.id");
-        $this->db->join("m_goods tab4","tab4.id=tab3.goods_id");
-        $this->db->join("m_branch tab5","tab5.id=tab1.branch_id");
+        $this->db->join("m_partner_salesman tab2","tab2.partner_id=tab1.id","left");
+        $this->db->join("m_salesman_map tab3","tab3.salesman_id=tab2.id","left");
+        $this->db->join("m_goods tab4","tab4.id=tab3.goods_id","left");
+        $this->db->join("m_branch tab5","tab5.id=tab1.branch_id","left");
         $this->db->where($where);
         $this->db->order_by("tab4.brand_description");
 
         return $this->db->get();
     }
+
 }

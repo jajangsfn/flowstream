@@ -1,5 +1,5 @@
 <div class="row">
-	<!-- card for search product list -->
+	<!-- card for search product list --> 
 	<div class="col-md-3">
 		<div class="card card-custom w-100">
 
@@ -42,86 +42,90 @@
 					<input type="hidden" name="partner_name" id="partner_name">
 					<input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=date('Y-m-d')?>">
 
-				<div class="row">
-					<div class="col-md-1"></div>
-					<label class="col-form-label col-md-2">Supplier</label>
-					<div class="form-group col-md-3">
-                        <div class="w-100">
-	                        <select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" onchange="show_supplier_detail()">
-	                        	<option value="" selected>Pilih Supplier</option>
-	                        	<?php
-	                        	foreach ($supplier as $key => $val) { ?>
-	                        		<option value="<?=$val->id?>"><?=$val->name?></option>
-	                        	<?php }
-	                        	?>
-	                        </select>
-	                    </div>
+					<div class="row">
+						<div class="col-md-1"></div>
+						<label class="col-form-label col-md-2">Supplier</label>
+						<div class="col-md-3">
+							<select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" onchange="show_supplier_detail()">
+		                        	<option value="" selected>Pilih Supplier</option>
+		                        	<?php
+		                        	foreach ($supplier as $key => $val) { ?>
+		                        		<option value="<?=$val->id?>"><?=$val->name?></option>
+		                        	<?php }
+		                        	?>
+		                        </select>
+						</div>
+						
+						<label class="col-form-label col-md-2 text-right">No Purchase Order</label>
+						<input type="text" name="purchase_order_no" class="form-control col-md-3" readonly value="<?=$po_no?>">
 					</div>
-					<label class="col-form-label col-md-2 text-right">No Purchase Order</label>
-					<input type="text" name="purchase_order_no" class="form-control col-md-3" readonly value="<?=$po_no?>">
-				</div>
-				<div class="row mb-5">
-					<div class="col-md-1"></div>
-					<label class="col-form-label col-md-2">Salesman</label>
-					<input type="text" name="salesman" class="col-md-3 form-control" id="partner_salesman" readonly>
-					<label class="col-form-label col-md-2 text-right">No Referensi</label>
-					<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=$po_no?>">
-					
-				</div>
 
-				<div class="row mb-5">
-					<div class="col-md-1"></div>
-					<label class="col-form-label col-md-2">Deskripsi</label>
-					<textarea name="description" class="form-control col-md-3"></textarea>
-				</div>
-
-				<hr>
-				<div class="row p-6">
-					<div class="col-md-10 text-right h3">
-						Total
+					<div class="row mb-5">
+						<div class="col-md-1"></div>
+						<label class="col-form-label col-md-2">Salesman</label>
+						<input type="text" name="salesman" class="col-md-3 form-control" id="partner_salesman" readonly>
+						<label class="col-form-label col-md-2 text-right">No Referensi</label>
+						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=$po_no?>">
+						
 					</div>
-					<div class="col-md-2 h3" id="grant_total">
-						0
-					</div>
-				</div>
 
-				<div class="table-responsive">
-					<table class="table table-bordered table-condensed table-striped">
-						<thead>
-							<tr>
-								<th>No</th>
-								<th>Kode Barang/PLU</th>
-								<th>Nama Barang</th>
-								<th>Harga</th>
-								<th>Quantity Order (PCS)</th>
-								<th>Discount</th>
-								<th>Jumlah</th>
-								<th>#</th>
-							</tr>
-						</thead>
-						<tbody id="goods_chart_table">
-						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="9" class="text-center">
-									<button type='button' class="btn btn-light-success btn-md" id="btn_save_purchase">
-										<span class="fa fa-save"></span>
-										Save
-									</button>
-									<a href="<?=base_url()?>index.php/pembelian" class="btn btn-light-danger btn-md">
-									<span class="fa la-arrow-left"></span> Cancel
-								</a>
-								</td>
-							</tr>
-						</tfoot>
-					</table>
+					<div class="row mb-5">
+						<div class="col-md-1"></div>
+						<label class="col-form-label col-md-2">Deskripsi</label>
+						<textarea name="description" class="form-control col-md-3"></textarea>
+					</div>
+
+					<hr>
+					<div class="row p-6">
+						<div class="col-md-10 text-right h3">
+							Total
+						</div>
+						<div class="col-md-2 h3" id="grant_total">
+							0
+						</div>
+					</div>
+
+						<div class="table-responsive">
+							<table class="table table-bordered table-condensed table-striped">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>Kode Barang/PLU</th>
+										<th>Nama Barang</th>
+										<th>Harga</th>
+										<th>Quantity Order (PCS)</th>
+										<th>Discount</th>
+										<th>Jumlah</th>
+										<th>#</th>
+									</tr>
+								</thead>
+								<tbody id="goods_chart_table">
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="9" class="text-center">
+											<button type='button' class="btn btn-light-success btn-md" id="btn_save_purchase">
+												<span class="fa fa-save"></span>
+												Save
+											</button>
+											<a href="<?=base_url()?>index.php/pembelian" class="btn btn-light-danger btn-md">
+											<span class="fa la-arrow-left"></span> Cancel
+										</a>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
 					</form>
 				</div>
-
+				<!-- end card body -->
 			</div>
+			<!-- end card-custom -->
 		</div>
+		<!-- end col-9 -->
 	</div>
-</div>
+	<!-- end row -->
+<!-- </div> -->
 
 
 <div class="modal fade" id="tambahBrgKeChart" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">

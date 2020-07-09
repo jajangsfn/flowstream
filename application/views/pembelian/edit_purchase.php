@@ -109,9 +109,13 @@
 						<tfoot>
 							<tr>
 								<td colspan="9" class="text-center">
-									<button type='button' class="btn btn-success btn-xs" id="btn_save_purchase">
-										<span class="fa fa-save"></span>
+									<button type='button' class="btn btn-light-success btn-xs" id="btn_save_purchase">
+										<span class="fa fa-save"></span> Save
 									</button>
+									<a href="<?=base_url()?>index.php/pembelian/index" class="btn btn-light-danger btn-xs">
+										<span class="fa fa-arrow-left"></span>
+										Cancel
+									</a>
 								</td>
 							</tr>
 						</tfoot>

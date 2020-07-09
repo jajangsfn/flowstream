@@ -266,7 +266,7 @@ class Pembelian extends CI_Controller
     {
         $data = $this->partner->get($where);
 
-        if($return)
+        if($return) 
         {
             return json_encode($data);
         }
@@ -281,7 +281,7 @@ class Pembelian extends CI_Controller
              $goods = $this->input->get('goods');
              $supplier = $this->input->get('id_supplier');             
              $where = "tab1.id=".$supplier;
-             $where = ($goods) ? $where." AND tab4.brand_description like '".$goods."%'" : $where;
+             $where = ($goods) ? $where." AND tab4.brand_description like '".$goods."%' or tab4.sku_code like '".$goods."%' or tab4.plu_code like '".$goods."%' or tab4.barcode like '".$goods."%'" : $where;
              $data  = $this->goods->get_goods_per_supplier($where)->result();
 
         }else if( $type == 2){

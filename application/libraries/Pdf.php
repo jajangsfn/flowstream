@@ -130,7 +130,7 @@ class pdf
 
 	function print_receive($type = 1,$data) {
 		// echo json_encode($data);
-		if ($type == 1) {
+		// if ($type == 1) {
 
 			$pdf = new FPDF("L","cm","A4");
 			$pdf->SetMargins(0.8,1,1);
@@ -236,7 +236,93 @@ class pdf
 
 
 			$pdf->output();
-		}
+		// }
+	}
+
+
+	function print_warehouse($type = 1,$data) {
+		// echo json_encode($data);
+		// if ($type == 1) {
+
+			$pdf = new FPDF("P","cm","A4");
+			$pdf->SetMargins(0.8,1,1);
+			$pdf->AliasNbPages();
+			$pdf->AddPage();
+			$pdf->SetFont('Arial','B',16);
+			// judul
+			$pdf->Cell(22,1,'Bukti Pemindahan Barang',0,1,'C');
+
+			$pdf->SetFont('Arial','B',10);
+			$pdf->Cell(4,0.7,"Printed On : ".date("d/m/Y"),0,0,'C');
+			$pdf->ln(1);
+
+			// header
+			$pdf->SetFont('Arial','B',11);
+			$pdf->setFillColor(155,89,182);
+			$pdf->SetTextColor(255,255,255);
+			$pdf->Cell(19.4, 1, 'Rincian Pemindahan', 1, 0, 'L',true);
+			$pdf->ln(1);
+
+			$pdf->SetFont('Arial','B',9);
+			$pdf->setFillColor(236, 240, 241);
+			$pdf->SetTextColor(0,0,0);
+
+			$pdf->Cell(4, 1, 'No. Transaksi', array(1,1,0,0), 0, 'L',true);
+			$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
+			$pdf->Cell(15.2, 1, $data[0]->physical_warehouse_no, 0, 0, 'L',true);
+			$pdf->ln(1);
+
+			$pdf->Cell(4, 1, 'No. Referensi', array(1,1,0,0), 0, 'L',true);
+			$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
+			$pdf->Cell(15.2, 1, $data[0]->reference_no, 0, 0, 'L',true);
+			$pdf->ln(1);
+
+			$pdf->Cell(4, 1, 'Gudang Sebelumnya', 0, 0, 'L',true);
+			$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
+			$pdf->Cell(15.2, 1, $data[0]->previous_warehouse_name, 0, 0, 'L',true);
+			$pdf->ln(1);
+
+			$pdf->Cell(4, 1, 'Gudang Saat Ini', array(1,1,0,0), 0, 'L',true);
+			$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
+			$pdf->Cell(15.2, 1, $data[0]->actual_warehouse_name, 0, 0, 'L',true);
+			$pdf->ln(1);
+
+			$pdf->Cell(4, 1, 'Tanggal Transaksi', array(1,1,0,0), 0, 'L',true);
+			$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
+			$pdf->Cell(15.2, 1, date('Y-m-d', strtotime($data[0]->created_date) ), 0, 0, 'L',true);
+			$pdf->ln(1);			
+
+			$pdf->Cell(4, 1, 'Deskripsi', array(1,1,0,0), 0, 'L',true);
+			$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
+			$pdf->Cell(15.2, 1, $data[0]->desc_detail, 0, 0, 'L',true);
+			$pdf->ln(2);
+
+			$pdf->SetFont('Arial','B',9);
+			$pdf->setFillColor(155,89,182);
+			$pdf->SetTextColor(255,255,255);
+			
+
+			$pdf->SetMargins(0.8,10,1);
+			$pdf->Cell(1, 0.8, 'No', 1, 0, 'C',1);
+			$pdf->Cell(5, 0.8, 'Kode Barang', 1, 0, 'C',1);
+			$pdf->Cell(9, 0.8, 'Nama Barang', 1, 0, 'C',1);
+			$pdf->Cell(3.5, 0.8, 'Qty', 1, 1, 'C',1);
+
+			$pdf->SetFont('Arial','',9);
+			$pdf->SetTextColor(0,0,0);
+
+			if ($data) {
+				foreach ($data as $key => $val) {
+					$sku_code = ($val->sku_code) ? $val->sku_code : "Kosong";
+					$pdf->Cell(1,0.8,($key+1),1,0,'C');
+					$pdf->Cell(5,0.8,($sku_code),1,0,'C');
+					$pdf->Cell(9,0.8,($val->brand_description),1,0,'L');
+					$pdf->Cell(3.5,0.8,number_format($val->total_item),1,1,'R');
+					// $pdf->ln(1);
+				}
+			}
+
+			$pdf->output();
 	}
 
 }
