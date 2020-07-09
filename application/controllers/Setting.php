@@ -57,19 +57,8 @@ class Setting extends CI_Controller
 
     public function master($category, $next_path = '', $continue_tab = '')
     {
-        switch ($category) {
-            case 'discount':
-                $data = $this->discount();
-                break;
-            case 'keuangan':
-                $data = $this->keuangan($next_path);
-                break;
-            default:
-                $data = $this->$category($next_path, $continue_tab);
-                break;
-        }
         $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
+        $this->load->view('layout/base', $this->$category($next_path, $continue_tab));
         $this->load->view('layout/js');
     }
 
@@ -214,9 +203,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Discount";
         $data['page_content'] = $this->load->view("setting/master/discount", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function keuangan($path)
