@@ -24,6 +24,12 @@
                     }
                 },
                 {
+                    data: 'code',
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        $(td).attr('nowrap', 'nowrap')
+                    }
+                },
+                {
                     data: 'owner'
                 },
                 {
@@ -50,6 +56,7 @@
                             '${row.id}',
                             '${row.logo}',
                             '${row.name}',
+                            '${row.code}',
                             '${row.owner}',
                             '${row.address}',
                             '${row.npwp}',
@@ -152,6 +159,7 @@
         id,
         logo,
         name,
+        code,
         owner,
         address,
         npwp,
@@ -160,6 +168,7 @@
         $("#id_edit").val(id);
         $("#logo_placement_edit").removeAttr("style");
         $("#logo_placement_edit").attr("style", `background-image: url(<?= base_url("attachment/") ?>${logo})`);
+        $("#code_edit").val(code);
         $("#name_edit").val(name);
         $("#owner_edit").val(owner);
         $("#address_edit").val(address);

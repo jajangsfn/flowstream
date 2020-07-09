@@ -297,6 +297,7 @@ class Api extends CI_Controller
         $entry_data = array(
             "name" => $_POST['name'],
             "owner" => $_POST['owner'],
+            "code" => $_POST['code'],
             "address" => $_POST['address'],
             "npwp" => $_POST['npwp'],
             "tax_status" => $_POST['tax_status'],
@@ -326,6 +327,7 @@ class Api extends CI_Controller
         $entry_data = array(
             "name" => $_POST['name'],
             "owner" => $_POST['owner'],
+            "code" => $_POST['code'],
             "address" => $_POST['address'],
             "npwp" => $_POST['npwp'],
             "tax_status" => $_POST['tax_status'],

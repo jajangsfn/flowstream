@@ -19,6 +19,7 @@
                     <th>No</th>
                     <th>Logo</th>
                     <th>Nama</th>
+                    <th>Kode Cabang</th>
                     <th>Pemilik</th>
                     <th>Alamat</th>
                     <th>NPWP</th>
@@ -72,6 +73,17 @@
                         "type" => "text",
                         "label" => "Nama:",
                         "id" => "name_add",
+
+                        "required" => true,
+                        "value" => false
+                    ), true); ?>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "code",
+                        "required" => true,
+                        "placeholder" => "Masukan Kode Cabang",
+                        "type" => "text",
+                        "label" => "Kode Cabang:",
+                        "id" => "code_add",
 
                         "required" => true,
                         "value" => false
@@ -176,6 +188,16 @@
                         "type" => "text",
                         "label" => "Nama:",
                         "id" => "name_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "code",
+                        "required" => true,
+                        "placeholder" => "Masukan Kode Cabang",
+                        "type" => "text",
+                        "label" => "Kode Cabang:",
+                        "id" => "code_edit",
 
                         "required" => true,
                     ), true); ?>
