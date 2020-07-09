@@ -17,39 +17,18 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Branch</th>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Length</th>
-                    <th>Width</th>
-                    <th>Capacity</th>
-                    <th>Description</th>
-                    <th>Created Date</th>
-                    <th>Action</th>
+                    <th>Cabang</th>
+                    <th>Kode Gudang</th>
+                    <th>Nama Gudang</th>
+                    <th>Alamat</th>
+                    <th>Panjang</th>
+                    <th>Lebar</th>
+                    <th>Kapasitas</th>
+                    <th>Deskripsi</th>
+                    <th>Tanggal Pembuatan</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php for ($i = 0; $i < count($m_warehouse); $i++) {
-                    $focus = $m_warehouse[$i]; ?>
-                    <tr>
-                        <td></td>
-                        <td nowrap><?= $focus->branch_name ?></td>
-                        <td nowrap><?= $focus->code ?></td>
-                        <td nowrap><?= $focus->name ?></td>
-                        <td><?= $focus->address ?></td>
-                        <td><?= $focus->length ?></td>
-                        <td><?= $focus->width ?></td>
-                        <td><?= $focus->capacity ?></td>
-                        <td><?= $focus->description ?></td>
-                        <td><?= $focus->created_date ?></td>
-                        <td nowrap="nowrap">
-                            <?= $this->load->view("component/icon_button/edit", array("id" => $focus->id), true); ?>
-                            <?= $this->load->view("component/icon_button/delete", array("id" => $focus->id), true); ?>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
         </table>
         <!--end: Datatable-->
     </div>
@@ -58,72 +37,105 @@
 
 <div class="modal fade" id="tambah_m_warehouse" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <form action="<?= current_url() ?>" method="POST" class="modal-content">
-            <input type="hidden" name="back" value="<?= current_url() ?>">
+        <form action="<?= base_url("/index.php/api/add_gudang") ?>" method="POST" class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Warehouse</h5>
+                <h5 class="modal-title">Tambah Gudang</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body row">
                 <div class="col-md-12">
-                    <div class="form-group w-100">
-                        <label>Branch:</label>
-                        <select class="form-control select2" name="branch_id">
-                            <option value="" selected disabled>Choose Branch</option>
-                            <?php foreach ($m_branch as $option) { ?>
-                                <option value="<?= $option->id ?>"><?= $option->name ?></option>
-                            <?php } ?>
-                        </select>
-                        <a class="text-info" href="<?= base_url("/index.php/setting/system/m_branch") ?>">
-                            <div class="my-2">
-                                (Manage Branch)
-                            </div>
-                        </a>
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_select", array(
+                        "name" => "branch_id",
+                        "title" => "Cabang",
+
+                        "list" => $m_branch,
+                        "identifier" => "id",
+                        "showable" => "name",
+
+                        "manage_url" => base_url("/index.php/setting/master/cabang"),
+                        "object_name" => "Cabang",
+
+                        "selected" => false,
+                    ), true); ?>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Code:</label>
-                        <input type="text" name="code" class="form-control" placeholder="Enter Code" required />
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "code",
+                        "required" => true,
+                        "placeholder" => "Masukan Kode Gudang",
+                        "type" => "text",
+                        "label" => "Kode Gudang:",
+
+                        "required" => true,
+                    ), true); ?>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Name:</label>
-                        <input type="text" name="name" class="form-control" placeholder="Enter Name" required />
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "name",
+                        "required" => true,
+                        "placeholder" => "Masukan Nama Gudang",
+                        "type" => "text",
+                        "label" => "Nama Gudang:",
+
+                        "required" => true,
+                    ), true); ?>
                 </div>
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="address">Address:</label>
-                        <textarea class="form-control" id="address" name="address" placeholder="Enter Address" rows="3"></textarea>
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "address",
+                        "required" => true,
+                        "placeholder" => "Masukan Alamat Gudang",
+                        "type" => "textarea",
+                        "label" => "Alamat Gudang:",
+
+                        "required" => true,
+                    ), true); ?>
                 </div>
                 <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Length:</label>
-                        <input type="number" name="length" class="form-control" placeholder="Enter Length" required />
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "length",
+                        "required" => true,
+                        "placeholder" => "Masukan Panjang Gudang",
+                        "type" => "number",
+                        "label" => "Panjang Gudang:",
+
+                        "required" => true,
+                    ), true); ?>
                 </div>
                 <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Width:</label>
-                        <input type="number" name="width" class="form-control" placeholder="Enter Width" required />
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "width",
+                        "required" => true,
+                        "placeholder" => "Masukan Lebar Gudang",
+                        "type" => "text",
+                        "label" => "Lebar:",
+
+                        "required" => true,
+                    ), true); ?>
                 </div>
                 <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Capacity:</label>
-                        <input type="number" name="capacity" class="form-control" placeholder="Enter Capacity" required />
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "capacity",
+                        "required" => true,
+                        "placeholder" => "Masukan Kapasitas Gudang",
+                        "type" => "number",
+                        "label" => "Kapasitas Gudang:",
+
+                        "required" => true,
+                    ), true); ?>
                 </div>
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="description">Description:</label>
-                        <textarea class="form-control" id="description" name="description" placeholder="Enter description" rows="3"></textarea>
-                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "description",
+                        "required" => true,
+                        "placeholder" => "Masukan Deskripsi Gudang",
+                        "type" => "textarea",
+                        "label" => "Deskripsi:",
+
+                        "required" => true,
+                    ), true); ?>
                 </div>
             </div>
             <div class="modal-footer">
@@ -133,113 +145,142 @@
     </div>
 </div>
 
-<?php for ($i = 0; $i < count($m_warehouse); $i++) {
-    $focus = $m_warehouse[$i]; ?>
-    <div class="modal fade" id="edit_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <form action="<?= current_url() ?>" method="POST" class="modal-content">
-                <input type="hidden" name="back" value="<?= current_url() ?>">
-                <input type="hidden" name="id" value="<?= $focus->id ?>">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Warehouse</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i aria-hidden="true" class="ki ki-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body row">
-                    <div class="col-md-12">
-                        <div class="form-group w-100">
-                            <label>Branch:</label>
-                            <select class="form-control select2" name="branch_id">
-                                <?php $found = false; ?>
-                                <?php foreach ($m_branch as $option) { ?>
-                                    <?php if ($focus->branch_id == $option->id) { ?>
-                                        <option value="<?= $option->id ?>" selected><?= $option->name ?></option>
-                                        <?php $found = true; ?>
-                                    <?php } else { ?>
-                                        <option value="<?= $option->id ?>"><?= $option->name ?></option>
-                                    <?php } ?>
-                                <?php } ?>
-                                <?php if (!$found) { ?>
-                                    <option value="<?= $focus->branch_id ?>" selected><?= $focus->branch_name ?> <span>(Deleted)</span></option>
-                                <?php } ?>
-                            </select>
-                            <a class="text-info" href="<?= base_url("/index.php/setting/system/m_branch") ?>">
-                                <div class="my-2">
-                                    (Manage Branch)
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Code:</label>
-                            <input type="text" name="code" class="form-control" placeholder="Enter Code" required value="<?= $focus->code ?>" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Name:</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter Name" required value="<?= $focus->name ?>" />
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="address_<?= $focus->id ?>">Address:</label>
-                            <textarea class="form-control" id="address_<?= $focus->id ?>" name="address" placeholder="Enter Address" rows="3"><?= $focus->address ?></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Length:</label>
-                            <input type="number" name="length" class="form-control" placeholder="Enter Length" required value="<?= $focus->length ?>" />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Width:</label>
-                            <input type="number" name="width" class="form-control" placeholder="Enter Width" required value="<?= $focus->width ?>" />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Capacity:</label>
-                            <input type="number" name="capacity" class="form-control" placeholder="Enter Capacity" required value="<?= $focus->capacity ?>" />
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="description_<?= $focus->id ?>">Description:</label>
-                            <textarea class="form-control" id="description_<?= $focus->id ?>" name="description" placeholder="Enter description" rows="3"><?= $focus->description ?></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <?= $this->load->view("component/button/submit", "", true); ?>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="modal fade" id="delete_<?= $focus->id ?>" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="<?= current_url() ?>" method="POST" class="modal-content">
-                <input type="hidden" name="back" value="<?= current_url() ?>">
-                <input type="hidden" name="id" value="<?= $focus->id ?>">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete Warehouse</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i aria-hidden="true" class="ki ki-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="m-0">anda akan menghapus data warehouse <?= $focus->name ?></p>
-                    <small class="m-0 text-info">Seluruh data yang terkait dengan warehouse ini tidak akan ikut terhapus</small>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="delete" class="btn btn-danger mr-2">Delete</button>
-                </div>
-            </form>
-        </div>
-    </div>
+<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <form action="<?= base_url("/index.php/api/edit_gudang") ?>" method="POST" class="modal-content">
+            <input type="hidden" name="id" id="id_edit">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Gudang</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body row">
+                <div class="col-md-12">
+                    <?= $this->load->view("component/input/flowstream_select", array(
+                        "name" => "branch_id",
+                        "title" => "Cabang",
 
-<?php } ?>
+                        "list" => $m_branch,
+                        "identifier" => "id",
+                        "showable" => "name",
+                        
+                        "id" => "branch_id_edit",
+
+                        "manage_url" => base_url("/index.php/setting/master/cabang"),
+                        "object_name" => "Cabang",
+
+                        "selected" => false,
+                    ), true); ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "code",
+                        "required" => true,
+                        "placeholder" => "Masukan Kode Gudang",
+                        "type" => "text",
+                        "label" => "Kode Gudang:",
+                        "id" => "code_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "name",
+                        "required" => true,
+                        "placeholder" => "Masukan Nama Gudang",
+                        "type" => "text",
+                        "label" => "Nama Gudang:",
+                        "id" => "name_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                </div>
+                <div class="col-md-12">
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "address",
+                        "required" => true,
+                        "placeholder" => "Masukan Alamat Gudang",
+                        "type" => "textarea",
+                        "label" => "Alamat Gudang:",
+                        "id" => "address_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                </div>
+                <div class="col-md-4">
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "length",
+                        "required" => true,
+                        "placeholder" => "Masukan Panjang Gudang",
+                        "type" => "number",
+                        "label" => "Panjang Gudang:",
+                        "id" => "length_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                </div>
+                <div class="col-md-4">
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "width",
+                        "required" => true,
+                        "placeholder" => "Masukan Lebar Gudang",
+                        "type" => "text",
+                        "label" => "Lebar:",
+                        "id" => "width_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                </div>
+                <div class="col-md-4">
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "capacity",
+                        "required" => true,
+                        "placeholder" => "Masukan Kapasitas Gudang",
+                        "type" => "number",
+                        "label" => "Kapasitas Gudang:",
+                        "id" => "capacity_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                </div>
+                <div class="col-md-12">
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "description",
+                        "required" => true,
+                        "placeholder" => "Masukan Deskripsi Gudang",
+                        "type" => "textarea",
+                        "label" => "Deskripsi:",
+                        "id" => "description_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <?= $this->load->view("component/button/submit", "", true); ?>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <form action="<?= base_url("/index.php/api/delete_gudang") ?>" method="POST" class="modal-content">
+            <input type="hidden" name="id" id="id_delete">
+            <div class="modal-header">
+                <h5 class="modal-title">Hapus Gudang</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="m-0">anda akan menghapus data gudang ini</p>
+                <small class="m-0 text-info">Seluruh data yang terkait dengan gudang ini tidak akan ikut terhapus</small>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" name="delete" class="btn btn-danger mr-2">Hapus</button>
+            </div>
+        </form>
+    </div>
+</div>

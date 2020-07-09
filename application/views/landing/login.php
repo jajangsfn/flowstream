@@ -22,7 +22,7 @@
                             <h3>Log in</h3>
                             <div class="text-muted font-weight-bold">Enter your details to login to your account:</div>
                         </div>
-                        <form class="form" action="<?= base_url("/index.php/landing/do_login") ?>" method="POST">
+                        <form class="form" action="<?= base_url("/index.php/api/login") ?>" method="POST">
                             <div class="form-group mb-5">
                                 <input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Username" name="username" autocomplete="off" />
                             </div>
