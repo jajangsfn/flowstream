@@ -66,6 +66,8 @@
                 const focus = result.data;
                 $("#nama_barang_tambah").text(focus.brand_name);
                 $("#desk_barang_tambah").text(focus.brand_description);
+                $("#barcode_barang_tambah").text(focus.barcode);
+                $("#harga_barang_tambah").text(10000); // TODO
                 $("#tombol_tambah_baru").attr("data-id-barang", focus.id)
 
                 $("#tambah_barang").modal("show");
@@ -85,10 +87,10 @@
     }
 
     function render_table_number() {
-        $("tbody td:first-child").each(function(index, elem) {
+        $("table#daftar_barang_order tbody td:first-child").each(function(index, elem) {
             $(elem).text(index + 1);
         })
-        if ($("tbody th:first-child").length === 0) {
+        if ($("table#daftar_barang_order tbody th:first-child").length === 0) {
             $("input[type=submit]").attr("disabled", "disabled");
         } else {
             $("input[type=submit]").removeAttr("disabled");
@@ -127,8 +129,8 @@
                 $jumlah_baru = $("#jumlah_tambah_baru").val();
                 $subtotal_baru = $jumlah_baru * 100000 * 0.9; // TODO: ganti 1 jadi harga
                 const data = response.data;
-                $("tbody tr.odd").remove();
-                $("tbody").append(
+                $("table#daftar_barang_order tbody tr.odd").remove();
+                $("table#daftar_barang_order tbody").append(
                     $(document.createElement("tr")).attr("id", data.id).append(
                         // numbering
                         $(document.createElement("td")).addClass("text-center font-weight-bold"),
