@@ -75,7 +75,7 @@
                 </h5>
             </form>
             <div class="card-footer text-right">
-                <input type="Submit" class="btn btn-primary" />
+                <button type="submit" class="btn btn-primary" disabled> Simpan </button>
             </div>
         </div>
     </div>
