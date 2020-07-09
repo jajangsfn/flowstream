@@ -22,6 +22,7 @@ class Api extends CI_Controller
                 "m_partner_salesman_model" => "part_salesman",
                 "m_goods_model" => "goods",
                 "m_branch_model" => "branch",
+                "m_warehouse_model" => "warehouse"
             )
         );
     }
@@ -355,6 +356,58 @@ class Api extends CI_Controller
         $where_id['id'] = $_POST['id'];
         $this->branch->delete($where_id);
         $this->session->set_flashdata("success", "Cabang berhasil terhapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // Gudang
+    public function gudang()
+    {
+        echo json_encode(array("data" => $this->warehouse->get_all()->result()));
+    }
+
+    public function add_gudang()
+    {
+        $entry_data = array(
+            "branch_id" => $_POST['branch_id'],
+            "code" => $_POST['code'],
+            "name" => $_POST['name'],
+            "address" => $_POST['address'],
+            "length" => $_POST['length'],
+            "width" => $_POST['width'],
+            "capacity" => $_POST['capacity'],
+            "description" => $_POST['description'],
+            "created_by" => $this->session->id
+        );
+        $this->warehouse->insert($entry_data);
+        $this->session->set_flashdata("success", "Gudang berhasil tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function edit_gudang()
+    {
+        $where_id['id'] = $_POST['id'];
+        $entry_data = array(
+            "branch_id" => $_POST['branch_id'],
+            "code" => $_POST['code'],
+            "name" => $_POST['name'],
+            "address" => $_POST['address'],
+            "length" => $_POST['length'],
+            "width" => $_POST['width'],
+            "capacity" => $_POST['capacity'],
+            "description" => $_POST['description'],
+            "updated_by" => $this->session->id,
+            "updated_date" => date("Y-m-d H:i:S")
+        );
+        $this->warehouse->update($where_id, $entry_data);
+        $this->session->set_flashdata("success", "Gudang berhasil diubah");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_gudang()
+    {
+        $where_id['id'] = $_POST['id'];
+        $this->warehouse->delete($where_id);
+        $this->session->set_flashdata("success", "Gudang berhasil terhapus");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }

@@ -58,18 +58,6 @@ class Setting extends CI_Controller
     public function master($category, $next_path = '', $continue_tab = '')
     {
         switch ($category) {
-            case 'barang':
-                $data = $this->barang($next_path);
-                break;
-            case 'supplier':
-                $data = $this->supplier();
-                break;
-            case 'customer':
-                $data = $this->customer();
-                break;
-            case 'gudang':
-                $data = $this->gudang();
-                break;
             case 'discount':
                 $data = $this->discount();
                 break;
@@ -211,53 +199,14 @@ class Setting extends CI_Controller
 
     private function gudang()
     {
-        $data['page_title'] = "Master Data Gudang";
+        $data['page_title'] = "Daftar Gudang";
 
-        if (count($_POST)) {
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->warehouse->delete($where_id);
-                    $this->session->set_flashdata("success", "Warehouse berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "branch_id" => $_POST['branch_id'],
-                        "code" => $_POST['code'],
-                        "name" => $_POST['name'],
-                        "address" => $_POST['address'],
-                        "length" => $_POST['length'],
-                        "width" => $_POST['width'],
-                        "capacity" => $_POST['capacity'],
-                        "description" => $_POST['description'],
-                    );
-                    $this->warehouse->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Warehouse berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "branch_id" => $_POST['branch_id'],
-                    "code" => $_POST['code'],
-                    "name" => $_POST['name'],
-                    "address" => $_POST['address'],
-                    "length" => $_POST['length'],
-                    "width" => $_POST['width'],
-                    "capacity" => $_POST['capacity'],
-                    "description" => $_POST['description'],
-                );
-                $this->warehouse->insert($entry_data);
-                $this->session->set_flashdata("success", "Warehouse berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $content['m_warehouse'] = $this->warehouse->get_all()->result();
         $content['m_branch'] = $this->branch->get_all()->result();
+
         $data['page_content'] = $this->load->view("setting/master/gudang/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/gudang/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function discount()
