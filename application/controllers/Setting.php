@@ -59,93 +59,37 @@ class Setting extends CI_Controller
     {
         switch ($category) {
             case 'barang':
-                $this->barang($next_path);
+                $data = $this->barang($next_path);
                 break;
             case 'supplier':
-                $this->supplier();
+                $data = $this->supplier();
                 break;
             case 'customer':
-                $this->customer();
+                $data = $this->customer();
                 break;
             case 'gudang':
-                $this->gudang();
+                $data = $this->gudang();
                 break;
             case 'discount':
-                $this->discount();
+                $data = $this->discount();
                 break;
             case 'keuangan':
-                $this->keuangan($next_path);
+                $data = $this->keuangan($next_path);
                 break;
             default:
-                # code...
+                $data = $this->$category($next_path, $continue_tab);
                 break;
         }
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
     }
 
     private function cabang()
     {
-        if (count($_POST)) {
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->branch->delete($where_id);
-                    $this->session->set_flashdata("success", "Branch berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "name" => $_POST['name'],
-                        "owner" => $_POST['owner'],
-                        "address" => $_POST['address'],
-                        "npwp" => $_POST['npwp'],
-                        "tax_status" => $_POST['tax_status'],
-                    );
-
-                    if ($_FILES['logo']['name']) {
-                        // upload logo
-                        $config['upload_path']          = 'attachment/';
-                        $config['allowed_types']        = ['jpg', 'png', 'jpeg'];
-                        $config['encrypt_name']         = TRUE;
-                        $this->load->library('upload', $config);
-                        $this->upload->initialize($config);
-                        $this->upload->do_upload('logo');
-
-                        $uploadData = $this->upload->data();
-                        $entry_data['logo'] = $uploadData['file_name'];
-                    }
-                    $this->branch->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Branch berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "name" => $_POST['name'],
-                    "owner" => $_POST['owner'],
-                    "address" => $_POST['address'],
-                    "npwp" => $_POST['npwp'],
-                    "tax_status" => $_POST['tax_status'],
-                );
-
-                if ($_FILES['logo']['name']) {
-                    // upload logo
-                    $config['upload_path']          = 'attachment/';
-                    $config['allowed_types']        = ['jpg', 'png', 'jpeg'];
-                    $config['encrypt_name']         = TRUE;
-                    $this->load->library('upload', $config);
-                    $this->upload->initialize($config);
-                    $this->upload->do_upload('logo');
-
-                    $uploadData = $this->upload->data();
-                    $entry_data['logo'] = $uploadData['file_name'];
-                }
-
-                $this->branch->insert($entry_data);
-                $this->session->set_flashdata("success", "Branch berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Setting > System > Daftar Cabang";
-        $content['m_branch'] = $this->branch->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/master/cabang/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/master/cabang/index_js", $content, true);
+        $data['page_title'] = "Daftar Cabang";
+        $data['page_content'] = $this->load->view("setting/master/cabang/index", "", true);
+        $data['page_js'] = $this->load->view("setting/master/cabang/index_js", '', true);
 
         return $data;
     }

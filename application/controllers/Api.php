@@ -21,6 +21,7 @@ class Api extends CI_Controller
                 "m_partner_model" => "partner",
                 "m_partner_salesman_model" => "part_salesman",
                 "m_goods_model" => "goods",
+                "m_branch_model" => "branch",
             )
         );
     }
@@ -282,6 +283,76 @@ class Api extends CI_Controller
 
         $this->part_salesman->update($where, $data);
         $this->session->set_flashdata("success", "Data salesman berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // Cabang
+    public function cabang()
+    {
+        echo json_encode(array("data" => $this->branch->get_all()->result()));
+    }
+
+    public function add_cabang()
+    {
+        $entry_data = array(
+            "name" => $_POST['name'],
+            "owner" => $_POST['owner'],
+            "address" => $_POST['address'],
+            "npwp" => $_POST['npwp'],
+            "tax_status" => $_POST['tax_status'],
+        );
+
+        if ($_FILES['logo']['name']) {
+            // upload logo
+            $config['upload_path']          = 'attachment/';
+            $config['allowed_types']        = ['jpg', 'png', 'jpeg'];
+            $config['encrypt_name']         = TRUE;
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            $this->upload->do_upload('logo');
+
+            $uploadData = $this->upload->data();
+            $entry_data['logo'] = $uploadData['file_name'];
+        }
+
+        $this->branch->insert($entry_data);
+        $this->session->set_flashdata("success", "Cabang berhasil tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function edit_cabang()
+    {
+        $where_id['id'] = $_POST['id'];
+        $entry_data = array(
+            "name" => $_POST['name'],
+            "owner" => $_POST['owner'],
+            "address" => $_POST['address'],
+            "npwp" => $_POST['npwp'],
+            "tax_status" => $_POST['tax_status'],
+        );
+
+        if ($_FILES['logo']['name']) {
+            // upload logo
+            $config['upload_path']          = 'attachment/';
+            $config['allowed_types']        = ['jpg', 'png', 'jpeg'];
+            $config['encrypt_name']         = TRUE;
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            $this->upload->do_upload('logo');
+
+            $uploadData = $this->upload->data();
+            $entry_data['logo'] = $uploadData['file_name'];
+        }
+        $this->branch->update($where_id, $entry_data);
+        $this->session->set_flashdata("success", "Cabang berhasil tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_cabang()
+    {
+        $where_id['id'] = $_POST['id'];
+        $this->branch->delete($where_id);
+        $this->session->set_flashdata("success", "Cabang berhasil terhapus");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }
