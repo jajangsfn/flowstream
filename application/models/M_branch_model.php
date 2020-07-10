@@ -9,7 +9,6 @@ class M_branch_model extends CI_Model
 
     function get_all()
     {
-        
         return $this->db->get_where("m_branch", array("flag <>" => 99));
     }
 

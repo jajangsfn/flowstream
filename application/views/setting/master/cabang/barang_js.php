@@ -1,4 +1,5 @@
 <script>
+    console.log("<?= base_url("/index.php/api/barang_cabang/$data_branch->id") ?>");
     $(document).ready(() => {
         $("#master_barang_table").DataTable({
             responsive: true,
@@ -17,7 +18,7 @@
                     orderable: false,
                 },
             ],
-            ajax: "<?= base_url("/index.php/api/barang") ?>",
+            ajax: "<?= base_url("/index.php/api/barang_cabang/$data_branch->id") ?>",
             columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {

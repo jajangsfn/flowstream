@@ -50,6 +50,7 @@
                 </button>
             </div>
             <div class="modal-body row">
+                <input type="hidden" name="branch_id" value="<?= $data_branch->id ?>">
                 <div class="col-md-4">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "name",
@@ -89,7 +90,7 @@
                         "value" => false
                     ), true); ?>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <?= $this->load->view("component/input/flowstream_select", array(
                         "name" => "master_code",
                         "title" => "Tipe Master",
@@ -100,21 +101,6 @@
 
                         "manage_url" => base_url("/index.php/setting/system/m_master"),
                         "object_name" => "Master",
-
-                        "selected" => false,
-                    ), true); ?>
-                </div>
-                <div class="col-md-6">
-                    <?= $this->load->view("component/input/flowstream_select", array(
-                        "name" => "branch_id",
-                        "title" => "Cabang",
-
-                        "list" => $m_branch,
-                        "identifier" => "id",
-                        "showable" => "name",
-
-                        "manage_url" => base_url("/index.php/setting/master/cabang"),
-                        "object_name" => "Cabang",
 
                         "selected" => false,
                     ), true); ?>
@@ -302,7 +288,7 @@
                         "value" => false
                     ), true); ?>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <?= $this->load->view("component/input/flowstream_select", array(
                         "name" => "master_code",
                         "title" => "Tipe Master",
@@ -315,23 +301,6 @@
 
                         "manage_url" => base_url("/index.php/setting/system/m_master"),
                         "object_name" => "Master",
-
-                        "selected" => false,
-                    ), true); ?>
-                </div>
-                <div class="col-md-6">
-                    <?= $this->load->view("component/input/flowstream_select", array(
-                        "name" => "branch_id",
-                        "title" => "Cabang",
-
-                        "list" => $m_branch,
-                        "identifier" => "id",
-                        "showable" => "name",
-
-                        "id" => "branch_id_edit",
-
-                        "manage_url" => base_url("/index.php/setting/master/cabang"),
-                        "object_name" => "Cabang",
 
                         "selected" => false,
                     ), true); ?>
@@ -495,51 +464,6 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" name="delete" class="btn btn-danger mr-2">Hapus</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="modal fade" id="salesman_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <form action="<?= base_url("/index.php/api/edit_salesman") ?>" method="POST" class="modal-content">
-            <input type="hidden" name="id" id="id_salesman">
-            <div class="modal-header">
-                <h5 class="modal-title">Ubah Data Salesman</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <?= $this->load->view("component/input/flowstream_input", array(
-                    "name" => "name",
-                    "type" => "text",
-                    "required" => true,
-
-                    "id" => "name_salesman",
-
-                    "placeholder" => "Nama",
-                    "label" => "Nama",
-                    "help" => "Masukan Nama Salesman",
-
-                    "value" => false
-                ), true); ?>
-                <?= $this->load->view("component/input/flowstream_input", array(
-                    "name" => "phone",
-                    "type" => "text",
-                    "required" => true,
-
-                    "id" => "phone_salesman",
-
-                    "placeholder" => "Nomor Ponsel",
-                    "label" => "Nomor Ponsel",
-                    "help" => "Masukan Nomor Ponsel Salesman",
-
-                    "value" => false
-                ), true); ?>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary mr-2">Simpan</button>
             </div>
         </form>
     </div>

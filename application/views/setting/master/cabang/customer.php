@@ -51,6 +51,7 @@
                 </button>
             </div>
             <div class="modal-body row">
+                <input type="hidden" name="branch_id" value="<?= $data_branch->id ?>">
                 <div class="col-md-4">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "name",
@@ -90,7 +91,7 @@
                         "value" => false
                     ), true); ?>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <?= $this->load->view("component/input/flowstream_select", array(
                         "name" => "master_code",
                         "title" => "Tipe Master",
@@ -101,21 +102,6 @@
 
                         "manage_url" => base_url("/index.php/setting/system/m_master"),
                         "object_name" => "Master",
-
-                        "selected" => false,
-                    ), true); ?>
-                </div>
-                <div class="col-md-6">
-                    <?= $this->load->view("component/input/flowstream_select", array(
-                        "name" => "branch_id",
-                        "title" => "Cabang",
-
-                        "list" => $m_branch,
-                        "identifier" => "id",
-                        "showable" => "name",
-
-                        "manage_url" => base_url("/index.php/setting/master/cabang"),
-                        "object_name" => "Cabang",
 
                         "selected" => false,
                     ), true); ?>
@@ -331,7 +317,7 @@
                         "value" => false
                     ), true); ?>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <?= $this->load->view("component/input/flowstream_select", array(
                         "name" => "master_code",
                         "title" => "Tipe Master",
@@ -344,23 +330,6 @@
 
                         "manage_url" => base_url("/index.php/setting/system/m_master"),
                         "object_name" => "Master",
-
-                        "selected" => false,
-                    ), true); ?>
-                </div>
-                <div class="col-md-6">
-                    <?= $this->load->view("component/input/flowstream_select", array(
-                        "name" => "branch_id",
-                        "title" => "Cabang",
-
-                        "list" => $m_branch,
-                        "identifier" => "id",
-                        "showable" => "name",
-
-                        "id" => "branch_id_edit",
-
-                        "manage_url" => base_url("/index.php/setting/master/cabang"),
-                        "object_name" => "Cabang",
 
                         "selected" => false,
                     ), true); ?>

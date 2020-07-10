@@ -7,24 +7,9 @@
                     <span class="text-muted mt-3 font-weight-bold font-size-sm">Klik untuk menambahkan ke Order Request </span>
                 </h3>
             </div>
-            <div class="card-body daftar_barang_container">
-                <div class="scroll scroll-pull ps ps--active-y" data-scroll="true" data-wheel-propagation="true" style="max-height: 50vh; height: 100%; overflow: hidden;">
-                    <?php foreach ($goods as $good) : ?>
-                        <div class="d-flex align-items-center justify-content-between mb-5" data-toggle="tooltip" data-original-title="ID: <?= $good->id ?>" data-placement="right">
-                            <!--begin::Section-->
-                            <div class="d-flex align-items-center mr-2">
-                                <!--begin::Title-->
-                                <div>
-                                    <span class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder"><?= $good->brand_description ?></span>
-                                </div>
-                                <!--end::Title-->
-                            </div>
-                            <!--end::Section-->
-                            <!--begin::Label-->
-                            <button type="button" data-toggle="modal" data-target="#tambah_baru_<?= $good->id ?>" class="btn btn-white text-primary"><i class="fa text-primary fa-angle-right p-0"></i></button>
-                            <!--end::Label-->
-                        </div>
-                    <?php endforeach ?>
+            <div class="card-body daftar_barang_container pt-0">
+                <input type="text" class="form-control my-4" placeholder="Cari Barang" onkeyup="suggester_me(this)" />
+                <div class="scroll scroll-pull ps ps--active-y" data-scroll="true" data-wheel-propagation="true" style="max-height: 50vh; height: 100%; overflow: hidden;" id="goods_placement">
                 </div>
             </div>
         </div>
@@ -65,30 +50,32 @@
                     </div>
                 </div>
                 <hr>
-                <table class="table table-separate table-head-custom table-checkable" id="daftar_barang_order">
-                    <thead>
-                        <tr class="text-left">
-                            <th class="text-center" nowrap width="1">No</th>
-                            <th>Kode Barang</th>
-                            <th>Nama Barang</th>
-                            <th>Jumlah</th>
-                            <th>Satuan</th>
-                            <th>Harga</th>
-                            <th>Diskon</th>
-                            <th>Subtotal</th>
-                            <th class="text-center"><span class="mr-3">Aksi</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-separate table-head-custom table-checkable" id="daftar_barang_order" style="font-size: 1rem !important;">
+                        <thead>
+                            <tr class="text-left">
+                                <th class="text-center" nowrap width="1">No</th>
+                                <th nowrap style="min-width: 100px;">Kode Barang</th>
+                                <th nowrap>Nama Barang</th>
+                                <th nowrap>Jumlah</th>
+                                <th nowrap>Satuan</th>
+                                <th style="min-width: 100px">Harga</th>
+                                <th>Diskon</th>
+                                <th>Subtotal</th>
+                                <th class="text-center"><span class="mr-3">Aksi</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
                 <h5 class="text-right font-weight-bold">
                     Total <span id="total_harga_order">0</span>
                 </h5>
             </form>
             <div class="card-footer text-right">
-                <input type="Submit" class="btn btn-primary" />
+                <button type="submit" class="btn btn-primary" disabled> Simpan </button>
             </div>
         </div>
     </div>
