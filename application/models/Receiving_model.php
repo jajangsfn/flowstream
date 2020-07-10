@@ -61,7 +61,7 @@ class Receiving_model extends CI_Model
                             JOIN `t_purchase_order` `tab2` ON `tab2`.`id`=`tab1`.`purchase_order_id` 
                             JOIN `m_partner_salesman` `tab3` ON `tab3`.`id`=`tab2`.`salesman_id` 
                             JOIN `m_partner` `tab4` ON `tab4`.`id`=`tab3`.`partner_id` 
-                            JOIN `m_warehouse` `tab5` ON `tab5`.`id`=`tab1`.`warehouse_id`  
+                            LEFT JOIN `m_warehouse` `tab5` ON `tab5`.`id`=`tab1`.`warehouse_id`  
                             ORDER BY tab1.id desc");
  
         

@@ -132,6 +132,8 @@
 		$("#nama_barang").val('');
 		$("#kode_barang").val('');
 		$("#quantity").val(1);
+		$("#goods_list").val("");
+		$("#goods_list").selectpicker('');
 	}
 
 
@@ -194,7 +196,7 @@
 				input.id_barang 	= val.goods_id;
 				input.kode_barang 	= val.sku_code;
 				input.nama_barang 	= val.brand_description;
-				input.qty_barang  	= val.total_item;
+				input.qty_barang  	= parseInt(val.total_item);
 
 				goods_list.push(input);
 
@@ -215,15 +217,15 @@
 						{"receive_no":receive_no})
 				.done( function(data) {
 
-					var parse = jQuery.parseJSON(data);
-
+					var parse = jQuery.parseJSON(data); 
+					console.log(parse);
 
 					if ( parse.length > 0 ) {
 
 						$("#goods_list").html('<option value="">Pilih Barang</option>');
 
 						$.each( parse, function(id, val) {
-							text+="<option value='"+val.goods_id+"'>"+val.goods_name+"</option>";
+							text+="<option value='"+val.goods_id+"'>"+val.sku_code+"</option>";
 						});
 
 						$("#goods_list").append(text);

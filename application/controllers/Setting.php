@@ -1379,4 +1379,13 @@ class Setting extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
+
+    // public function purchase_order()
+    // {
+    //     $data['page_title'] = "Setting > System > Purchase Order";
+    //     $data['page_content'] = $this->load->view("setting/system/purchase_order/index", true);
+    //     $this->load->view('layout/head');
+    //     $this->load->view('layout/base', $data);
+    //     $this->load->view('layout/js');   
+    // }
 }

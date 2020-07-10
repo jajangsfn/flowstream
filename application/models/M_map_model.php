@@ -19,7 +19,7 @@ class M_map_model extends CI_Model
             map.flag,
             event.name as event_name, 
             partner.name as partner_name,
-            goods.name as goods_name
+            goods.brand_description as goods_name
 
             FROM m_map as map
             LEFT JOIN m_event event on event.id = map.event_id

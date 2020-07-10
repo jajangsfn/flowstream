@@ -53,7 +53,7 @@
         </div>
         <!-- end row -->
 
-        <div class="row mb-3">
+        <div class="row mb-3"> 
           <div class="col-md-1"></div>
           <div class="col-md-2 text-right col-form-label">
               <label>No Receive Order</label>
