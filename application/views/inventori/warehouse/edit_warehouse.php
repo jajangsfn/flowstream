@@ -2,7 +2,7 @@
  <!--begin::Card-->
 <div class="card card-custom">
      <div class="card-body">
-      <form method="post" action="<?=base_url()?>index.php/inventori/gudang">
+      <form method="post" action="<?=base_url()?>index.php/inventori/gudang" id="form_ws">
         <input type="hidden" name="id" value="<?=$warehouse[0]->id?>">
      	<div class="row mb-3">
           <div class="col-md-1"></div>
@@ -68,6 +68,29 @@
         </div>
         <!-- end row -->
 
+       <div class="row mb-3">
+          <div class="col-md-1"></div>
+          <div class="col-md-2 text-right col-form-label">
+              <label>No Receive Order</label>
+          </div>  
+          <div class="col-md-3">
+              <div class="input-group mb-3">
+                    <input type="text" name="nro" id="nro" class="form-control" placeholder="No Receive Order. . ." aria-label="" aria-describedby="basic-addon1" value="<?=$warehouse[0]->reference_no?>">
+                  <div class="input-group-prepend">
+                     <button class="btn btn-info" type="button" onclick="search_receive_order()">search</button>
+                   </div>
+               </div>
+          </div>
+
+          <div class="col-md-2 text-right col-form-label">
+              <label>No Referensi</label>
+          </div>
+          <div class="col-md-3">
+              <input type="text" name="ref_no" id="ref_no" class="form-control" required="" placeholder="Isi No referensi" value="<?=$warehouse[0]->reference_no?>">
+          </div>
+
+        </div>
+        <!-- end row -->
         <div class="row mb-3">
           <div class="col-md-1"></div>
           <div class="col-md-2 text-right col-form-label">
@@ -76,15 +99,8 @@
           <div class="col-md-3">
               <textarea name="desc" class="form-control" placeholder="Deskripsi..."><?=$warehouse[0]->desc_detail?></textarea>
           </div>
-
-          <div class="col-md-2 text-right col-form-label">
-              <label>No Referensi</label>
-          </div>
-          <div class="col-md-3">
-              <input type="text" name="ref_no" class="form-control" required="" placeholder="Isi No referensi" value="<?=$warehouse[0]->reference_no?>">
-          </div>
-
         </div>
+        <!-- end row -->
         <!-- end row -->
         <hr>
         <div class="row mb-3">
@@ -102,15 +118,13 @@
               <tbody>
                 <tr>
                   <td>
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-warning" type="button" onclick="search_goods()">search</button>
-                        </div>
-                        <input type="text" name="kode_barang" id="kode_barang" class="form-control" placeholder="Kode Barang. . ." aria-label="" aria-describedby="basic-addon1">
-                      </div>
+                      <select name="goods_list" id="goods_list" class="form-control selectpicker" data-live-search="true" onchange="get_goods_detail()">
+                        <option value="">Pilih Barang</option>
+                      </select>
                   </td>
                   <td>
                     <input type="hidden" name="id_barang" id="id_barang">
+                    <input type="hidden" name="kode_barang" id="kode_barang">
                     <input type="text" name="nama_barang" id="nama_barang" class="form-control" placeholder="Nama Barang . . ." readonly="">
                   </td>
                   <td>
@@ -139,7 +153,7 @@
                   <th>#</th>
                 </tr>
               </thead>
-              <tbody id="goods_list"></tbody>
+              <tbody id="goods_ws_list"></tbody>
             </table>
           </div>
         </div>
@@ -147,10 +161,14 @@
         <div class="row mb-3">
           <div class="col-md-1"></div>
           <div class="col-md-10 text-center">
-            <button type="submit" class="btn btn-light-success">
+            <button type="button" class="btn btn-light-success" id="btn_save_ws">
               <span class="fa fa-save"></span>
               Save
             </button>
+
+              <a href="<?=base_url()?>index.php/inventori/gudang" class="btn btn-light-danger btn-md">
+                  <span class="fa la-arrow-left"></span> Cancel
+               </a>
           </div>
         </div>
         <!-- end row -->

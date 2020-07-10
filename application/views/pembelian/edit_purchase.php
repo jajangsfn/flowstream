@@ -42,6 +42,19 @@
 					<input type="hidden" name="partner_name" id="partner_name" value="<?=($master) ? $master[0]->partner_name : ""?>">
 					<input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=($master) ? $master[0]->purchase_order_date : date('Y-m-d')?>">
 
+					<div class="row mb-3">
+						<div class="col-sm-6"></div>
+						<div class="col-sm-6">
+	                        <div class="d-flex align-items-center justify-content-end">
+	                            <!--begin::Daterange-->
+	                            <span class="p-2 rounded text-primary bg-light-primary font-weight-bold">
+	                                <h6 class="font-weight-bold m-0"><?=$tgl_indo?></h6>
+	                            </span>
+	                            <!--end::Daterange-->
+	                        </div>
+	                    </div>
+	                </div>
+
 					<div class="row">
 					<div class="col-md-1"></div>
 					<label class="col-form-label col-md-2">Supplier</label>

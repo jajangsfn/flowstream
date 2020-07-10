@@ -42,7 +42,7 @@
                   <td><?=$val->created_date?></td>
                   <td><?=$val->description?></td>
                   <td><?=number_format($val->sum_trx)?></td>
-                  <td><?=$val->flag == 1 ? "Draft" : "Approved";?></td>
+                  <td><?=$val->flag == 1 ? "<div class='badge badge-info'>Draft</div>" : "<div class='badge badge-success'>Approved</div>";?></td>
                   <td style="text-align: center;">
                     <?php
                       if ($val->flag == 1) {

@@ -25,7 +25,7 @@ class Landing extends CI_Controller
 			$this->load->view('layout/head');
 			$this->load->view('layout/base', $data);
 			$this->load->view('layout/js');
-		} else {
+		} else { 
 			$this->load->view('landing/head');
 			$this->load->view('landing/login');
 			$this->load->view('landing/js');
@@ -34,8 +34,9 @@ class Landing extends CI_Controller
 
 	public function register()
 	{
+		var_dump($this->session->userdata('user'));
 		// if already login, redirect to dashboard
-		if ($this->session->userdata('login')) {
+		if ($this->session->userdata('user')) {
 			redirect(
 				base_url("/index.php/dashboard")
 			);
@@ -44,7 +45,6 @@ class Landing extends CI_Controller
 		$this->load->view('landing/register');
 		$this->load->view('landing/js');
 	}
-
 	public function do_login()
 	{
 		$login_data = array(
@@ -54,6 +54,7 @@ class Landing extends CI_Controller
  
 		// check if login data match in database
 		$user_query = $this->user_m->get($login_data);
+		// echo json_encode($user_query);exit;
 		if ($user_query->num_rows()) {
 			// do login
 			$this->session->set_userdata(

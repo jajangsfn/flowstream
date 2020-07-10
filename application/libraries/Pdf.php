@@ -219,7 +219,7 @@ class pdf
 					$grant_total+=$total;
 					$pdf->Cell(1,0.8,($key+1),1,0,'C');
 					$pdf->Cell(5,0.8,($sku_code),1,0,'C');
-					$pdf->Cell(9,0.8,($val->brand_description),1,0,'L');
+					$pdf->Cell(9,0.8,($val->goods_name),1,0,'L');
 					$pdf->Cell(3.5,0.8,number_format($val->price),1,0,'R');
 					$pdf->Cell(3.5,0.8,number_format($val->quantity),1,0,'R');
 					$pdf->Cell(2,0.8,( ($val->discount) ? $val->discount :"0" ),1,0,'C');

@@ -15,7 +15,7 @@
                             <div class="d-flex align-items-center mr-2">
                                 <!--begin::Title-->
                                 <div>
-                                    <span class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder"><?= $good->name ?></span>
+                                    <span class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder"><?= $good->brand_description ?></span>
                                 </div>
                                 <!--end::Title-->
                             </div>

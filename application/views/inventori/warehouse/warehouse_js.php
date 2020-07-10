@@ -2,6 +2,26 @@
 	var goods_list = [];
 	$(document).ready( function() {
 		show_goods_from_db();
+		search_receive_order();
+		$("#btn_save_ws").click(function(){
+
+			if ($("#prev_ws").val() === "") {
+				alert('Silahkan pilih gudang awal!');
+			}else if ($("#act_ws").val() === "") {
+				alert('Silahkan pilih gudang tujuan!');
+			}else if ($("#ref_no").val() === "") {
+				alert('Silahkan isi no referensi!');
+			}else {
+				if (goods_list.length > 0) {
+					if (confirm("Anda Yakin ingin menyimpan transaksi ini?") ) {
+						$("#form_ws").submit();
+					}
+				}else {
+					alert('Data barang masih kosong!');
+				}
+				
+			}
+		});
 	});
 </script>
 <script>
@@ -60,7 +80,7 @@
 						val.qty_barang+=qty_barang;
 					} 
 				});
-				console.log(same);
+				
 				if (!same) {
 
 					goods_list.push(input);
@@ -70,6 +90,7 @@
 
 				goods_list.push(input);
 			}
+
 
 			show_goods_list();
 			clear_search();
@@ -101,7 +122,7 @@
 
 			});
 
-			$("#goods_list").html(text);
+			$("#goods_ws_list").html(text);
 		}
 	}
 
@@ -181,5 +202,60 @@
 		}
 
 		show_goods_list();
+	}
+
+
+	function search_receive_order() 
+	{
+		var receive_no = jQuery.trim($("#nro").val());
+		var text 	   = "";
+
+		if (receive_no) {
+			$.get("<?=base_url()?>index.php/inventori/get_ws_goods",
+						{"receive_no":receive_no})
+				.done( function(data) {
+
+					var parse = jQuery.parseJSON(data);
+
+
+					if ( parse.length > 0 ) {
+
+						$("#goods_list").html('<option value="">Pilih Barang</option>');
+
+						$.each( parse, function(id, val) {
+							text+="<option value='"+val.goods_id+"'>"+val.goods_name+"</option>";
+						});
+
+						$("#goods_list").append(text);
+						$("#goods_list").selectpicker('refresh');
+					}else {
+						$("#goods_list").html('<option value="">Barang tidak ditemukan</option>');
+						$("#goods_list").selectpicker('refresh');
+						Swal.fire("Info", "Data tidak ditemukan!", "error");
+					}
+			});
+		}
+
+	}
+
+	function get_goods_detail()
+	{
+		var receive_no    = $("#nro").val();
+		var goods_id      = $("#goods_list").val();
+		 
+		$.get("<?=base_url()?>index.php/inventori/get_ws_goods_detail",
+				{"receive_no":receive_no,"goods_id":goods_id})
+		.done( function (data) {
+			
+			var goods_detail = jQuery.parseJSON(data);
+
+			
+
+			$("#kode_barang").val(goods_detail[0].sku_code);
+			$("#id_barang").val(goods_detail[0].goods_id);
+			$("#nama_barang").val(goods_detail[0].goods_name);
+			$("#quantity").val(goods_detail[0].receive_qty);
+
+		});
 	}
 </script>

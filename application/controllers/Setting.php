@@ -22,6 +22,7 @@ class Setting extends CI_Controller
                 "M_branch_model" => "branch",
                 "M_master_model" => "master",
                 "M_partner_model" => "partner",
+                "M_partner_type_model" => "partner_type",
                 "M_salesman_model" => "salesman",
                 "M_salesman_map_model" => "salesman_map",
                 "M_map_model" => "map",
@@ -56,151 +57,22 @@ class Setting extends CI_Controller
 
     public function master($category, $next_path = '', $continue_tab = '')
     {
-        switch ($category) {
-            case 'barang':
-                $this->barang($next_path);
-                break;
-            case 'supplier':
-                $this->supplier();
-                break;
-            case 'customer':
-                $this->customer();
-                break;
-            case 'gudang':
-                $this->gudang();
-                break;
-            case 'discount':
-                $this->discount();
-                break;
-            case 'keuangan':
-                $this->keuangan($next_path);
-                break;
-            default:
-                # code...
-                break;
-        }
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $this->$category($next_path, $continue_tab));
+        $this->load->view('layout/js');
     }
 
     private function cabang()
     {
-        if (count($_POST)) {
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->branch->delete($where_id);
-                    $this->session->set_flashdata("success", "Branch berhasil terhapus");
-                } else {
-                    $entry_data = array( 
-                        "name" => $_POST['name'],
-                        "owner" => $_POST['owner'],
-                        "address" => $_POST['address'],
-                        "npwp" => $_POST['npwp'],
-                        "tax_status" => $_POST['tax_status'],
-                    );
-
-                    if ($_FILES['logo']['name']) {
-                        // upload logo
-                        $config['upload_path']          = 'attachment/';
-                        $config['allowed_types']        = ['jpg', 'png', 'jpeg'];
-                        $config['encrypt_name']         = TRUE;
-                        $this->load->library('upload', $config);
-                        $this->upload->initialize($config);
-                        $this->upload->do_upload('logo');
-
-                        $uploadData = $this->upload->data();
-                        $entry_data['logo'] = $uploadData['file_name'];
-                    }
-                    $this->branch->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Branch berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "name" => $_POST['name'],
-                    "owner" => $_POST['owner'],
-                    "address" => $_POST['address'],
-                    "npwp" => $_POST['npwp'],
-                    "tax_status" => $_POST['tax_status'],
-                );
-
-                if ($_FILES['logo']['name']) {
-                    // upload logo
-                    $config['upload_path']          = 'attachment/';
-                    $config['allowed_types']        = ['jpg', 'png', 'jpeg'];
-                    $config['encrypt_name']         = TRUE;
-                    $this->load->library('upload', $config);
-                    $this->upload->initialize($config);
-                    $this->upload->do_upload('logo');
-
-                    $uploadData = $this->upload->data();
-                    $entry_data['logo'] = $uploadData['file_name'];
-                }
-
-                $this->branch->insert($entry_data);
-                $this->session->set_flashdata("success", "Branch berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Setting > System > Daftar Cabang";
-        $content['m_branch'] = $this->branch->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/master/cabang/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/master/cabang/index_js", $content, true);
+        $data['page_title'] = "Daftar Cabang";
+        $data['page_content'] = $this->load->view("setting/master/cabang/index", "", true);
+        $data['page_js'] = $this->load->view("setting/master/cabang/index_js", '', true);
 
         return $data;
     }
 
     private function barang($id = '', $next_path = '')
     {
-        if (count($_POST)) {
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->goods->delete($where_id);
-                    $this->session->set_flashdata("success", "Barang berhasil dihapus");
-                } else {
-                    $entry_data = array(
-                        "brand_description" => $_POST['brand_description'],
-                        "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
-                        "sku_code" => $_POST['sku_code'],
-                        "plu_code" => isset($_POST['plu_code']) ? $_POST['plu_code'] : null,
-                        "tax" => $_POST['tax'],
-                        "quantity" => $_POST['quantity'],
-                        "rekening_no" => $_POST['rekening_no'],
-                        "division" => $_POST['division'],
-                        "sub_division" => $_POST['sub_division'],
-                        "category" => $_POST['category'],
-                        "sub_category" => $_POST['sub_category'],
-                        "package" => $_POST['package'],
-                        "color" => $_POST['color'],
-                        "unit" => $_POST['unit'],
-                    );
-                    $this->goods->update($where_id, $entry_data);
-                }
-                $this->session->set_flashdata("success", "Barang berhasil tersimpan");
-            } else {
-                $entry_data = array(
-                    "brand_description" => $_POST['brand_description'],
-                    "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
-                    "sku_code" => $_POST['sku_code'],
-                    "plu_code" => $_POST['plu_code'],
-                    "tax" => $_POST['tax'],
-                    "quantity" => $_POST['quantity'],
-                    "rekening_no" => $_POST['rekening_no'],
-                    "division" => $_POST['division'],
-                    "sub_division" => $_POST['sub_division'],
-                    "category" => $_POST['category'],
-                    "sub_category" => $_POST['sub_category'],
-                    "package" => $_POST['package'],
-                    "color" => $_POST['color'],
-                    "unit" => $_POST['unit'],
-                );
-                $_POST['id'] = $this->goods->insert($entry_data)->row()->id;
-                $this->session->set_flashdata("success", "Barang berhasil tersimpan");
-            }
-
-            redirect(current_url());
-        }
-
         if ($id == "harga") {
             $data['page_title'] = "Harga Barang";
 
@@ -226,81 +98,19 @@ class Setting extends CI_Controller
             $data['page_content'] = $this->load->view("setting/master/barang/index", $content, true);
             $data['page_js'] = $this->load->view("setting/master/barang/index_js", "", true);
         }
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function supplier()
     {
-        $data['page_title'] = "Master Data Supplier";
+        $data['page_title'] = "Daftar Supplier";
 
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->partner->delete($where_id);
-                    $this->session->set_flashdata("success", "Partner berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "master_id" => $_POST['master_id'],
-                        "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
-                        "partner_code" => $_POST['partner_code'],
-                        "name" => $_POST['name'],
-                        "email" => $_POST['email'],
-                        "address_1" => $_POST['address_1'],
-                        "address_2" => $_POST['address_2'],
-                        "city" => $_POST['city'],
-                        "province" => $_POST['province'],
-                        "zip_code" => $_POST['zip_code'],
-                        "phone" => $_POST['phone'],
-                        "fax" => $_POST['fax'],
-                        "tax_number" => $_POST['tax_number'],
-                        "salesman" => $_POST['salesman'],
-                        "partner_type" => $_POST['partner_type'],
-                        "sales_price_level" => $_POST['sales_price_level'],
-                        "tax_address" => $_POST['tax_address'],
-                        "is_customer" => isset($_POST['is_customer']) ? 1 : 0,
-                        "is_supplier" => isset($_POST['is_supplier']) ? 1 : 0
-                    );
-                    $this->partner->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Partner berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "master_id" => $_POST['master_id'],
-                    "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
-                    "partner_code" => $_POST['partner_code'],
-                    "name" => $_POST['name'],
-                    "email" => $_POST['email'],
-                    "address_1" => $_POST['address_1'],
-                    "address_2" => $_POST['address_2'],
-                    "city" => $_POST['city'],
-                    "province" => $_POST['province'],
-                    "zip_code" => $_POST['zip_code'],
-                    "phone" => $_POST['phone'],
-                    "fax" => $_POST['fax'],
-                    "tax_number" => $_POST['tax_number'],
-                    "salesman" => $_POST['salesman'],
-                    "partner_type" => $_POST['partner_type'],
-                    "sales_price_level" => $_POST['sales_price_level'],
-                    "tax_address" => $_POST['tax_address'],
-                    "is_customer" => isset($_POST['is_customer']) ? 1 : 0,
-                    "is_supplier" => isset($_POST['is_supplier']) ? 1 : 0
-                );
-                $this->partner->insert($entry_data);
-                $this->session->set_flashdata("success", "Partner berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $where = "is_supplier = 1";
-        $content['m_partner'] = $this->partner->get($where)->result();
         $content['m_master'] = $this->master->get_all()->result();
-        $content['m_branch'] = $this->branch->get_all()->result();
+        $content['m_branch'] = $this->branch->get_all()->result(); 
+
         $data['page_content'] = $this->load->view("setting/master/supplier/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/supplier/index_js", $content, true);
+        $data['transactional'] = true;
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
@@ -311,68 +121,13 @@ class Setting extends CI_Controller
     {
         $data['page_title'] = "Daftar Customer";
 
-        if (count($_POST)) {
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->partner->delete($where_id);
-                    $this->session->set_flashdata("success", "Partner berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "name" => $_POST['name'],
-                        "email" => $_POST['email'],
-                        "partner_code" => $_POST['partner_code'],
-                        "master_code" => $_POST['master_code'],
-                        "branch_id" => $_POST['branch_id'],
-                        "address_1" => $_POST['address_1'],
-                        "address_2" => $_POST['address_2'],
-                        "city" => $_POST['city'],
-                        "province" => $_POST['province'],
-                        "zip_code" => $_POST['zip_code'],
-                        "phone" => $_POST['phone'],
-                        "fax" => $_POST['fax'],
-                        "tax_number" => $_POST['tax_number'],
-                        "partner_type" => $_POST['partner_type'],
-                        "sales_price_level" => $_POST['sales_price_level'],
-                        "tax_address" => $_POST['tax_address'],
-                        "is_customer" => $_POST['is_customer'],
-                        "is_supplier" => $_POST['is_supplier'],
-                    );
-                    $this->partner->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Partner berhasil diperbarui");
-                }
-            } else {
-                $entry_data = array(
-                    "name" => $_POST['name'],
-                    "email" => $_POST['email'],
-                    "partner_code" => $_POST['partner_code'],
-                    "master_code" => $_POST['master_code'],
-                    "branch_id" => $_POST['branch_id'],
-                    "address_1" => $_POST['address_1'],
-                    "address_2" => $_POST['address_2'],
-                    "city" => $_POST['city'],
-                    "province" => $_POST['province'],
-                    "zip_code" => $_POST['zip_code'],
-                    "phone" => $_POST['phone'],
-                    "fax" => $_POST['fax'],
-                    "tax_number" => $_POST['tax_number'],
-                    "partner_type" => $_POST['partner_type'],
-                    "sales_price_level" => $_POST['sales_price_level'],
-                    "tax_address" => $_POST['tax_address'],
-                    "is_customer" => $_POST['is_customer'],
-                    "is_supplier" => $_POST['is_supplier'],
-                );
-                $this->partner->insert($entry_data);
-                $this->session->set_flashdata("success", "Partner berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
         $content['m_master'] = $this->master->get_all()->result();
         $content['m_branch'] = $this->branch->get_all()->result();
-        
+        $content['m_partner_type'] = $this->partner_type->get_all()->result();
+ 
         $data['page_content'] = $this->load->view("setting/master/customer/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/customer/index_js", $content, true);
+        $data['transactional'] = true;
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
@@ -381,7 +136,7 @@ class Setting extends CI_Controller
 
     private function gudang()
     {
-        $data['page_title'] = "Master Data Gudang";
+        $data['page_title'] = "Daftar Gudang";
 
         if (count($_POST)) {
             if (array_key_exists("id", $_POST)) {
@@ -425,23 +180,21 @@ class Setting extends CI_Controller
         }
 
         $content['m_warehouse'] = $this->warehouse->get_all()->result();
+
         $content['m_branch'] = $this->branch->get_all()->result();
+
         $data['page_content'] = $this->load->view("setting/master/gudang/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/gudang/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function discount()
     {
         $data['page_title'] = "Master Data Discount";
-        $data['page_content'] = $this->load->view("setting/master/discount", "", true);
+        $data['page_content'] = $this->load->view("setting/master/diskon", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function keuangan($path)
@@ -512,7 +265,7 @@ class Setting extends CI_Controller
             redirect(current_url());
         }
 
-        $data['page_title'] = "Setting > Master > Daftar Unit";
+        $data['page_title'] = "Daftar Unit";
         $content['m_unit'] = $this->unit->get_all()->result();
         $data['page_content'] = $this->load->view("setting/master/unit/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/unit/index_js", $content, true);

@@ -43,14 +43,14 @@
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah <?= $good->name ?></h5>
+                    <h5 class="modal-title">Tambah <?= $good->brand_description ?></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close"></i>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="jumlah_tambah_baru_<?= $good->id ?>">Jumlah <?= $good->name ?></label>
+                        <label for="jumlah_tambah_baru_<?= $good->id ?>">Jumlah <?= $good->brand_description ?></label>
                         <input type="number" id="jumlah_tambah_baru_<?= $good->id ?>" class="form-control" value="1" min="1">
                     </div>
                     <div class="text-right">

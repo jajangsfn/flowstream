@@ -7,7 +7,7 @@
 				$("#form_receiving").submit();
 			}
 		});
-	});
+	}); 
 	
 </script> 
 <script>
@@ -17,13 +17,13 @@
 		var supplier_id_temp= $("#supplier_id_temp").val();
 		
 		var supplier_id 	= $("#supplier_id").val();
-
+		
 			$.get("<?=base_url()?>index.php/inventori/get_po_list/1",
 				{"supplier_id":supplier_id})
 			.done(function(data){
 				
 				var po_list = jQuery.parseJSON(data);
-				var po_text = "";
+				var po_text = ""; 
 				
 				$("#po_no_list").html('<option value="">Pilih No PO</option>');
 
@@ -60,9 +60,9 @@
 
 	function get_goods_list()
 	{
-		var po_id_temp  = $("#po_id_temp").val();
+		// var po_id_temp  = $("#po_id_temp").val();
 		var po_id       = $("#po_no_list").val();
-		
+			
 			$.get("<?=base_url()?>index.php/inventori/get_po_list/2",
 				{"po_id":po_id})
 			.done(function(data){
@@ -75,7 +75,7 @@
 				if ( goods_list.length > 0) {
 
 					$.each(goods_list, function(id, val) {
-						goods_text+="<option value='"+val.purchase_order_detail_id+"'>"+val.sku_code+"</option>";
+						goods_text+="<option value='"+val.goods_id+"'>"+val.sku_code+"</option>";
 					});
 
 					$("#goods_list").append(goods_text);
@@ -104,14 +104,15 @@
 
 	function get_goods_detail()
 	{
-		var po_detail_id = $("#goods_list").val();
-		 console.log(po_detail_id);
+		var po_id    = $("#po_no_list").val();
+		var goods_id = $("#goods_list").val();
+		 console.log(po_id+' '+goods_id);
 		$.get("<?=base_url()?>index.php/inventori/get_po_list/3",
-				{"po_detail_id":po_detail_id})
+				{"po_id":po_id,"goods_id":goods_id})
 		.done( function (data) {
 			
 			var goods_detail = jQuery.parseJSON(data);
-			console.log
+			
 			$("#goods_code").val(goods_detail[0].sku_code);
 			$("#goods_id").val(goods_detail[0].goods_id);
 			$("#goods_name").val(goods_detail[0].goods_name);
@@ -145,25 +146,25 @@
 		save_input.goods_qty  		= goods_qty;
 		save_input.goods_price  	= goods_price;
 		save_input.goods_discount 	= goods_discount;
-
-		if (goods_qty > goods_qty_sisa)
-		{
-			show_alert("Gagal","Maaf jumlah Barang melebihi jumlah sisa!","error");
-		} else {
+		// console.log(save_input);
+		// if (goods_qty > goods_qty_sisa)
+		// {
+		// 	show_alert("Gagal","Maaf jumlah Barang melebihi jumlah sisa!","error");
+		// } else {
 			// check same product
 			var same = false;
 			$.each(chart_goods,function(id,val){
-				if (val.po_detail_id == po_detail_id)
+				if (val.goods_id == goods_id)
 				{
-					var goods_sum = val.goods_qty + goods_qty;
+					// var goods_sum = val.goods_qty + goods_qty;
 
-					if ( goods_sum > val.goods_qty_sisa) {
+					// if ( goods_sum > val.goods_qty_sisa) {
 
-						show_alert("Gagal","Maaf jumlah Barang melebihi sisa!","error");
+					// 	show_alert("Gagal","Maaf jumlah Barang melebihi sisa!","error");
 
-					}else {
+					// }else {
 						val.goods_qty+=goods_qty;	
-					}
+					// }
 					same = true;
 					
 				}
@@ -174,7 +175,7 @@
 				chart_goods.push(save_input);
 			}
 
-		}
+		// }
 
 		
 		

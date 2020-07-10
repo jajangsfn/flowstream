@@ -26,7 +26,7 @@
 	<div class="col-md-9">
 		<?=$this->session->flashdata('msg');?>
 		<div class="card card-custom">
-			<div class="card-header flex-wrap border-0 pt-6 pb-0">
+			<div class="card-header flex-wrap">
 				<div class="card-title text-center">
 		            <h3 class="card-label">
 		                Add Purchase Order
@@ -42,8 +42,20 @@
 					<input type="hidden" name="partner_name" id="partner_name">
 					<input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=date('Y-m-d')?>">
 
-					<div class="row">
-						<div class="col-md-1"></div>
+					<div class="row mb-3">
+						<div class="col-sm-6"></div>
+						<div class="col-sm-6">
+                        <div class="d-flex align-items-center justify-content-end">
+                            <!--begin::Daterange-->
+                            <span class="p-2 rounded text-primary bg-light-primary font-weight-bold">
+                                <h6 class="font-weight-bold m-0"><?=$tgl_indo?></h6>
+                            </span>
+                            <!--end::Daterange-->
+                        </div>
+                    </div>
+					</div>
+					<div class="row mb-5">
+						<!-- <div class="col-md-1"></div> -->
 						<label class="col-form-label col-md-2">Supplier</label>
 						<div class="col-md-3">
 							<select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" onchange="show_supplier_detail()">
@@ -56,21 +68,22 @@
 		                        </select>
 						</div>
 						
-						<label class="col-form-label col-md-2 text-right">No Purchase Order</label>
+						<label class="col-form-label col-md-3 text-right">No Purchase Order</label>
 						<input type="text" name="purchase_order_no" class="form-control col-md-3" readonly value="<?=$po_no?>">
 					</div>
 
 					<div class="row mb-5">
-						<div class="col-md-1"></div>
+						
 						<label class="col-form-label col-md-2">Salesman</label>
 						<input type="text" name="salesman" class="col-md-3 form-control" id="partner_salesman" readonly>
+						<div class="col-md-1"></div>
 						<label class="col-form-label col-md-2 text-right">No Referensi</label>
 						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=$po_no?>">
 						
 					</div>
 
 					<div class="row mb-5">
-						<div class="col-md-1"></div>
+						<!-- <div class="col-md-1"></div> -->
 						<label class="col-form-label col-md-2">Deskripsi</label>
 						<textarea name="description" class="form-control col-md-3"></textarea>
 					</div>

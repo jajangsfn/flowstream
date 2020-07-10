@@ -6,6 +6,19 @@
 		      	<form method="post" id="form_receiving" action="<?=base_url()?>index.php/inventori/receiving">
 		      		<input type="hidden" name="supplier_id_temp" id="supplier_id_temp">
 		      		<input type="hidden" name="po_id_temp" id="po_id_temp">
+		      		<div class="row mb-3">
+						<div class="col-sm-6"></div>
+						<div class="col-sm-6">
+	                        <div class="d-flex align-items-center justify-content-end">
+	                            <!--begin::Daterange-->
+	                            <span class="p-2 rounded text-primary bg-light-primary font-weight-bold">
+	                                <h6 class="font-weight-bold m-0"><?=$tgl_indo?></h6>
+	                            </span>
+	                            <!--end::Daterange-->
+	                        </div>
+	                    </div>
+	                </div>
+	                
 		      		<div class="row ml-30">
 						<div class="col-md-1"></div>
 						<label class="col-form-label col-md-1 text-right">Supplier</label>
@@ -16,7 +29,7 @@
 			                       	<?php
 			                      	foreach ($supplier as $key => $val) { ?>
 			                       		<option value="<?=$val->id?>"><?=$val->name?></option>
-			                       	<?php } ?>
+			                       	<?php } ?> 
 			                    </select>
 			                </div>
 						</div>
@@ -40,8 +53,8 @@
 					</div>
 
 					<div class="row ml-30">
-						<div class="col-md-1"></div>
-						<label class="col-form-label col-md-1 text-right">Gudang</label>
+						<!-- <div class="col-md-1"></div> -->
+						<!-- <label class="col-form-label col-md-1 text-right">Gudang</label>
 						<div class="form-group col-md-3">
 		                    <div class="w-100">
 			                   <select name="ws" id="ws_id" class="form-control selectpicker" data-live-search="true" required="">
@@ -54,6 +67,12 @@
 			                </div>
 						</div>
 
+ -->	
+ 						<label class="col-form-label col-md-2 text-right">Deskripsi</label>
+						<div class="col-md-3">
+							<textarea name="description" id="description" class="form-control"></textarea>	
+						</div>
+
 						<label class="col-form-label col-md-3 text-right">No Referensi</label>
 						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=$po_no?>">
 						
@@ -61,10 +80,7 @@
 
 					<div class="row ml-30">
 						<!-- <div class="col-md-1"></div> -->
-						<label class="col-form-label col-md-2 text-right">Deskripsi</label>
-						<div class="col-md-3">
-							<textarea name="description" id="description" class="form-control"></textarea>	
-						</div>
+						
 
 					</div>
 					<hr>
@@ -105,8 +121,7 @@
 											<input type="text" name="goods_price" id="goods_price" class="form-control" readonly>
 										</td>
 										<td>
-											<button type="button" id="btn_add" class="btn btn-light-primary" onclick="add_to_chart()">
-												<span class="fa la-check"></span> Tambah
+											<button type="button" id="btn_add" class="btn btn-primary" onclick="add_to_chart()">Tambah
 											</button>
 										</td>
 									</tr>
