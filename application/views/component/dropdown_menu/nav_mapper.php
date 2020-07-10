@@ -651,14 +651,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                 new NavItem(
                     null,
                     null,
-                    "/index.php/setting/master/gudang",
-                    "Master Gudang",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
                     "/index.php/setting/master/discount",
                     "Master Discount",
                     null,

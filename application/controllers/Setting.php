@@ -143,8 +143,6 @@ class Setting extends CI_Controller
                         $data['page_title'] = "Daftar Supplier untuk Cabang " . $content['data_branch']->name;
 
                         $content['m_master'] = $this->master->get_all()->result();
-                        $content['m_branch'] = $this->branch->get_all()->result();
-
                         $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
                         $data['page_content'] = $this->load->view("setting/master/cabang/supplier", $content, true);
                         $data['page_js'] = $this->load->view("setting/master/cabang/supplier_js", $content, true);
@@ -155,13 +153,18 @@ class Setting extends CI_Controller
                     $data['page_title'] = "Daftar Customer untuk Cabang " . $content['data_branch']->name;
 
                     $content['m_master'] = $this->master->get_all()->result();
-                    $content['m_branch'] = $this->branch->get_all()->result();
                     $content['m_partner_type'] = $this->partner_type->get_all()->result();
 
                     $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
                     $data['page_content'] = $this->load->view("setting/master/cabang/customer", $content, true);
                     $data['page_js'] = $this->load->view("setting/master/cabang/customer_js", $content, true);
                     $data['transactional'] = true;
+                    break;
+                case "gudang":
+                    $data['page_title'] = "Daftar Gudang untuk Cabang " . $content['data_branch']->name;
+                    $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+                    $data['page_content'] = $this->load->view("setting/master/cabang/gudang/index", $content, true);
+                    $data['page_js'] = $this->load->view("setting/master/cabang/gudang/index_js", $content, true);
                     break;
                 default:
                     $data['page_title'] = $content['data_branch']->name;
@@ -177,18 +180,6 @@ class Setting extends CI_Controller
             $data['page_subheader'] = $this->load->view("setting/master/cabang/cabang_subheader", $content, true);
             $data['page_js'] = $this->load->view("setting/master/cabang/cabang_js", '', true);
         }
-        return $data;
-    }
-
-    private function gudang()
-    {
-        $data['page_title'] = "Daftar Gudang";
-
-        $content['m_branch'] = $this->branch->get_all()->result();
-
-        $data['page_content'] = $this->load->view("setting/master/gudang/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/master/gudang/index_js", $content, true);
-
         return $data;
     }
 

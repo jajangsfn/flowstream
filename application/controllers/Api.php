@@ -493,6 +493,13 @@ class Api extends CI_Controller
         echo json_encode(array("data" => $this->warehouse->get_all()->result()));
     }
 
+    public function gudang_branch($id_branch)
+    {
+        $data_query = $this->warehouse->get_by_branch(array("p.branch_id" => $id_branch))->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
     public function add_gudang()
     {
         $entry_data = array(
@@ -515,7 +522,6 @@ class Api extends CI_Controller
     {
         $where_id['id'] = $_POST['id'];
         $entry_data = array(
-            "branch_id" => $_POST['branch_id'],
             "code" => $_POST['code'],
             "name" => $_POST['name'],
             "address" => $_POST['address'],

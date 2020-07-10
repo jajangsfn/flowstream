@@ -75,7 +75,14 @@
                             <span class="navi-text font-size-lg">Customer</span>
                         </a>
                     </div>
-
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/gudang" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-tool"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Gudang</span>
+                        </a>
+                    </div>
                 </div>
                 <!--end::Nav-->
             </div>
