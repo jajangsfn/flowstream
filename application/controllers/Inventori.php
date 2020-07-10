@@ -288,7 +288,7 @@ class Inventori extends CI_Controller
                             "created_date" => date('Y-m-d H:i:s'),
                             "flag" => 1,
                             );
-                // echo json_encode($ws);exit;
+
                 // insert t_physical_warehouse
                 $ws_id  = $this->t_ws->insert($ws)->row()->id;
                 // insert t_physical_warehouse_detail
