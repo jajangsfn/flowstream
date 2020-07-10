@@ -112,7 +112,7 @@ class Setting extends CI_Controller
                     "id" => $id,
                 )
             )->row();
-            
+
             // untuk mapping barang
             if ($continu_path) {
                 $content['data_salesman'] = $this->part_salesman->get(
@@ -122,6 +122,7 @@ class Setting extends CI_Controller
                 )->row();
 
                 $data['page_title'] = "Mapping barang untuk " . $content['data_salesman']->name;
+                $data['back_url'] = base_url("/index.php/setting/master/supplier/$id/$next_path");
 
                 $data['page_content'] = $this->load->view("setting/master/supplier/mapping_barang", $content, true);
                 $data['page_js'] = $this->load->view("setting/master/supplier/mapping_barang_js", "", true);
@@ -134,6 +135,7 @@ class Setting extends CI_Controller
                     )
                 )->result();
                 $data['page_title'] = "Salesman untuk " . $content['data_supplier']->name;
+                $data['back_url'] = base_url("/index.php/setting/master/supplier");
                 $data['page_content'] = $this->load->view("setting/master/supplier/salesman", $content, true);
                 $data['page_js'] = $this->load->view("setting/master/supplier/salesman_js", "", true);
             }

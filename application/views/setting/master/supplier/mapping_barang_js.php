@@ -1,3 +1,4 @@
+<script src="<?= base_url("/assets/js/pages/features/miscellaneous/bootstrap-notify.js") ?>"></script>
 <script>
     $(document).ready(function() {
         $.ajax({
@@ -36,7 +37,6 @@
                     target.click(() => add_barang(target, focus.id))
                     $("#goods_placement").append(target)
                 }
-
 
                 $.ajax({
                     method: "get",
@@ -173,7 +173,15 @@
             method: "get",
             url: "<?= base_url("/index.php/api/add_salesman_map/") ?>" + id + "/<?= $data_salesman->id ?>",
             success: function(result) {
-                console.log(result);
+                $.notify({
+                    message: "Mapping berhasil ditambahkan"
+                }, {
+                    type: 'info',
+                    animate: {
+                        enter: 'animate__animated animate__fadeInDown',
+                        exit: 'animate__animated animate__fadeOutUp'
+                    }
+                });
             }
         });
     }
@@ -193,7 +201,15 @@
             method: "get",
             url: "<?= base_url("/index.php/api/remove_salesman_map/") ?>" + id + "/<?= $data_salesman->id ?>",
             success: function(result) {
-                console.log(result);
+                $.notify({
+                    message: "Mapping berhasil dihapus"
+                }, {
+                    type: 'info',
+                    animate: {
+                        enter: 'animate__animated animate__fadeInDown',
+                        exit: 'animate__animated animate__fadeOutUp'
+                    }
+                });
             }
         });
     }

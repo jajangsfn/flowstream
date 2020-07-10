@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 
 <body id="kt_body" class="header-fixed subheader-enabled page-loading">
     <!--begin::Main-->
@@ -24,7 +24,11 @@
                                         <!--begin::Page Heading-->
                                         <div class="d-flex align-items-baseline mr-5">
                                             <!--begin::Page Title-->
-                                            <a class="fa la-home mr-5 text-primary icon-md" href="<?= base_url() ?>"> </a>
+                                            <?php if (isset($back_url)) : ?>
+                                                <a class="fa la-angle-left mr-5 text-primary icon-md" href="<?= $back_url ?>"> </a>
+                                            <?php else : ?>
+                                                <a class="fa la-home mr-5 text-primary icon-md" href="<?= base_url() ?>"> </a>
+                                            <?php endif; ?>
                                             <h5 class="text-dark font-weight-bold my-2 mr-5">
                                                 <?= $page_title ?></h5>
                                             <!--end::Page Title-->
@@ -53,7 +57,11 @@
                                         <!--begin::Page Heading-->
                                         <div class="d-flex align-items-baseline mr-5">
                                             <!--begin::Page Title-->
-                                            <a class="fa la-home mr-5 text-primary icon-md" href="<?= base_url() ?>"> </a>
+                                            <?php if (isset($back_url)) : ?>
+                                                <a class="fa la-angle-left mr-5 text-primary icon-md" href="<?= $back_url ?>"> </a>
+                                            <?php else : ?>
+                                                <a class="fa la-home mr-5 text-primary icon-md" href="<?= base_url() ?>"> </a>
+                                            <?php endif; ?>
                                             <h5 class="text-dark font-weight-bold my-2 mr-5">
                                                 <?= $page_title ?></h5>
                                             <!--end::Page Title-->
