@@ -56,10 +56,10 @@ class Setting extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    public function master($category, $next_path = '', $continue_tab = '')
+    public function master($category, $next_path = '', $continue_tab = '', $final_tab = '')
     {
         $this->load->view('layout/head');
-        $this->load->view('layout/base', $this->$category($next_path, $continue_tab));
+        $this->load->view('layout/base', $this->$category($next_path, $continue_tab, $final_tab));
         $this->load->view('layout/js');
     }
 
@@ -103,26 +103,40 @@ class Setting extends CI_Controller
         return $data;
     }
 
-    private function supplier($id = '', $next_path = '')
+    private function supplier($id = '', $next_path = '', $continu_path = '')
     {
         if ($next_path == "salesman") {
+            // data supplier nya
             $content['data_supplier'] = $this->partner->get(
                 array(
                     "id" => $id,
                 )
             )->row();
-            $content['data_salesman'] = $this->part_salesman->get(
-                array(
-                    "partner_id" => $id,
-                    "flag <> " => "99"
-                )
-            )->result();
-            $data['page_title'] = "Salesman " . $content['data_supplier']->name;
+            
+            // untuk mapping barang
+            if ($continu_path) {
+                $content['data_salesman'] = $this->part_salesman->get(
+                    array(
+                        "id" => $continu_path,
+                    )
+                )->row();
 
-            $data['transactional'] = true;
+                $data['page_title'] = "Mapping barang untuk " . $content['data_salesman']->name;
 
-            $data['page_content'] = $this->load->view("setting/master/supplier/salesman", $content, true);
-            $data['page_js'] = $this->load->view("setting/master/supplier/salesman_js", "", true);
+                $data['page_content'] = $this->load->view("setting/master/supplier/mapping_barang", $content, true);
+                $data['page_js'] = $this->load->view("setting/master/supplier/mapping_barang_js", "", true);
+            } else {
+                // untuk mapping salesman
+                $content['data_salesman'] = $this->part_salesman->get(
+                    array(
+                        "partner_id" => $id,
+                        "flag <> " => "99"
+                    )
+                )->result();
+                $data['page_title'] = "Salesman untuk " . $content['data_supplier']->name;
+                $data['page_content'] = $this->load->view("setting/master/supplier/salesman", $content, true);
+                $data['page_js'] = $this->load->view("setting/master/supplier/salesman_js", "", true);
+            }
         } else {
             $data['page_title'] = "Daftar Supplier";
 

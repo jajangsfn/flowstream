@@ -20,6 +20,7 @@ class Api extends CI_Controller
                 "user_model" => "user_m",
                 "m_partner_model" => "partner",
                 "m_partner_salesman_model" => "part_salesman",
+                "m_salesman_map_model" => "salesman_map",
                 "m_goods_model" => "goods",
                 "m_branch_model" => "branch",
                 "m_warehouse_model" => "warehouse"
@@ -93,9 +94,13 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
-    public function barang()
+    public function barang($id = '')
     {
-        $data_query = $this->goods->get_complete()->result();
+        if ($id) {
+            $data_query = $this->goods->get(array("m_goods.id" => $id))->result();
+        } else {
+            $data_query = $this->goods->get_complete()->result();
+        }
         $data['data'] = $data_query;
         echo json_encode($data);
     }
@@ -350,12 +355,43 @@ class Api extends CI_Controller
         $this->session->set_flashdata("success", "Data salesman berhasil diperbarui");
         redirect($_SERVER['HTTP_REFERER']);
     }
-    
+
     public function delete_salesman()
     {
         $this->part_salesman->delete(array("id" => $_POST['id']));
         $this->session->set_flashdata("success", "Salesman telah dihapus");
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function barang_salesman($id_salesman)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->salesman_map->get_barang(array("salesman_id" => $id_salesman))->result()
+            )
+        );
+    }
+
+    public function add_salesman_map($id_barang, $id_salesman)
+    {
+        $this->salesman_map->insert(
+            array(
+                "salesman_id" => $id_salesman,
+                "goods_id" => $id_barang
+            )
+        );
+        echo json_encode(array("message" => "success"));
+    }
+    
+    public function remove_salesman_map($id_barang, $id_salesman)
+    {
+        $this->salesman_map->delete(
+            array(
+                "salesman_id" => $id_salesman,
+                "goods_id" => $id_barang
+            )
+        );
+        echo json_encode(array("message" => "success"));
     }
 
     // Cabang

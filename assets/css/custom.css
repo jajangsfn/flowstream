@@ -16,3 +16,7 @@ label.required::after {
 	content: " *";
 	color: red;
 }
+
+div[data-hide=true] {
+	display: none !important;
+}

@@ -32,9 +32,9 @@
                                 <td><?= $sman->name ?></td>
                                 <td class="text-center"><?= $sman->phone ?></td>
                                 <td class="text-center">
-                                    <button class="btn btn-light-primary" type="button">
+                                    <a class="btn btn-light-primary" type="button" href="<?= base_url("/index.php/setting/master/supplier/$data_supplier->id/salesman/$sman->id") ?>">
                                         <i class="fa fa-box"></i> Mapping Barang
-                                    </button>
+                                    </a>
                                 </td>
                                 <td class="text-center">
                                     <button type="button" class="btn btn-icon btn-sm btn-light-success" onclick="edit(<?= $sman->id ?>, '<?= $sman->name ?>', '<?= $sman->phone ?>')">
