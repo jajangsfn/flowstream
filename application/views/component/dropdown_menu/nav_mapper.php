@@ -68,7 +68,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             $this->lang->line('menu_setting_and_config'),
             null,
             null
-        ),
+        )
     );
 } else if (stripos(current_url(), "/index.php/penjualan")) {
     $nav = array(
@@ -203,7 +203,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Laporan Bulanan",
                             null,
                             null
-                        ),
+                        )
                     )
                 ),
                 new NavItem(
@@ -228,12 +228,11 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Laporan Bulanan",
                             null,
                             null
-                        ),
+                        )
                     )
                 )
-
             )
-        ),
+        )
     );
 } else if (stripos(current_url(), "/index.php/inventori")) {
     $nav = array(
@@ -282,7 +281,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Laporan Bulanan",
                             null,
                             null
-                        ),
+                        )
                     )
                 ),
                 new NavItem(
@@ -307,11 +306,11 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Laporan Bulanan",
                             null,
                             null
-                        ),
+                        )
                     )
                 )
             )
-        ),
+        )
     );
 } else if (stripos(current_url(), "/index.php/keuangan") && !stripos(current_url(), "/index.php/setting")) {
     $nav = array(
@@ -345,7 +344,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Cetak Ulang Jurnal",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -370,7 +369,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Pembayaran Hutang",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -411,7 +410,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Antar Buku Bantu (ABB)",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -444,7 +443,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Koreksi Akuntan Publik (KAP)",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -469,7 +468,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Status Tutup Buku",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -501,7 +500,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Mutasi Jurnal Harian",
                             null,
                             array()
-                        ),
+                        )
                     )
                 ),
                 new NavItem(
@@ -534,7 +533,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Laba Rugi",
                             null,
                             array()
-                        ),
+                        )
                     )
                 )
             )
@@ -577,7 +576,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Ikhtisar Pembelian",
                     null,
                     array()
-                ),
+                )
             )
         ),
         new NavItem(
@@ -602,7 +601,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Aging Hutang",
                     null,
                     array()
-                ),
+                )
             )
         )
     );
@@ -630,7 +629,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "User Role",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -750,7 +749,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Kelompok Jenis Biaya",
                             null,
                             null
-                        ),
+                        )
                     )
                 )
             )
@@ -850,7 +849,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "s_reference",
                             null,
                             null
-                        ),
+                        )
                     )
                 ),
                 new NavItem(
@@ -931,7 +930,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "m_map",
                             null,
                             null
-                        ),
+                        )
                     )
                 ),
                 new NavItem(
@@ -964,7 +963,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "ol_group_detail",
                             null,
                             null
-                        ),
+                        )
                     )
                 ),
                 new NavItem(
@@ -1037,7 +1036,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "purchase_order_parameter",
                             null,
                             null
-                        ),
+                        )
                     )
                 )
             )

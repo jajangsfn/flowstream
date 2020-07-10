@@ -169,7 +169,11 @@ class M_goods_model extends CI_Model
         $this->db->where("branch_id = $branch_id");
         $this->db->order_by("unique_id desc");
         $this->db->limit(1);
-        return $this->db->get()->row()->unique_id + 1;
+        if ($this->db->get()->num_rows() == 0) {
+            return 1;
+        } else {
+            return $this->db->get()->row()->unique_id + 1;
+        }
     }
 
     function update($where, $data)
