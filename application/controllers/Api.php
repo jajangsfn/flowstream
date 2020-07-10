@@ -105,9 +105,17 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
+    public function barang_cabang($id_cabang)
+    {
+        $data_query = $this->goods->get(array("m_goods.branch_id" => $id_cabang))->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
     public function add_barang()
     {
         $entry_data = array(
+            "branch_id" => $_POST['branch_id'],
             "brand_description" => $_POST['brand_description'],
             "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
             "sku_code" => $_POST['sku_code'],
@@ -123,7 +131,7 @@ class Api extends CI_Controller
             "color" => $_POST['color'],
             "unit" => $_POST['unit'],
         );
-        $_POST['id'] = $this->goods->insert($entry_data)->row()->id;
+        $this->goods->insert($entry_data);
         $this->session->set_flashdata("success", "Barang berhasil tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -382,7 +390,7 @@ class Api extends CI_Controller
         );
         echo json_encode(array("message" => "success"));
     }
-    
+
     public function remove_salesman_map($id_barang, $id_salesman)
     {
         $this->salesman_map->delete(

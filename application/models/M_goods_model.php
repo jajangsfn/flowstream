@@ -45,7 +45,13 @@ class M_goods_model extends CI_Model
         $this->db->join("m_price_alternate ref12", "ref12.price_index = '4' and ref12.price_id = ref8.id", "left");
         $this->db->join("m_price_alternate ref13", "ref13.price_index = '5' and ref13.price_id = ref8.id", "left");
 
+        
+        if (!isset($where['id'])) {
+            $where['m_goods.flag <>'] = 99;
+        }
         $this->db->where($where);
+
+        $this->db->order_by("m_goods.id desc");
 
         return $this->db->get();
     }
@@ -108,21 +114,18 @@ class M_goods_model extends CI_Model
     function insert($data)
     {
         $this->db->insert("m_goods", $data);
-        return $this->get($data);
     }
 
     function update($where, $data)
     {
         $this->db->where($where);
         $this->db->update("m_goods", $data);
-        return $this->get($where);
     }
 
     function delete($where)
     {
         $this->db->where($where);
         $this->db->update("m_goods", array("flag" => 99));
-        return $this->get($where);
     }
 
     function get_price($where)

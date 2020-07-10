@@ -643,14 +643,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                 new NavItem(
                     null,
                     null,
-                    "/index.php/setting/master/barang",
-                    "Master Barang",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
                     "/index.php/setting/master/cabang",
                     "Master Cabang",
                     null,

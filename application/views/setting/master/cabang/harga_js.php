@@ -7,7 +7,7 @@
                 responsivePriority: 1,
                 targets: 0
             }, ],
-            ajax: "<?= base_url("/index.php/api/barang") ?>",
+            ajax: "<?= base_url("/index.php/api/barang_cabang/$data_branch->id") ?>",
             columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {

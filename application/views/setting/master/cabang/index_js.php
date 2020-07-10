@@ -45,7 +45,19 @@
                     data: 'online_status',
                 },
                 {
-                    data: 'created_date'
+                    data: 'id',
+                    responsivePriority: -1,
+                    render: function(data, type, row, meta) {
+                        return `
+                        <a class="btn btn-sm btn-light-primary" href="<?= base_url("/index.php/setting/master/cabang/") ?>${data}/barang">
+                            <i class="flaticon2-box"></i> Daftar Barang
+                        </a>
+                        `;
+                    },
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        $(td).attr('nowrap', 'nowrap').addClass("text-center")
+                    },
+                    sortable: false
                 },
                 {
                     data: 'id',

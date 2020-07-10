@@ -25,8 +25,8 @@
                     <th>NPWP</th>
                     <th>Status Pajak</th>
                     <th>Status Online</th>
-                    <th>Tanggal Pembuatan</th>
-                    <th>Aksi</th>
+                    <th class="text-center">Daftar Barang</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
             </thead>
         </table>

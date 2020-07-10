@@ -63,31 +63,20 @@ class Setting extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    private function cabang()
+    private function cabang($id = '', $command = '', $next_command = '')
     {
-        $data['page_title'] = "Daftar Cabang";
-        $data['page_content'] = $this->load->view("setting/master/cabang/index", "", true);
-        $data['page_js'] = $this->load->view("setting/master/cabang/index_js", '', true);
+        if ($next_command == "harga") {
+            $data['back_url'] = base_url("/index.php/setting/master/cabang/$id/barang");
+            $content['data_branch'] = $this->branch->get(array("id" => $id))->row();
 
-        return $data;
-    }
-
-    private function barang($id = '', $next_path = '')
-    {
-        $data['transactional'] = true;
-        if ($id == "harga") {
-            $data['page_title'] = "Harga Barang";
-
+            $data['page_title'] = "Atur Harga Barang untuk Cabang " . $content['data_branch']->id;
             $data['transactional'] = true;
-
-            $data['page_content'] = $this->load->view("setting/master/barang/harga", '', true);
-            $data['page_js'] = $this->load->view("setting/master/barang/harga_js", "", true);
-        } else {
-            $data['page_title'] = "Master Data Barang";
-
-            // get all m_goods join to references
-            $content['list_barang'] = $this->goods->get_complete()->result();
-
+            $data['page_content'] = $this->load->view("setting/master/cabang/harga", $content, true);
+            $data['page_js'] = $this->load->view("setting/master/cabang/harga_js", $content, true);
+        } else if ($command == "barang") {
+            // data cabang
+            $content['data_branch'] = $this->branch->get(array("id" => $id))->row();
+            
             // get division, subdivision, category, subcategory, package, color for goods
             $content['division'] = $this->ref->get(array("group_data" => "GOODS_DIVISION"))->result();
             $content['sub_division'] = $this->ref->get(array("group_data" => "GOODS_SUB_DIVISION"))->result();
@@ -97,9 +86,18 @@ class Setting extends CI_Controller
             $content['color'] = $this->ref->get(array("group_data" => "GOODS_COLOR"))->result();
             $content['unit'] = $this->unit->get_all()->result();
 
-            $data['page_content'] = $this->load->view("setting/master/barang/index", $content, true);
-            $data['page_js'] = $this->load->view("setting/master/barang/index_js", "", true);
+            $data['page_title'] = "Daftar Barang untuk Cabang " . $content['data_branch']->id;
+            $data['transactional'] = true;
+            $data['back_url'] = base_url("/index.php/setting/master/cabang");
+            $data['page_content'] = $this->load->view("setting/master/cabang/barang", $content, true);
+            $data['page_js'] = $this->load->view("setting/master/cabang/barang_js", $content, true);
+        } else {
+            $data['page_title'] = "Daftar Cabang";
+            $data['transactional'] = true;
+            $data['page_content'] = $this->load->view("setting/master/cabang/index", "", true);
+            $data['page_js'] = $this->load->view("setting/master/cabang/index_js", '', true);
         }
+
         return $data;
     }
 

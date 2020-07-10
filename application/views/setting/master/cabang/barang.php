@@ -8,7 +8,7 @@
         </div>
         <div class="card-toolbar">
             <!-- Button trigger modal-->
-            <a href="<?= base_url("/index.php/setting/master/barang/harga") ?>" class="btn btn-warning mr-3 font-weight-bolder">
+            <a href="<?= base_url("/index.php/setting/master/cabang/$data_branch->id/barang/harga") ?>" class="btn btn-warning mr-3 font-weight-bolder">
                 <i class="la la-money"></i>Atur Harga Barang
             </a>
             <button type="button" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#tambahMasterBarangModal">
@@ -69,6 +69,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             <form class="form card" method="POST" action="<?= base_url("/index.php/api/add_barang") ?>">
+                <input type="hidden" name="branch_id" value="<?= $data_branch->id ?>">
                 <h3 class="card-header border-0">
                     Tambah Barang
                 </h3>
