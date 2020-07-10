@@ -14,11 +14,11 @@ class M_event_detail_model extends CI_Model
             detail.*,
             eventm.name as event_name,
             promo.name as promo_name,
-            goods.name as goods_name
+            goods.brand_description as goods_name
 
             FROM m_event_detail detail
             LEFT JOIN m_event eventm on eventm.id = detail.event_id
-            LEFT JOIN m_promo promo on promo.id = detail.promo_id
+            LEFT JOIN m_promo promo on promo.id = detail.promo_code
             LEFT JOIN m_goods goods on goods.id = detail.goods_id
             "
         );
