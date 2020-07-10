@@ -666,6 +666,14 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                 new NavItem(
                     null,
                     null,
+                    "/index.php/setting/master/map",
+                    "Master Map",
+                    null,
+                    null
+                ),
+                new NavItem(
+                    null,
+                    null,
                     null,
                     "Master Keuangan",
                     null,
@@ -870,30 +878,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                         new NavItem(
                             null,
                             null,
-                            "/index.php/setting/system/m_partner",
-                            "m_partner",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_salesman",
-                            "m_salesman",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_salesman_map",
-                            "m_salesman_map",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
                             "/index.php/setting/system/m_event",
                             "m_event",
                             null,
@@ -920,14 +904,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             null,
                             "/index.php/setting/system/m_delivery",
                             "m_delivery",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_map",
-                            "m_map",
                             null,
                             null
                         )
@@ -961,79 +937,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             null,
                             "/index.php/setting/system/ol_group_detail",
                             "ol_group_detail",
-                            null,
-                            null
-                        )
-                    )
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    null,
-                    "Ungrouped",
-                    null,
-                    array(
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/production",
-                            "production",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/production_detail",
-                            "production_detail",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/delivery_order",
-                            "delivery_order",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/delivery_team",
-                            "delivery_team",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/delivery_cost",
-                            "delivery_cost",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/purchase_order",
-                            "purchase_order",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/purchase_order_detail",
-                            "purchase_order_detail",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/purchase_order_parameter",
-                            "purchase_order_parameter",
                             null,
                             null
                         )

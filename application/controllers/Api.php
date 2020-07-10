@@ -21,6 +21,7 @@ class Api extends CI_Controller
                 "m_partner_model" => "partner",
                 "m_partner_salesman_model" => "part_salesman",
                 "m_salesman_map_model" => "salesman_map",
+                "m_map_model" => "m_map",
                 "m_goods_model" => "goods",
                 "m_branch_model" => "branch",
                 "m_warehouse_model" => "warehouse"
@@ -546,5 +547,44 @@ class Api extends CI_Controller
         $this->warehouse->delete($where_id);
         $this->session->set_flashdata("success", "Gudang berhasil terhapus");
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // map
+    public function map()
+    {
+        echo json_encode(array("data" => $this->m_map->get_all()->result()));
+    }
+
+    public function add_map()
+    {
+        $this->m_map->insert($_POST);
+        echo json_encode(
+            array(
+                "message" => "Map berhasil ditambahkan",
+                "id" => $this->db->insert_id()
+            )
+        );
+    }
+
+    public function edit_map()
+    {
+        $where = array(
+            "id" => $_POST['id']
+        );
+
+        $data = array(
+            "partner_type" => $_POST['partner_type'],
+            "price_index" => $_POST['price_index']
+        );
+
+        $this->m_map->update($where, $data);
+
+        echo json_encode(array("message" => "Map berhasil diubah"));
+    }
+
+    public function delete_map()
+    {
+        $this->m_map->delete($_POST);
+        echo json_encode(array("message" => "Map berhasil dihapus"));
     }
 }
