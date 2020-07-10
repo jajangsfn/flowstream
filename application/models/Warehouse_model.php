@@ -22,8 +22,8 @@ class Warehouse_model extends CI_Model
 		$this->db->select("tab1.*, sum(tab2.quantity)total_item,tab2.goods_id,tab2.quantity,tab2.aisle_no,tab2.stacking_no,tab2.description desc_detail,tab3.name previous_warehouse_name,tab4.name actual_warehouse_name,tab5.brand_description,tab5.sku_code");
 		$this->db->from("t_physical_warehouse tab1");
 		$this->db->join("t_physical_warehouse_detail tab2", "tab2.physical_warehouse_id=tab1.id");
-		$this->db->join("m_warehouse tab3","tab3.id=tab1.previous_warehouse");
-		$this->db->join("m_warehouse tab4","tab4.id=tab1.actual_warehouse");
+		$this->db->join("m_warehouse tab3","tab3.id=tab1.previous_warehouse","LEFT");
+		$this->db->join("m_warehouse tab4","tab4.id=tab1.actual_warehouse","LEFT");
 		$this->db->join("m_goods tab5","tab5.id=tab2.goods_id","left");
 
 		if ($where) {
