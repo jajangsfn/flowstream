@@ -1,9 +1,10 @@
 <script>
     $(document).ready(() => {
-        $("#customer_table").DataTable({
+        $("#supplier_table").DataTable({
             responsive: true,
+            ordering: false,
             paging_type: 'full_numbers',
-            ajax: "<?= base_url("/index.php/api/customer") ?>",
+            ajax: "<?= base_url("/index.php/api/supplier_branch/$data_branch->id") ?>",
             columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {
@@ -23,10 +24,16 @@
                     responsivePriority: 1
                 },
                 {
-                    data: 'address_1'
+                    data: 'address_1',
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        $(td).attr('nowrap', 'nowrap').addClass("text-center")
+                    }
                 },
                 {
-                    data: 'address_2'
+                    data: 'address_2',
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        $(td).attr('nowrap', 'nowrap').addClass("text-center")
+                    }
                 },
                 {
                     data: 'city',
@@ -34,7 +41,10 @@
                 },
                 {
                     data: 'province',
-                    responsivePriority: 1
+                    responsivePriority: 1,
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        $(td).attr('nowrap', 'nowrap').addClass("text-center")
+                    }
                 },
                 {
                     data: 'zip_code'
@@ -54,11 +64,17 @@
                     data: 'tax_number'
                 },
                 {
-                    data: 'partner_type',
-                    responsivePriority: 1
-                },
-                {
-                    data: 'sales_price_level'
+                    data: 'salesman_total',
+                    responsivePriority: 1,
+                    render: function(data, type, row, meta) {
+                        return `
+                        <div class="d-flex justify-content-center align-items-center">
+                            <a href="<?= base_url("/index.php/setting/master/cabang/$data_branch->id/supplier/") ?>${row.id}/salesman" class="btn btn-sm btn-light-warning">
+                            ${data} <i class="flaticon2-user px-0 mx-0"></i>
+                            </a>
+                        </div>
+                        `;
+                    }
                 },
                 {
                     data: 'tax_address'
@@ -71,7 +87,6 @@
                         <button type="button" class="btn btn-icon btn-sm btn-light-success" onclick="edit(
                             '${row.id}',
                             '${row.master_code}',
-                            '${row.branch_id}',
                             '${row.partner_code}',
                             '${row.name}',
                             '${row.address_1}',
@@ -82,8 +97,6 @@
                             '${row.email}',
                             '${row.phone}',
                             '${row.tax_number}',
-                            '${row.partner_type}',
-                            '${row.sales_price_level}',
                             '${row.tax_address}',
                         )">
                             <i class="flaticon2-pen"></i>
@@ -112,7 +125,6 @@
     function edit(
         id,
         master_code,
-        branch_id,
         partner_code,
         name,
         address_1,
@@ -123,12 +135,9 @@
         email,
         phone,
         tax_number,
-        partner_type,
-        sales_price_level,
         tax_address,
     ) {
         $("#id_edit").val(id);
-        $("#branch_id_edit").val(branch_id);
         $("#email_edit").val(email);
         $("#master_code_edit").val(master_code)
         $("#partner_code_edit").val(partner_code);
@@ -140,12 +149,10 @@
         $("#zip_code_edit").val(zip_code);
         $("#phone_edit").val(phone);
         $("#tax_number_edit").val(tax_number);
-        $("#partner_type_edit").val(partner_type);
-        $("#sales_price_level_edit").val(sales_price_level);
         $("#tax_address_edit").val(tax_address);
 
         $('.select2').trigger('change');
-        $("#edit_customer").modal('show');
+        $("#edit_supplier").modal('show');
     }
 
     function delete_trigger(id, name, code) {

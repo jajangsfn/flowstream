@@ -1,39 +1,84 @@
-<!--begin::Card-->
-<div class="card card-custom">
-    <div class="card-header flex-wrap border-0 pt-6 pb-0">
-        <div class="card-title">
-            <h3 class="card-label">Daftar Cabang</h3>
+<div class="row">
+    <?php foreach ($data_branches as $data_branch) : ?>
+        <!--begin::Col-->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+            <!--begin::Card-->
+            <div class="card card-custom gutter-b card-stretch">
+                <!--begin::Body-->
+                <div class="card-body text-center pt-4">
+                    <!--begin::Toolbar-->
+                    <div class="d-flex justify-content-end">
+                        <div class="dropdown dropdown-inline" data-toggle="tooltip" title="Quick actions" data-placement="top">
+                            <a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="ki ki-bold-more-hor"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-sm">
+                                <!--begin::Navigation-->
+                                <ul class="navi navi-hover">
+                                    <li class="navi-header pb-1">
+                                        <span class="text-primary text-uppercase font-weight-bold font-size-sm">Aksi:</span>
+                                    </li>
+                                    <li class="navi-item">
+                                        <a href="#" class="navi-link" onclick="edit(
+                                            '<?= $data_branch->id ?>',
+                                            '<?= $data_branch->logo ?>',
+                                            '<?= $data_branch->name ?>',
+                                            '<?= $data_branch->code ?>',
+                                            '<?= $data_branch->owner ?>',
+                                            '<?= $data_branch->address ?>',
+                                            '<?= $data_branch->npwp ?>',
+                                            '<?= $data_branch->tax_status ?>',
+                                        )">
+                                            <span class="navi-icon">
+                                                <i class="flaticon2-edit"></i>
+                                            </span>
+                                            <span class="navi-text">Edit</span>
+                                        </a>
+                                    </li>
+                                    <li class="navi-item">
+                                        <a href="#" class="navi-link" onclick="delete_trigger(
+                                            '<?= $data_branch->id ?>',
+                                        )">
+                                            <span class="navi-icon">
+                                                <i class="flaticon2-trash"></i>
+                                            </span>
+                                            <span class="navi-text">Hapus</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!--end::Navigation-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Toolbar-->
+                    <a href="<?= base_url("/index.php/setting/master/cabang/$data_branch->id") ?>">
+                        <!--begin::User-->
+                        <div class="pb-2">
+                            <div class="symbol symbol-circle symbol-lg-75">
+                                <img src="<?= base_url("/attachment/$data_branch->logo") ?>" alt="image" />
+                            </div>
+                        </div>
+                        <!--end::User-->
+                        <!--begin::Name-->
+                        <div class="my-2">
+                            <a href="#" class="text-dark font-weight-bold text-hover-primary font-size-h4">
+                                <?= $data_branch->name ?>
+                            </a>
+                        </div>
+                        <!--end::Name-->
+                        <!--begin::Label-->
+                        <div class="btn btn-sm btn-info font-weight-bold readonly" style="cursor: unset;"><?= $data_branch->code ?></div>
+                        <!--end::Label-->
+                    </a>
+                </div>
+                <!--end::Body-->
+            </div>
+            <!--end::Card-->
         </div>
-        <div class="card-toolbar">
-            <!-- Button trigger modal-->
-            <button type="button" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#tambah_m_branch">
-                <i class="la la-plus"></i>Tambah
-            </button>
-        </div>
-    </div>
-    <div class="card-body">
-        <!--begin: Datatable-->
-        <table class="table table-separate table-head-custom table-checkable" id="m_branch_table">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Logo</th>
-                    <th>Nama</th>
-                    <th>Kode Cabang</th>
-                    <th>Pemilik</th>
-                    <th>Alamat</th>
-                    <th>NPWP</th>
-                    <th>Status Pajak</th>
-                    <th>Status Online</th>
-                    <th>Tanggal Pembuatan</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-        </table>
-        <!--end: Datatable-->
-    </div>
+        <!--end::Col-->
+    <?php endforeach ?>
 </div>
-<!--end::Card-->
+
 
 <div class="modal fade" id="tambah_m_branch" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

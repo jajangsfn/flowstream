@@ -20,6 +20,7 @@ class Api extends CI_Controller
                 "user_model" => "user_m",
                 "m_partner_model" => "partner",
                 "m_partner_salesman_model" => "part_salesman",
+                "m_salesman_map_model" => "salesman_map",
                 "m_goods_model" => "goods",
                 "m_branch_model" => "branch",
                 "m_warehouse_model" => "warehouse"
@@ -93,9 +94,20 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
-    public function barang()
+    public function barang($id = '')
     {
-        $data_query = $this->goods->get_complete()->result();
+        if ($id) {
+            $data_query = $this->goods->get(array("m_goods.id" => $id))->result();
+        } else {
+            $data_query = $this->goods->get_complete()->result();
+        }
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
+    public function barang_cabang($id_cabang)
+    {
+        $data_query = $this->goods->get(array("m_goods.branch_id" => $id_cabang))->result();
         $data['data'] = $data_query;
         echo json_encode($data);
     }
@@ -103,6 +115,7 @@ class Api extends CI_Controller
     public function add_barang()
     {
         $entry_data = array(
+            "branch_id" => $_POST['branch_id'],
             "brand_description" => $_POST['brand_description'],
             "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
             "sku_code" => $_POST['sku_code'],
@@ -118,7 +131,7 @@ class Api extends CI_Controller
             "color" => $_POST['color'],
             "unit" => $_POST['unit'],
         );
-        $_POST['id'] = $this->goods->insert($entry_data)->row()->id;
+        $this->goods->insert($entry_data);
         $this->session->set_flashdata("success", "Barang berhasil tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -193,6 +206,13 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
+    public function supplier_branch($id_branch)
+    {
+        $data_query = $this->partner->get_supplier_where(array("p.branch_id" => $id_branch))->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
     public function add_supplier()
     {
         $entry_data = array(
@@ -231,7 +251,6 @@ class Api extends CI_Controller
 
         $entry_data = array(
             "master_code" => $_POST['master_code'],
-            "branch_id" => $_POST['branch_id'],
             "partner_code" => $_POST['partner_code'],
             "name" => $_POST['name'],
             "email" => $_POST['email'],
@@ -264,6 +283,13 @@ class Api extends CI_Controller
     public function customer()
     {
         $data_query = $this->partner->get_customer()->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
+    public function customer_branch($id_branch)
+    {
+        $data_query = $this->partner->get_customer_where(array("p.branch_id" => $id_branch))->result();
         $data['data'] = $data_query;
         echo json_encode($data);
     }
@@ -331,15 +357,62 @@ class Api extends CI_Controller
     }
 
     // Salesman
+
+    public function add_salesman()
+    {
+        $this->part_salesman->insert($_POST);
+        $this->session->set_flashdata("success", "Salesman berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     public function edit_salesman()
     {
         $where['id'] = $_POST['id'];
         $data['name'] = $_POST['name'];
         $data['phone'] = $_POST['phone'];
+        $data['updated_date'] = date("Y-m-d H:i:s");
 
         $this->part_salesman->update($where, $data);
         $this->session->set_flashdata("success", "Data salesman berhasil diperbarui");
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_salesman()
+    {
+        $this->part_salesman->delete(array("id" => $_POST['id']));
+        $this->session->set_flashdata("success", "Salesman telah dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function barang_salesman($id_salesman)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->salesman_map->get_barang(array("salesman_id" => $id_salesman))->result()
+            )
+        );
+    }
+
+    public function add_salesman_map($id_barang, $id_salesman)
+    {
+        $this->salesman_map->insert(
+            array(
+                "salesman_id" => $id_salesman,
+                "goods_id" => $id_barang
+            )
+        );
+        echo json_encode(array("message" => "success"));
+    }
+
+    public function remove_salesman_map($id_barang, $id_salesman)
+    {
+        $this->salesman_map->delete(
+            array(
+                "salesman_id" => $id_salesman,
+                "goods_id" => $id_barang
+            )
+        );
+        echo json_encode(array("message" => "success"));
     }
 
     // Cabang
@@ -420,6 +493,13 @@ class Api extends CI_Controller
         echo json_encode(array("data" => $this->warehouse->get_all()->result()));
     }
 
+    public function gudang_branch($id_branch)
+    {
+        $data_query = $this->warehouse->get_by_branch(array("p.branch_id" => $id_branch))->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
     public function add_gudang()
     {
         $entry_data = array(
@@ -442,7 +522,6 @@ class Api extends CI_Controller
     {
         $where_id['id'] = $_POST['id'];
         $entry_data = array(
-            "branch_id" => $_POST['branch_id'],
             "code" => $_POST['code'],
             "name" => $_POST['name'],
             "address" => $_POST['address'],

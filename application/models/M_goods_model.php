@@ -4,11 +4,7 @@ class M_goods_model extends CI_Model
 {
     function get($where)
     {
-        if (is_array($where)) {
-            return $this->db->get_where("m_goods", $where);
-        } else {
-            return $this->db->query(
-                "SELECT 
+        $this->db->select("
             m_goods.*,
             
             ref1.detail_data as division,
@@ -24,21 +20,40 @@ class M_goods_model extends CI_Model
             ref6.detail_data as color,
             ref6.id as color_id,
             ref7.name as unit,
-            ref7.id as unit_id
+            ref7.id as unit_id,
             
-            FROM `m_goods`
-            
-            left join s_reference ref1 on ref1.id = m_goods.division
-            left join s_reference ref2 on ref2.id = m_goods.sub_division
-            left join s_reference ref3 on ref3.id = m_goods.category
-            left join s_reference ref4 on ref4.id = m_goods.sub_category
-            left join s_reference ref5 on ref5.id = m_goods.package
-            left join s_reference ref6 on ref6.id = m_goods.color
-            left join m_unit ref7 on ref7.id = m_goods.id
-            
-            WHERE m_goods.flag <> 99 AND $where"
-            );
+            ref8.price as default_price,
+            ref9.price as price_1,
+            ref10.price as price_2,
+            ref11.price as price_3,
+            ref12.price as price_4,
+            ref13.price as price_5
+        ");
+
+        $this->db->from("m_goods");
+        $this->db->join("s_reference ref1", "ref1.id = m_goods.division", "left");
+        $this->db->join("s_reference ref2", "ref2.id = m_goods.sub_division", "left");
+        $this->db->join("s_reference ref3", "ref3.id = m_goods.category", "left");
+        $this->db->join("s_reference ref4", "ref4.id = m_goods.sub_category", "left");
+        $this->db->join("s_reference ref5", "ref5.id = m_goods.package", "left");
+        $this->db->join("s_reference ref6", "ref6.id = m_goods.color", "left");
+        $this->db->join("m_unit ref7", "ref7.id = m_goods.unit", "left");
+        $this->db->join("m_price ref8", "ref8.goods_id = m_goods.id", "left");
+        $this->db->join("m_price_alternate ref9", "ref9.price_index = '1' and ref9.price_id = ref8.id", "left");
+        $this->db->join("m_price_alternate ref10", "ref10.price_index = '2' and ref10.price_id = ref8.id", "left");
+        $this->db->join("m_price_alternate ref11", "ref11.price_index = '3' and ref11.price_id = ref8.id", "left");
+        $this->db->join("m_price_alternate ref12", "ref12.price_index = '4' and ref12.price_id = ref8.id", "left");
+        $this->db->join("m_price_alternate ref13", "ref13.price_index = '5' and ref13.price_id = ref8.id", "left");
+
+        
+        if (!isset($where['id'])) {
+            $where['m_goods.flag <>'] = 99;
         }
+        $this->db->where($where);
+
+        $this->db->order_by("m_goods.id desc");
+
+        return $this->db->get();
     }
 
     function get_all()
@@ -99,21 +114,18 @@ class M_goods_model extends CI_Model
     function insert($data)
     {
         $this->db->insert("m_goods", $data);
-        return $this->get($data);
     }
 
     function update($where, $data)
     {
         $this->db->where($where);
         $this->db->update("m_goods", $data);
-        return $this->get($where);
     }
 
     function delete($where)
     {
         $this->db->where($where);
         $this->db->update("m_goods", array("flag" => 99));
-        return $this->get($where);
     }
 
     function get_price($where)

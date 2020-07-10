@@ -22,6 +22,7 @@ class Setting extends CI_Controller
                 "M_branch_model" => "branch",
                 "M_master_model" => "master",
                 "M_partner_model" => "partner",
+                "M_partner_salesman_model" => "part_salesman",
                 "M_partner_type_model" => "partner_type",
                 "M_salesman_model" => "salesman",
                 "M_salesman_map_model" => "salesman_map",
@@ -55,91 +56,130 @@ class Setting extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    public function master($category, $next_path = '', $continue_tab = '')
+    public function master($category, $first = '', $second = '', $third = '', $fourth = '', $fifth = '')
     {
         $this->load->view('layout/head');
-        $this->load->view('layout/base', $this->$category($next_path, $continue_tab));
+        $this->load->view('layout/base', $this->$category($first, $second, $third, $fourth, $fifth));
         $this->load->view('layout/js');
     }
 
-    private function cabang()
+    private function cabang($id = '', $firstpath = '', $second_path = '', $third_path = '', $fourth_path = '', $fifth_path = '')
     {
-        $data['page_title'] = "Daftar Cabang";
-        $data['page_content'] = $this->load->view("setting/master/cabang/index", "", true);
-        $data['page_js'] = $this->load->view("setting/master/cabang/index_js", '', true);
+        if ($id) {
+            // data cabang
+            $content['data_branch'] = $this->branch->get(array("id" => $id))->row();
 
-        return $data;
-    }
+            switch ($firstpath) {
+                case 'barang':
 
-    private function barang($id = '', $next_path = '')
-    {
-        $data['transactional'] = true;
-        if ($id == "harga") {
-            $data['page_title'] = "Harga Barang";
+                    if ($second_path == "harga") {
+                        // pengaturan harga
+                        $data['back_url'] = base_url("/index.php/setting/master/cabang/$id/barang");
 
-            $data['transactional'] = true;
+                        $data['page_title'] = "Atur Harga Barang untuk Cabang " . $content['data_branch']->id;
+                        $data['transactional'] = true;
+                        $data['page_content'] = $this->load->view("setting/master/cabang/harga", $content, true);
+                        $data['page_js'] = $this->load->view("setting/master/cabang/harga_js", $content, true);
+                    } else {
+                        // pengaturan barang
+                        // get division, subdivision, category, subcategory, package, color for goods
+                        $content['division'] = $this->ref->get(array("group_data" => "GOODS_DIVISION"))->result();
+                        $content['sub_division'] = $this->ref->get(array("group_data" => "GOODS_SUB_DIVISION"))->result();
+                        $content['category'] = $this->ref->get(array("group_data" => "GOODS_CATEGORY"))->result();
+                        $content['sub_category'] = $this->ref->get(array("group_data" => "GOODS_SUB_CATEGORY"))->result();
+                        $content['package'] = $this->ref->get(array("group_data" => "GOODS_PACKAGE"))->result();
+                        $content['color'] = $this->ref->get(array("group_data" => "GOODS_COLOR"))->result();
+                        $content['unit'] = $this->unit->get_all()->result();
 
-            $data['page_content'] = $this->load->view("setting/master/barang/harga", '', true);
-            $data['page_js'] = $this->load->view("setting/master/barang/harga_js", "", true);
+                        $data['page_title'] = "Daftar Barang untuk Cabang " . $content['data_branch']->name;
+                        $data['transactional'] = true;
+                        $data['back_url'] = base_url("/index.php/setting/master/cabang/$id");
+                        $data['page_content'] = $this->load->view("setting/master/cabang/barang", $content, true);
+                        $data['page_js'] = $this->load->view("setting/master/cabang/barang_js", $content, true);
+                    }
+                    break;
+                case 'supplier':
+
+                    if ($fourth_path) {
+                        // data supplier nya
+                        $content['data_supplier'] = $this->partner->get(
+                            array(
+                                "id" => $second_path,
+                            )
+                        )->row();
+
+                        $content['data_salesman'] = $this->part_salesman->get(
+                            array(
+                                "id" => $fourth_path,
+                            )
+                        )->row();
+
+                        $data['page_title'] = "Mapping barang untuk " . $content['data_salesman']->name;
+                        $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id . "/supplier" . "/" . $content['data_supplier']->id . "/salesman");
+
+                        $data['page_content'] = $this->load->view("setting/master/cabang/mapping_barang", $content, true);
+                        $data['page_js'] = $this->load->view("setting/master/cabang/mapping_barang_js", "", true);
+                    } else if ($third_path == "salesman") {
+                        // data supplier nya
+                        $content['data_supplier'] = $this->partner->get(
+                            array(
+                                "id" => $second_path,
+                            )
+                        )->row();
+
+                        $content['data_salesman'] = $this->part_salesman->get(
+                            array(
+                                "partner_id" => $second_path,
+                                "flag <> " => "99"
+                            )
+                        )->result();
+
+                        $data['page_title'] = "Daftar Salesman untuk " . $content['data_supplier']->name;
+                        $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id . "/supplier");
+                        $data['page_content'] = $this->load->view("setting/master/cabang/salesman", $content, true);
+                        $data['page_js'] = $this->load->view("setting/master/cabang/salesman_js", "", true);
+                    } else {
+                        // pengaturan supplier
+                        $data['page_title'] = "Daftar Supplier untuk Cabang " . $content['data_branch']->name;
+
+                        $content['m_master'] = $this->master->get_all()->result();
+                        $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+                        $data['page_content'] = $this->load->view("setting/master/cabang/supplier", $content, true);
+                        $data['page_js'] = $this->load->view("setting/master/cabang/supplier_js", $content, true);
+                        $data['transactional'] = true;
+                    }
+                    break;
+                case "customer":
+                    $data['page_title'] = "Daftar Customer untuk Cabang " . $content['data_branch']->name;
+
+                    $content['m_master'] = $this->master->get_all()->result();
+                    $content['m_partner_type'] = $this->partner_type->get_all()->result();
+
+                    $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+                    $data['page_content'] = $this->load->view("setting/master/cabang/customer", $content, true);
+                    $data['page_js'] = $this->load->view("setting/master/cabang/customer_js", $content, true);
+                    $data['transactional'] = true;
+                    break;
+                case "gudang":
+                    $data['page_title'] = "Daftar Gudang untuk Cabang " . $content['data_branch']->name;
+                    $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+                    $data['page_content'] = $this->load->view("setting/master/cabang/gudang/index", $content, true);
+                    $data['page_js'] = $this->load->view("setting/master/cabang/gudang/index_js", $content, true);
+                    break;
+                default:
+                    $data['page_title'] = $content['data_branch']->name;
+                    $data['back_url'] = base_url("/index.php/setting/master/cabang");
+
+                    $data['page_content'] = $this->load->view("setting/master/cabang/cabang_spesifik", $content, true);
+                    break;
+            }
         } else {
-            $data['page_title'] = "Master Data Barang";
+            $content['data_branches'] = $this->branch->get_all()->result();
 
-            // get all m_goods join to references
-            $content['list_barang'] = $this->goods->get_complete()->result();
-
-            // get division, subdivision, category, subcategory, package, color for goods
-            $content['division'] = $this->ref->get(array("group_data" => "GOODS_DIVISION"))->result();
-            $content['sub_division'] = $this->ref->get(array("group_data" => "GOODS_SUB_DIVISION"))->result();
-            $content['category'] = $this->ref->get(array("group_data" => "GOODS_CATEGORY"))->result();
-            $content['sub_category'] = $this->ref->get(array("group_data" => "GOODS_SUB_CATEGORY"))->result();
-            $content['package'] = $this->ref->get(array("group_data" => "GOODS_PACKAGE"))->result();
-            $content['color'] = $this->ref->get(array("group_data" => "GOODS_COLOR"))->result();
-            $content['unit'] = $this->unit->get_all()->result();
-
-            $data['page_content'] = $this->load->view("setting/master/barang/index", $content, true);
-            $data['page_js'] = $this->load->view("setting/master/barang/index_js", "", true);
+            $data['page_content'] = $this->load->view("setting/master/cabang/cabang", $content, true);
+            $data['page_subheader'] = $this->load->view("setting/master/cabang/cabang_subheader", $content, true);
+            $data['page_js'] = $this->load->view("setting/master/cabang/cabang_js", '', true);
         }
-        return $data;
-    }
-
-    private function supplier()
-    {
-        $data['page_title'] = "Daftar Supplier";
-
-        $content['m_master'] = $this->master->get_all()->result();
-        $content['m_branch'] = $this->branch->get_all()->result();
-
-        $data['page_content'] = $this->load->view("setting/master/supplier/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/master/supplier/index_js", $content, true);
-        $data['transactional'] = true;
-
-        return $data;
-    }
-
-    private function customer()
-    {
-        $data['page_title'] = "Daftar Customer";
-
-        $content['m_master'] = $this->master->get_all()->result();
-        $content['m_branch'] = $this->branch->get_all()->result();
-        $content['m_partner_type'] = $this->partner_type->get_all()->result();
-
-        $data['page_content'] = $this->load->view("setting/master/customer/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/master/customer/index_js", $content, true);
-        $data['transactional'] = true;
-
-        return $data;
-    }
-
-    private function gudang()
-    {
-        $data['page_title'] = "Daftar Gudang";
-
-        $content['m_branch'] = $this->branch->get_all()->result();
-
-        $data['page_content'] = $this->load->view("setting/master/gudang/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/master/gudang/index_js", $content, true);
-
         return $data;
     }
 

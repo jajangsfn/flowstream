@@ -17,7 +17,6 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Cabang</th>
                     <th>Kode Gudang</th>
                     <th>Nama Gudang</th>
                     <th>Alamat</th>
@@ -45,21 +44,7 @@
                 </button>
             </div>
             <div class="modal-body row">
-                <div class="col-md-12">
-                    <?= $this->load->view("component/input/flowstream_select", array(
-                        "name" => "branch_id",
-                        "title" => "Cabang",
-
-                        "list" => $m_branch,
-                        "identifier" => "id",
-                        "showable" => "name",
-
-                        "manage_url" => base_url("/index.php/setting/master/cabang"),
-                        "object_name" => "Cabang",
-
-                        "selected" => false,
-                    ), true); ?>
-                </div>
+                <input type="hidden" name="branch_id" value="<?= $data_branch->id ?>">
                 <div class="col-md-6">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "code",
@@ -156,23 +141,6 @@
                 </button>
             </div>
             <div class="modal-body row">
-                <div class="col-md-12">
-                    <?= $this->load->view("component/input/flowstream_select", array(
-                        "name" => "branch_id",
-                        "title" => "Cabang",
-
-                        "list" => $m_branch,
-                        "identifier" => "id",
-                        "showable" => "name",
-                        
-                        "id" => "branch_id_edit",
-
-                        "manage_url" => base_url("/index.php/setting/master/cabang"),
-                        "object_name" => "Cabang",
-
-                        "selected" => false,
-                    ), true); ?>
-                </div>
                 <div class="col-md-6">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "code",

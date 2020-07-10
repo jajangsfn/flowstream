@@ -3,18 +3,11 @@
         $("#m_warehouse_table").DataTable({
             responsive: true,
             paging_type: 'full_numbers',
-            ajax: "<?= base_url("/index.php/api/gudang") ?>",
-            columns: [
-                {
+            ajax: "<?= base_url("/index.php/api/gudang_branch/$data_branch->id") ?>",
+            columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {
                         return `<div class="text-center">${meta.row + 1}</div>`;
-                    }
-                },
-                {
-                    data: 'branch_name',
-                    createdCell: function(td, cellData, rowData, row, col) {
-                        $(td).attr('nowrap', 'nowrap')
                     }
                 },
                 {
@@ -54,7 +47,6 @@
                         return `
                         <button type="button" class="btn btn-icon btn-sm btn-light-success" onclick="edit(
                             '${row.id}',
-                            '${row.branch_id}',
                             '${row.code}',
                             '${row.name}',
                             '${row.address}',
@@ -99,7 +91,6 @@
 
     function edit(
         id,
-        branch_id,
         code,
         name,
         address,
@@ -109,7 +100,6 @@
         description,
     ) {
         $("#id_edit").val(id);
-        $("#branch_id_edit").val(branch_id);
         $("#code_edit").val(code);
         $("#name_edit").val(name);
         $("#address_edit").val(address);
