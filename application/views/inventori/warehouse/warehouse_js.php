@@ -223,7 +223,7 @@
 						$("#goods_list").html('<option value="">Pilih Barang</option>');
 
 						$.each( parse, function(id, val) {
-							text+="<option value='"+val.goods_id+"'>"+val.goods_name+"</option>";
+							text+="<option value='"+val.goods_id+"'>"+val.sku_code+"</option>";
 						});
 
 						$("#goods_list").append(text);
