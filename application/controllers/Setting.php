@@ -193,36 +193,37 @@ class Setting extends CI_Controller
 
     private function keuangan($path)
     {
+        //hooker
         switch ($path) {
             case 'kode_rekening':
-                $this->kode_rekening();
+                return $this->kode_rekening();
                 break;
             case 'kode_jenis_biaya':
-                $this->kode_jenis_biaya();
+                return $this->kode_jenis_biaya();
                 break;
             case 'mata_uang':
-                $this->mata_uang();
+                return $this->mata_uang();
                 break;
             case 'sumber_dana':
-                $this->sumber_dana();
+                return $this->sumber_dana();
                 break;
             case 'tipe_jurnal':
-                $this->tipe_jurnal();
+                return $this->tipe_jurnal();
                 break;
             case 'pembagian_laba_rugi':
-                $this->pembagian_laba_rugi();
+                return $this->pembagian_laba_rugi();
                 break;
             case 'ikhtisar_kode_rekening':
-                $this->ikhtisar_kode_rekening();
+                return $this->ikhtisar_kode_rekening();
                 break;
             case 'aging_kode_rekening':
-                $this->aging_kode_rekening();
+                return $this->aging_kode_rekening();
                 break;
             case 'kelompok_rekening':
-                $this->kelompok_rekening();
+                return $this->kelompok_rekening();
                 break;
             case 'kelompok_jenis_biaya':
-                $this->kelompok_jenis_biaya();
+                return $this->kelompok_jenis_biaya();
                 break;
             default:
                 break;
@@ -300,9 +301,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/master/keuangan/kode_rekening/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/keuangan/kode_rekening/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function kode_jenis_biaya()
@@ -310,9 +309,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Kode Jenis Biaya";
         $data['page_content'] = $this->load->view("setting/master/keuangan/kode_jenis_biaya", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function mata_uang()
@@ -320,9 +317,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Mata Uang";
         $data['page_content'] = $this->load->view("setting/master/keuangan/mata_uang", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function sumber_dana()
@@ -330,9 +325,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Sumber Dana";
         $data['page_content'] = $this->load->view("setting/master/keuangan/sumber_dana", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function tipe_jurnal()
@@ -340,9 +333,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Tipe Jurnal";
         $data['page_content'] = $this->load->view("setting/master/keuangan/tipe_jurnal", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function pembagian_laba_rugi()
@@ -350,9 +341,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Pembagian Laba Rugi";
         $data['page_content'] = $this->load->view("setting/master/keuangan/pembagian_laba_rugi", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function ikhtisar_kode_rekening()
@@ -360,9 +349,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Ikhtisar Kode Rekening";
         $data['page_content'] = $this->load->view("setting/master/keuangan/ikhtisar_kode_rekening", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function aging_kode_rekening()
@@ -370,9 +357,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Aging Kode Rekening";
         $data['page_content'] = $this->load->view("setting/master/keuangan/aging_kode_rekening", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function kelompok_rekening()
@@ -380,9 +365,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Kelompok Rekening";
         $data['page_content'] = $this->load->view("setting/master/keuangan/kelompok_rekening", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function kelompok_jenis_biaya()
@@ -390,9 +373,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Kelompok Jenis Biaya";
         $data['page_content'] = $this->load->view("setting/master/keuangan/kelompok_jenis_biaya", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     public function user($category)
