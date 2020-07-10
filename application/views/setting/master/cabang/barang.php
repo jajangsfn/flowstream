@@ -94,7 +94,7 @@
                                 <?= $this->load->view("component/input/flowstream_input", array(
                                     "name" => "barcode",
                                     "type" => "number",
-                                    "required" => true,
+                                    "required" => false,
 
                                     "placeholder" => "Barcode",
                                     "label" => "Barcode",

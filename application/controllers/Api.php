@@ -66,7 +66,7 @@ class Api extends CI_Controller
 
         // check if login data match in database
         $user_query = $this->user_m->get($login_data);
-        
+
         if ($user_query->num_rows()) {
             // do login
             $this->session->set_userdata(
@@ -118,7 +118,6 @@ class Api extends CI_Controller
         $entry_data = array(
             "branch_id" => $_POST['branch_id'],
             "brand_description" => $_POST['brand_description'],
-            "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
             "sku_code" => $_POST['sku_code'],
             "plu_code" => $_POST['plu_code'],
             "tax" => $_POST['tax'],
@@ -132,6 +131,9 @@ class Api extends CI_Controller
             "color" => $_POST['color'],
             "unit" => $_POST['unit'],
         );
+        if (isset($_POST['barcode']) && $_POST['barcode']) {
+            $entry_data['barcode'] = $_POST['barcode'];
+        }
         $this->goods->insert($entry_data);
         $this->session->set_flashdata("success", "Barang berhasil tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
