@@ -15,7 +15,7 @@ class User_Model extends CI_Model
         return $this->db->get();
     }
 
-    function get_all()
+    function get_all() 
     {
         return $this->db->get("m_user");
     }

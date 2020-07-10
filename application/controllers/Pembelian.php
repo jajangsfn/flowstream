@@ -236,6 +236,7 @@ class Pembelian extends CI_Controller
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_no();
         $data['master']       = array();
+        $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['page_content'] = $this->load->view("pembelian/add_purchase", $data ,true);
 
         $this->load->view('layout/head');
@@ -252,7 +253,7 @@ class Pembelian extends CI_Controller
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_no();
         $data['master']       = $this->po->get_all_trx(array("tab1.id"=>$id),array("tab1.id","tab5.id"))->result();
-        // echo json_encode($data['master']);exit;
+        $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['page_content'] = $this->load->view("pembelian/edit_purchase", $data ,true);
 
         $this->load->view('layout/head');

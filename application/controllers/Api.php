@@ -66,6 +66,7 @@ class Api extends CI_Controller
 
         // check if login data match in database
         $user_query = $this->user_m->get($login_data);
+        
         if ($user_query->num_rows()) {
             // do login
             $this->session->set_userdata(

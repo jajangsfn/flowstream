@@ -96,7 +96,7 @@
 				if ( goods_list.length > 0) {
 
 					$.each(goods_list, function(id, val) {
-						goods_text+="<option value='"+val.purchase_order_detail_id+"'>"+val.sku_code+"</option>";
+						goods_text+="<option value='"+val.goods_id+"'>"+val.sku_code+"</option>";
 					});
 
 					$("#goods_list").append(goods_text);
@@ -127,14 +127,15 @@
 
 	function get_goods_detail()
 	{
-		var po_detail_id = $("#goods_list").val();
-		
+		var po_id    = $("#po_no_list").val();
+		var goods_id = $("#goods_list").val();
+
+		 
 		$.get("<?=base_url()?>index.php/inventori/get_po_list/3",
-				{"po_detail_id":po_detail_id})
+				{"po_id":po_id,"goods_id":goods_id})
 		.done( function (data) {
 			
 			var goods_detail = jQuery.parseJSON(data);
-			
 			$("#goods_code").val(goods_detail[0].sku_code);
 			$("#goods_id").val(goods_detail[0].goods_id);
 			$("#goods_name").val(goods_detail[0].goods_name);
@@ -169,24 +170,24 @@
 		save_input.goods_price  	= goods_price;
 		save_input.goods_discount 	= goods_discount;
 
-		if (goods_qty > goods_qty_sisa)
-		{
-			show_alert("Gagal","Maaf jumlah Barang melebihi jumlah sisa!","error");
-		} else {
+		// if (goods_qty > goods_qty_sisa)
+		// {
+		// 	show_alert("Gagal","Maaf jumlah Barang melebihi jumlah sisa!","error");
+		// } else {
 			// check same product
 			var same = false;
-			$.each(chart_goods,function(id,val){
-				if (val.po_detail_id == po_detail_id)
+			$.each(chart_goods,function(id,val){;
+				if (val.goods_id == goods_id)
 				{
 					var goods_sum = val.goods_qty + goods_qty;
 
-					if ( goods_qty_sisa < goods_sum ) {
+					// if ( goods_qty_sisa < goods_sum ) {
 
-						show_alert("Danger","Maaf Jumlah Receive lebih dari jumlah pesan!","error");
+					// 	show_alert("Danger","Maaf Jumlah Receive lebih dari jumlah pesan!","error");
 
-					}else {
+					// }else {
 						val.goods_qty+=goods_qty;	
-					}
+					// }
 					same = true;
 					
 				}
@@ -196,7 +197,7 @@
 
 				chart_goods.push(save_input);
 			}
-		}
+		// }
 		
 		clear_goods_chart();
 		show_goods_to_chart();
@@ -276,7 +277,7 @@
 		var json = '<?=isset($master) ? json_encode($master) :"";?>';
 		var data = (json) ? jQuery.parseJSON(json) : [];
 		if (data.length > 0){
-
+			console.log(data);
 			$.each(data,function(id,val){
 				var code = (val.sku_code) ? val.sku_code : 'Kosong';
 				var save_input = {};

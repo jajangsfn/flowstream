@@ -43,6 +43,8 @@ class Penjualan extends CI_Controller
             "customers" => $this->partner->get_customer()->result(),
             "goods" => $this->goods->get_complete()->result()
         );
+
+        // echo json_encode($content['goods']);exit;
         $data['page_content'] = $this->load->view("penjualan/order_request/index", $content, true);
         $data['page_js'] = $this->load->view("penjualan/order_request/index_js", "", true);
         $data['page_modal'] = $this->load->view("penjualan/order_request/modal", "", true);

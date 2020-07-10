@@ -13,8 +13,8 @@
 
 
 		      		<div class="row ml-30">
-						<div class="col-md-1"></div>
-						<label class="col-form-label col-md-1 text-right">Supplier</label>
+						<!-- <div class="col-md-1"></div> -->
+						<label class="col-form-label col-md-2 text-right">Supplier</label>
 						<div class="form-group col-md-3">
 		                    <div class="w-100">
 			                   <select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" onchange="get_po_list()">
@@ -29,7 +29,7 @@
 			                    </select>
 			                </div>
 						</div>
-						<label class="col-form-label col-md-2 text-right">No Purchase Receive</label>
+						<label class="col-form-label col-md-3 text-right">No Purchase Receive</label>
 						<input type="text" name="purchase_receive_no" class="form-control col-md-3" readonly value="<?=($master) ? $master[0]->receiving_no : $po_no?>">
 					</div>
 
@@ -43,7 +43,7 @@
 
 						</div>
 						
-						<label class="col-form-label col-md-2 text-right">Tanggal Receive</label>
+						<label class="col-form-label col-md-3 text-right">Tanggal Receive</label>
 						<input type="text" name="tgl_receive" class="col-md-3 form-control" value="<?=($master) ? date("Y-m-d", strtotime($master[0]->created_date)) : date('Y-m-d')?>" readonly>
 						
 					</div>
@@ -67,14 +67,14 @@
 			                </div>
 						</div>
 
-						<label class="col-form-label col-md-2 text-right">No Referensi</label>
+						<label class="col-form-label col-md-3 text-right">No Referensi</label>
 						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=($master) ? $master[0]->reference_no : $po_no?>">
 						
 					</div>
 
 					<div class="row ml-30">
-						<div class="col-md-1"></div>
-						<label class="col-form-label col-md-1 text-right">Deskripsi</label>
+						<!-- <div class="col-md-1"></div> -->
+						<label class="col-form-label col-md-2 text-right">Deskripsi</label>
 						<div class="col-md-3">
 							<textarea name="description" id="description" class="form-control"><?=$master[0]->description?></textarea>	
 						</div>
@@ -118,8 +118,8 @@
 											<input type="text" name="goods_price" id="goods_price" class="form-control" readonly>
 										</td>
 										<td>
-											<button type="button" id="btn_add" class="btn btn-light-primary" onclick="add_to_chart()">
-												<span class="fa la-check"></span> Tambah
+											<button type="button" id="btn_add" class="btn btn-primary" onclick="add_to_chart()">
+												Tambah
 											</button>
 										</td>
 									</tr>

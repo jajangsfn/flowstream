@@ -31,6 +31,8 @@ class Warehouse_model extends CI_Model
 			$this->db->where($where);
 		}
 
+        $this->db->order_by("tab1.id desc, tab2.id desc");
+
 
 		if ($group_by) {
 

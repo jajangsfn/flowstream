@@ -186,11 +186,9 @@ class Setting extends CI_Controller
     private function discount()
     {
         $data['page_title'] = "Master Data Discount";
-        $data['page_content'] = $this->load->view("setting/master/discount", "", true);
+        $data['page_content'] = $this->load->view("setting/master/diskon", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function keuangan($path)
@@ -261,7 +259,7 @@ class Setting extends CI_Controller
             redirect(current_url());
         }
 
-        $data['page_title'] = "Setting > Master > Daftar Unit";
+        $data['page_title'] = "Daftar Unit";
         $content['m_unit'] = $this->unit->get_all()->result();
         $data['page_content'] = $this->load->view("setting/master/unit/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/unit/index_js", $content, true);
