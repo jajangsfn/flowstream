@@ -32,7 +32,7 @@
                                 <td><?= $sman->name ?></td>
                                 <td class="text-center"><?= $sman->phone ?></td>
                                 <td class="text-center">
-                                    <a class="btn btn-light-primary" type="button" href="<?= base_url("/index.php/setting/master/supplier/$data_supplier->id/salesman/$sman->id") ?>">
+                                    <a class="btn btn-light-primary" type="button" href="<?= base_url("/index.php/setting/master/cabang/$data_branch->id/supplier/$data_supplier->id/salesman/$sman->id") ?>">
                                         <i class="fa fa-box"></i> Mapping Barang
                                     </a>
                                 </td>

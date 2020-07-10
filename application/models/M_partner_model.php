@@ -56,6 +56,57 @@ class M_partner_model extends CI_Model
         );
     }
 
+    function get_supplier_where($where)
+    {
+        $this->db->select("
+            p.*,
+            b.name as branch,
+            m.name as master,
+            count(ps.name) as salesman_total
+        ");
+
+        $this->db->from("m_partner p");
+        $this->db->join("m_branch b", "b.id = p.branch_id", "left");
+        $this->db->join("m_master m", "m.code = p.master_code", "left");
+        $this->db->join("m_partner_salesman ps", "ps.partner_id = p.id", "left");
+
+        $where['p.flag <>'] = 99;
+        $where['p.is_supplier'] = 1;
+        $where['ps.flag <>'] = 99;
+
+        $this->db->where($where);
+
+        $this->db->group_by("p.id");
+
+        $this->db->order_by("p.id desc");
+
+        return $this->db->get();
+    }
+
+    function get_customer_where($where)
+    {
+        $this->db->select("
+            p.*,
+            b.name as branch,
+            m.name as master
+        ");
+
+        $this->db->from("m_partner p");
+        $this->db->join("m_branch b", "b.id = p.branch_id", "left");
+        $this->db->join("m_master m", "m.code = p.master_code", "left");
+
+        $where['p.flag <>'] = 99;
+        $where['p.is_customer'] = 1;
+
+        $this->db->where($where);
+
+        $this->db->group_by("p.id");
+
+        $this->db->order_by("p.id desc");
+
+        return $this->db->get();
+    }
+
     function get_all()
     {
         return $this->db->query(

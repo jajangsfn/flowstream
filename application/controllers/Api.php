@@ -206,6 +206,13 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
+    public function supplier_branch($id_branch)
+    {
+        $data_query = $this->partner->get_supplier_where(array("p.branch_id" => $id_branch))->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
     public function add_supplier()
     {
         $entry_data = array(
@@ -235,7 +242,7 @@ class Api extends CI_Controller
 
         // done
         $this->session->set_flashdata("success", "Supplier berhasil tersimpan");
-        // redirect($_SERVER['HTTP_REFERER']);
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function edit_supplier()
@@ -244,7 +251,6 @@ class Api extends CI_Controller
 
         $entry_data = array(
             "master_code" => $_POST['master_code'],
-            "branch_id" => $_POST['branch_id'],
             "partner_code" => $_POST['partner_code'],
             "name" => $_POST['name'],
             "email" => $_POST['email'],
@@ -277,6 +283,13 @@ class Api extends CI_Controller
     public function customer()
     {
         $data_query = $this->partner->get_customer()->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
+    public function customer_branch($id_branch)
+    {
+        $data_query = $this->partner->get_customer_where(array("p.branch_id" => $id_branch))->result();
         $data['data'] = $data_query;
         echo json_encode($data);
     }
