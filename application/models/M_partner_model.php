@@ -115,7 +115,7 @@ class M_partner_model extends CI_Model
             m.name as master
             FROM m_partner p
             LEFT JOIN m_branch b on b.id = p.branch_id
-            LEFT JOIN m_master m on m.id = p.master_id
+            LEFT JOIN m_master m on m.id = p.master_code
             
             WHERE p.flag <> 99"
         );

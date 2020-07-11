@@ -49,7 +49,7 @@
 					</div>
 
 					<div class="row ml-30">
-						<div class="col-md-1"></div>
+						<!-- <div class="col-md-1"></div>
 						<label class="col-form-label col-md-1 text-right">Gudang</label>
 						<div class="form-group col-md-3">
 		                    <div class="w-100">
@@ -65,6 +65,11 @@
 			                       	<?php } }?>
 			                    </select>
 			                </div>
+						</div> -->
+
+						<label class="col-form-label col-md-2 text-right">Deskripsi</label>
+						<div class="col-md-3">
+							<textarea name="description" id="description" class="form-control"><?=$master[0]->description?></textarea>	
 						</div>
 
 						<label class="col-form-label col-md-3 text-right">No Referensi</label>
@@ -72,14 +77,7 @@
 						
 					</div>
 
-					<div class="row ml-30">
-						<!-- <div class="col-md-1"></div> -->
-						<label class="col-form-label col-md-2 text-right">Deskripsi</label>
-						<div class="col-md-3">
-							<textarea name="description" id="description" class="form-control"><?=$master[0]->description?></textarea>	
-						</div>
-
-					</div>
+					
 					<hr>
 
 					<div class="row mt-1">

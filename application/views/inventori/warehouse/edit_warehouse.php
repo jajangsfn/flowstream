@@ -75,7 +75,7 @@
           </div>  
           <div class="col-md-3">
               <div class="input-group mb-3">
-                    <input type="text" name="nro" id="nro" class="form-control" placeholder="No Receive Order. . ." aria-label="" aria-describedby="basic-addon1" value="<?=$warehouse[0]->reference_no?>">
+                    <input type="text" name="nro" id="nro" class="form-control" placeholder="No Receive Order. . ." aria-label="" aria-describedby="basic-addon1" value="<?=$warehouse[0]->physical_warehouse_no?>">
                   <div class="input-group-prepend">
                      <button class="btn btn-info" type="button" onclick="search_receive_order()">search</button>
                    </div>

@@ -123,7 +123,7 @@ class Inventori extends CI_Controller
             }
         }
 
-        $data['receive']      = $this->rm->get_all_receive()->result(); 
+        $data['receive']      = $this->rm->get_all_receive()->result();  
         $data['page_title']   = "Receiving";
         $data['page_content'] = $this->load->view("inventori/receiving", $data, true);
         $data['master']       = null;
@@ -288,7 +288,7 @@ class Inventori extends CI_Controller
                             "created_date" => date('Y-m-d H:i:s'),
                             "flag" => 1,
                             );
-                // echo json_encode($ws);exit;
+
                 // insert t_physical_warehouse
                 $ws_id  = $this->t_ws->insert($ws)->row()->id;
                 // insert t_physical_warehouse_detail
@@ -363,7 +363,7 @@ class Inventori extends CI_Controller
 
     public function get_ws_goods()
     {
-        $receiving_no = $this->input->get('receive_no');
+        $receiving_no = $this->input->get('receive_no'); 
 
         $data       = $this->rm->get_all_receive("tab1.receiving_no=".$receiving_no,"tab2.goods_id")->result();
 

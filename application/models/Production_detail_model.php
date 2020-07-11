@@ -11,7 +11,7 @@ class Production_detail_model extends CI_Model
     {
         return $this->db->query(
             "SELECT p.*, 
-            b.name as goods_name, 
+            b.brand_description as goods_name, 
             m.name as production_name
             FROM production_detail p
             LEFT JOIN m_goods b on b.id = p.goods_id

@@ -14,7 +14,7 @@ class M_salesman_map_model extends CI_Model
             SELECT 
             map.id, 
             s.name as salesman_name, 
-            g.name as goods_name, 
+            g.brand_description as goods_name, 
             g.id as goods_id, 
             s.id as salesman_id 
 

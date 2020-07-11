@@ -889,4 +889,175 @@ class Setting extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
+
+    private function delivery_order($path)
+    {
+        if (count($_POST)) {
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->delivery_order->delete($where_id);
+                    $this->session->set_flashdata("success", "Delivery Order berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "branch_id" => $_POST['branch_id'],
+                        "delivery_no" => $_POST['delivery_no'],
+                        "description" => $_POST['description'],
+                        "delivery_date" => $_POST['delivery_date'],
+                        "car_number" => $_POST['car_number'],
+                    );
+                    $this->delivery_order->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Delivery Order berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "branch_id" => $_POST['branch_id'],
+                    "delivery_no" => $_POST['delivery_no'],
+                    "description" => $_POST['description'],
+                    "delivery_date" => $_POST['delivery_date'],
+                    "car_number" => $_POST['car_number'],
+                );
+                $this->delivery_order->insert($entry_data);
+                $this->session->set_flashdata("success", "Delivery Order berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar delivery_order";
+        $content['m_branch'] = $this->branch->get_all()->result();
+        $content['delivery_order'] = $this->delivery_order->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/delivery_order/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/delivery_order/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function delivery_team($path)
+    {
+        if (count($_POST)) {
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->delivery_team->delete($where_id);
+                    $this->session->set_flashdata("success", "Delivery Order berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "delivery_order_id" => $_POST['delivery_order_id'],
+                        "user_id" => $_POST['user_id'],
+                        "description" => $_POST['description'],
+                        "job_description" => $_POST['job_description'],
+                    );
+                    $this->delivery_team->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Delivery Order berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "delivery_order_id" => $_POST['delivery_order_id'],
+                    "user_id" => $_POST['user_id'],
+                    "description" => $_POST['description'],
+                    "job_description" => $_POST['job_description'],
+                );
+                $this->delivery_team->insert($entry_data);
+                $this->session->set_flashdata("success", "Delivery Order berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar delivery_order";
+        $content['delivery_team'] = $this->delivery_team->get_all()->result();
+        $content['delivery_order'] = $this->delivery_order->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/delivery_team/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/delivery_team/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function delivery_cost($path)
+    {
+        if (count($_POST)) {
+
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->delivery_cost->delete($where_id);
+                    $this->session->set_flashdata("success", "Delivery Cost berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "delivery_order_id" => $_POST['delivery_order_id'],
+                        "delivery_id" => $_POST['delivery_id'],
+                    );
+                    $this->delivery_cost->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Delivery Cost berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "delivery_order_id" => $_POST['delivery_order_id'],
+                    "delivery_id" => $_POST['delivery_id'],
+                );
+                $this->delivery_cost->insert($entry_data);
+                $this->session->set_flashdata("success", "Delivery Cost berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar delivery_cost";
+        $content['m_delivery'] = $this->delivery->get_all()->result();
+        $content['delivery_order'] = $this->delivery_order->get_all()->result();
+        $content['delivery_cost'] = $this->delivery_cost->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/delivery_cost/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/delivery_cost/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    private function purchase_order_parameter($path)
+    {
+        if (count($_POST)) {
+            if (array_key_exists("id", $_POST)) {
+                $where_id['id'] = $_POST['id'];
+                if (array_key_exists("delete", $_POST)) {
+                    $this->param_purchase_order->delete($where_id);
+                    $this->session->set_flashdata("success", "Parameter berhasil terhapus");
+                } else {
+                    $entry_data = array(
+                        "rekening_code_id" => $_POST['rekening_code_id'],
+                    );
+                    $this->param_purchase_order->update($where_id, $entry_data);
+                    $this->session->set_flashdata("success", "Parameter berhasil tersimpan");
+                }
+            } else {
+                $entry_data = array(
+                    "rekening_code_id" => $_POST['rekening_code_id'],
+                );
+                $this->param_purchase_order->insert($entry_data);
+                $this->session->set_flashdata("success", "Parameter berhasil tersimpan");
+            }
+            redirect(current_url());
+        }
+
+        $data['page_title'] = "Setting > System > Daftar purchase_order_parameter";
+        $content['rekening_code'] = $this->rekening_code->get_all()->result();
+        $content['purchase_order_parameter'] = $this->param_purchase_order->get_all()->result();
+        $data['page_content'] = $this->load->view("setting/system/purchase_order_parameter/index", $content, true);
+        $data['page_js'] = $this->load->view("setting/system/purchase_order_parameter/index_js", $content, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    // public function purchase_order()
+    // {
+    //     $data['page_title'] = "Setting > System > Purchase Order";
+    //     $data['page_content'] = $this->load->view("setting/system/purchase_order/index", true);
+    //     $this->load->view('layout/head');
+    //     $this->load->view('layout/base', $data);
+    //     $this->load->view('layout/js');   
+    // }
 }

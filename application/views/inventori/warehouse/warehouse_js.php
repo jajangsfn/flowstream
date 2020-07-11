@@ -132,6 +132,8 @@
 		$("#nama_barang").val('');
 		$("#kode_barang").val('');
 		$("#quantity").val(1);
+		$("#goods_list").val("");
+		$("#goods_list").selectpicker('');
 	}
 
 
@@ -215,8 +217,8 @@
 						{"receive_no":receive_no})
 				.done( function(data) {
 
-					var parse = jQuery.parseJSON(data);
-
+					var parse = jQuery.parseJSON(data); 
+					console.log(parse);
 
 					if ( parse.length > 0 ) {
 
