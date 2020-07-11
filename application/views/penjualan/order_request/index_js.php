@@ -1,42 +1,8 @@
 <script>
-    $(document).ready(function() {
-        $.ajax({
-            method: "get",
-            url: "<?= base_url("/index.php/api/barang") ?>",
-            success: function(result) {
-                for (let i = 0; i < result.data.length; i++) {
-                    const focus = result.data[i];
+    var branch_id = 0;
+    var index_harga = 0;
 
-                    const keyword = (focus.brand_name + focus.brand_description + focus.barcode).replace(/ /g, '').toLowerCase();
-                    const target = $(document.createElement("div"))
-                        .addClass("d-flex align-items-center justify-content-between mb-5 text-dark-75 text-hover-primary")
-                        .click(() => add_modal(focus.id))
-                        .attr("style", "cursor: pointer")
-                        .attr("data-keyword", keyword)
-                        .append(
-                            $(document.createElement("div"))
-                            .addClass("d-flex justify-content-center flex-column mr-2")
-                            .append(
-                                $(document.createElement("div"))
-                                .append(
-                                    $(document.createElement("span"))
-                                    .addClass("font-size-h6 font-weight-bolder")
-                                    .text(focus.brand_name)
-                                ),
-                                $(document.createElement("span"))
-                                .text(focus.brand_description)
-                            ),
-                            $(document.createElement("button"))
-                            .attr("type", "button")
-                            .addClass("btn btn-white text-primary")
-                            .append(
-                                $(document.createElement("i")).addClass("fa text-primary fa-angle-right p-0")
-                            )
-                        );
-                    $("#goods_placement").append(target)
-                }
-            }
-        })
+    $(document).ready(function() {
         $('#pilih_customer').select2({
             placeholder: "Pilih Customer",
             width: "100%"
@@ -64,10 +30,16 @@
             url: "<?= base_url("/index.php/api/get_barang/") ?>" + id_barang,
             success: function(result) {
                 const focus = result.data;
+                let price;
+                if (focus["price_" + index_harga]) {
+                    price = focus["price_" + index_harga];
+                } else {
+                    price = focus["default_price"];
+                }
                 $("#nama_barang_tambah").text(focus.brand_name);
                 $("#desk_barang_tambah").text(focus.brand_description);
                 $("#barcode_barang_tambah").text(focus.barcode);
-                $("#harga_barang_tambah").text(10000); // TODO
+                $("#harga_barang_tambah").text(price);
                 $("#tombol_tambah_baru").attr("data-id-barang", focus.id)
 
                 $("#tambah_barang").modal("show");
@@ -75,7 +47,75 @@
         });
     }
 
-    function change_customer(e) {}
+    function change_customer(e) {
+        // get customer info
+        $.ajax({
+            method: "get",
+            url: "<?= base_url("/index.php/api/get_customer/") ?>" + $(e).val(),
+            success: function(result) {
+                branch_id = result.data.branch_id;
+                index_harga = result.data.index_harga;
+
+                $("#branch_id_afterselect").val(branch_id);
+                $("#partner_name_afterselect").val(result.data.name);
+
+                // get Order Request Number
+                $.ajax({
+                    method: "get",
+                    url: "<?= base_url("/index.php/api/get_order_number/") ?>" + branch_id,
+                    success: function(result) {
+                        $("#or_no").text("No #" + result.data).removeClass("d-none");
+                        $("#order_no_afterselect").val(result.data);
+                    },
+                    error: function(response) {
+                        console.log(response.responseText);
+                    }
+                })
+
+                // get list barang
+                $.ajax({
+                    method: "get",
+                    url: "<?= base_url("/index.php/api/barang_cabang/") ?>" + branch_id,
+                    success: function(result) {
+                        $("#order_request_col").addClass("col-lg-9").removeClass("col-lg-12");
+                        $("#daftar_barang_col_lg").addClass("d-lg-block");
+                        $("#goods_placement").empty();
+                        for (let i = 0; i < result.data.length; i++) {
+                            const focus = result.data[i];
+
+                            const keyword = (focus.brand_name + focus.brand_description + focus.barcode).replace(/ /g, '').toLowerCase();
+                            const target = $(document.createElement("div"))
+                                .addClass("d-flex align-items-center justify-content-between mb-5 text-dark-75 text-hover-primary")
+                                .click(() => add_modal(focus.id))
+                                .attr("style", "cursor: pointer")
+                                .attr("data-keyword", keyword)
+                                .append(
+                                    $(document.createElement("div"))
+                                    .addClass("d-flex justify-content-center flex-column mr-2")
+                                    .append(
+                                        $(document.createElement("div"))
+                                        .append(
+                                            $(document.createElement("span"))
+                                            .addClass("font-size-h6 font-weight-bolder")
+                                            .text(focus.brand_name)
+                                        ),
+                                        $(document.createElement("span"))
+                                        .text(focus.brand_description)
+                                    ),
+                                    $(document.createElement("button"))
+                                    .attr("type", "button")
+                                    .addClass("btn btn-white text-primary")
+                                    .append(
+                                        $(document.createElement("i")).addClass("fa text-primary fa-angle-right p-0")
+                                    )
+                                );
+                            $("#goods_placement").append(target)
+                        }
+                    }
+                })
+            }
+        })
+    }
 
     function delete_baris(id) {
         $subtotal_sebelumnya = parseInt($("#total_harga_" + id).text());
@@ -84,6 +124,12 @@
 
         $("#" + id).remove();
         render_table_number();
+
+        if ($("table#daftar_barang_order tbody").children().length > 0) {
+            $("button[type=submit]").removeAttr("disabled");
+        } else {
+            $("button[type=submit]").attr("disabled", "disabled");
+        }
     }
 
     function render_table_number() {
@@ -117,6 +163,12 @@
 
         // Tambahkan ke total bersih
         $("#total_harga_order").text($total_bersih + $subtotal_baru);
+
+        if ($("table#daftar_barang_order tbody").children().length > 0) {
+            $("button[type=submit]").removeAttr("disabled");
+        } else {
+            $("button[type=submit]").attr("disabled", "disabled");
+        }
     }
 
     function tambah_barang(element) {
@@ -126,10 +178,17 @@
         $.ajax({
             url: "<?= base_url("/index.php/api/get_barang/") ?>" + id,
             success: function(response) {
+                let price;
+                if (response.data["price_" + index_harga]) {
+                    price = response.data["price_" + index_harga];
+                } else {
+                    price = response.data["default_price"];
+                }
+
+                price = parseInt(price);
                 $jumlah_baru = $("#jumlah_tambah_baru").val();
-                $subtotal_baru = $jumlah_baru * 10000 * 0.9; // TODO: ganti 1 jadi harga
+                $subtotal_baru = $jumlah_baru * price;
                 const data = response.data;
-                $("table#daftar_barang_order tbody tr.odd").remove();
                 $("table#daftar_barang_order tbody").append(
                     $(document.createElement("tr")).attr("id", data.id).append(
                         // numbering
@@ -162,14 +221,13 @@
                         // unit barang
                         $(document.createElement("td")).text(data.unit),
 
-                        // harga barang (TODO)
                         $(document.createElement("td")).append(
                             $(document.createElement("input"))
                             .attr("type", "number")
                             .addClass("form-control text-right rupiah")
                             .attr("id", "harga_" + data.id)
                             .attr("name", "harga_" + data.id)
-                            .val(10000)
+                            .val(price)
                             .attr("min", "1")
                             .change(() => hitung_ulang(data.id))
                         ),
@@ -182,7 +240,7 @@
                             .attr("style", "width: 100%")
                             .attr("id", "diskon_" + data.id)
                             .attr("name", "diskon_" + data.id)
-                            .val(10)
+                            .val(0)
                             .attr("min", "1")
                             .attr("max", "100")
                             .change(() => hitung_ulang(data.id)),
@@ -204,6 +262,9 @@
                 render_table_number();
                 $total_sebelumnya = parseInt($("#total_harga_order").text());
                 $("#total_harga_order").text($total_sebelumnya + $subtotal_baru);
+
+                // tombol submit
+                $("button[type=submit]").removeAttr("disabled");
             }
         })
     }

@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-3 d-lg-block d-none">
+    <div class="col-lg-3 d-none" id="daftar_barang_col_lg">
         <div class="card card-custom gutter-b sticky-top" style="top: 100px">
             <div class="card-header py-5">
                 <h3 class="card-title align-items-start flex-column">
@@ -14,21 +14,24 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-9">
-        <div class="card card-custom gutter-b">
+    <div class="col-lg-12" id="order_request_col">
+        <form class="card card-custom gutter-b" action="<?= base_url("/api/kirim_order_request") ?>" method="POST">
             <div class="card-header">
-                <div class="card-title">Order Request No #9999999</div>
+                <div class="card-title">Order Request <span id="or_no" class="d-none">No #</span></div>
                 <div class="card-toolbar d-unset d-lg-none">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#daftarBarang">
                         Pilih Barang
                     </button>
                 </div>
             </div>
-            <form class="card-body" action="<?= current_url() ?>" method="POST">
+            <div class="card-body">
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <select id="pilih_customer" class="select2" onchange="change_customer(this)">
+                            <input type="hidden" name="branch_id" id="branch_id_afterselect">
+                            <input type="hidden" name="partner_name" id="partner_name_afterselect">
+                            <input type="hidden" name="order_no" id="order_no_afterselect">
+                            <select id="pilih_customer" class="select2" onchange="change_customer(this)" name="partner_id">
                                 <option label="Label"></option>
                                 <?php foreach ($customers as $customer) : ?>
                                     <option value="<?= $customer->id ?>"><?= $customer->name ?> (<?= $customer->branch ?>)</option>
@@ -48,6 +51,10 @@
                             <!--end::Daterange-->
                         </div>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="description_field">Deskripsi</label>
+                    <textarea class="form-control" id="description_field" name="description" rows="3" placeholder="Masukan catatan order"></textarea>
                 </div>
                 <hr>
                 <div class="table-responsive">
@@ -73,10 +80,10 @@
                 <h5 class="text-right font-weight-bold">
                     Total <span id="total_harga_order">0</span>
                 </h5>
-            </form>
+            </div>
             <div class="card-footer text-right">
                 <button type="submit" class="btn btn-primary" disabled> Simpan </button>
             </div>
-        </div>
+        </form>
     </div>
 </div>

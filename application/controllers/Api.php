@@ -25,7 +25,8 @@ class Api extends CI_Controller
                 "m_goods_model" => "goods",
                 "m_branch_model" => "branch",
                 "m_warehouse_model" => "warehouse",
-                "s_reference_model" => "reference"
+                "s_reference_model" => "reference",
+                "t_order_request_model" => "or"
             )
         );
     }
@@ -93,7 +94,7 @@ class Api extends CI_Controller
     public function get_barang($id)
     {
         $where['m_goods.id'] = $id;
-        
+
         $data_query = $this->goods->get($where)->row();
         $data['data'] = $data_query;
         echo json_encode($data);
@@ -297,6 +298,13 @@ class Api extends CI_Controller
     public function customer_branch($id_branch)
     {
         $data_query = $this->partner->get_customer_where(array("p.branch_id" => $id_branch))->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
+    public function get_customer($id)
+    {
+        $data_query = $this->partner->get_customer_where(array("p.id" => $id))->row();
         $data['data'] = $data_query;
         echo json_encode($data);
     }
@@ -622,10 +630,20 @@ class Api extends CI_Controller
         $this->session->set_flashdata("success", "Reference berhasil diubah");
         redirect($_SERVER['HTTP_REFERER']);
     }
+
     public function delete_reference()
     {
         $this->reference->delete($_POST);
         $this->session->set_flashdata("success", "Reference berhasil dihapus");
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function get_order_number($id_branch)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->or->get_next_no(array("branch_id" => $id_branch))
+            )
+        );
     }
 }
