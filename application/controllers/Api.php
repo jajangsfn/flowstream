@@ -21,9 +21,11 @@ class Api extends CI_Controller
                 "m_partner_model" => "partner",
                 "m_partner_salesman_model" => "part_salesman",
                 "m_salesman_map_model" => "salesman_map",
+                "m_map_model" => "m_map",
                 "m_goods_model" => "goods",
                 "m_branch_model" => "branch",
-                "m_warehouse_model" => "warehouse"
+                "m_warehouse_model" => "warehouse",
+                "s_reference_model" => "reference"
             )
         );
     }
@@ -66,7 +68,7 @@ class Api extends CI_Controller
 
         // check if login data match in database
         $user_query = $this->user_m->get($login_data);
-        
+
         if ($user_query->num_rows()) {
             // do login
             $this->session->set_userdata(
@@ -120,7 +122,6 @@ class Api extends CI_Controller
         $entry_data = array(
             "branch_id" => $_POST['branch_id'],
             "brand_description" => $_POST['brand_description'],
-            "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
             "sku_code" => $_POST['sku_code'],
             "plu_code" => $_POST['plu_code'],
             "tax" => $_POST['tax'],
@@ -134,6 +135,9 @@ class Api extends CI_Controller
             "color" => $_POST['color'],
             "unit" => $_POST['unit'],
         );
+        if (isset($_POST['barcode']) && $_POST['barcode']) {
+            $entry_data['barcode'] = $_POST['barcode'];
+        }
         $this->goods->insert($entry_data);
         $this->session->set_flashdata("success", "Barang berhasil tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
@@ -545,6 +549,83 @@ class Api extends CI_Controller
         $where_id['id'] = $_POST['id'];
         $this->warehouse->delete($where_id);
         $this->session->set_flashdata("success", "Gudang berhasil terhapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // map
+    public function map()
+    {
+        echo json_encode(array("data" => $this->m_map->get_all()->result()));
+    }
+
+    public function add_map()
+    {
+        $this->m_map->insert($_POST);
+        echo json_encode(
+            array(
+                "message" => "Map berhasil ditambahkan",
+                "id" => $this->db->insert_id()
+            )
+        );
+    }
+
+    public function edit_map()
+    {
+        $where = array(
+            "id" => $_POST['id']
+        );
+
+        $data = array(
+            "partner_type" => $_POST['partner_type'],
+            "price_index" => $_POST['price_index']
+        );
+
+        $this->m_map->update($where, $data);
+
+        echo json_encode(array("message" => "Map berhasil diubah"));
+    }
+
+    public function delete_map()
+    {
+        $this->m_map->delete($_POST);
+        echo json_encode(array("message" => "Map berhasil dihapus"));
+    }
+
+    // reference
+    public function reference_branch($group_data, $id_branch)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->reference->get(
+                    array(
+                        "group_data" => $group_data,
+                        "branch_id" => $id_branch
+                    )
+                )->result()
+            )
+        );
+    }
+
+    public function add_reference()
+    {
+        $_POST['updated_by'] = $this->session->id;
+        $this->reference->insert($_POST);
+        $this->session->set_flashdata("success", "Reference berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function edit_reference()
+    {
+        $where = array("id" => $_POST['id']);
+        $data = array('detail_data' => $_POST['detail_data']);
+        $this->reference->update($where, $data);
+        $this->session->set_flashdata("success", "Reference berhasil diubah");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+    public function delete_reference()
+    {
+        $this->reference->delete($_POST);
+        $this->session->set_flashdata("success", "Reference berhasil dihapus");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }

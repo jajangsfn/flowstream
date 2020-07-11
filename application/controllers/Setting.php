@@ -163,8 +163,20 @@ class Setting extends CI_Controller
                 case "gudang":
                     $data['page_title'] = "Daftar Gudang untuk Cabang " . $content['data_branch']->name;
                     $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+
                     $data['page_content'] = $this->load->view("setting/master/cabang/gudang/index", $content, true);
                     $data['page_js'] = $this->load->view("setting/master/cabang/gudang/index_js", $content, true);
+                    break;
+                case "reference":
+                    $target = ucwords(str_replace("_", " ", $second_path));
+
+                    $data['page_title'] = "Daftar $target untuk Cabang " . $content['data_branch']->name;
+                    $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+
+                    $content['target'] = $target;
+                    $content['data_target'] = strtoupper($second_path);
+                    $data['page_content'] = $this->load->view("setting/master/cabang/reference/index", $content, true);
+                    $data['page_js'] = $this->load->view("setting/master/cabang/reference/index_js", $content, true);
                     break;
                 default:
                     $data['page_title'] = $content['data_branch']->name;
@@ -193,36 +205,37 @@ class Setting extends CI_Controller
 
     private function keuangan($path)
     {
+        //hooker
         switch ($path) {
             case 'kode_rekening':
-                $this->kode_rekening();
+                return $this->kode_rekening();
                 break;
             case 'kode_jenis_biaya':
-                $this->kode_jenis_biaya();
+                return $this->kode_jenis_biaya();
                 break;
             case 'mata_uang':
-                $this->mata_uang();
+                return $this->mata_uang();
                 break;
             case 'sumber_dana':
-                $this->sumber_dana();
+                return $this->sumber_dana();
                 break;
             case 'tipe_jurnal':
-                $this->tipe_jurnal();
+                return $this->tipe_jurnal();
                 break;
             case 'pembagian_laba_rugi':
-                $this->pembagian_laba_rugi();
+                return $this->pembagian_laba_rugi();
                 break;
             case 'ikhtisar_kode_rekening':
-                $this->ikhtisar_kode_rekening();
+                return $this->ikhtisar_kode_rekening();
                 break;
             case 'aging_kode_rekening':
-                $this->aging_kode_rekening();
+                return $this->aging_kode_rekening();
                 break;
             case 'kelompok_rekening':
-                $this->kelompok_rekening();
+                return $this->kelompok_rekening();
                 break;
             case 'kelompok_jenis_biaya':
-                $this->kelompok_jenis_biaya();
+                return $this->kelompok_jenis_biaya();
                 break;
             default:
                 break;
@@ -267,6 +280,16 @@ class Setting extends CI_Controller
         return $data;
     }
 
+    private function map()
+    {
+        $data['page_title'] = "Daftar Map";
+
+        $data['page_content'] = $this->load->view("setting/master/map/index", "", true);
+        $data['page_js'] = $this->load->view("setting/master/map/index_js", "", true);
+
+        return $data;
+    }
+
     private function kode_rekening()
     {
         if (count($_POST)) {
@@ -300,9 +323,7 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/master/keuangan/kode_rekening/index", $content, true);
         $data['page_js'] = $this->load->view("setting/master/keuangan/kode_rekening/index_js", $content, true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function kode_jenis_biaya()
@@ -310,9 +331,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Kode Jenis Biaya";
         $data['page_content'] = $this->load->view("setting/master/keuangan/kode_jenis_biaya", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function mata_uang()
@@ -320,9 +339,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Mata Uang";
         $data['page_content'] = $this->load->view("setting/master/keuangan/mata_uang", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function sumber_dana()
@@ -330,9 +347,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Sumber Dana";
         $data['page_content'] = $this->load->view("setting/master/keuangan/sumber_dana", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function tipe_jurnal()
@@ -340,9 +355,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Tipe Jurnal";
         $data['page_content'] = $this->load->view("setting/master/keuangan/tipe_jurnal", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function pembagian_laba_rugi()
@@ -350,9 +363,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Pembagian Laba Rugi";
         $data['page_content'] = $this->load->view("setting/master/keuangan/pembagian_laba_rugi", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function ikhtisar_kode_rekening()
@@ -360,9 +371,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Ikhtisar Kode Rekening";
         $data['page_content'] = $this->load->view("setting/master/keuangan/ikhtisar_kode_rekening", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function aging_kode_rekening()
@@ -370,9 +379,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Aging Kode Rekening";
         $data['page_content'] = $this->load->view("setting/master/keuangan/aging_kode_rekening", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function kelompok_rekening()
@@ -380,9 +387,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Kelompok Rekening";
         $data['page_content'] = $this->load->view("setting/master/keuangan/kelompok_rekening", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function kelompok_jenis_biaya()
@@ -390,9 +395,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Master Data Keuangan > Kelompok Jenis Biaya";
         $data['page_content'] = $this->load->view("setting/master/keuangan/kelompok_jenis_biaya", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     public function user($category)
@@ -541,63 +544,6 @@ class Setting extends CI_Controller
         $this->$path($next_path);
     }
 
-    private function s_reference($path)
-    {
-        if (count($_POST)) {
-
-            $entry_data = array(
-                "branch_id" => $_POST['branch_id'],
-                "group_data" => $_POST['group_data'],
-                "detail_data" => $_POST['detail_data']
-            );
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->ref->delete($where_id);
-                    $this->session->set_flashdata("success", "Reference berhasil terhapus");
-                } else {
-                    $this->ref->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Reference berhasil tersimpan");
-                }
-            } else {
-                $this->ref->insert($entry_data);
-                $this->session->set_flashdata("success", "Reference berhasil tersimpan");
-            }
-
-            if (array_key_exists("back", $_POST)) {
-                redirect($_POST['back']);
-            } else {
-                $content['back_url'] = $_POST['back_url'];
-            }
-        }
-
-        if ($path) {
-            $data['page_title'] = "Konfigurasi s_reference";
-            if ($path  == 'goods_division') {
-                $content['group_data'] = "GOODS_DIVISION";
-            } else if ($path == "goods_category") {
-                $content['group_data'] = "GOODS_CATEGORY";
-            } else if ($path == "goods_package") {
-                $content['group_data'] = "GOODS_PACKAGE";
-            } else if ($path == "goods_color") {
-                $content['group_data'] = "GOODS_COLOR";
-            }
-            $data['page_content'] = $this->load->view("setting/system/s_reference/tambah", $content, true);
-        } else {
-            $data['page_title'] = "Setting > System > Daftar S_Reference";
-            $content['s_reference'] = $this->ref->get_all()->result();
-            $content['group_data'] = $this->ref->get_group_data()->result_array();
-            $content['m_branch'] = $this->branch->get_all()->result();
-            $data['page_content'] = $this->load->view("setting/system/s_reference/index", $content, true);
-            $data['page_js'] = $this->load->view("setting/system/s_reference/index_js", $content, true);
-        }
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
     private function m_master($path)
     {
         if (count($_POST)) {
@@ -632,159 +578,6 @@ class Setting extends CI_Controller
         $content['m_master'] = $this->master->get_all()->result();
         $data['page_content'] = $this->load->view("setting/system/m_master/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_master/index_js", $content, true);
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    private function m_partner($path)
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->partner->delete($where_id);
-                    $this->session->set_flashdata("success", "Partner berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "master_id" => $_POST['master_id'],
-                        "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
-                        "partner_code" => $_POST['partner_code'],
-                        "name" => $_POST['name'],
-                        "address_1" => $_POST['address_1'],
-                        "address_2" => $_POST['address_2'],
-                        "city" => $_POST['city'],
-                        "province" => $_POST['province'],
-                        "zip_code" => $_POST['zip_code'],
-                        "phone" => $_POST['phone'],
-                        "fax" => $_POST['fax'],
-                        "tax_number" => $_POST['tax_number'],
-                        "salesman" => $_POST['salesman'],
-                        "partner_type" => $_POST['partner_type'],
-                        "sales_price_level" => $_POST['sales_price_level'],
-                        "tax_address" => $_POST['tax_address'],
-                        "is_customer" => isset($_POST['is_customer']) ? 1 : 0,
-                        "is_supplier" => isset($_POST['is_supplier']) ? 1 : 0
-                    );
-                    $this->partner->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Partner berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "master_id" => $_POST['master_id'],
-                    "branch_id" => isset($_POST['branch_id']) ? $_POST['branch_id'] : null,
-                    "partner_code" => $_POST['partner_code'],
-                    "name" => $_POST['name'],
-                    "address_1" => $_POST['address_1'],
-                    "address_2" => $_POST['address_2'],
-                    "city" => $_POST['city'],
-                    "province" => $_POST['province'],
-                    "zip_code" => $_POST['zip_code'],
-                    "phone" => $_POST['phone'],
-                    "fax" => $_POST['fax'],
-                    "tax_number" => $_POST['tax_number'],
-                    "salesman" => $_POST['salesman'],
-                    "partner_type" => $_POST['partner_type'],
-                    "sales_price_level" => $_POST['sales_price_level'],
-                    "tax_address" => $_POST['tax_address'],
-                    "is_customer" => isset($_POST['is_customer']) ? 1 : 0,
-                    "is_supplier" => isset($_POST['is_supplier']) ? 1 : 0
-                );
-                $this->partner->insert($entry_data);
-                $this->session->set_flashdata("success", "Partner berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Setting > System > Daftar M_Partner";
-        $content['m_partner'] = $this->partner->get_all()->result();
-        $content['m_master'] = $this->master->get_all()->result();
-        $content['m_branch'] = $this->branch->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/system/m_partner/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/system/m_partner/index_js", $content, true);
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    private function m_salesman($path)
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->salesman->delete($where_id);
-                    $this->session->set_flashdata("success", "Salesman berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "partner_id" => $_POST['partner_id'],
-                        "name" => $_POST['name'],
-                        "phone" => $_POST['phone'],
-                    );
-                    $this->salesman->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Salesman berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "partner_id" => $_POST['partner_id'],
-                    "name" => $_POST['name'],
-                    "phone" => $_POST['phone'],
-                );
-                $this->salesman->insert($entry_data);
-                $this->session->set_flashdata("success", "Salesman berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Setting > System > Daftar M_Salesman";
-        $content['m_salesman'] = $this->salesman->get_all()->result();
-        $content['m_partner'] = $this->partner->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/system/m_salesman/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/system/m_salesman/index_js", $content, true);
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    private function m_salesman_map($path)
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->salesman_map->delete($where_id);
-                    $this->session->set_flashdata("success", "Salesman Map berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "salesman_id" => $_POST['salesman_id'],
-                        "goods_id" => $_POST['goods_id'],
-                    );
-                    $this->salesman_map->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Salesman Map berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "salesman_id" => $_POST['salesman_id'],
-                    "goods_id" => $_POST['goods_id'],
-                );
-                $this->salesman_map->insert($entry_data);
-                $this->session->set_flashdata("success", "Salesman Map berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Setting > System > Daftar M_Salesman_Map";
-        $content['m_salesman'] = $this->salesman->get_all()->result();
-        $content['m_goods'] = $this->goods->get_all()->result();
-        $content['m_salesman_map'] = $this->salesman_map->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/system/m_salesman_map/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/system/m_salesman_map/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
@@ -964,127 +757,6 @@ class Setting extends CI_Controller
         $content['m_branch'] = $this->branch->get_all()->result();
         $data['page_content'] = $this->load->view("setting/system/m_delivery/index", $content, true);
         $data['page_js'] = $this->load->view("setting/system/m_delivery/index_js", $content, true);
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    private function production($path)
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->production->delete($where_id);
-                    $this->session->set_flashdata("success", "Production berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "name" => $_POST['name'],
-                    );
-                    $this->production->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Production berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "name" => $_POST['name'],
-                );
-                $this->production->insert($entry_data);
-                $this->session->set_flashdata("success", "Production berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Setting > System > Daftar Production";
-        $content['production'] = $this->production->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/system/production/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/system/production/index_js", $content, true);
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    private function production_detail($path)
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->production_detail->delete($where_id);
-                    $this->session->set_flashdata("success", "Production detail berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "production_id" => $_POST['production_id'],
-                        "goods_id" => $_POST['goods_id'],
-                    );
-                    $this->production_detail->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Production detail berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "production_id" => $_POST['production_id'],
-                    "goods_id" => $_POST['goods_id'],
-                );
-                $this->production_detail->insert($entry_data);
-                $this->session->set_flashdata("success", "Production detail berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Setting > System > Daftar Production Detail";
-        $content['production'] = $this->production->get_all()->result();
-        $content['m_goods'] = $this->goods->get_all()->result();
-        $content['production_detail'] = $this->production_detail->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/system/production_detail/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/system/production_detail/index_js", $content, true);
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
-    private function m_map($path)
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->map->delete($where_id);
-                    $this->session->set_flashdata("success", "Map berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "partner_id" => $_POST['partner_id'],
-                        "event_id" => $_POST['event_id'],
-                        "goods_id" => $_POST['goods_id'],
-                        "price" => $_POST['price'],
-                    );
-                    $this->map->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Map berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "partner_id" => $_POST['partner_id'],
-                    "event_id" => $_POST['event_id'],
-                    "goods_id" => $_POST['goods_id'],
-                    "price" => $_POST['price'],
-                );
-                $this->map->insert($entry_data);
-                $this->session->set_flashdata("success", "Map berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Setting > System > Daftar M_Map";
-        $content['m_partner'] = $this->partner->get_all()->result();
-        $content['m_goods'] = $this->goods->get_all()->result();
-        $content['m_event'] = $this->event->get_all()->result();
-        $content['m_map'] = $this->map->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/system/m_map/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/system/m_map/index_js", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

@@ -4,6 +4,7 @@ class S_reference_model extends CI_Model
 {
     function get($where)
     {
+        $where['flag <>'] = 99;
         return $this->db->get_where("s_reference", $where);
     }
 

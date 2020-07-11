@@ -45,7 +45,7 @@ class M_goods_model extends CI_Model
         $this->db->join("m_price_alternate ref12", "ref12.price_index = '4' and ref12.price_id = ref8.id", "left");
         $this->db->join("m_price_alternate ref13", "ref13.price_index = '5' and ref13.price_id = ref8.id", "left");
 
-        
+
         if (!isset($where['id'])) {
             $where['m_goods.flag <>'] = 99;
         }
@@ -113,7 +113,67 @@ class M_goods_model extends CI_Model
 
     function insert($data)
     {
+        $data['unique_id'] = $this->get_next_unique_id($data['branch_id']);
+        // set unique id
+        if (!isset($data['barcode'])) {
+            // 2 Digit Awal merupakan kode Standar EAN-13, kode yang dipakai system flowstream adalah 23
+            $barcode = "23";
+
+            // 5 Digit selanjutnya adalah kode partner (branch id)
+            $barcode .= sprintf('%05d', $data['branch_id']);
+
+            // 5 Digit Selanjutnya adalah unique_id_barang
+            $barcode .= sprintf('%05d', $data['unique_id']);
+
+            // 1 Digit terakhit adalah Check Digit. 
+            $barcode .= $this->setup_checkdigit($barcode);
+
+            $data['barcode'] = $barcode;
+        }
         $this->db->insert("m_goods", $data);
+    }
+
+    function setup_checkdigit($barcode)
+    {
+        // Dikalikan dengan	: 1   3   1   3   1   3   1   3   1   3   1   3
+        $focus = 0;
+        $splitted = str_split($barcode);
+        $focus += intval($splitted[0] * 1);
+        $focus += intval($splitted[1] * 3);
+        $focus += intval($splitted[2] * 1);
+        $focus += intval($splitted[3] * 3);
+        $focus += intval($splitted[4] * 1);
+        $focus += intval($splitted[5] * 3);
+        $focus += intval($splitted[6] * 1);
+        $focus += intval($splitted[7] * 3);
+        $focus += intval($splitted[8] * 1);
+        $focus += intval($splitted[9] * 3);
+        $focus += intval($splitted[10] * 1);
+        $focus += intval($splitted[11] * 3);
+
+        // hasil kali = $focus
+
+        // Dibagi dengan 10, ambil sisanya.
+        $focus %= 10;
+
+        // 10 – Sisa bagi
+        $focus = 10 - $focus;
+
+        return $focus;
+    }
+
+    function get_next_unique_id($branch_id)
+    {
+        $this->db->select("unique_id");
+        $this->db->from("m_goods");
+        $this->db->where("branch_id = $branch_id");
+        $this->db->order_by("unique_id desc");
+        $this->db->limit(1);
+        if ($this->db->get()->num_rows() == 0) {
+            return 1;
+        } else {
+            return $this->db->get()->row()->unique_id + 1;
+        }
     }
 
     function update($where, $data)

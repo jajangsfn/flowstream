@@ -28,47 +28,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             $this->lang->line('menu_dashboard'),
             "la-tachometer-alt",
             null
-        ),
-        new NavItem(
-            "/penjualan",
-            null,
-            "/index.php/penjualan",
-            $this->lang->line('menu_sales'),
-            null,
-            null
-        ),
-        new NavItem(
-            "/pembelian",
-            null,
-            "/index.php/pembelian",
-            $this->lang->line('menu_purchases'),
-            null,
-            null
-        ),
-        new NavItem(
-            "/inventori",
-            null,
-            "/index.php/inventori",
-            $this->lang->line('menu_inventory'),
-            null,
-            null
-        ),
-        new NavItem(
-            "/keuangan",
-            null,
-            "/index.php/keuangan",
-            $this->lang->line('menu_finance'),
-            null,
-            null
-        ),
-        new NavItem(
-            "/setting",
-            null,
-            "/index.php/setting",
-            $this->lang->line('menu_setting_and_config'),
-            null,
-            null
-        ),
+        )
     );
 } else if (stripos(current_url(), "/index.php/penjualan")) {
     $nav = array(
@@ -203,7 +163,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Laporan Bulanan",
                             null,
                             null
-                        ),
+                        )
                     )
                 ),
                 new NavItem(
@@ -228,12 +188,11 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Laporan Bulanan",
                             null,
                             null
-                        ),
+                        )
                     )
                 )
-
             )
-        ),
+        )
     );
 } else if (stripos(current_url(), "/index.php/inventori")) {
     $nav = array(
@@ -282,7 +241,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Laporan Bulanan",
                             null,
                             null
-                        ),
+                        )
                     )
                 ),
                 new NavItem(
@@ -307,11 +266,11 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Laporan Bulanan",
                             null,
                             null
-                        ),
+                        )
                     )
                 )
             )
-        ),
+        )
     );
 } else if (stripos(current_url(), "/index.php/keuangan") && !stripos(current_url(), "/index.php/setting")) {
     $nav = array(
@@ -345,7 +304,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Cetak Ulang Jurnal",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -370,7 +329,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Pembayaran Hutang",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -411,7 +370,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Antar Buku Bantu (ABB)",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -444,7 +403,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Koreksi Akuntan Publik (KAP)",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -469,7 +428,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Status Tutup Buku",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -501,7 +460,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Mutasi Jurnal Harian",
                             null,
                             array()
-                        ),
+                        )
                     )
                 ),
                 new NavItem(
@@ -534,7 +493,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Laba Rugi",
                             null,
                             array()
-                        ),
+                        )
                     )
                 )
             )
@@ -577,7 +536,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Ikhtisar Pembelian",
                     null,
                     array()
-                ),
+                )
             )
         ),
         new NavItem(
@@ -602,7 +561,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "Aging Hutang",
                     null,
                     array()
-                ),
+                )
             )
         )
     );
@@ -630,7 +589,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     "User Role",
                     null,
                     null
-                ),
+                )
             )
         ),
         new NavItem(
@@ -661,6 +620,14 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     null,
                     "/index.php/setting/master/unit",
                     "Master Unit",
+                    null,
+                    null
+                ),
+                new NavItem(
+                    null,
+                    null,
+                    "/index.php/setting/master/map",
+                    "Master Map",
                     null,
                     null
                 ),
@@ -750,7 +717,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "Kelompok Jenis Biaya",
                             null,
                             null
-                        ),
+                        )
                     )
                 )
             )
@@ -840,23 +807,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                     null,
                     null,
                     null,
-                    "Group S",
-                    null,
-                    array(
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/s_reference",
-                            "s_reference",
-                            null,
-                            null
-                        ),
-                    )
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    null,
                     "Group M",
                     null,
                     array(
@@ -865,30 +815,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             null,
                             "/index.php/setting/system/m_master",
                             "m_master",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_partner",
-                            "m_partner",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_salesman",
-                            "m_salesman",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_salesman_map",
-                            "m_salesman_map",
                             null,
                             null
                         ),
@@ -923,15 +849,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "m_delivery",
                             null,
                             null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_map",
-                            "m_map",
-                            null,
-                            null
-                        ),
+                        )
                     )
                 ),
                 new NavItem(
@@ -964,80 +882,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             "ol_group_detail",
                             null,
                             null
-                        ),
-                    )
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    null,
-                    "Ungrouped",
-                    null,
-                    array(
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/production",
-                            "production",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/production_detail",
-                            "production_detail",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/delivery_order",
-                            "delivery_order",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/delivery_team",
-                            "delivery_team",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/delivery_cost",
-                            "delivery_cost",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/purchase_order",
-                            "purchase_order",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/purchase_order_detail",
-                            "purchase_order_detail",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/purchase_order_parameter",
-                            "purchase_order_parameter",
-                            null,
-                            null
-                        ),
+                        )
                     )
                 )
             )

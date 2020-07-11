@@ -200,6 +200,6 @@
             else if($nama=="Thursday") {$nama_hari="Kamis";}
             else if($nama=="Friday") {$nama_hari="Jumat";}
             else if($nama=="Saturday") {$nama_hari="Sabtu";}
-            return $nama_hari.','.$tgl.' '.$bulan.' '.$thn;
+            return $nama_hari.', '.$tgl.' '.$bulan.' '.$thn;
         }
     }
