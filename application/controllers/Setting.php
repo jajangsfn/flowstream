@@ -163,8 +163,20 @@ class Setting extends CI_Controller
                 case "gudang":
                     $data['page_title'] = "Daftar Gudang untuk Cabang " . $content['data_branch']->name;
                     $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+
                     $data['page_content'] = $this->load->view("setting/master/cabang/gudang/index", $content, true);
                     $data['page_js'] = $this->load->view("setting/master/cabang/gudang/index_js", $content, true);
+                    break;
+                case "reference":
+                    $target = ucwords(str_replace("_", " ", $second_path));
+
+                    $data['page_title'] = "Daftar $target untuk Cabang " . $content['data_branch']->name;
+                    $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+
+                    $content['target'] = $target;
+                    $content['data_target'] = strtoupper($second_path);
+                    $data['page_content'] = $this->load->view("setting/master/cabang/reference/index", $content, true);
+                    $data['page_js'] = $this->load->view("setting/master/cabang/reference/index_js", $content, true);
                     break;
                 default:
                     $data['page_title'] = $content['data_branch']->name;

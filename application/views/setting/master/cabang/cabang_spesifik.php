@@ -1,9 +1,9 @@
 <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header">
                 <div class="card-title m-0">
-                    <h3 class="card-label font-weight-bolder text-dark m-0">Informasi Cabang</h3>
+                    <h5 class="card-label font-weight-bolder text-dark m-0">Informasi Cabang</h5>
                 </div>
             </div>
             <div class="card-body pt-4">
@@ -22,7 +22,7 @@
                 <div class="py-9">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="font-weight-bold mr-2">Pemilik:</span>
-                        <a href="#" class="text-muted text-hover-primary"><?= $data_branch->owner ?></a>
+                        <span class="text-muted"><?= $data_branch->owner ?></span>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="font-weight-bold mr-2">Alamat:</span>
@@ -41,11 +41,11 @@
             </div>
         </div>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-3">
         <div class="card">
             <div class="card-header">
                 <div class="card-title m-0">
-                    <h3 class="card-label font-weight-bolder text-dark m-0">Master Cabang</h3>
+                    <h5 class="card-label font-weight-bolder text-dark m-0">Master Cabang</h5>
                 </div>
             </div>
             <div class="card-body pt-4">
@@ -81,6 +81,102 @@
                                 <span class="flaticon-tool"></span>
                             </span>
                             <span class="navi-text font-size-lg">Gudang</span>
+                        </a>
+                    </div>
+                </div>
+                <!--end::Nav-->
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title m-0">
+                    <h5 class="card-label font-weight-bolder text-dark m-0">Data Referensi Cabang</h5>
+                </div>
+            </div>
+            <div class="card-body pt-4">
+                <!--begin::Nav-->
+                <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/reference/goods_division" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-refresh"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Goods Division</span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/reference/goods_sub_division" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-refresh"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Goods Sub Division</span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/reference/goods_category" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-refresh"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Goods Category</span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/reference/goods_sub_category" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-refresh"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Goods Sub Category</span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/reference/goods_package" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-refresh"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Goods Package</span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/reference/goods_color" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-refresh"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Goods Color</span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/reference/employee_level" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-refresh"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Employee Level</span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/reference/employee_position" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-refresh"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Employee Position</span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/reference/delivery_receive_status" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-refresh"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Delivery Receive Status</span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/reference/activation_status" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-refresh"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Activation Status</span>
                         </a>
                     </div>
                 </div>

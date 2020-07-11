@@ -24,7 +24,8 @@ class Api extends CI_Controller
                 "m_map_model" => "m_map",
                 "m_goods_model" => "goods",
                 "m_branch_model" => "branch",
-                "m_warehouse_model" => "warehouse"
+                "m_warehouse_model" => "warehouse",
+                "s_reference_model" => "reference"
             )
         );
     }
@@ -586,5 +587,43 @@ class Api extends CI_Controller
     {
         $this->m_map->delete($_POST);
         echo json_encode(array("message" => "Map berhasil dihapus"));
+    }
+
+    // reference
+    public function reference_branch($group_data, $id_branch)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->reference->get(
+                    array(
+                        "group_data" => $group_data,
+                        "branch_id" => $id_branch
+                    )
+                )->result()
+            )
+        );
+    }
+
+    public function add_reference()
+    {
+        $_POST['updated_by'] = $this->session->id;
+        $this->reference->insert($_POST);
+        $this->session->set_flashdata("success", "Reference berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function edit_reference()
+    {
+        $where = array("id" => $_POST['id']);
+        $data = array('detail_data' => $_POST['detail_data']);
+        $this->reference->update($where, $data);
+        $this->session->set_flashdata("success", "Reference berhasil diubah");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+    public function delete_reference()
+    {
+        $this->reference->delete($_POST);
+        $this->session->set_flashdata("success", "Reference berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }
