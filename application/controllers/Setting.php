@@ -544,63 +544,6 @@ class Setting extends CI_Controller
         $this->$path($next_path);
     }
 
-    private function s_reference($path)
-    {
-        if (count($_POST)) {
-
-            $entry_data = array(
-                "branch_id" => $_POST['branch_id'],
-                "group_data" => $_POST['group_data'],
-                "detail_data" => $_POST['detail_data']
-            );
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->ref->delete($where_id);
-                    $this->session->set_flashdata("success", "Reference berhasil terhapus");
-                } else {
-                    $this->ref->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Reference berhasil tersimpan");
-                }
-            } else {
-                $this->ref->insert($entry_data);
-                $this->session->set_flashdata("success", "Reference berhasil tersimpan");
-            }
-
-            if (array_key_exists("back", $_POST)) {
-                redirect($_POST['back']);
-            } else {
-                $content['back_url'] = $_POST['back_url'];
-            }
-        }
-
-        if ($path) {
-            $data['page_title'] = "Konfigurasi s_reference";
-            if ($path  == 'goods_division') {
-                $content['group_data'] = "GOODS_DIVISION";
-            } else if ($path == "goods_category") {
-                $content['group_data'] = "GOODS_CATEGORY";
-            } else if ($path == "goods_package") {
-                $content['group_data'] = "GOODS_PACKAGE";
-            } else if ($path == "goods_color") {
-                $content['group_data'] = "GOODS_COLOR";
-            }
-            $data['page_content'] = $this->load->view("setting/system/s_reference/tambah", $content, true);
-        } else {
-            $data['page_title'] = "Setting > System > Daftar S_Reference";
-            $content['s_reference'] = $this->ref->get_all()->result();
-            $content['group_data'] = $this->ref->get_group_data()->result_array();
-            $content['m_branch'] = $this->branch->get_all()->result();
-            $data['page_content'] = $this->load->view("setting/system/s_reference/index", $content, true);
-            $data['page_js'] = $this->load->view("setting/system/s_reference/index_js", $content, true);
-        }
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-    }
-
     private function m_master($path)
     {
         if (count($_POST)) {

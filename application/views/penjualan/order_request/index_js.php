@@ -127,7 +127,7 @@
             url: "<?= base_url("/index.php/api/get_barang/") ?>" + id,
             success: function(response) {
                 $jumlah_baru = $("#jumlah_tambah_baru").val();
-                $subtotal_baru = $jumlah_baru * 100000 * 0.9; // TODO: ganti 1 jadi harga
+                $subtotal_baru = $jumlah_baru * 10000 * 0.9; // TODO: ganti 1 jadi harga
                 const data = response.data;
                 $("table#daftar_barang_order tbody tr.odd").remove();
                 $("table#daftar_barang_order tbody").append(

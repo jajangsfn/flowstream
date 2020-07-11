@@ -28,46 +28,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             $this->lang->line('menu_dashboard'),
             "la-tachometer-alt",
             null
-        ),
-        new NavItem(
-            "/penjualan",
-            null,
-            "/index.php/penjualan",
-            $this->lang->line('menu_sales'),
-            null,
-            null
-        ),
-        new NavItem(
-            "/pembelian",
-            null,
-            "/index.php/pembelian",
-            $this->lang->line('menu_purchases'),
-            null,
-            null
-        ),
-        new NavItem(
-            "/inventori",
-            null,
-            "/index.php/inventori",
-            $this->lang->line('menu_inventory'),
-            null,
-            null
-        ),
-        new NavItem(
-            "/keuangan",
-            null,
-            "/index.php/keuangan",
-            $this->lang->line('menu_finance'),
-            null,
-            null
-        ),
-        new NavItem(
-            "/setting",
-            null,
-            "/index.php/setting",
-            $this->lang->line('menu_setting_and_config'),
-            null,
-            null
         )
     );
 } else if (stripos(current_url(), "/index.php/penjualan")) {
@@ -843,23 +803,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "System",
             null,
             array(
-                new NavItem(
-                    null,
-                    null,
-                    null,
-                    "Group S",
-                    null,
-                    array(
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/s_reference",
-                            "s_reference",
-                            null,
-                            null
-                        )
-                    )
-                ),
                 new NavItem(
                     null,
                     null,

@@ -92,7 +92,7 @@ class Api extends CI_Controller
 
     public function get_barang($id)
     {
-        $data_query = $this->goods->get("m_goods.id = $id")->row();
+        $data_query = $this->goods->get(array("m_goods.id" => $id))->row();
         $data['data'] = $data_query;
         echo json_encode($data);
     }

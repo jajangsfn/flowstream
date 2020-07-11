@@ -43,7 +43,7 @@
                         <div class="d-flex align-items-center justify-content-end">
                             <!--begin::Daterange-->
                             <span class="p-2 rounded text-primary bg-light-primary font-weight-bold">
-                                <h6 class="font-weight-bold m-0">Senin, 19 Juni 2020</h6>
+                                <h6 class="font-weight-bold m-0"><?= longdate_indo(date('Y-m-d')) ?></h6>
                             </span>
                             <!--end::Daterange-->
                         </div>

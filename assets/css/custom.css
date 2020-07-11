@@ -9,7 +9,7 @@
 .table thead tr th,
 .table tbody tr td{
 	font-size: 1rem;
-	vertical-align: middle;
+	vertical-align: middle !important;
 }
 
 label.required::after {
