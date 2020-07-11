@@ -646,4 +646,26 @@ class Api extends CI_Controller
             )
         );
     }
+
+    public function kirim_order_request()
+    {
+        $data = array(
+            "branch_id" => $_POST['branch_id'],
+            "partner_id" => $_POST['partner_id'],
+            "partner_name" => $_POST['partner_name'],
+            "order_no" => $_POST['order_no'],
+            "description" => $_POST['description'],
+        );
+        $this->or->insert($data);
+        $id_new_or = $this->db->insert_id();
+
+        // loop added goods
+        foreach ($_POST['barang'] as $good) {
+            $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $this->or->insert_detail($good);
+        }
+
+        $this->session->set_flashdata("success", "Order Request berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }

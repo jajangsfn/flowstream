@@ -15,9 +15,9 @@
         </div>
     </div>
     <div class="col-lg-12" id="order_request_col">
-        <form class="card card-custom gutter-b" action="<?= base_url("/api/kirim_order_request") ?>" method="POST">
+        <form class="card card-custom gutter-b" action="<?= base_url("/index.php/api/kirim_order_request") ?>" method="POST">
             <div class="card-header">
-                <div class="card-title">Order Request <span id="or_no" class="d-none">No #</span></div>
+                <div class="card-title">Order Request <span id="or_no" class="d-none ml-2">No #</span></div>
                 <div class="card-toolbar d-unset d-lg-none">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#daftarBarang">
                         Pilih Barang

@@ -22,4 +22,14 @@ class T_order_request_model extends CI_Model
         }
         return $current_order_no;
     }
+
+    function insert($data)
+    {
+        $this->db->insert("t_order_request", $data);
+    }
+
+    function insert_detail($data)
+    {
+        $this->db->insert("t_order_request_detail", $data);
+    }
 }

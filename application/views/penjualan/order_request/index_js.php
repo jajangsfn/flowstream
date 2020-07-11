@@ -199,12 +199,18 @@
                             $(document.createElement("div")).text(data.barcode),
                             $(document.createElement("input"))
                             .attr("type", "hidden")
-                            .attr("name", data.id)
+                            .attr("name", `barang[${data.id}][goods_id]`)
                             .attr("value", data.id)
                         ),
 
                         // nama barang
-                        $(document.createElement("td")).text(data.brand_name),
+                        $(document.createElement("td")).append(
+                            $(document.createElement("div")).text(data.brand_description),
+                            $(document.createElement("input"))
+                            .attr("type", "hidden")
+                            .attr("name", `barang[${data.id}][goods_name]`)
+                            .attr("value", data.brand_name + " " + data.brand_description)
+                        ),
 
                         // jumlah barang
                         $(document.createElement("td")).attr("style", "width: 70px").append(
@@ -212,7 +218,7 @@
                             .attr("type", "number")
                             .addClass("form-control text-center")
                             .attr("id", "jumlah_" + data.id)
-                            .attr("name", "jumlah_" + data.id)
+                            .attr("name", `barang[${data.id}][quantity]`)
                             .val($jumlah_baru)
                             .attr("min", "1")
                             .change(() => hitung_ulang(data.id))
@@ -226,7 +232,7 @@
                             .attr("type", "number")
                             .addClass("form-control text-right rupiah")
                             .attr("id", "harga_" + data.id)
-                            .attr("name", "harga_" + data.id)
+                            .attr("name", `barang[${data.id}][price]`)
                             .val(price)
                             .attr("min", "1")
                             .change(() => hitung_ulang(data.id))
@@ -239,9 +245,9 @@
                             .addClass("form-control text-center")
                             .attr("style", "width: 100%")
                             .attr("id", "diskon_" + data.id)
-                            .attr("name", "diskon_" + data.id)
+                            .attr("name", `barang[${data.id}][discount]`)
                             .val(0)
-                            .attr("min", "1")
+                            .attr("min", "0")
                             .attr("max", "100")
                             .change(() => hitung_ulang(data.id)),
                         ),
