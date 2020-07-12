@@ -19,16 +19,15 @@ class Penjualan extends CI_Controller
                 "user_model" => "user_m",
                 "m_partner_model" => "partner",
                 "m_goods_model" => "goods",
+                "t_order_request_model" => "or"
             )
         );
     }
 
-    public function index()
+    public function home()
     {
-        // tampilkan list of order request
-        $data['page_title'] = "Penjualan - Daftar Order Request";
-        $data['page_content'] = $this->load->view("penjualan/landing/index", "", true);
-        $data['page_js'] = $this->load->view("penjualan/landing/index_js", "", true);
+        $data['page_title'] = "Daftar Penjualan";
+        $data['page_content'] = $this->load->view("penjualan/index", "", true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
@@ -37,17 +36,43 @@ class Penjualan extends CI_Controller
 
     public function order_request()
     {
-        $data['page_title'] = "Order Request";
+        // tampilkan list of order request
+        $data['page_title'] = "Penjualan - Daftar Order Request";
+        $data['back_url'] = base_url("/index.php/penjualan/home");
 
-        $content = array(
-            "customers" => $this->partner->get_customer()->result(),
-            "goods" => $this->goods->get_complete()->result()
-        );
+        $data['page_content'] = $this->load->view("penjualan/order_request/list", "", true);
+        $data['page_js'] = $this->load->view("penjualan/order_request/list_js", "", true);
 
-        // echo json_encode($content['goods']);exit;
-        $data['page_content'] = $this->load->view("penjualan/order_request/index", $content, true);
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    public function add_order_request()
+    {
+        $data['page_title'] = "Tambah Order Request";
+        $data['back_url'] = base_url("/index.php/penjualan/order_request");
+
+        $data['page_content'] = $this->load->view("penjualan/order_request/index", '', true);
         $data['page_js'] = $this->load->view("penjualan/order_request/index_js", "", true);
         $data['page_modal'] = $this->load->view("penjualan/order_request/modal", "", true);
+
+        $data['transactional'] = true;
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
+
+    public function edit_order_request($id_or)
+    {
+        $data['page_title'] = "Edit Order Request";
+        $data['back_url'] = base_url("/index.php/penjualan/order_request");
+
+        $content['data_or'] = $this->or->get_specific($id_or);
+
+        $data['page_content'] = $this->load->view("penjualan/order_request/edit", $content, true);
+        $data['page_js'] = $this->load->view("penjualan/order_request/edit_js", "", true);
+        $data['page_modal'] = $this->load->view("penjualan/order_request/edit_modal", "", true);
 
         $data['transactional'] = true;
         $this->load->view('layout/head');

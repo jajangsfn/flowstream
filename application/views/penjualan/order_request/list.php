@@ -6,7 +6,7 @@
         </div>
         <div class="card-toolbar">
             <!-- Button trigger modal-->
-            <a class="btn btn-primary font-weight-bolder" href="<?= base_url("/index.php/penjualan/order_request") ?>">
+            <a class="btn btn-primary font-weight-bolder" href="<?= base_url("/index.php/penjualan/add_order_request") ?>">
                 <i class="la la-plus"></i>Tambah
             </a>
         </div>

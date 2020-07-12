@@ -663,6 +663,7 @@ class Api extends CI_Controller
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $good['order_request_id'] = $id_new_or;
             $this->or->insert_detail($good);
         }
 

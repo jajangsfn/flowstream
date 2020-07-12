@@ -33,6 +33,30 @@ class T_order_request_model extends CI_Model
         $this->db->insert("t_order_request_detail", $data);
     }
 
+    function get_specific($id)
+    {
+        $where["or.id"] = $id;
+
+        $this->db->select("
+        m_branch.name as branch_name,
+        or.*
+        ");
+
+        $this->db->from("t_order_request or");
+        $this->db->join("m_branch", "m_branch.id = or.branch_id", "left");
+        $this->db->where($where);
+        $this->db->order_by("or.id desc");
+
+        $mainobj = $this->db->get()->row();
+
+        $this->db->select("*");
+        $this->db->from("t_order_request_detail");
+        $this->db->where(array("order_request_id" => $id));
+        $mainobj->details = $this->db->get()->result();
+
+        return $mainobj;
+    }
+
     function get_all()
     {
         $this->db->select("

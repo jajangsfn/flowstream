@@ -35,13 +35,13 @@
                         var confirm_button = "";
                         if (row.flag == 1) {
                             confirm_button = `
-                            <a type="button" class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" title="confirm" href="#">
+                            <a class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" data-placement="top" title="confirm" href="#">
                                 <i class="flaticon2-checkmark"></i>
                             </a>
                         `;
                         }
                         return `
-                        <a class="btn btn-icon btn-sm btn-light-success" href="#" data-toggle="tooltip" title="edit">
+                        <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/edit_order_request/") ?>${data}" data-toggle="tooltip" title="edit">
                             <i class="flaticon2-pen"></i>
                         </a>
                         ${confirm_button}

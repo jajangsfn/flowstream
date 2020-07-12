@@ -9,7 +9,7 @@
             </h3>
         </div>
         <div class="col-4 p-5 text-center">
-            <a href="<?= base_url("/index.php/penjualan") ?>" class="btn btn-shadow btn-icon btn-circle btn-primary display-2">
+            <a href="<?= base_url("/index.php/penjualan/home") ?>" class="btn btn-shadow btn-icon btn-circle btn-primary display-2">
                 <i class="flaticon2-shopping-cart-1  display-3"></i>
             </a>
             <h3 class="mt-2">
