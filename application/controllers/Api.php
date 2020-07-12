@@ -686,4 +686,26 @@ class Api extends CI_Controller
         $this->session->set_flashdata("success", "Order Request berhasil dihapus");
         redirect($_SERVER['HTTP_REFERER']);
     }
+
+    public function update_order_request()
+    {
+        $where['id'] = $_POST['id'];
+        $data = array(
+            "description" => $_POST['description'],
+        );
+        $this->or->update($where, $data);
+
+        // clear details
+        $this->or->delete_detail(array("order_request_id" => $_POST['id']));
+
+        // loop added goods
+        foreach ($_POST['barang'] as $good) {
+            $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $good['order_request_id'] = $_POST['id'];
+            $this->or->insert_detail($good);
+        }
+
+        $this->session->set_flashdata("success", "Order Request berhasil diubah");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }

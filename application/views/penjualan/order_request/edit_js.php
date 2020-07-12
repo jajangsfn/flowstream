@@ -3,74 +3,13 @@
     var index_harga = 0;
 
     $(document).ready(function() {
-        $('#pilih_customer').select2({
-            placeholder: "Pilih Customer",
-            width: "100%"
-        });
-    });
-
-    $(".daftar_barang_container").bind("mousewheel DOMMouseScroll", function(e) {
-        var scrollTo = null;
-
-        if (e.type == 'mousewheel') {
-            scrollTo = (e.originalEvent.wheelDelta * -1);
-        } else if (e.type == 'DOMMouseScroll') {
-            scrollTo = 40 * e.originalEvent.detail;
-        }
-
-        if (scrollTo) {
-            e.preventDefault();
-            $(this).scrollTop(scrollTo + $(this).scrollTop());
-        }
-    })
-
-    function add_modal(id_barang) {
-        $.ajax({
-            method: "get",
-            url: "<?= base_url("/index.php/api/get_barang/") ?>" + id_barang,
-            success: function(result) {
-                const focus = result.data;
-                let price;
-                if (focus["price_" + index_harga]) {
-                    price = focus["price_" + index_harga];
-                } else {
-                    price = focus["default_price"];
-                }
-                $("#nama_barang_tambah").text(focus.brand_name);
-                $("#desk_barang_tambah").text(focus.brand_description);
-                $("#barcode_barang_tambah").text(focus.barcode);
-                $("#harga_barang_tambah").text(price);
-                $("#tombol_tambah_baru").attr("data-id-barang", focus.id)
-
-                $("#tambah_barang").modal("show");
-            }
-        });
-    }
-
-    function change_customer(e) {
         // get customer info
         $.ajax({
             method: "get",
-            url: "<?= base_url("/index.php/api/get_customer/") ?>" + $(e).val(),
+            url: "<?= base_url("/index.php/api/get_customer/" . $data_or->partner_id) ?>",
             success: function(result) {
                 branch_id = result.data.branch_id;
                 index_harga = result.data.index_harga;
-
-                $("#branch_id_afterselect").val(branch_id);
-                $("#partner_name_afterselect").val(result.data.name);
-
-                // get Order Request Number
-                $.ajax({
-                    method: "get",
-                    url: "<?= base_url("/index.php/api/get_order_number/") ?>" + branch_id,
-                    success: function(result) {
-                        $("#or_no").text("No #" + result.data).removeClass("d-none");
-                        $("#order_no_afterselect").val(result.data);
-                    },
-                    error: function(response) {
-                        console.log(response.responseText);
-                    }
-                })
 
                 // get list barang
                 $.ajax({
@@ -115,6 +54,48 @@
                 })
             }
         })
+        $('#pilih_customer').select2({
+            placeholder: "Pilih Customer",
+            width: "100%"
+        });
+    });
+
+    $(".daftar_barang_container").bind("mousewheel DOMMouseScroll", function(e) {
+        var scrollTo = null;
+
+        if (e.type == 'mousewheel') {
+            scrollTo = (e.originalEvent.wheelDelta * -1);
+        } else if (e.type == 'DOMMouseScroll') {
+            scrollTo = 40 * e.originalEvent.detail;
+        }
+
+        if (scrollTo) {
+            e.preventDefault();
+            $(this).scrollTop(scrollTo + $(this).scrollTop());
+        }
+    })
+
+    function add_modal(id_barang) {
+        $.ajax({
+            method: "get",
+            url: "<?= base_url("/index.php/api/get_barang/") ?>" + id_barang,
+            success: function(result) {
+                const focus = result.data;
+                let price;
+                if (focus["price_" + index_harga]) {
+                    price = focus["price_" + index_harga];
+                } else {
+                    price = focus["default_price"];
+                }
+                $("#nama_barang_tambah").text(focus.brand_name);
+                $("#desk_barang_tambah").text(focus.brand_description);
+                $("#barcode_barang_tambah").text(focus.barcode);
+                $("#harga_barang_tambah").text(price);
+                $("#tombol_tambah_baru").attr("data-id-barang", focus.id)
+
+                $("#tambah_barang").modal("show");
+            }
+        });
     }
 
     function delete_baris(id) {

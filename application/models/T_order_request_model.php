@@ -49,9 +49,17 @@ class T_order_request_model extends CI_Model
 
         $mainobj = $this->db->get()->row();
 
-        $this->db->select("*");
-        $this->db->from("t_order_request_detail");
-        $this->db->where(array("order_request_id" => $id));
+        $this->db->select("
+        ordet.*, 
+        m_goods.barcode,
+        m_goods.brand_name,
+        m_goods.brand_description,
+        m_unit.initial as unit_name
+        ");
+        $this->db->from("t_order_request_detail ordet");
+        $this->db->join("m_goods", "m_goods.id = ordet.goods_id", "left");
+        $this->db->join("m_unit", "m_unit.id = m_goods.unit", "left");
+        $this->db->where(array("ordet.order_request_id" => $id));
         $mainobj->details = $this->db->get()->result();
 
         return $mainobj;
@@ -74,5 +82,15 @@ class T_order_request_model extends CI_Model
     function delete($where)
     {
         $this->db->update("t_order_request", array("flag" => 99), $where);
+    }
+
+    function delete_detail($where)
+    {
+        $this->db->delete("t_order_request_detail", $where);
+    }
+
+    function update($where, $data)
+    {
+        $this->db->update("t_order_request", $data, $where);
     }
 }
