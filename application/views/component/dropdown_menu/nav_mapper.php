@@ -33,9 +33,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
 } else if (stripos(current_url(), "/index.php/penjualan")) {
     $nav = array(
         new NavItem(
-            "/index.php/penjualan/order_request",
+            "/index.php/penjualan",
             null,
-            "/index.php/penjualan/order_request",
+            "/index.php/penjualan",
             "Order Request",
             null,
             null

@@ -638,6 +638,7 @@ class Api extends CI_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    // order request
     public function get_order_number($id_branch)
     {
         echo json_encode(
@@ -666,6 +667,22 @@ class Api extends CI_Controller
         }
 
         $this->session->set_flashdata("success", "Order Request berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function order_request()
+    {
+        echo json_encode(
+            array(
+                "data" => $this->or->get_all()->result()
+            )
+        );
+    }
+
+    public function delete_order_request()
+    {
+        $this->or->delete(array("id" => $_POST['id']));
+        $this->session->set_flashdata("success", "Order Request berhasil dihapus");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }
