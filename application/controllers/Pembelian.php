@@ -21,7 +21,7 @@ class Pembelian extends CI_Controller
                 "M_goods_model"=>"goods",
                 "Purchase_order_model" => "po",
                 "Purchase_order_detail_model" => "pod",
-                "S_history_model" => "history",
+                "S_history_model" => "history", 
             )
         );
     }
@@ -232,7 +232,7 @@ class Pembelian extends CI_Controller
     public function add_purchase()
     {       
 
-        $data['page_title']   = "Tambah Pembelian";
+        $data['page_title']   = "Pembelian";
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_no();
         $data['master']       = array();
@@ -249,7 +249,7 @@ class Pembelian extends CI_Controller
     public function edit_purchase($id)
     {
         
-        $data['page_title']   = "Edit Pembelian";
+        $data['page_title']   = "Pembelian";
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_no();
         $data['master']       = $this->po->get_all_trx(array("tab1.id"=>$id),array("tab1.id","tab5.id"))->result();

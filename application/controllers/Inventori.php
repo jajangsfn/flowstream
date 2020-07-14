@@ -138,7 +138,7 @@ class Inventori extends CI_Controller
     public function add_receiving()
     {
 
-        $data['page_title']   = "Tambah Receiving";
+        $data['page_title']   = "Receiving";
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_receive_no();
         $data['master']       = null;
@@ -156,7 +156,7 @@ class Inventori extends CI_Controller
     public function edit_receiving($rv_id)
     {
 
-        $data['page_title']   = "Edit Receiving";
+        $data['page_title']   = "Receiving";
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_receive_no();
         $data['master']       = $this->rm->get_all_receive("tab1.id=".$rv_id,"tab2.id")->result(); 
@@ -325,7 +325,7 @@ class Inventori extends CI_Controller
     public function add_warehouse() 
     {
        
-        $data['page_title'] = "Add New Warehouse";
+        $data['page_title'] = "Gudang";
         $data['prev_ws']    = $this->m_ws->get_all()->result();
         $data['act_ws']     = $this->m_ws->get("id<>1")->result();
         $data['ws_no']      = generate_ws_no();

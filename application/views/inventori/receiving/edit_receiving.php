@@ -1,6 +1,31 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="card card-custom"> 
+			<div class="card-header flex-wrap">
+				<div class="w-100 d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+				<!--begin::Info-->
+					<div class="d-flex align-items-center flex-wrap mr-1">
+					<!--begin::Page Heading-->
+						<div class="d-flex align-items-baseline mr-5">
+						<!--begin::Page Title-->
+							<h5 class="text-dark font-weight-bold my-2 mr-5">Edit Receiving</h5>
+						</div>
+						<!--end::Page Heading-->
+					</div>
+					<!--end::Info-->
+					<!--begin::Toolbar-->
+					<div class="d-flex align-items-center">
+					<!--begin::Daterange-->
+						<a href="#" class="btn btn-light-primary btn-sm font-weight-bold " id="kt_dashboard_daterangepicker" data-toggle="tooltip" title="" data-placement="left" data-original-title="Select dashboard daterange">
+							<span class="font-weight-bold" id="kt_dashboard_daterangepicker_date"><?=$tgl_indo?></span>
+						</a>
+					<!--end::Daterange-->
+					
+					</div>
+					<!--end::Toolbar-->
+				</div>
+		    </div>
+		    <!-- end card header -->
 		    <div class="card-body">
 		      	<form method="post" action="<?=base_url()?>index.php/inventori/receiving">
 		      		<input type="hidden" name="id" id="rv_id" value="<?=($master) ? $master[0]->receiving_id : ""?>">

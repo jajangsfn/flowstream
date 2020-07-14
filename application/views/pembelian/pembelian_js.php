@@ -11,7 +11,7 @@
 			var goods = this.value;
 			var id_supplier = $("#supplier_id").val().split("_")[0];
 			var goods_list = "";
-			// clear goods
+			// clear goods 
 			$("#goods_list").html('');
 
 
@@ -31,7 +31,7 @@
 				        goods_list+='<span class="d-block font-weight-bold">'+val.brand_description+'</span>';
 				        goods_list+='<span class="text-muted">'+val.sku_code+'</span>';
 				        goods_list+='</div>';
-				        goods_list+='<span class="navi-arrow"></span>';
+				        goods_list+='<span class="navi-arrow fa-2x"></span>';
 				        goods_list+='</span></li>';
 					});
 

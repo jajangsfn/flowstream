@@ -1,7 +1,7 @@
 <div class="row">
 	<!-- card for search product list --> 
 	<div class="col-md-3">
-		<div class="card card-custom w-100">
+		<div class="card card-custom w-100" style="overflow: hidden;position: relative;">
 
 		     <div class="card-body">
 		     	<!-- search input -->
@@ -17,7 +17,7 @@
                       "autocomplete"=>"off",
                         ), true); ?>	
                 <hr>
-                <ul class="navi navi-hover navi-active" id="goods_list">
+                <ul class="navi navi-hover navi-active" id="goods_list" style="overflow: scroll;height: 400px">
 				</ul>
 		     </div>
 		 </div>
@@ -27,12 +27,30 @@
 		<?=$this->session->flashdata('msg');?>
 		<div class="card card-custom">
 			<div class="card-header flex-wrap">
-				<div class="card-title text-center">
-		            <h3 class="card-label">
-		                Add Purchase Order
-		            </h3>
-		        </div>
+				<div class="w-100 d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+				<!--begin::Info-->
+					<div class="d-flex align-items-center flex-wrap mr-1">
+					<!--begin::Page Heading-->
+						<div class="d-flex align-items-baseline mr-5">
+						<!--begin::Page Title-->
+							<h5 class="text-dark font-weight-bold my-2 mr-5">Tambah Purchase Order</h5>
+						</div>
+						<!--end::Page Heading-->
+					</div>
+					<!--end::Info-->
+					<!--begin::Toolbar-->
+					<div class="d-flex align-items-center">
+					<!--begin::Daterange-->
+						<a href="#" class="btn btn-light-primary btn-sm font-weight-bold " id="kt_dashboard_daterangepicker" data-toggle="tooltip" title="" data-placement="left" data-original-title="Select dashboard daterange">
+							<span class="font-weight-bold" id="kt_dashboard_daterangepicker_date"><?=$tgl_indo?></span>
+						</a>
+					<!--end::Daterange-->
+					
+					</div>
+					<!--end::Toolbar-->
+				</div>
 		    </div>
+		    <!-- end card header -->
 
 			<div class="card-body">
 				<form method="post" action="<?=base_url()?>index.php/pembelian" id="form_purchase">
@@ -41,19 +59,6 @@
 					<input type="hidden" name="branch_name" id="branch_name">
 					<input type="hidden" name="partner_name" id="partner_name">
 					<input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=date('Y-m-d')?>">
-
-					<div class="row mb-3">
-						<div class="col-sm-6"></div>
-						<div class="col-sm-6">
-                        <div class="d-flex align-items-center justify-content-end">
-                            <!--begin::Daterange-->
-                            <span class="p-2 rounded text-primary bg-light-primary font-weight-bold">
-                                <h6 class="font-weight-bold m-0"><?=$tgl_indo?></h6>
-                            </span>
-                            <!--end::Daterange-->
-                        </div>
-                    </div>
-					</div>
 					<div class="row mb-5">
 						<!-- <div class="col-md-1"></div> -->
 						<label class="col-form-label col-md-2">Supplier</label>
