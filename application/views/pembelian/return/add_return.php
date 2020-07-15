@@ -8,7 +8,7 @@
           <!--begin::Page Heading-->
             <div class="d-flex align-items-baseline mr-5">
             <!--begin::Page Title-->
-              <h5 class="text-dark font-weight-bold my-2 mr-5">Tambah Data Gudang</h5>
+              <h5 class="text-dark font-weight-bold my-2 mr-5">Tambah Data Retur Pembelian</h5>
             </div>
             <!--end::Page Heading-->
           </div>
@@ -16,9 +16,9 @@
           <!--begin::Toolbar-->
           <div class="d-flex align-items-center">
           <!--begin::Daterange-->
-            <a href="#" class="btn btn-light-primary btn-sm font-weight-bold " id="kt_dashboard_daterangepicker" data-toggle="tooltip" title="" data-placement="left" data-original-title="Select dashboard daterange">
+            <div class="btn btn-light-primary btn-sm font-weight-bold " id="kt_dashboard_daterangepicker" data-toggle="tooltip" title="" data-placement="left">
               <span class="font-weight-bold" id="kt_dashboard_daterangepicker_date"><?=$tgl_indo?></span>
-            </a>
+            </div>
           <!--end::Daterange-->
           
           </div>
@@ -27,61 +27,37 @@
   </div>
         <!-- end card header -->
      <div class="card-body">
-      <form method="post" action="<?=base_url()?>index.php/inventori/gudang" id="form_ws">
-       	<div class="row mb-3">
+        <form method="post" action="<?=base_url()?>index.php/pembelian/save_return" id="form_return">
+          <!-- <input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=date('Y-m-d')?>"> -->
+          <input type="hidden" name="warehouse_id" class="form-control col-md-3" id="warehouse_id" readonly>
+
+          <div class="row mb-5">
             <div class="col-md-1"></div>
-            <div class="col-md-2 text-right col-form-label">
-                <label>Dari Gudang</label>
-            </div>  
+            <div class="col-form-label col-md-2 text-right">Supplier</div>
             <div class="col-md-3">
-                <select name="prev_ws" class="form-control selectpicker" data-live-search="true" required="">
-                    <option value="" disabled>Gudang Awal</option>
-                    <?php
-                    foreach ($prev_ws as $key => $val) { ?>
+              <select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" required="">
+                  <option value="" selected>Pilih Supplier</option>
+                  <?php
+                    foreach ($supplier as $key => $val) { ?>
                       <option value="<?=$val->id?>"><?=$val->name?></option>
-                    <?php }
-                    ?>
-                </select>
+                  <?php }
+                  ?>
+              </select>
             </div>
-            
-            <div class="col-md-2 text-right col-form-label">
-                <label>No Transaksi</label>
+            <div class="col-md-2 text-right">
+              <label class="col-form-label">Nomor Retur</label>
             </div>
             <div class="col-md-3">
-                <input type="text" name="trans_no" class="form-control" readonly required="" value="<?=$ws_no?>">
+              <input type="text" name="return_no" class="form-control" readonly value="<?=$return_no?>">
             </div>
 
           </div>
-          <!-- end row -->
-          <div class="row mb-3">
-            <div class="col-md-1"></div>
-            <div class="col-md-2 text-right col-form-label">
-                <label>Ke Gudang</label>
-            </div>  
-            <div class="col-md-3">
-                <select name="act_ws" class="form-control selectpicker" data-live-search="true" required="">
-                    <option value="" disabled>Gudang Tujuan</option>
-                     <?php
-                    foreach ($act_ws as $key => $val) { ?>
-                      <option value="<?=$val->id?>"><?=$val->name?></option>
-                    <?php }
-                    ?>
-                </select>
-            </div>
 
-             <div class="col-md-2 text-right col-form-label">
-                <label>Tanggal Transaksi</label>
-            </div>
-            <div class="col-md-3">
-                <input type="text" name="trans_date" class="form-control" readonly value="<?=date('Y-m-d')?>">
-            </div>
-          </div>
-          <!-- end row -->
-
+          
           <div class="row mb-3"> 
             <div class="col-md-1"></div>
             <div class="col-md-2 text-right col-form-label">
-                <label>No Receive Order</label>
+                <label>Nomor Nota</label>
             </div>  
             <div class="col-md-3">
                 <div class="input-group mb-3">
@@ -93,26 +69,33 @@
             </div>
 
             <div class="col-md-2 text-right col-form-label">
-                <label>No Referensi</label>
+              <label>Tanggal Transaksi</label>
             </div>
             <div class="col-md-3">
-                <input type="text" name="ref_no" id="ref_no" class="form-control" required="" placeholder="Isi No referensi">
+              <input type="text" name="tgl_trx" class="form-control" readonly value="<?=date('Y-m-d')?>">
             </div>
 
           </div>
-          <!-- end row -->
+
           <div class="row mb-3">
             <div class="col-md-1"></div>
             <div class="col-md-2 text-right col-form-label">
-                <label>Deskripsi</label>
-            </div>  
+              <label>Deskripsi</label>
+            </div>
             <div class="col-md-3">
-                <textarea name="desc" class="form-control" placeholder="Deskripsi..."></textarea>
+              <textarea name="deskripsi" class="form-control" required placeholder="Deskripsi. . . "></textarea>
+            </div>
+
+            <div class="col-md-2 text-right col-form-label">
+              <label>Nomor Referensi</label>
+            </div>
+            <div class="col-md-3">
+              <input type="text" name="no_ref" class="form-control" id="no_ref" required autocomplete="off">
             </div>
           </div>
-          <!-- end row -->
+          <!-- form chart -->
           <hr>
-          <div class="row mb-3">
+           <div class="row mb-3">
             <div class="col-md-1"></div>
             <div class="col-md-10">
               <table class="table">
@@ -134,10 +117,14 @@
                     <td>
                       <input type="hidden" name="id_barang" id="id_barang">
                       <input type="hidden" name="kode_barang" id="kode_barang">
+                      <input type="hidden" name="qty_awal" id="qty_receive" class="form-control" min="1" value="1">
                       <input type="text" name="nama_barang" id="nama_barang" class="form-control" placeholder="Nama Barang . . ." readonly="">
                     </td>
                     <td>
                       <input type="number" name="quantity" id="quantity" class="form-control" min="1" value="1">
+                    </td>
+                     <td>
+                      <input type="number" name="harga_barang" id="harga_barang" class="form-control" min="1" value="1" readonly>
                     </td>
                     <td>
                       <button type="button" class="btn btn-primary btn-sm" onclick="add_to_chart()">Tambah</button>
@@ -148,40 +135,40 @@
             </div>
           </div>
           <!-- end row -->
+
+
           <hr>
-          <div class="row mb-3">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
-              <table class="table">
+            <div class="table-responsive">
+              <table class="table table-bordered table-condensed table-striped">
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>Kode Barang</th>
+                    <th>Kode Barang/PLU</th>
                     <th>Nama Barang</th>
-                    <th>Quantity</th>
+                    <th>Harga</th>
+                    <th>Quantity Order (PCS)</th>
+                    <th>Harga</th>
                     <th>#</th>
                   </tr>
                 </thead>
-                <tbody id="goods_ws_list"></tbody>
+                <tbody id="goods_return_table">
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="9" class="text-center">
+                      <button type='button' class="btn btn-light-success btn-md" id="btn_save_return">
+                        <span class="fa fa-save"></span>
+                        Save
+                      </button>
+                      <a href="<?=base_url()?>index.php/pembelian/return" class="btn btn-light-danger btn-md">
+                      <span class="fa la-arrow-left"></span> Cancel
+                    </a>
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
-             </div>
-          </div>
-          <!-- end row -->
-          <div class="row mb-3">
-            <div class="col-md-1"></div>
-            <div class="col-md-10 text-center">
-              <button type="button" class="btn btn-light-success" id="btn_save_ws">
-                <span class="fa fa-save"></span>
-                Save
-              </button>
-
-                <a href="<?=base_url()?>index.php/inventori/gudang" class="btn btn-light-danger btn-md">
-                    <span class="fa la-arrow-left"></span> Cancel
-                 </a>
             </div>
-          </div>
-        <!-- end row -->
-        </form>
-    </div>
-    <!-- end card body -->
+          </form>
+        </div>
+        <!-- end card body -->
 </div>

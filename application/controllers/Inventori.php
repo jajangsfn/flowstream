@@ -24,6 +24,7 @@ class Inventori extends CI_Controller
                 "Receiving_detail_model" => "rdm",
                 "S_history_model" => "history",
                 "Warehouse_model" => "t_ws",
+                "Return_model" => "return",
             )
         );
         $this->lang->load('menu_lang', 'indonesian');
@@ -138,9 +139,9 @@ class Inventori extends CI_Controller
     public function add_receiving()
     {
 
-        $data['page_title']   = "Tambah Receiving";
+        $data['page_title']   = "Receiving";
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
-        $data['po_no']        = generate_po_receive_no();
+        $data['po_no']        = generate_po_no(2);
         $data['master']       = null;
         $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
@@ -156,9 +157,9 @@ class Inventori extends CI_Controller
     public function edit_receiving($rv_id)
     {
 
-        $data['page_title']   = "Edit Receiving";
+        $data['page_title']   = "Receiving";
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
-        $data['po_no']        = generate_po_receive_no();
+        $data['po_no']        = generate_po_no(2);
         $data['master']       = $this->rm->get_all_receive("tab1.id=".$rv_id,"tab2.id")->result(); 
         $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
@@ -325,10 +326,10 @@ class Inventori extends CI_Controller
     public function add_warehouse() 
     {
        
-        $data['page_title'] = "Add New Warehouse";
+        $data['page_title'] = "Gudang";
         $data['prev_ws']    = $this->m_ws->get_all()->result();
         $data['act_ws']     = $this->m_ws->get("id<>1")->result();
-        $data['ws_no']      = generate_ws_no();
+        $data['ws_no']      = generate_po_no(3);
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['page_content'] = $this->load->view("inventori/warehouse/add_warehouse", $data, true);
 
@@ -370,10 +371,10 @@ class Inventori extends CI_Controller
         echo json_encode($data);
     }
 
-     public function get_ws_goods_detail()
+    public function get_ws_goods_detail() 
     {
         $receiving_no   = $this->input->get('receive_no');
-        $goods_id       = $this->input->get('goods_id');
+        $goods_id       = $this->input->get('goods_id'); 
 
         $data       = $this->rm->get_all_receive("tab1.receiving_no=".$receiving_no." and tab2.goods_id=".$goods_id)->result();
 
@@ -391,10 +392,10 @@ class Inventori extends CI_Controller
     public function edit_warehouse($ws_id) 
     {
        
-        $data['page_title']     = "Add New Warehouse";
+        $data['page_title']     = "Gudang";
         $data['prev_ws']        = $this->m_ws->get_all()->result();
         $data['act_ws']         = $this->m_ws->get("id<>1")->result();
-        $data['ws_no']          =  generate_ws_no();
+        $data['ws_no']          =  generate_po_no(3);
         $data['warehouse']      = $this->t_ws->get_all(array("tab1.id"=>$ws_id), array("tab2.id"))->result();
         $data['tgl_indo']       = longdate_indo( date('Y-m-d') );
         $data['page_content']   = $this->load->view("inventori/warehouse/edit_warehouse", $data, true);

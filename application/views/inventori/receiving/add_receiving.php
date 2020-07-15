@@ -2,23 +2,35 @@
 	<div class="col-md-12">
 		<?=$this->session->flashdata('msg');?>
 		<div class="card card-custom">
+			<div class="card-header flex-wrap">
+				<div class="w-100 d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+				<!--begin::Info-->
+					<div class="d-flex align-items-center flex-wrap mr-1">
+					<!--begin::Page Heading-->
+						<div class="d-flex align-items-baseline mr-5">
+						<!--begin::Page Title-->
+							<h5 class="text-dark font-weight-bold my-2 mr-5">Add Receiving</h5>
+						</div>
+						<!--end::Page Heading-->
+					</div>
+					<!--end::Info-->
+					<!--begin::Toolbar-->
+					<div class="d-flex align-items-center">
+					<!--begin::Daterange-->
+						<a href="#" class="btn btn-light-primary btn-sm font-weight-bold " id="kt_dashboard_daterangepicker" data-toggle="tooltip" title="" data-placement="left" data-original-title="Select dashboard daterange">
+							<span class="font-weight-bold" id="kt_dashboard_daterangepicker_date"><?=$tgl_indo?></span>
+						</a>
+					<!--end::Daterange-->
+					
+					</div>
+					<!--end::Toolbar-->
+				</div>
+		    </div>
+		    <!-- end card header -->
 		    <div class="card-body">
 		      	<form method="post" id="form_receiving" action="<?=base_url()?>index.php/inventori/receiving">
 		      		<input type="hidden" name="supplier_id_temp" id="supplier_id_temp">
 		      		<input type="hidden" name="po_id_temp" id="po_id_temp">
-		      		<div class="row mb-3">
-						<div class="col-sm-6"></div>
-						<div class="col-sm-6">
-	                        <div class="d-flex align-items-center justify-content-end">
-	                            <!--begin::Daterange-->
-	                            <span class="p-2 rounded text-primary bg-light-primary font-weight-bold">
-	                                <h6 class="font-weight-bold m-0"><?=$tgl_indo?></h6>
-	                            </span>
-	                            <!--end::Daterange-->
-	                        </div>
-	                    </div>
-	                </div>
-	                
 		      		<div class="row ml-30">
 						<div class="col-md-1"></div>
 						<label class="col-form-label col-md-1 text-right">Supplier</label>

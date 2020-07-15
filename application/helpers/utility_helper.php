@@ -2,105 +2,78 @@
 
 	
 
-	function generate_po_no()
+	function generate_po_no($type = 1)
 	{
 		
 		$CI =& get_instance();
-		$CI->load->model(array("Purchase_order_model" => "po"));
+		$CI->load->model(
+						array(
+								"Purchase_order_model" => "po",
+								"Warehouse_model" => "ws",
+								"Receiving_model" => "rm",
+								"Return_model" => "retur",
+							)
+						); 
+		// array for transaction code
+		$arr_trx_code = array(
+							1 => 21,
+							2 => 31,
+							3 => 32,
+							4 => 62);
 
-		$po_no_db = ($CI->po->get_po_no()->row()) ? $CI->po->get_po_no()->row()->purchase_order_no : null;
+		// get branch code from session
+		$branch_code = str_pad($CI->session->userdata('branch_id'), 6, '0', STR_PAD_LEFT); 
+		// get trx code from transcation code array
+		$trx_code    = $arr_trx_code[$type];
 
-		$po_no    = date('Ym')."00001";
+		// initialize max trx no
+		$trx_no_db = null;
 
-		if ($po_no_db)
+		// get max trx no from db
+		if ( $type == 1) {
+			$trx_no_db = ($CI->po->get_po_no()->row()) ? substr( $CI->po->get_po_no()->row()->purchase_order_no , 8) : null;	
+		} else if ( $type == 2) {
+			$trx_no_db = ($CI->rm->get_receive_no()->row()) ? substr( $CI->rm->get_receive_no()->row()->receiving_no, 8) : null;	
+		} else if ( $type == 3) {
+			$trx_no_db = ($CI->ws->get_ws_no()->row()) ? substr( $CI->ws->get_ws_no()->row()->physical_warehouse_no, 8) : null;
+		} else if ( $type == 4) {
+			$trx_no_db = ($CI->return->get_return_no()->row()) ? substr( $CI->return->get_return_no()->row()->return_no, 8) : null;
+		}
+		
+		// initialize trx no
+		$trx_no    = $branch_code . $trx_code . date('Ym')."000001";
+
+		// if trx no exist in db
+		if ($trx_no_db)
 		{
-			$po_year  = substr($po_no_db, 0,4);
-			$po_month = substr($po_no_db, 4,2);
+			// get year
+			$trx_year  = substr($trx_no_db, 0,4);
+			// get month
+			$trx_month = substr($trx_no_db, 4,2);
 
-			if ( date('Y') == $po_year) {
-				
-				if ( date('m') == $po_month) {
-					$po_no = $po_no_db+1;
+			// if year no is same with trx year from db
+			if ( date('Y') == $trx_year) {
+				// if month now is same with trx month from db
+				if ( date('m') == $trx_month) {
+					// increment trx no
+					$trx_no = $branch_code . $trx_code . ($trx_no_db+1);
 				} else {
-					$po_no = substr($po_no_db, 0,4).date('m')."00001";
+					// initialize new trx no
+					// with combine branch code trx code  
+					$trx_no = $branch_code . $trx_code . substr($trx_no_db, 0,4).date('m')."000001";
 				}
+				
 			} else {
-				$po_no = date('Ym')."00001";
+				// initialize new trx no
+				$trx_no = $branch_code . $trx_code . date('Ym')."000001";
 			}
 
 		}
 
-		return $po_no;
+		return $trx_no;
 		
 
 
 	}
 
-
-	function generate_po_receive_no()
-	{
-		
-		$CI =& get_instance();
-		$CI->load->model(array("Receiving_model" => "rm"));
-
-		$po_no_db = ($CI->rm->get_receive_no()->row()) ? $CI->rm->get_receive_no()->row()->receiving_no : null;
-
-		$po_no    = date('Ym')."00001";
-
-		if ($po_no_db)
-		{
-			$po_year  = substr($po_no_db, 0,4);
-			$po_month = substr($po_no_db, 4,2);
-
-			if ( date('Y') == $po_year) {
-				
-				if ( date('m') == $po_month) {
-					$po_no = $po_no_db+1;
-				} else {
-					$po_no = substr($po_no_db, 0,4).date('m')."00001";
-				}
-			} else {
-				$po_no = date('Ym')."00001";
-			}
-
-		}
-
-		return $po_no;
-
-	}
-
-
-	function generate_ws_no()
-	{
-		
-		$CI =& get_instance();
-		$CI->load->model(array("Warehouse_model" => "ws"));
-
-		$po_no_db = ($CI->ws->get_ws_no()->row()) ? $CI->ws->get_ws_no()->row()->physical_warehouse_no : null;
-
-		$po_no    = date('Ym')."00001";
-
-		if ($po_no_db)
-		{
-			$po_year  = substr($po_no_db, 0,4);
-			$po_month = substr($po_no_db, 4,2);
-
-			if ( date('Y') == $po_year) {
-				
-				if ( date('m') == $po_month) {
-					$po_no = $po_no_db+1;
-				} else {
-					$po_no = substr($po_no_db, 0,4).date('m')."00001";
-				}
-			} else {
-				$po_no = date('Ym')."00001";
-			}
-
-		}
-
-		return $po_no;
-		
-
-
-	}
 ?>
