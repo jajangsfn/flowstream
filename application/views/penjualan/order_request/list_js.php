@@ -29,27 +29,41 @@
                     data: 'order_date'
                 },
                 {
+                    data: "flag",
+                    responsivePriority: -1,
+                    render: function(data, type, row, meta) {
+                        if (data == 1) {
+                            return "<span class='text-info'>Faktur Belum Dicetak</span>";
+                        } else if (data == 2) {
+                            return "<span class='text-success'>Faktur Telah Dicetak</span>";
+                        }
+                    }
+                },
+                {
                     data: 'id',
                     responsivePriority: -1,
                     render: function(data, type, row, meta) {
-                        var confirm_button = "";
+                        var ext_button = "";
                         if (row.flag == 1) {
-                            confirm_button = `
-                            <a class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" data-placement="top" title="confirm" href="#">
+                            ext_button = `
+                            <a class="btn btn-icon btn-sm btn-light-primary" data-toggle="tooltip" data-placement="top" title="cetak faktur pajak" href="<?= base_url("/index.php/penjualan/pos/cetak_faktur_pajak/") ?>${data}">
                                 <i class="flaticon2-checkmark"></i>
                             </a>
+                            <button type="button" class="btn btn-icon btn-sm btn-light-danger" onclick="delete_trigger(
+                            '${row.id}',
+                            )" data-toggle="tooltip" title="hapus">
+                                <i class="flaticon2-trash"></i>
+                            </button>
                         `;
                         }
                         return `
                         <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/edit_order_request/") ?>${data}" data-toggle="tooltip" title="edit">
-                            <i class="flaticon2-pen"></i>
+                            <i class="flaticon2-edit"></i>
                         </a>
-                        ${confirm_button}
-                        <button type="button" class="btn btn-icon btn-sm btn-light-danger" onclick="delete_trigger(
-                            '${row.id}',
-                        )">
-                            <i class="flaticon2-trash"></i>
-                        </button>
+                        <a class="btn btn-icon btn-sm btn-light-info" href="#" data-toggle="tooltip" title="cetak ulang">
+                            <i class="fa la-print"></i>
+                        </a>
+                        ${ext_button}
                         `;
                     },
                     createdCell: function(td, cellData, rowData, row, col) {
@@ -69,12 +83,17 @@
                     targets: 0,
                     orderable: false,
                 },
-            ]
+            ],
+
+            "drawCallback": function(settings) {
+                $("*[data-toggle=tooltip]").tooltip()
+            },
         })
 
         $('.select2').select2({
             width: '100%'
         });
+
     })
 
     function delete_trigger(id) {

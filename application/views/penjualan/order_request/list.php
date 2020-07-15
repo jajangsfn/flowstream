@@ -21,6 +21,7 @@
                     <th>Nomor Order</th>
                     <th>Customer</th>
                     <th>Tanggal</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>

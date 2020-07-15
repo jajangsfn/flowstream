@@ -79,7 +79,7 @@
                 </h5>
             </div>
             <div class="card-footer text-right">
-                <button type="submit" class="btn btn-primary" disabled> Simpan </button>
+                <button type="submit" class="btn btn-primary" disabled> Cetak </button>
             </div>
         </form>
     </div>

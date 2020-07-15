@@ -26,7 +26,8 @@ class Api extends CI_Controller
                 "m_branch_model" => "branch",
                 "m_warehouse_model" => "warehouse",
                 "s_reference_model" => "reference",
-                "t_order_request_model" => "or"
+                "t_order_request_model" => "or",
+                "t_pos_model" => "pos"
             )
         );
     }
@@ -667,7 +668,7 @@ class Api extends CI_Controller
             $this->or->insert_detail($good);
         }
 
-        $this->session->set_flashdata("success", "Order Request berhasil ditambahkan");
+        $this->session->set_flashdata("success", "Order Request berhasil dicetak");
         redirect($_SERVER['HTTP_REFERER']);
     }
 
@@ -707,5 +708,68 @@ class Api extends CI_Controller
 
         $this->session->set_flashdata("success", "Order Request berhasil diubah");
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // Get next invoice number
+    public function get_invoice_number($id_branch)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->pos->get_next_invoice_no(array("branch_id" => $id_branch))
+            )
+        );
+    }
+
+    public function convert_to_pos($order_request_id)
+    {
+        // get order request info
+        $order_request = $this->or->get_specific($order_request_id);
+
+        // update order_request flag jadi 2
+        $where['id'] = $order_request_id;
+        $data = array(
+            "flag" => 2,
+        );
+        $this->or->update($where, $data);
+
+        // create POS data
+        $pos_data = array(
+            "branch_id" => $order_request->branch_id,
+            "partner_id" => $order_request->partner_id,
+            "partner_name" => $order_request->partner_name,
+            "order_no" => $order_request->order_no,
+            "invoice_no" => $_POST['invoice_no'],
+            "tax_no" => null,
+            "is_delivery" => $order_request->is_delivery,
+            "description" => $order_request->description,
+            "created_by" => $this->session->id,
+            "updated_by" => $this->session->id
+        );
+
+        $this->pos->insert($pos_data);
+        $pos_id = $this->db->insert_id();
+
+        // get order_request_details
+        $order_request_details = $order_request->details;
+
+        foreach ($order_request_details as $or_det) {
+            // generate POS detail data
+            $pos_det_data = array(
+                "pos_id" => $pos_id,
+                "goods_id" => $or_det->goods_id,
+                "warehouse_id" => $or_det->warehouse_id,
+                "goods_name" => $or_det->goods_name,
+                "quantity" => $or_det->quantity,
+                "discount" => $or_det->discount,
+                "discount_code" => $or_det->discount_code,
+                "tax" => $or_det->tax,
+                "total" => $or_det->total
+            );
+
+            $this->pos->insert_detail($pos_det_data);
+        }
+
+        $this->session->set_flashdata("success", "Faktur Order Request berhasil dicetak");
+        redirect(base_url("/index.php/penjualan/pos"));
     }
 }

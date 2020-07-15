@@ -6,6 +6,22 @@ class T_order_request_model extends CI_Model
     {
         $this->db->select("order_no");
         $this->db->from("t_order_request");
+
+        // 6 digit id branch
+        $nomor_nota = sprintf("%06d", $where['branch_id']);
+
+        // 2 digit transaction code
+        $nomor_nota .= "11";
+
+        // 4 digit year
+        $nomor_nota .= date("Y");
+
+        // 2 digit month
+        $nomor_nota .= date("m");
+
+        // 6 digit transaction incremental
+
+        $where['order_no like'] = "$nomor_nota%";
         $this->db->where($where);
         $this->db->order_by("order_no desc");
         $this->db->limit(1);
@@ -16,9 +32,9 @@ class T_order_request_model extends CI_Model
             $current_order_no = intval($current_order_no);
             $current_order_no++;
 
-            $current_order_no = sprintf('%08d', $current_order_no);
+            $current_order_no = sprintf('%020d', $current_order_no);
         } else {
-            $current_order_no = sprintf('%08d', 1);
+            $current_order_no = $nomor_nota . "000001";
         }
         return $current_order_no;
     }

@@ -53,7 +53,9 @@ class Penjualan extends CI_Controller
         $data['page_title'] = "Tambah Order Request";
         $data['back_url'] = base_url("/index.php/penjualan/order_request");
 
-        $data['page_content'] = $this->load->view("penjualan/order_request/index", '', true);
+        $content["customers"] = $this->partner->get_customer()->result();
+
+        $data['page_content'] = $this->load->view("penjualan/order_request/index", $content, true);
         $data['page_js'] = $this->load->view("penjualan/order_request/index_js", "", true);
         $data['page_modal'] = $this->load->view("penjualan/order_request/modal", "", true);
 
@@ -80,10 +82,19 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    public function pos()
+    public function pos($command = '', $id_or = '')
     {
-        $data['page_title'] = "Point of Sales";
-        $data['page_content'] = $this->load->view("penjualan/pos", "", true);
+        if ($command == "cetak_faktur_pajak") {
+            $data['page_title'] = "Point of Sales - Cetak Faktur Pajak";
+            $data['back_url'] = base_url("/index.php/penjualan/order_request");
+            $content['data_or'] = $this->or->get_specific($id_or);
+
+            $data['page_content'] = $this->load->view("penjualan/pos/cetak_faktur_pajak", $content, true);
+            $data['page_js'] = $this->load->view("penjualan/pos/cetak_faktur_pajak_js", $content, true);
+        } else {
+            $data['page_title'] = "Point of Sales";
+            $data['page_content'] = $this->load->view("penjualan/pos", "", true);
+        }
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
