@@ -135,12 +135,14 @@ class Pembelian extends CI_Controller
     // return
     public function return()
     {
-        $data['page_title'] = "Retur Pembelian";
-        $data['page_content'] = $this->load->view("pembelian/return/return", "", true);
-
+        $data['return']       = $this->return->get_all();
+        $data['page_title']   = "Retur Pembelian";
+        $data['page_content'] = $this->load->view("pembelian/return/return", $data, true);
+        // echo json_encode($data['return']);exit;
         $this->load->view('layout/head');
         $this->load->view('layout/base_maxwidth', $data);
         $this->load->view('layout/js');
+        $this->load->view('pembelian/return/return_js'); 
     }
 
     public function add_return()
@@ -204,6 +206,25 @@ class Pembelian extends CI_Controller
         redirect("pembelian/add_return");
         
 
+    }
+
+    public function approve_return()
+    {
+        $where['id'] = $this->input->get("return_id");
+        $data['flag']= 2;
+        $msg   = $this->return->update($where,$data);
+
+        echo json_encode($msg);
+    }
+
+ 
+    public function print_return($id)
+    {
+        $where = "tab1.id=".$id;
+        $group = "tab1.id,tab2.id";
+        $data = $this->return->get_all($where, $group);  
+        
+        $this->pdf->print_return(1,$data); 
     }
 
 

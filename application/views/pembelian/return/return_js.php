@@ -102,44 +102,49 @@
 		var goods_qty  = parseInt( $("#quantity").val() );
 		var goods_qty_receive  = parseInt( $("#qty_receive").val() );
 
-		var save_goods = {};
-		save_goods.id = goods_id;
-		save_goods.code = goods_code;
-		save_goods.name = goods_name;
-		save_goods.price= goods_price;
-		save_goods.qty  = goods_qty;
-		save_goods.qty_receive = goods_qty_receive;
-		save_goods.discount  = 0;
+		if ( goods_id ) {
+			var save_goods = {};
+			save_goods.id = goods_id;
+			save_goods.code = goods_code;
+			save_goods.name = goods_name;
+			save_goods.price= goods_price;
+			save_goods.qty  = goods_qty;
+			save_goods.qty_receive = goods_qty_receive;
+			save_goods.discount  = 0;
 
-		if ( goods_qty > goods_qty_receive)
-		{
-			Swal.fire("Info", "Jumlah retur melebihi jumlah penerimaan!", "error");			
-		} else {
+			if ( goods_qty > goods_qty_receive)
+			{
+				Swal.fire("Info", "Jumlah retur melebihi jumlah penerimaan!", "error");			
+			} else {
 
-			var same = false;
-			$.each(chart_goods,function(id,val){
-				if (val.id == goods_id)
-				{
-					var goods_sum = (val.qty + goods_qty);
-					if ( goods_sum > val.qty_receive  ) {
-						Swal.fire("Info", "Jumlah retur melebihi jumlah penerimaan!", "error");
-					}else {
-						val.qty+=goods_qty;
+				var same = false;
+				$.each(chart_goods,function(id,val){
+					if (val.id == goods_id)
+					{
+						var goods_sum = (val.qty + goods_qty);
+						if ( goods_sum > val.qty_receive  ) {
+							Swal.fire("Info", "Jumlah retur melebihi jumlah penerimaan!", "error");
+						}else {
+							val.qty+=goods_qty;
+						}
+
+						same = true;
+						
 					}
+				});
 
-					same = true;
-					
+				if (!same){
+					chart_goods.push(save_goods);
 				}
-			});
 
-			if (!same){
-				chart_goods.push(save_goods);
 			}
-
+			
+			show_chart_goods();
+			set_zero_qty();
+			clear_goods_chart();
+		}else {
+			Swal.fire("Info", "Silahkan pilih barang!", "error");
 		}
-		
-		show_chart_goods();
-		set_zero_qty();
 
 	}
 
@@ -255,5 +260,63 @@
 			chart_goods.splice(id,1);
 			show_chart_goods();
 		}
+	}
+
+	function clear_goods_chart()
+	{
+		$("#goods_list").val("");
+		$("#goods_list").selectpicker('refresh');
+
+		$("#kode_barang").val('');
+		$("#id_barang").val('');
+		$("#nama_barang").val('');
+		$("#qty_receive").val(0);
+		$("#quantity").val(1);
+		$("#harga_barang").val('');	
+		// $("#goods_discount").val(0);
+	}
+
+	function approve_return(return_id)
+	{
+		    Swal.fire({
+		        title: "Anda yakin ingin memproses transaksi ini?",
+		        text: "Data yg telah diproses tidak dapat diubah!",
+		        icon: "warning",
+		        showCancelButton: true,
+		        confirmButtonText: "Proses"
+		    }).then(function(result) {
+		        if (result.value) {
+
+		        	 $.get("<?=base_url()?>index.php/pembelian/approve_return/",
+		        	 	{"return_id":return_id})
+		        	 .done(function(msg){
+
+		        	 	if (msg) {
+		        	 		Swal.fire(
+				                "Tersimpan!",
+				                "Transaksi berhasil disetujui",
+				                "success"
+				            )
+				            window.location.href = "<?=base_url()?>index.php/pembelian/return";
+		        	 	}
+		        	 });
+		            
+		        }
+		    });
+	}
+
+	function print_return(return_id)
+	{
+		Swal.fire({
+		        title: "Anda yakin ingin mencetak transaksi ini?",
+		        text: "",
+		        icon: "warning",
+		        showCancelButton: true,
+		        confirmButtonText: "Proses"
+		    }).then(function(result) {
+		        if (result.value) {
+		        	window.open("<?=base_url()?>index.php/pembelian/print_return/"+return_id);
+		        }
+		    });
 	}
 </script>

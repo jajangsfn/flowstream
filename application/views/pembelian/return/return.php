@@ -31,7 +31,36 @@
                 </tr>
             </thead>
             <tbody>
-              
+                <?php
+                foreach ($return as $key => $val) { ?>
+                  <tr>
+                    <td><?=$key+1?></td>
+                    <td><?=$val->return_no?></td>
+                    <td><?=$val->supplier_name?></td>
+                    <td><?=$val->return_date?></td>
+                    <td><?=$val->description?></td>
+                    <td><?=$val->total?></td>
+                    <td><?= $val->flag == 1 ? "<div class='badge badge-info'>Draft</div>" : "<div class='badge badge-success'>Approved</div>";?></td>
+                    <td>
+                     <?php
+                      if ($val->flag == 1) {
+                      ?>
+                        <a href="<?=base_url()?>index.php/Pembelian/edit_return/<?=$val->id?>" class="btn btn-light-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa la-edit" title="Edit"></i></a>
+                      <?php }?>
+                        <button type="button" class="btn btn-light-info btn-sm" data-toggle="tooltip" data-placement="top" title="Print" onclick="print_return(<?=$val->id?>)"> 
+                            <i class="fa la-print" title="Print"></i>
+                        </button>
+                      <?php
+                        if ($val->flag == 1) {
+                      ?>
+                          <button type="button" class="btn btn-light-success btn-sm" data-toggle="tooltip" data-placement="top" title="Approved" onclick="approve_return(<?=$val->id?>)">
+                            <i class="fa la-check" title="Approve"></i>
+                          </button>
+                        <?php }?>
+                    </td>
+                  </tr>
+                <?php }
+                ?>
             </tbody>
         </table>
 
