@@ -8,31 +8,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="scroll scroll-pull" data-scroll="true" data-height="400">
-                    <?php for ($i = 0; $i < 30; $i++) : ?>
-                        <div class="d-flex align-items-center justify-content-between mb-5">
-                            <!--begin::Section-->
-                            <div class="d-flex align-items-center mr-2">
-                                <!--begin::Symbol-->
-                                <div class="symbol symbol-50 symbol-light mr-3 flex-shrink-0">
-                                    <div class="symbol-label">
-                                        <img src="<?= base_url() ?>/assets/media/svg/misc/006-plurk.svg" class="h-50" alt="">
-                                    </div>
-                                </div>
-                                <!--end::Symbol-->
-                                <!--begin::Title-->
-                                <div>
-                                    <a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">Top Authors</a>
-                                    <div class="font-size-sm text-muted font-weight-bold mt-1">Ricky Hunt, Sandra Trepp</div>
-                                </div>
-                                <!--end::Title-->
-                            </div>
-                            <!--end::Section-->
-                            <!--begin::Label-->
-                            <div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">+82$</div>
-                            <!--end::Label-->
-                        </div>
-                    <?php endfor ?>
+                <input type="text" class="form-control" placeholder="Cari Barang" onkeyup="suggester_me(this)" />
+                <div class="scroll scroll-pull goods_placement" data-scroll="true" data-height="400">
                 </div>
             </div>
         </div>

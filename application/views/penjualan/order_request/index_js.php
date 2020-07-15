@@ -79,7 +79,8 @@
                     success: function(result) {
                         $("#order_request_col").addClass("col-lg-9").removeClass("col-lg-12");
                         $("#daftar_barang_col_lg").addClass("d-lg-block");
-                        $("#goods_placement").empty();
+                        $(".goods_placement").empty();
+                        $("#pilih_barang_modal_toggle").removeClass("d-none").addClass("d-unset d-lg-none");
                         for (let i = 0; i < result.data.length; i++) {
                             const focus = result.data[i];
 
@@ -109,7 +110,7 @@
                                         $(document.createElement("i")).addClass("fa text-primary fa-angle-right p-0")
                                     )
                                 );
-                            $("#goods_placement").append(target)
+                            $(".goods_placement").append(target)
                         }
                     }
                 })
@@ -173,111 +174,133 @@
 
     function tambah_barang(element) {
         const id = $(element).attr("data-id-barang");
-        // TODO: jika sudah ada di tabel, tambahkan jumlahnya 1, lalu fokusin dan kasi animasi
-        // ambil info barang dengan ajax
-        $.ajax({
-            url: "<?= base_url("/index.php/api/get_barang/") ?>" + id,
-            success: function(response) {
-                let price;
-                if (response.data["price_" + index_harga]) {
-                    price = response.data["price_" + index_harga];
-                } else {
-                    price = response.data["default_price"];
+        
+        // cek jika barang sudah pernah dimasukan
+        var same_found = false;
+        $("table#daftar_barang_order tbody tr").each(function(rower) {
+            if ($(this).attr("id") == id) {
+                same_found = true;
+            };
+        });
+
+        if (same_found) {
+
+            // jika sudah pernah dimasukan, tambahkan quantity dan hitung ulang
+            $(`tr#${id}`).animate({ opacity: 0 });
+            $(`input#jumlah_${id}`).val(
+                parseInt($(`input#jumlah_${id}`).val()) + parseInt($("#jumlah_tambah_baru").val())
+            );
+            $(`tr#${id}`).animate({ opacity: 1 });
+
+
+            hitung_ulang(id)
+        } else {
+            // ambil info barang dengan ajax
+            $.ajax({
+                url: "<?= base_url("/index.php/api/get_barang/") ?>" + id,
+                success: function(response) {
+                    let price;
+                    if (response.data["price_" + index_harga]) {
+                        price = response.data["price_" + index_harga];
+                    } else {
+                        price = response.data["default_price"];
+                    }
+
+                    price = parseInt(price);
+                    $jumlah_baru = $("#jumlah_tambah_baru").val();
+                    $subtotal_baru = $jumlah_baru * price;
+                    const data = response.data;
+                    $("table#daftar_barang_order tbody").append(
+                        $(document.createElement("tr")).attr("id", data.id).append(
+                            // numbering
+                            $(document.createElement("td")).addClass("text-center font-weight-bold"),
+
+                            // kode barang dan id input hidden
+                            $(document.createElement("td")).append(
+                                $(document.createElement("div")).text(data.barcode),
+                                $(document.createElement("input"))
+                                .attr("type", "hidden")
+                                .attr("name", `barang[${data.id}][goods_id]`)
+                                .attr("value", data.id)
+                            ),
+
+                            // nama barang
+                            $(document.createElement("td")).append(
+                                $(document.createElement("div")).text(data.brand_name).addClass("font-weight-bold"),
+                                $(document.createElement("div")).text(data.brand_description).addClass(`brand_description_show ${show_desc ? "" : "d-none"}`),
+                                $(document.createElement("input"))
+                                .attr("type", "hidden")
+                                .attr("name", `barang[${data.id}][goods_name]`)
+                                .attr("value", data.brand_name + " " + data.brand_description)
+                            ),
+
+                            // jumlah barang
+                            $(document.createElement("td")).attr("style", "width: 70px").append(
+                                $(document.createElement("input"))
+                                .attr("type", "number")
+                                .addClass("form-control text-center")
+                                .attr("id", "jumlah_" + data.id)
+                                .attr("name", `barang[${data.id}][quantity]`)
+                                .val($jumlah_baru)
+                                .attr("min", "1")
+                                .change(() => hitung_ulang(data.id))
+                            ),
+
+                            // unit barang
+                            $(document.createElement("td")).text(data.unit),
+
+                            $(document.createElement("td")).append(
+                                $(document.createElement("input"))
+                                .attr("type", "number")
+                                .addClass("form-control text-right rupiah")
+                                .attr("id", "harga_" + data.id)
+                                .attr("name", `barang[${data.id}][price]`)
+                                .val(price)
+                                .attr("min", "1")
+                                .change(() => hitung_ulang(data.id))
+                            ),
+
+                            // diskon (TODO)
+                            $(document.createElement("td")).append(
+                                $(document.createElement("input"))
+                                .attr("type", "number")
+                                .addClass("form-control text-center")
+                                .attr("style", "width: 100%")
+                                .attr("id", "diskon_" + data.id)
+                                .attr("name", `barang[${data.id}][discount]`)
+                                .val(0)
+                                .attr("min", "0")
+                                .attr("max", "100")
+                                .change(() => hitung_ulang(data.id)),
+                            ),
+
+                            // subtotal
+                            $(document.createElement("td")).text($subtotal_baru).addClass("text-right rupiah").attr("id", "total_harga_" + data.id),
+
+                            // aksi hapus
+                            $(document.createElement("td")).addClass("text-center").append(
+                                $(document.createElement("button"))
+                                .addClass("mr-3 btn btn-icon btn-light btn-hover-primary btn-sm")
+                                .attr("type", "button")
+                                .click(() => delete_baris(data.id))
+                                .append($("#trash_button_icon_template").clone().removeAttr("id").removeClass("d-none"))
+                            ),
+                        )
+                    );
+                    render_table_number();
+                    $total_sebelumnya = parseInt($("#total_harga_order").text());
+                    $("#total_harga_order").text($total_sebelumnya + $subtotal_baru);
+
+                    // tombol submit
+                    $("button[type=submit]").removeAttr("disabled");
                 }
-
-                price = parseInt(price);
-                $jumlah_baru = $("#jumlah_tambah_baru").val();
-                $subtotal_baru = $jumlah_baru * price;
-                const data = response.data;
-                $("table#daftar_barang_order tbody").append(
-                    $(document.createElement("tr")).attr("id", data.id).append(
-                        // numbering
-                        $(document.createElement("td")).addClass("text-center font-weight-bold"),
-
-                        // kode barang dan id input hidden
-                        $(document.createElement("td")).append(
-                            $(document.createElement("div")).text(data.barcode),
-                            $(document.createElement("input"))
-                            .attr("type", "hidden")
-                            .attr("name", `barang[${data.id}][goods_id]`)
-                            .attr("value", data.id)
-                        ),
-
-                        // nama barang
-                        $(document.createElement("td")).append(
-                            $(document.createElement("div")).text(data.brand_description),
-                            $(document.createElement("input"))
-                            .attr("type", "hidden")
-                            .attr("name", `barang[${data.id}][goods_name]`)
-                            .attr("value", data.brand_name + " " + data.brand_description)
-                        ),
-
-                        // jumlah barang
-                        $(document.createElement("td")).attr("style", "width: 70px").append(
-                            $(document.createElement("input"))
-                            .attr("type", "number")
-                            .addClass("form-control text-center")
-                            .attr("id", "jumlah_" + data.id)
-                            .attr("name", `barang[${data.id}][quantity]`)
-                            .val($jumlah_baru)
-                            .attr("min", "1")
-                            .change(() => hitung_ulang(data.id))
-                        ),
-
-                        // unit barang
-                        $(document.createElement("td")).text(data.unit),
-
-                        $(document.createElement("td")).append(
-                            $(document.createElement("input"))
-                            .attr("type", "number")
-                            .addClass("form-control text-right rupiah")
-                            .attr("id", "harga_" + data.id)
-                            .attr("name", `barang[${data.id}][price]`)
-                            .val(price)
-                            .attr("min", "1")
-                            .change(() => hitung_ulang(data.id))
-                        ),
-
-                        // diskon (TODO)
-                        $(document.createElement("td")).append(
-                            $(document.createElement("input"))
-                            .attr("type", "number")
-                            .addClass("form-control text-center")
-                            .attr("style", "width: 100%")
-                            .attr("id", "diskon_" + data.id)
-                            .attr("name", `barang[${data.id}][discount]`)
-                            .val(0)
-                            .attr("min", "0")
-                            .attr("max", "100")
-                            .change(() => hitung_ulang(data.id)),
-                        ),
-
-                        // subtotal
-                        $(document.createElement("td")).text($subtotal_baru).addClass("text-right rupiah").attr("id", "total_harga_" + data.id),
-
-                        // aksi hapus
-                        $(document.createElement("td")).addClass("text-center").append(
-                            $(document.createElement("button"))
-                            .addClass("mr-3 btn btn-icon btn-light btn-hover-primary btn-sm")
-                            .attr("type", "button")
-                            .click(() => delete_baris(data.id))
-                            .append($("#trash_button_icon_template").clone().removeAttr("id").removeClass("d-none"))
-                        ),
-                    )
-                );
-                render_table_number();
-                $total_sebelumnya = parseInt($("#total_harga_order").text());
-                $("#total_harga_order").text($total_sebelumnya + $subtotal_baru);
-
-                // tombol submit
-                $("button[type=submit]").removeAttr("disabled");
-            }
-        })
+            })
+        }
     }
 
     function suggester_me(element) {
         const searchtarget = $(element).val().replace(/ /g, '').toLowerCase();
-        $('#goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
+        $('.goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
             var targetkey = $(this).attr("data-keyword");
             if (targetkey.indexOf(searchtarget) >= 0) {
                 $(this).removeClass("d-none")
@@ -287,6 +310,13 @@
                 $(this).removeClass("d-flex")
             }
         });
+    }
+
+    var show_desc = true;
+
+    function toggleshow() {
+        $(".brand_description_show").toggleClass("d-none");
+        show_desc = !show_desc;
     }
 </script>
 

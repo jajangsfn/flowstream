@@ -37,7 +37,10 @@
                         } else if (data == 2) {
                             return "<span class='text-success'>Faktur Telah Dicetak</span>";
                         }
-                    }
+                    },
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        $(td).attr('nowrap', 'nowrap').addClass("text-center")
+                    },
                 },
                 {
                     data: 'id',

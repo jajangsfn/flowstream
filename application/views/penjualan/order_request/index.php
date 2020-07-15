@@ -9,7 +9,7 @@
             </div>
             <div class="card-body daftar_barang_container pt-0">
                 <input type="text" class="form-control my-4" placeholder="Cari Barang" onkeyup="suggester_me(this)" />
-                <div class="scroll scroll-pull ps ps--active-y" data-scroll="true" data-wheel-propagation="true" style="max-height: 50vh; height: 100%; overflow: hidden;" id="goods_placement">
+                <div class="scroll scroll-pull ps ps--active-y goods_placement" data-scroll="true" data-wheel-propagation="true" style="max-height: 50vh; height: 100%; overflow: hidden;">
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
         <form class="card card-custom gutter-b" action="<?= base_url("/index.php/api/kirim_order_request") ?>" method="POST">
             <div class="card-header">
                 <div class="card-title">Order Request <span id="or_no" class="d-none ml-2">No #</span></div>
-                <div class="card-toolbar d-unset d-lg-none">
+                <div class="card-toolbar d-none" id="pilih_barang_modal_toggle">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#daftarBarang">
                         Pilih Barang
                     </button>
@@ -74,9 +74,15 @@
                         </tbody>
                     </table>
                 </div>
-                <h5 class="text-right font-weight-bold">
-                    Total <span id="total_harga_order">0</span>
-                </h5>
+                <div class="d-flex justify-content-between align-items-center">
+                    <label class="checkbox">
+                        <input type="checkbox" checked="checked" onchange="toggleshow()" /> Tampilkan Deskripsi Barang
+                        <span></span>
+                    </label>
+                    <h5 class="text-right font-weight-bold">
+                        Total <span id="total_harga_order">0</span>
+                    </h5>
+                </div>
             </div>
             <div class="card-footer text-right">
                 <button type="submit" class="btn btn-primary" disabled> Cetak </button>
