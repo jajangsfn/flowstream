@@ -772,4 +772,66 @@ class Api extends CI_Controller
         $this->session->set_flashdata("success", "Faktur Order Request berhasil dicetak");
         redirect(base_url("/index.php/penjualan/pos"));
     }
+
+    // Point of Sales
+    public function pos()
+    {
+        echo json_encode(
+            array(
+                "data" => $this->pos->get_all()->result()
+            )
+        );
+    }
+
+    public function get_pos_number($id_branch)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->pos->get_next_no(array("branch_id" => $id_branch))
+            )
+        );
+    }
+
+    public function kirim_pos()
+    {
+        // create POS data
+        $pos_data = array(
+            "branch_id" => $_POST['branch_id'],
+            "partner_name" => $_POST['partner_name'],
+            "invoice_no" => $_POST['invoice_no'],
+            "tax_no" => null,
+            "is_delivery" => null,
+            "partner_id" => $_POST['partner_id'],
+            "order_no" => $_POST['order_no'],
+            "description" => $_POST['description'],
+            "created_by" => $this->session->id,
+            "updated_by" => $this->session->id
+        );
+
+        $this->pos->insert($pos_data);
+        $id_new_pos = $this->db->insert_id();
+
+        // loop added goods
+        foreach ($_POST['barang'] as $good) {
+            $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            
+            // generate POS detail data
+            $pos_det_data = array(
+                "pos_id" => $id_new_pos,
+                "goods_id" => $good['goods_id'],
+                "warehouse_id" => null,
+                "goods_name" => $good['goods_name'],
+                "quantity" => $good['quantity'],
+                "discount" => $good['discount'],
+                "discount_code" => null,
+                "tax" => null,
+                "total" => $good['total']
+            );
+
+            $this->pos->insert_detail($pos_det_data);
+        }
+
+        $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }

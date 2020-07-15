@@ -91,9 +91,24 @@ class Penjualan extends CI_Controller
 
             $data['page_content'] = $this->load->view("penjualan/pos/cetak_faktur_pajak", $content, true);
             $data['page_js'] = $this->load->view("penjualan/pos/cetak_faktur_pajak_js", $content, true);
+        } else if ($command == "add") {
+            $data['page_title'] = "Transaksi Baru - Point of Sales";
+            $data['back_url'] = base_url("/index.php/penjualan/pos");
+
+            $content["customers"] = $this->partner->get_customer()->result();
+
+            $data['page_content'] = $this->load->view("penjualan/pos/add", $content, true);
+            $data['page_js'] = $this->load->view("penjualan/pos/add_js", "", true);
+            $data['page_modal'] = $this->load->view("penjualan/pos/add_modal", "", true);
+
+            $data['transactional'] = true;
         } else {
-            $data['page_title'] = "Point of Sales";
-            $data['page_content'] = $this->load->view("penjualan/pos", "", true);
+            // tampilkan list of Point of Sales
+            $data['back_url'] = base_url("/index.php/penjualan/home");
+
+            $data['page_title'] = "Penjualan - Daftar Point of Sales";
+            $data['page_content'] = $this->load->view("penjualan/pos/list", "", true);
+            $data['page_js'] = $this->load->view("penjualan/pos/list_js", "", true);
         }
 
         $this->load->view('layout/head');
