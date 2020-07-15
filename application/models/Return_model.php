@@ -44,8 +44,16 @@ class Return_model extends CI_Model
     }
 
     function delete($where)
+    {   
+        $this->db->where("id",$where);
+        $this->db->delete("t_purchase_return");
+        $this->delete_detail($where);
+    }
+
+    function delete_detail($return_id)
     {
-        return $this->update($where, array("flag" => 99));
+        $where['purchase_return_id'] = $return_id;
+        $this->db->delete("t_purchase_return_detail",$where);
     }
 
 
@@ -69,9 +77,9 @@ class Return_model extends CI_Model
     function get_all($where = null, $group = null)
     {
 
-        return $this->db->query("SELECT tab1.*,tab7.`name` supplier_name,tab7.`name` warehouse_name ,
+        return $this->db->query("SELECT tab1.*,tab7.`name` supplier_name,tab8.`name` warehouse_name ,
                             (tab2.quantity * tab5.price) total,
-                            tab9.brand_description goods_name,tab9.sku_code,tab5.price,tab2.quantity
+                            tab9.id goods_id, tab9.brand_description goods_name,tab9.sku_code,tab5.price,tab2.quantity,tab7.id supplier_id,tab5.quantity qty_receive
                             FROM t_purchase_return tab1 
                             JOIN t_purchase_return_detail tab2 ON tab2.purchase_return_id=tab1.id 
                             LEFT JOIN t_receiving tab3 ON tab3.receiving_no=tab1.reference_no
@@ -82,7 +90,8 @@ class Return_model extends CI_Model
                             LEFT JOIN `m_warehouse` `tab8` ON `tab8`.`id`=`tab3`.`warehouse_id` 
                             LEFT JOIN  m_goods tab9 ON tab9.id=tab2.goods_id
                             ".(($where) ? "WHERE ".$where : "")."
-                            GROUP BY tab1.id ".(($group) ? ",".$group : ""))->result();  
+                            GROUP BY tab1.id ".(($group) ? ",".$group : "")
+                            ." ORDER BY tab1.updated_date desc")->result();  
     }
 
 

@@ -148,11 +148,28 @@ class Pembelian extends CI_Controller
     public function add_return()
     {
 
-        $data['page_title'] = "Retur Pembelian";
-        $data['return_no']        = generate_po_no(4);
+        $data['page_title']   = "Retur Pembelian";
+        $data['return_no']    = generate_po_no(4);
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['page_content'] = $this->load->view("pembelian/return/add_return", $data, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/js');
+        $this->load->view('pembelian/return/return_js'); 
+    }
+
+    public function edit_return($id)
+    {
+
+        $data['page_title']   = "Retur Pembelian";
+        $data['return_no']    = generate_po_no(4);
+        $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
+        $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
+        $data['master']       = $this->return->get_all("tab1.id=".$id);
+        
+        $data['page_content'] = $this->load->view("pembelian/return/edit_return", $data, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base_maxwidth', $data);
@@ -175,7 +192,46 @@ class Pembelian extends CI_Controller
     public function save_return()
     {
         $param = $this->input->post();
-        $arr_return = array(
+        // echo count($param);exit;
+        if ( count($param) > 0) {
+
+            if (array_key_exists("id", $param)) {
+
+
+                    $arr_return = array(
+                            "branch_id" => $this->session->userdata('branch_id'),
+                            "return_no" => $param['return_no'],
+                            "reference_no" => $param['no_ref'],
+                            "description" => $param['deskripsi'],
+                            "transaction_date" => $param['tgl_trx'],
+                            "return_date" => $param['tgl_trx'],
+                            "created_by" => $this->session->userdata('id'),
+                            "created_date" => date('Y-m-d H:i:s'),
+                            "updated_date" => date('Y-m-d H:i:s'),
+                            "updated_by" => $this->session->userdata('id'),
+                            "flag" => 1);
+                    // echo json_encode($arr_return);exit;
+                    $this->return->delete($param['id']);
+                    $this->return->insert($arr_return, $param);
+
+
+                     // insert hitory activity
+                    $history_data  = array("branch_id" => $this->session->userdata('branch_id'),
+                                           "branch_name" => $this->session->userdata('branch_name'),
+                                           "created_by" => $this->session->userdata('id'),
+                                           "created_name" => $this->session->userdata('name'),
+                                           "activity"  => "Mengubah Transaksi Retur",
+                                           "created_date" => date('Y-m-d H:i:s'),
+                                        );
+
+                    $this->history->insert($history_data);
+                    $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil diperbaharui</div>');
+
+                    redirect("pembelian/return");
+
+            }else {
+
+                $arr_return = array(
                             "branch_id" => $this->session->userdata('branch_id'),
                             "return_no" => $param['return_no'],
                             "reference_no" => $param['no_ref'],
@@ -188,22 +244,26 @@ class Pembelian extends CI_Controller
                             "updated_by" => $this->session->userdata('id'),
                             "flag" => 1);
         
-        $this->return->insert($arr_return, $param);
+                $this->return->insert($arr_return, $param);
 
 
-         // insert hitory activity
-        $history_data  = array("branch_id" => $this->session->userdata('branch_id'),
-                               "branch_name" => $this->session->userdata('branch_name'),
-                               "created_by" => $this->session->userdata('id'),
-                               "created_name" => $this->session->userdata('name'),
-                               "activity"  => "Membuat Transaksi Retur",
-                               "created_date" => date('Y-m-d H:i:s'),
-                            );
+                 // insert hitory activity
+                $history_data  = array("branch_id" => $this->session->userdata('branch_id'),
+                                       "branch_name" => $this->session->userdata('branch_name'),
+                                       "created_by" => $this->session->userdata('id'),
+                                       "created_name" => $this->session->userdata('name'),
+                                       "activity"  => "Membuat Transaksi Retur",
+                                       "created_date" => date('Y-m-d H:i:s'),
+                                    );
 
-        $this->history->insert($history_data);
-        $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil disimpan</div>');
+                $this->history->insert($history_data);
+                $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil disimpan</div>');
 
-        redirect("pembelian/add_return");
+                redirect("pembelian/add_return");
+
+            }
+        }
+        
         
 
     }

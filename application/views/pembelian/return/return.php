@@ -1,3 +1,4 @@
+ <?=$this->session->flashdata('msg');?>
 <!--begin::Card-->
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
@@ -37,9 +38,9 @@
                     <td><?=$key+1?></td>
                     <td><?=$val->return_no?></td>
                     <td><?=$val->supplier_name?></td>
-                    <td><?=$val->return_date?></td>
+                    <td><?=date('Y-m-d', strtotime($val->return_date))?></td>
                     <td><?=$val->description?></td>
-                    <td><?=$val->total?></td>
+                    <td><?=number_format($val->total)?></td>
                     <td><?= $val->flag == 1 ? "<div class='badge badge-info'>Draft</div>" : "<div class='badge badge-success'>Approved</div>";?></td>
                     <td>
                      <?php

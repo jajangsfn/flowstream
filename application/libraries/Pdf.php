@@ -329,13 +329,13 @@ class pdf
 		// echo json_encode($data);
 		// if ($type == 1) {
 
-			$pdf = new FPDF("L","cm","A4");
+			$pdf = new FPDF("L","cm",array(20,25));
 			$pdf->SetMargins(0.8,1,1);
 			$pdf->AliasNbPages();
 			$pdf->AddPage();
 			$pdf->SetFont('Arial','B',16);
 			// judul
-			$pdf->Cell(30,1,'Bukti Retur Barang',0,1,'C');
+			$pdf->Cell(24,1,'Bukti Retur Barang',0,1,'C');
 
 			$pdf->SetFont('Arial','B',10);
 			$pdf->Cell(4,0.7,"Printed On : ".date("d/m/Y"),0,0,'C');
@@ -345,8 +345,8 @@ class pdf
 			$pdf->SetFont('Arial','B',11);
 			$pdf->setFillColor(155,89,182);
 			$pdf->SetTextColor(255,255,255);
-			$pdf->Cell(15, 1, 'Rincian Supplier', 1, 0, 'L',true);
-			$pdf->Cell(13, 1, 'Rincian Retur', 1, 0, 'L',true);
+			$pdf->Cell(12, 1, 'Rincian Supplier', 1, 0, 'L',true);
+			$pdf->Cell(11.4, 1, 'Rincian Retur', 1, 0, 'L',true);
 			$pdf->ln(1);
 
 			$pdf->SetFont('Arial','B',9);
@@ -355,39 +355,39 @@ class pdf
 
 			$pdf->Cell(3, 1, 'Supplier', 0, 0, 'L',true);
 			$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-			$pdf->Cell(11.8, 1, $data[0]->supplier_name, 0, 0, 'L',true);
+			$pdf->Cell(8.8, 1, $data[0]->supplier_name, 0, 0, 'L',true);
 
 			$pdf->Cell(3, 1, 'No Retur', array(1,1,0,0), 0, 'L',true);
 			$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-			$pdf->Cell(9.8, 1, $data[0]->return_no, 0, 0, 'L',true);
+			$pdf->Cell(8.2, 1, $data[0]->return_no, 0, 0, 'L',true);
 			$pdf->ln(1);
 
-			$pdf->Cell(5, 1, '', 0, 0, 'L',true);
+			$pdf->Cell(3, 1, '', 0, 0, 'L',true);
 			$pdf->Cell(0.2, 1, '', 0, 0, 'L',true);
-			$pdf->Cell(9.8, 1, '', 0, 0, 'L',true);
+			$pdf->Cell(8.8, 1, '', 0, 0, 'L',true);
 
 
 			$pdf->Cell(3, 1, 'Tgl Retur', array(1,1,0,0), 0, 'L',true);
 			$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-			$pdf->Cell(9.8, 1, $data[0]->return_date, 0, 0, 'L',true);
+			$pdf->Cell(8.2, 1, $data[0]->return_date, 0, 0, 'L',true);
 
 			$pdf->ln(1);
-			$pdf->Cell(5, 1, '', 0, 0, 'L',true);
+			$pdf->Cell(3, 1, '', 0, 0, 'L',true);
 			$pdf->Cell(0.2, 1, '', 0, 0, 'L',true);
-			$pdf->Cell(9.8, 1, '', 0, 0, 'L',true);
+			$pdf->Cell(8.8, 1, '', 0, 0, 'L',true);
 
 			$pdf->Cell(3, 1, 'No Referensi', array(1,1,0,0), 0, 'L',true);
 			$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-			$pdf->Cell(9.8, 1, $data[0]->reference_no, 0, 0, 'L',true);
+			$pdf->Cell(8.2, 1, $data[0]->reference_no, 0, 0, 'L',true);
 
 			$pdf->ln(1);
-			$pdf->Cell(5, 1, '', 0, 0, 'L',true);
+			$pdf->Cell(3, 1, '', 0, 0, 'L',true);
 			$pdf->Cell(0.2, 1, '', 0, 0, 'L',true);
-			$pdf->Cell(9.8, 1, '', 0, 0, 'L',true);
+			$pdf->Cell(8.8, 1, '', 0, 0, 'L',true);
 
 			$pdf->Cell(3, 1, 'Deskripsi', array(1,1,0,0), 0, 'L',true);
 			$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-			$pdf->Cell(9.8, 1, $data[0]->description, 0, 0, 'L',true);
+			$pdf->Cell(8.2, 1, $data[0]->description, 0, 0, 'L',true);
 
 			$pdf->ln(2);
 
@@ -396,14 +396,11 @@ class pdf
 			$pdf->setFillColor(155,89,182);
 			$pdf->SetTextColor(255,255,255);
 			
-
-			
 			$pdf->Cell(1, 0.8, 'No', 1, 0, 'C',1);
-			$pdf->Cell(5, 0.8, 'Kode Barang', 1, 0, 'C',1);
-			$pdf->Cell(9, 0.8, 'Nama Barang', 1, 0, 'C',1);
+			$pdf->Cell(3.5, 0.8, 'Kode Barang', 1, 0, 'C',1);
+			$pdf->Cell(8, 0.8, 'Nama Barang', 1, 0, 'C',1);
 			$pdf->Cell(3.5, 0.8, 'Harga', 1, 0, 'C',1);
 			$pdf->Cell(3.5, 0.8, 'Qty', 1, 0, 'C',1);
-			// $pdf->Cell(2, 0.8, 'Diskon (%)', 1, 0, 'C',1);
 			$pdf->Cell(4, 0.8, 'Total', 1, 1, 'C',1);
 			$pdf->SetFont('Arial','',9);
 			$pdf->SetTextColor(0,0,0);
@@ -415,8 +412,8 @@ class pdf
 					$total = ($val->price * $val->quantity);
 					$grant_total+=$total;
 					$pdf->Cell(1,0.8,($key+1),1,0,'C');
-					$pdf->Cell(5,0.8,($sku_code),1,0,'C');
-					$pdf->Cell(9,0.8,($val->goods_name),1,0,'L');
+					$pdf->Cell(3.5,0.8,($sku_code),1,0,'C');
+					$pdf->Cell(8,0.8,($val->goods_name),1,0,'L');
 					$pdf->Cell(3.5,0.8,number_format($val->price),1,0,'R');
 					$pdf->Cell(3.5,0.8,number_format($val->quantity),1,0,'R');
 					// $pdf->Cell(2,0.8,( ($val->discount) ? $val->discount :"0" ),1,0,'C');
@@ -427,7 +424,7 @@ class pdf
 			$pdf->SetFont('Arial','B',9);
 			$pdf->setFillColor(155,89,182);
 			$pdf->SetTextColor(255,255,255);
-			$pdf->Cell(22,0.8,"Grant Total",1,0,'R',1);
+			$pdf->Cell(19.5,0.8,"Grant Total",1,0,'R',1);
 			$pdf->Cell(4, 0.8, number_format(floor($grant_total)), 1, 1, 'R',1);
 
 

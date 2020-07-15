@@ -2,7 +2,7 @@
 	var chart_goods = [];
 	$(document).ready( function() {
 
-
+		get_data_from_db();
 		$("#btn_save_return").click(function(){
 
 			Swal.fire({
@@ -160,7 +160,7 @@
 		if (chart_goods.length > 0 ){
 
 			$.each(chart_goods,function(id,val){
-				total = ((val.price * val.qty) - ((val.price * val.qty) * val.discount)/100);
+				total = (val.price * val.qty);
 				grant_total+=total;
 				total = total > 0 ?  (total/1000).toFixed(3)  : 0;
 				rows+="<tr id='"+id+"'>";
@@ -318,5 +318,36 @@
 		        	window.open("<?=base_url()?>index.php/pembelian/print_return/"+return_id);
 		        }
 		    });
+	}
+
+
+	function get_data_from_db()
+	{
+		var data = '<?=isset($master) ? json_encode($master) : ''?>';
+		var parse = (data) ? jQuery.parseJSON(data) : [];
+		
+
+		var same = false;
+		if (parse.length > 0) {
+			if (chart_goods) {
+
+				$.each(parse, function(id, val) {
+					console.log(val);
+
+					var save_goods = {};
+					save_goods.id = val.goods_id;
+					save_goods.code = val.sku_code;
+					save_goods.name = val.goods_name;
+					save_goods.price= val.price;
+					save_goods.qty  = val.quantity;
+					save_goods.qty_receive = val.qty_receive;
+					chart_goods.push(save_goods);
+				});
+
+				show_chart_goods();
+				
+			}
+		}
+
 	}
 </script>
