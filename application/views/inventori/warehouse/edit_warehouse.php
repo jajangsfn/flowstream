@@ -85,7 +85,7 @@
 
            <div class="col-md-2 text-right col-form-label">
               <label>Tanggal Transaksi</label>
-          </div>
+          </div> 
           <div class="col-md-3">
               <input type="text" name="trans_date" class="form-control" readonly value="<?=date('Y-m-d', strtotime($warehouse[0]->created_date) );?>">
           </div>
@@ -99,7 +99,7 @@
           </div>  
           <div class="col-md-3">
               <div class="input-group mb-3">
-                    <input type="text" name="nro" id="nro" class="form-control" placeholder="No Receive Order. . ." aria-label="" aria-describedby="basic-addon1" value="<?=$warehouse[0]->physical_warehouse_no?>">
+                    <input type="text" name="nro" id="nro" class="form-control" placeholder="No Receive Order. . ." aria-label="" aria-describedby="basic-addon1" value="<?=$warehouse[0]->reference_no?>">
                   <div class="input-group-prepend">
                      <button class="btn btn-info" type="button" onclick="search_receive_order()">search</button>
                    </div>

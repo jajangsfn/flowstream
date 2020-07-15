@@ -250,7 +250,7 @@
 
 	function get_chart_goods_from_db()
 	{
-		var data = <?=isset($master) ? json_encode($master) :null;?>;
+		var data = "<?=isset($master) ? json_encode($master) :null;?>";
 		
 		if (data.length > 0){
 
@@ -314,5 +314,7 @@
 		        }
 		    });
 	}
+
+
 
 </script>

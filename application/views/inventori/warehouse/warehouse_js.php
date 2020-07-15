@@ -216,7 +216,7 @@
 			$.get("<?=base_url()?>index.php/inventori/get_ws_goods",
 						{"receive_no":receive_no})
 				.done( function(data) {
-
+ 
 					var parse = jQuery.parseJSON(data); 
 					console.log(parse);
 
