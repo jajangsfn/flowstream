@@ -153,7 +153,7 @@ class Setting extends CI_Controller
                     $data['page_title'] = "Daftar Customer untuk Cabang " . $content['data_branch']->name;
 
                     $content['m_master'] = $this->master->get_all()->result();
-                    $content['m_partner_type'] = $this->partner_type->get_all()->result();
+                    $content['m_partner_type'] = $this->partner_type->get(array("branch_id" => $id))->result();
 
                     $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
                     $data['page_content'] = $this->load->view("setting/master/cabang/customer", $content, true);
@@ -166,6 +166,23 @@ class Setting extends CI_Controller
 
                     $data['page_content'] = $this->load->view("setting/master/cabang/gudang/index", $content, true);
                     $data['page_js'] = $this->load->view("setting/master/cabang/gudang/index_js", $content, true);
+                    break;
+                case "partner_type":
+                    $data['page_title'] = "Daftar Tipe Partner untuk Cabang " . $content['data_branch']->name;
+                    $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+
+                    $data['page_content'] = $this->load->view("setting/master/cabang/partner_type/index", $content, true);
+                    $data['page_js'] = $this->load->view("setting/master/cabang/partner_type/index_js", $content, true);
+                    break;
+                case "map":
+                    $data['page_title'] = "Daftar Map Harga untuk Cabang " . $content['data_branch']->name;
+                    $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+
+                    $content['m_partner_type'] = $this->partner_type->get(array("branch_id" => $id))->result();
+                    $content['m_partner_type_unmap'] = $this->partner_type->get_unmap($id)->result();
+
+                    $data['page_content'] = $this->load->view("setting/master/cabang/m_map/index", $content, true);
+                    $data['page_js'] = $this->load->view("setting/master/cabang/m_map/index_js", $content, true);
                     break;
                 case "reference":
                     $target = ucwords(str_replace("_", " ", $second_path));

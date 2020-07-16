@@ -17,10 +17,11 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Cabang</th>
                     <th>Nomor Order</th>
+                    <th>Nomor Faktur</th>
                     <th>Customer</th>
                     <th>Tanggal</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>

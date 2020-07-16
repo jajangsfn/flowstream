@@ -83,6 +83,22 @@
                             <span class="navi-text font-size-lg">Gudang</span>
                         </a>
                     </div>
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/partner_type" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Tipe Partner</span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a href="<?= current_url() ?>/map" class="navi-link py-4">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">Map Harga</span>
+                        </a>
+                    </div>
                 </div>
                 <!--end::Nav-->
             </div>

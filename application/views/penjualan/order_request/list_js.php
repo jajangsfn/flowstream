@@ -11,12 +11,6 @@
                     }
                 },
                 {
-                    data: 'branch_name',
-                    createdCell: function(td, cellData, rowData, row, col) {
-                        $(td).attr('nowrap', 'nowrap')
-                    }
-                },
-                {
                     data: 'order_no',
                     createdCell: function(td, cellData, rowData, row, col) {
                         $(td).attr('nowrap', 'nowrap')

@@ -286,39 +286,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             null,
             null,
             null,
-            "Registrasi",
-            null,
-            array(
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/keuangan/registrasi/register_jurnal",
-                    "Register Jurnal",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/keuangan/registrasi/list_jurnal",
-                    "List Jurnal",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/keuangan/registrasi/cetak_ulang_jurnal",
-                    "Cetak Ulang Jurnal",
-                    null,
-                    null
-                )
-            )
-        ),
-        new NavItem(
-            null,
-            null,
-            null,
             "Pembayaran",
             null,
             array(
@@ -344,71 +311,30 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             null,
             null,
             null,
-            "Jurnal",
+            "Registrasi",
             null,
             array(
                 new NavItem(
                     null,
                     null,
-                    "/index.php/keuangan/jurnal/jurnal_kas_masuk",
-                    "Jurnal Kas Masuk (JKM)",
+                    "/index.php/keuangan/registrasi/register_jurnal",
+                    "Register Jurnal",
                     null,
                     null
                 ),
                 new NavItem(
                     null,
                     null,
-                    "/index.php/keuangan/jurnal/jurnal_kas_keluar",
-                    "Jurnal Kas Keluar (JKK)",
+                    "/index.php/keuangan/registrasi/list_jurnal",
+                    "List Jurnal",
                     null,
                     null
                 ),
                 new NavItem(
                     null,
                     null,
-                    "/index.php/keuangan/jurnal/jurnal_rupa_rupa",
-                    "Jurnal Rupa-rupa (JRR)",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/keuangan/jurnal/antar_buku_bantu",
-                    "Antar Buku Bantu (ABB)",
-                    null,
-                    null
-                )
-            )
-        ),
-        new NavItem(
-            null,
-            null,
-            null,
-            "Koreksi",
-            null,
-            array(
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/keuangan/koreksi/koreksi_kantor_cabang",
-                    "Koreksi Kantor Cabang (KKC)",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/keuangan/koreksi/koreksi_kantor_pusat",
-                    "Koreksi Kantor Pusat (KKP)",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/keuangan/koreksi/koreksi_akuntan_publik",
-                    "Koreksi Akuntan Publik (KAP)",
+                    "/index.php/keuangan/registrasi/cetak_ulang_jurnal",
+                    "Cetak Ulang Jurnal",
                     null,
                     null
                 )
@@ -446,6 +372,72 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "Report",
             null,
             array(
+                new NavItem(
+                    null,
+                    null,
+                    null,
+                    "Ikhtisar",
+                    null,
+                    array(
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/keuangan/report/ikhtisar/buku_besar",
+                            "Ikhtisar Buku Besar",
+                            null,
+                            array()
+                        ),
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/keuangan/report/ikhtisar/pajak",
+                            "Ikhtisar Pajak",
+                            null,
+                            array()
+                        ),
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/keuangan/report/ikhtisar/pendapatan",
+                            "Ikhtisar Pendapatan",
+                            null,
+                            array()
+                        ),
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/keuangan/report/ikhtisar/pembelian",
+                            "Ikhtisar Pembelian",
+                            null,
+                            array()
+                        )
+                    )
+                ),
+                new NavItem(
+                    null,
+                    null,
+                    null,
+                    "Aging",
+                    null,
+                    array(
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/keuangan/report/aging/piutang",
+                            "Aging Piutang",
+                            null,
+                            array()
+                        ),
+                        new NavItem(
+                            null,
+                            null,
+                            "/index.php/keuangan/report/aging/hutang",
+                            "Aging Hutang",
+                            null,
+                            array()
+                        )
+                    )
+                ),
                 new NavItem(
                     null,
                     null,
@@ -510,40 +502,32 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             null,
             null,
             null,
-            "Ikhtisar",
+            "Koreksi",
             null,
             array(
                 new NavItem(
                     null,
                     null,
-                    "/index.php/keuangan/report/ikhtisar/buku_besar",
-                    "Ikhtisar Buku Besar",
+                    "/index.php/keuangan/koreksi/koreksi_kantor_cabang",
+                    "Koreksi Kantor Cabang (KKC)",
                     null,
-                    array()
+                    null
                 ),
                 new NavItem(
                     null,
                     null,
-                    "/index.php/keuangan/report/ikhtisar/pajak",
-                    "Ikhtisar Pajak",
+                    "/index.php/keuangan/koreksi/koreksi_kantor_pusat",
+                    "Koreksi Kantor Pusat (KKP)",
                     null,
-                    array()
+                    null
                 ),
                 new NavItem(
                     null,
                     null,
-                    "/index.php/keuangan/report/ikhtisar/pendapatan",
-                    "Ikhtisar Pendapatan",
+                    "/index.php/keuangan/koreksi/koreksi_akuntan_publik",
+                    "Koreksi Akuntan Publik (KAP)",
                     null,
-                    array()
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/keuangan/report/ikhtisar/pembelian",
-                    "Ikhtisar Pembelian",
-                    null,
-                    array()
+                    null
                 )
             )
         ),
@@ -551,24 +535,40 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             null,
             null,
             null,
-            "Aging",
+            "Jurnal",
             null,
             array(
                 new NavItem(
                     null,
                     null,
-                    "/index.php/keuangan/report/aging/piutang",
-                    "Aging Piutang",
+                    "/index.php/keuangan/jurnal/jurnal_kas_masuk",
+                    "Jurnal Kas Masuk (JKM)",
                     null,
-                    array()
+                    null
                 ),
                 new NavItem(
                     null,
                     null,
-                    "/index.php/keuangan/report/aging/hutang",
-                    "Aging Hutang",
+                    "/index.php/keuangan/jurnal/jurnal_kas_keluar",
+                    "Jurnal Kas Keluar (JKK)",
                     null,
-                    array()
+                    null
+                ),
+                new NavItem(
+                    null,
+                    null,
+                    "/index.php/keuangan/jurnal/jurnal_rupa_rupa",
+                    "Jurnal Rupa-rupa (JRR)",
+                    null,
+                    null
+                ),
+                new NavItem(
+                    null,
+                    null,
+                    "/index.php/keuangan/jurnal/antar_buku_bantu",
+                    "Antar Buku Bantu (ABB)",
+                    null,
+                    null
                 )
             )
         )

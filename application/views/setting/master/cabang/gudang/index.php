@@ -81,45 +81,41 @@
                 <div class="col-md-4">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "length",
-                        "required" => true,
                         "placeholder" => "Masukan Panjang Gudang",
                         "type" => "number",
                         "label" => "Panjang Gudang:",
 
-                        "required" => true,
+                        "required" => false,
                     ), true); ?>
                 </div>
                 <div class="col-md-4">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "width",
-                        "required" => true,
                         "placeholder" => "Masukan Lebar Gudang",
                         "type" => "text",
                         "label" => "Lebar:",
 
-                        "required" => true,
+                        "required" => false,
                     ), true); ?>
                 </div>
                 <div class="col-md-4">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "capacity",
-                        "required" => true,
                         "placeholder" => "Masukan Kapasitas Gudang",
                         "type" => "number",
                         "label" => "Kapasitas Gudang:",
 
-                        "required" => true,
+                        "required" => false,
                     ), true); ?>
                 </div>
                 <div class="col-md-12">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "description",
-                        "required" => true,
                         "placeholder" => "Masukan Deskripsi Gudang",
                         "type" => "textarea",
                         "label" => "Deskripsi:",
 
-                        "required" => true,
+                        "required" => false,
                     ), true); ?>
                 </div>
             </div>
@@ -180,49 +176,46 @@
                 <div class="col-md-4">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "length",
-                        "required" => true,
                         "placeholder" => "Masukan Panjang Gudang",
                         "type" => "number",
                         "label" => "Panjang Gudang:",
                         "id" => "length_edit",
 
-                        "required" => true,
+                        "required" => false,
                     ), true); ?>
                 </div>
                 <div class="col-md-4">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "width",
-                        "required" => true,
                         "placeholder" => "Masukan Lebar Gudang",
                         "type" => "text",
                         "label" => "Lebar:",
                         "id" => "width_edit",
 
-                        "required" => true,
+                        "required" => false,
                     ), true); ?>
                 </div>
                 <div class="col-md-4">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "capacity",
-                        "required" => true,
                         "placeholder" => "Masukan Kapasitas Gudang",
                         "type" => "number",
                         "label" => "Kapasitas Gudang:",
                         "id" => "capacity_edit",
 
-                        "required" => true,
+                        "required" => false,
+
                     ), true); ?>
                 </div>
                 <div class="col-md-12">
                     <?= $this->load->view("component/input/flowstream_input", array(
                         "name" => "description",
-                        "required" => true,
                         "placeholder" => "Masukan Deskripsi Gudang",
                         "type" => "textarea",
                         "label" => "Deskripsi:",
                         "id" => "description_edit",
 
-                        "required" => true,
+                        "required" => false,
                     ), true); ?>
                 </div>
             </div>

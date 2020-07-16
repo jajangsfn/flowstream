@@ -19,6 +19,7 @@ class Api extends CI_Controller
             array(
                 "user_model" => "user_m",
                 "m_partner_model" => "partner",
+                "m_partner_type_model" => "partner_type",
                 "m_partner_salesman_model" => "part_salesman",
                 "m_salesman_map_model" => "salesman_map",
                 "m_map_model" => "m_map",
@@ -814,7 +815,7 @@ class Api extends CI_Controller
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
-            
+
             // generate POS detail data
             $pos_det_data = array(
                 "pos_id" => $id_new_pos,
@@ -832,6 +833,99 @@ class Api extends CI_Controller
         }
 
         $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function partner_type_branch($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->partner_type->get(
+                    array("branch_id" => $branch_id)
+                )->result()
+            )
+        );
+    }
+
+    function add_partner_type()
+    {
+        $this->partner_type->insert($_POST);
+        $this->session->set_flashdata("success", "Tipe partner berhasil disimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_partner_type()
+    {
+        $this->partner_type->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "type" => $_POST['type'],
+                "description" => $_POST['description']
+            )
+        );
+        $this->session->set_flashdata("success", "Tipe partner berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function delete_partner_type()
+    {
+        $this->partner_type->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "flag" => 99
+            )
+        );
+        $this->session->set_flashdata("success", "Tipe partner berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function m_map_branch($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->m_map->get(
+                    array("branch_id" => $branch_id)
+                )->result()
+            )
+        );
+    }
+
+    function add_m_map()
+    {
+        $this->m_map->insert($_POST);
+        $this->session->set_flashdata("success", "Map harga berhasil disimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_m_map()
+    {
+        $this->m_map->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "price_index" => $_POST['price_index'],
+            )
+        );
+        $this->session->set_flashdata("success", "Tipe partner berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function delete_m_map()
+    {
+        $this->m_map->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "flag" => 99,
+            )
+        );
+        $this->session->set_flashdata("success", "Tipe partner berhasil diperbarui");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }
