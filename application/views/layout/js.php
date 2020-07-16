@@ -76,6 +76,8 @@
     <!--end::Page Vendors-->
     <!--begin::Page Scripts(used by this page)-->
     <script src="<?= base_url() ?>assets/js/pages/crud/datatables/basic/paginations.js"></script>
+    <!-- numeral js for number formating -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <!--end::Page Scripts-->
     <?= isset($page_js) ? $page_js : "" ?>
     <?php if ($this->session->flashdata("error")) { ?>

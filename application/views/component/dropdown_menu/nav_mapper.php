@@ -135,9 +135,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             null
         ),
         new NavItem(
-            "/index.php/pembelian/retur",
+            "/index.php/pembelian/return",
             null,
-            "/index.php/pembelian/retur",
+            "/index.php/pembelian/return",
             "Retur Pembelian",
             null,
             null

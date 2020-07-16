@@ -51,7 +51,7 @@ class Receiving extends CI_Controller
 
 
 
-        $data['page_title']   = "Tambah Receiving";
+        $data['page_title']   = "Receiving";
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_receive_no();
         $data['master']       = array();

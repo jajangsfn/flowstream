@@ -12,7 +12,7 @@ class Purchase_order_model extends CI_Model
         return $this->db->query(
             "SELECT 
             po.*,
-            branch.name as branch_name,
+            branch.name as branch_name, 
             salesman.name as salesman_name
 
             FROM purchase_order as po

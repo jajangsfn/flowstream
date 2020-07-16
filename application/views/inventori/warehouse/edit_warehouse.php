@@ -1,6 +1,30 @@
  <?=$this->session->flashdata('msg');?>
  <!--begin::Card-->
 <div class="card card-custom">
+  <div class="card-header flex-wrap">
+    <div class="w-100 d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+    <!--begin::Info-->
+    <div class="d-flex align-items-center flex-wrap mr-1">
+    <!--begin::Page Heading-->
+      <div class="d-flex align-items-baseline mr-5">
+         <!--begin::Page Title-->
+        <h5 class="text-dark font-weight-bold my-2 mr-5">Edit Data Gudang</h5>
+      </div>
+       <!--end::Page Heading-->
+    </div>
+    <!--end::Info-->
+    <!--begin::Toolbar-->
+    <div class="d-flex align-items-center">
+        <!--begin::Daterange-->
+        <a href="#" class="btn btn-light-primary btn-sm font-weight-bold " id="kt_dashboard_daterangepicker" data-toggle="tooltip" title="" data-placement="left" data-original-title="Select dashboard daterange">
+          <span class="font-weight-bold" id="kt_dashboard_daterangepicker_date"><?=$tgl_indo?></span>
+        </a>
+     <!--end::Daterange-->        
+     </div>
+   <!--end::Toolbar-->
+   </div>
+</div>
+<!-- end card header -->
      <div class="card-body">
       <form method="post" action="<?=base_url()?>index.php/inventori/gudang" id="form_ws">
         <input type="hidden" name="id" value="<?=$warehouse[0]->id?>">
@@ -61,7 +85,7 @@
 
            <div class="col-md-2 text-right col-form-label">
               <label>Tanggal Transaksi</label>
-          </div>
+          </div> 
           <div class="col-md-3">
               <input type="text" name="trans_date" class="form-control" readonly value="<?=date('Y-m-d', strtotime($warehouse[0]->created_date) );?>">
           </div>
@@ -75,7 +99,7 @@
           </div>  
           <div class="col-md-3">
               <div class="input-group mb-3">
-                    <input type="text" name="nro" id="nro" class="form-control" placeholder="No Receive Order. . ." aria-label="" aria-describedby="basic-addon1" value="<?=$warehouse[0]->physical_warehouse_no?>">
+                    <input type="text" name="nro" id="nro" class="form-control" placeholder="No Receive Order. . ." aria-label="" aria-describedby="basic-addon1" value="<?=$warehouse[0]->reference_no?>">
                   <div class="input-group-prepend">
                      <button class="btn btn-info" type="button" onclick="search_receive_order()">search</button>
                    </div>
