@@ -203,9 +203,9 @@
                         "type" => "text",
                         "required" => true,
 
-                        "placeholder" => "Nomor Pajak",
-                        "label" => "Nomor Pajak",
-                        "help" => "Masukan Nomor Pajak",
+                        "placeholder" => "Nomor Pajak (NPWP)",
+                        "label" => "Nomor Pajak (NPWP)",
+                        "help" => "Masukan NPWP",
 
                         "value" => false
                     ), true); ?>
@@ -447,9 +447,9 @@
 
                         "id" => "tax_number_edit",
 
-                        "placeholder" => "Nomor Pajak",
-                        "label" => "Nomor Pajak",
-                        "help" => "Masukan Nomor Pajak",
+                        "placeholder" => "Nomor Pajak (NPWP)",
+                        "label" => "Nomor Pajak (NPWP)",
+                        "help" => "Masukan NPWP",
 
                         "value" => false
                     ), true); ?>

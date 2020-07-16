@@ -8,7 +8,7 @@
                 </h3>
             </div>
             <div class="card-body daftar_barang_container pt-0">
-                <input type="text" class="form-control my-4" placeholder="Cari Barang" onkeyup="suggester_me(this)" />
+                <input type="text" class="form-control my-4" placeholder="Cari Barang" onkeyup="suggester_me(event, this)" />
                 <div class="scroll scroll-pull ps ps--active-y goods_placement" data-scroll="true" data-wheel-propagation="true" style="max-height: 50vh; height: 100%; overflow: hidden;">
                 </div>
             </div>
@@ -17,7 +17,7 @@
     <div class="col-lg-12" id="order_request_col">
         <form class="card card-custom gutter-b" action="<?= base_url("/index.php/api/kirim_pos") ?>" method="POST">
             <div class="card-header">
-                <div class="card-title">Point of Sales <span id="pos_no" class="d-none ml-2">No #</span></div>
+                <div class="card-title">Point of Sales <span id="pos_no" class="ml-2" style="display: none;">No #</span></div>
                 <div class="card-toolbar d-none" id="pilih_barang_modal_toggle">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#daftarBarang">
                         Pilih Barang
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="inv_no_container" style="display: none;">
                     <small>Nomor Faktur</small>
                     <p class="lead" id="inv_no"></p>
                 </div>

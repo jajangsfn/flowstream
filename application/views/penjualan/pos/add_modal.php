@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="text" class="form-control" placeholder="Cari Barang" onkeyup="suggester_me(this)" />
+                <input type="text" class="form-control" placeholder="Cari Barang" onkeyup="suggester_me(event, this)" />
                 <div class="scroll scroll-pull goods_placement" data-scroll="true" data-height="400">
                 </div>
             </div>

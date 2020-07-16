@@ -90,6 +90,7 @@
                                 .click(() => add_modal(focus.id))
                                 .attr("style", "cursor: pointer")
                                 .attr("data-keyword", keyword)
+                                .attr("data-id-barang-passable", focus.id)
                                 .append(
                                     $(document.createElement("div"))
                                     .addClass("d-flex justify-content-center flex-column mr-2")
@@ -174,7 +175,7 @@
 
     function tambah_barang(element) {
         const id = $(element).attr("data-id-barang");
-        
+
         // cek jika barang sudah pernah dimasukan
         var same_found = false;
         $("table#daftar_barang_order tbody tr").each(function(rower) {
@@ -186,11 +187,15 @@
         if (same_found) {
 
             // jika sudah pernah dimasukan, tambahkan quantity dan hitung ulang
-            $(`tr#${id}`).animate({ opacity: 0 });
+            $(`tr#${id}`).animate({
+                opacity: 0
+            });
             $(`input#jumlah_${id}`).val(
                 parseInt($(`input#jumlah_${id}`).val()) + parseInt($("#jumlah_tambah_baru").val())
             );
-            $(`tr#${id}`).animate({ opacity: 1 });
+            $(`tr#${id}`).animate({
+                opacity: 1
+            });
 
 
             hitung_ulang(id)
@@ -298,18 +303,38 @@
         }
     }
 
-    function suggester_me(element) {
+    function suggester_me(event, element) {
         const searchtarget = $(element).val().replace(/ /g, '').toLowerCase();
+        let total_found = 0;
+        let id_barang = 0;
         $('.goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
             var targetkey = $(this).attr("data-keyword");
             if (targetkey.indexOf(searchtarget) >= 0) {
                 $(this).removeClass("d-none")
                 $(this).addClass("d-flex")
+                total_found++;
+                id_barang = $(this).attr("data-id-barang-passable");
             } else {
                 $(this).addClass("d-none")
                 $(this).removeClass("d-flex")
             }
         });
+        if (event.key == "Enter") {
+            // 2 karena fungsi each juga cari yang di dalam modal
+            if (total_found == 2) {
+                // auto add
+                tambah_barang($(document.createElement("div")).attr("data-id-barang", id_barang));
+
+                // clear
+                $(element).val("");
+
+                // show all
+                $('.goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
+                    $(this).removeClass("d-none")
+                    $(this).addClass("d-flex")
+                });
+            };
+        }
     }
 
     var show_desc = true;

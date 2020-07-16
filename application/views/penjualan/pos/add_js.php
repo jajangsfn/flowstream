@@ -64,7 +64,7 @@
                     method: "get",
                     url: "<?= base_url("/index.php/api/get_pos_number/") ?>" + branch_id,
                     success: function(result) {
-                        $("#pos_no").text("No #" + result.data).removeClass("d-none");
+                        $("#pos_no").text("No #" + result.data).fadeIn();
                         $("#order_no_afterselect").val(result.data);
                     },
                     error: function(response) {
@@ -77,7 +77,8 @@
                     method: "get",
                     url: "<?= base_url("/index.php/api/get_invoice_number/") ?>" + branch_id,
                     success: function(result) {
-                        $("#inv_no").text("#" + result.data).removeClass("d-none");
+                        $("#inv_no").text("#" + result.data);
+                        $("#inv_no_container").fadeIn();
                         $("#inv_no_afterselect").val(result.data);
                     },
                     error: function(response) {
@@ -103,6 +104,7 @@
                                 .click(() => add_modal(focus.id))
                                 .attr("style", "cursor: pointer")
                                 .attr("data-keyword", keyword)
+                                .attr("data-id-barang-passable", focus.id)
                                 .append(
                                     $(document.createElement("div"))
                                     .addClass("d-flex justify-content-center flex-column mr-2")
@@ -311,18 +313,38 @@
         }
     }
 
-    function suggester_me(element) {
+    function suggester_me(event, element) {
         const searchtarget = $(element).val().replace(/ /g, '').toLowerCase();
+        let total_found = 0;
+        let id_barang = 0;
         $('.goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
             var targetkey = $(this).attr("data-keyword");
             if (targetkey.indexOf(searchtarget) >= 0) {
                 $(this).removeClass("d-none")
                 $(this).addClass("d-flex")
+                total_found++;
+                id_barang = $(this).attr("data-id-barang-passable");
             } else {
                 $(this).addClass("d-none")
                 $(this).removeClass("d-flex")
             }
         });
+        if (event.key == "Enter") {
+            // 2 karena fungsi each juga cari yang di dalam modal
+            if (total_found == 2) {
+                // auto add
+                tambah_barang($(document.createElement("div")).attr("data-id-barang", id_barang));
+
+                // clear
+                $(element).val("");
+
+                // show all
+                $('.goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
+                    $(this).removeClass("d-none")
+                    $(this).addClass("d-flex")
+                });
+            };
+        }
     }
 
     var show_desc = true;

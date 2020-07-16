@@ -184,6 +184,13 @@ class Setting extends CI_Controller
                     $data['page_content'] = $this->load->view("setting/master/cabang/m_map/index", $content, true);
                     $data['page_js'] = $this->load->view("setting/master/cabang/m_map/index_js", $content, true);
                     break;
+                case "unit":
+                    $data['page_title'] = "Daftar Unit Barang untuk Cabang " . $content['data_branch']->name;
+                    $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+
+                    $data['page_content'] = $this->load->view("setting/master/cabang/unit/index", $content, true);
+                    $data['page_js'] = $this->load->view("setting/master/cabang/unit/index_js", $content, true);
+                    break;
                 case "reference":
                     $target = ucwords(str_replace("_", " ", $second_path));
 
@@ -202,6 +209,8 @@ class Setting extends CI_Controller
                     $data['page_content'] = $this->load->view("setting/master/cabang/cabang_spesifik", $content, true);
                     break;
             }
+        } else if ($this->session->role_code != "ROLE_ADMIN") {
+            redirect(current_url() . "/" . $this->session->branch_id);
         } else {
             $content['data_branches'] = $this->branch->get_all()->result();
 
@@ -209,209 +218,6 @@ class Setting extends CI_Controller
             $data['page_subheader'] = $this->load->view("setting/master/cabang/cabang_subheader", $content, true);
             $data['page_js'] = $this->load->view("setting/master/cabang/cabang_js", '', true);
         }
-        return $data;
-    }
-
-    private function discount()
-    {
-        $data['page_title'] = "Master Data Discount";
-        $data['page_content'] = $this->load->view("setting/master/diskon", "", true);
-
-        return $data;
-    }
-
-    private function keuangan($path)
-    {
-        //hooker
-        switch ($path) {
-            case 'kode_rekening':
-                return $this->kode_rekening();
-                break;
-            case 'kode_jenis_biaya':
-                return $this->kode_jenis_biaya();
-                break;
-            case 'mata_uang':
-                return $this->mata_uang();
-                break;
-            case 'sumber_dana':
-                return $this->sumber_dana();
-                break;
-            case 'tipe_jurnal':
-                return $this->tipe_jurnal();
-                break;
-            case 'pembagian_laba_rugi':
-                return $this->pembagian_laba_rugi();
-                break;
-            case 'ikhtisar_kode_rekening':
-                return $this->ikhtisar_kode_rekening();
-                break;
-            case 'aging_kode_rekening':
-                return $this->aging_kode_rekening();
-                break;
-            case 'kelompok_rekening':
-                return $this->kelompok_rekening();
-                break;
-            case 'kelompok_jenis_biaya':
-                return $this->kelompok_jenis_biaya();
-                break;
-            default:
-                break;
-        }
-    }
-
-    private function unit()
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->unit->delete($where_id);
-                    $this->session->set_flashdata("success", "Unit berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "name" => $_POST['name'],
-                        "initial" => $_POST['initial'],
-                        "quantity" => $_POST['quantity']
-                    );
-                    $this->unit->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Unit berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "name" => $_POST['name'],
-                    "initial" => $_POST['initial'],
-                    "quantity" => $_POST['quantity']
-                );
-                $this->unit->insert($entry_data);
-                $this->session->set_flashdata("success", "Unit berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Daftar Unit";
-        $content['m_unit'] = $this->unit->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/master/unit/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/master/unit/index_js", $content, true);
-
-        return $data;
-    }
-
-    private function map()
-    {
-        $data['page_title'] = "Daftar Map";
-
-        $data['page_content'] = $this->load->view("setting/master/map/index", "", true);
-        $data['page_js'] = $this->load->view("setting/master/map/index_js", "", true);
-
-        return $data;
-    }
-
-    private function kode_rekening()
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-                $where_id['id'] = $_POST['id'];
-                if (array_key_exists("delete", $_POST)) {
-                    $this->rekening_code->delete($where_id);
-                    $this->session->set_flashdata("success", "Rekening code berhasil terhapus");
-                } else {
-                    $entry_data = array(
-                        "name" => $_POST['name'],
-                        "rekening_no" => $_POST['rekening_no'],
-                    );
-                    $this->rekening_code->update($where_id, $entry_data);
-                    $this->session->set_flashdata("success", "Rekening code berhasil tersimpan");
-                }
-            } else {
-                $entry_data = array(
-                    "name" => $_POST['name'],
-                    "rekening_no" => $_POST['rekening_no'],
-                );
-                $this->rekening_code->insert($entry_data);
-                $this->session->set_flashdata("success", "Rekening code berhasil tersimpan");
-            }
-            redirect(current_url());
-        }
-
-        $data['page_title'] = "Master Data Keuangan > Kode Rekening";
-        $content['m_rekening_code'] = $this->rekening_code->get_all()->result();
-        $data['page_content'] = $this->load->view("setting/master/keuangan/kode_rekening/index", $content, true);
-        $data['page_js'] = $this->load->view("setting/master/keuangan/kode_rekening/index_js", $content, true);
-
-        return $data;
-    }
-
-    private function kode_jenis_biaya()
-    {
-        $data['page_title'] = "Master Data Keuangan > Kode Jenis Biaya";
-        $data['page_content'] = $this->load->view("setting/master/keuangan/kode_jenis_biaya", "", true);
-
-        return $data;
-    }
-
-    private function mata_uang()
-    {
-        $data['page_title'] = "Master Data Keuangan > Mata Uang";
-        $data['page_content'] = $this->load->view("setting/master/keuangan/mata_uang", "", true);
-
-        return $data;
-    }
-
-    private function sumber_dana()
-    {
-        $data['page_title'] = "Master Data Keuangan > Sumber Dana";
-        $data['page_content'] = $this->load->view("setting/master/keuangan/sumber_dana", "", true);
-
-        return $data;
-    }
-
-    private function tipe_jurnal()
-    {
-        $data['page_title'] = "Master Data Keuangan > Tipe Jurnal";
-        $data['page_content'] = $this->load->view("setting/master/keuangan/tipe_jurnal", "", true);
-
-        return $data;
-    }
-
-    private function pembagian_laba_rugi()
-    {
-        $data['page_title'] = "Master Data Keuangan > Pembagian Laba Rugi";
-        $data['page_content'] = $this->load->view("setting/master/keuangan/pembagian_laba_rugi", "", true);
-
-        return $data;
-    }
-
-    private function ikhtisar_kode_rekening()
-    {
-        $data['page_title'] = "Master Data Keuangan > Ikhtisar Kode Rekening";
-        $data['page_content'] = $this->load->view("setting/master/keuangan/ikhtisar_kode_rekening", "", true);
-
-        return $data;
-    }
-
-    private function aging_kode_rekening()
-    {
-        $data['page_title'] = "Master Data Keuangan > Aging Kode Rekening";
-        $data['page_content'] = $this->load->view("setting/master/keuangan/aging_kode_rekening", "", true);
-
-        return $data;
-    }
-
-    private function kelompok_rekening()
-    {
-        $data['page_title'] = "Master Data Keuangan > Kelompok Rekening";
-        $data['page_content'] = $this->load->view("setting/master/keuangan/kelompok_rekening", "", true);
-
-        return $data;
-    }
-
-    private function kelompok_jenis_biaya()
-    {
-        $data['page_title'] = "Master Data Keuangan > Kelompok Jenis Biaya";
-        $data['page_content'] = $this->load->view("setting/master/keuangan/kelompok_jenis_biaya", "", true);
-
         return $data;
     }
 

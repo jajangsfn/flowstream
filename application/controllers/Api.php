@@ -23,6 +23,7 @@ class Api extends CI_Controller
                 "m_partner_salesman_model" => "part_salesman",
                 "m_salesman_map_model" => "salesman_map",
                 "m_map_model" => "m_map",
+                "m_unit_model" => "unit",
                 "m_goods_model" => "goods",
                 "m_branch_model" => "branch",
                 "m_warehouse_model" => "warehouse",
@@ -31,6 +32,11 @@ class Api extends CI_Controller
                 "t_pos_model" => "pos"
             )
         );
+    }
+
+    public function index()
+    {
+        echo json_encode($this->session->userdata);
     }
 
     public function register()
@@ -54,6 +60,7 @@ class Api extends CI_Controller
                 "id" => $user_query->row()->id,
                 "branch_id" => $user_query->row()->branch_id,
                 "branch_name" => $user_query->row()->branch_name,
+                "role_code" => $user_query->row()->role_code
             )
         );
 
@@ -73,6 +80,12 @@ class Api extends CI_Controller
         $user_query = $this->user_m->get($login_data);
 
         if ($user_query->num_rows()) {
+
+            if ($user_query->row()->role_code != "ROLE_ADMIN") {
+                // look for branch info
+                $branch_query = $this->branch->get(array("m_branch.id" => $user_query->row()->branch_id))->row();
+            }
+            
             // do login
             $this->session->set_userdata(
                 array(
@@ -83,6 +96,8 @@ class Api extends CI_Controller
                     "id" => $user_query->row()->id,
                     "branch_id" => $user_query->row()->branch_id,
                     "branch_name" => $user_query->row()->branch_name,
+                    "role_code" => $user_query->row()->role_code,
+                    "branch_obj" => $branch_query
                 )
             );
             // report last login
@@ -926,6 +941,55 @@ class Api extends CI_Controller
             )
         );
         $this->session->set_flashdata("success", "Tipe partner berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // m_unit
+    function m_unit_branch($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->unit->get(
+                    array("branch_id" => $branch_id)
+                )->result()
+            )
+        );
+    }
+
+    function add_unit()
+    {
+        $this->unit->insert($_POST);
+        $this->session->set_flashdata("success", "Unit barang berhasil disimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_unit()
+    {
+        $this->unit->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "initial" => $_POST['initial'],
+                "name" => $_POST['name'],
+                "quantity" => $_POST['quantity'],
+            )
+        );
+        $this->session->set_flashdata("success", "Unit barang berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function delete_unit()
+    {
+        $this->unit->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "flag" => 99,
+            )
+        );
+        $this->session->set_flashdata("success", "Unit barang berhasil dihapus");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }
