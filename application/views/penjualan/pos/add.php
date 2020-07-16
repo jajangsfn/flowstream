@@ -4,20 +4,20 @@
             <div class="card-header py-5">
                 <h3 class="card-title align-items-start flex-column">
                     <span class="card-label font-weight-bolder text-dark">Daftar Barang</span>
-                    <span class="text-muted mt-3 font-weight-bold font-size-sm">Klik untuk menambahkan ke Order Request </span>
+                    <span class="text-muted mt-3 font-weight-bold font-size-sm">Klik untuk menambahkan ke keranjang belanja </span>
                 </h3>
             </div>
             <div class="card-body daftar_barang_container pt-0">
-                <input type="text" class="form-control my-4" placeholder="Cari Barang" onkeyup="suggester_me(event, this)"/>
+                <input type="text" class="form-control my-4" placeholder="Cari Barang" onkeyup="suggester_me(event, this)" />
                 <div class="scroll scroll-pull ps ps--active-y goods_placement" data-scroll="true" data-wheel-propagation="true" style="max-height: 50vh; height: 100%; overflow: hidden;">
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-12" id="order_request_col">
-        <form class="card card-custom gutter-b" action="<?= base_url("/index.php/api/kirim_order_request") ?>" method="POST">
+        <form class="card card-custom gutter-b" action="<?= base_url("/index.php/api/kirim_pos") ?>" method="POST">
             <div class="card-header">
-                <div class="card-title">Order Request <span id="or_no" class="d-none ml-2">No #</span></div>
+                <div class="card-title">Point of Sales <span id="pos_no" class="ml-2" style="display: none;">No #</span></div>
                 <div class="card-toolbar d-none" id="pilih_barang_modal_toggle">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#daftarBarang">
                         Pilih Barang
@@ -31,6 +31,7 @@
                             <input type="hidden" name="branch_id" id="branch_id_afterselect">
                             <input type="hidden" name="partner_name" id="partner_name_afterselect">
                             <input type="hidden" name="order_no" id="order_no_afterselect">
+                            <input type="hidden" name="invoice_no" id="inv_no_afterselect">
                             <select id="pilih_customer" class="select2" onchange="change_customer(this)" name="partner_id">
                                 <option label="Label"></option>
                                 <?php foreach ($customers as $customer) : ?>
@@ -48,6 +49,10 @@
                             <!--end::Daterange-->
                         </div>
                     </div>
+                </div>
+                <div class="form-group" id="inv_no_container" style="display: none;">
+                    <small>Nomor Faktur</small>
+                    <p class="lead" id="inv_no"></p>
                 </div>
                 <div class="form-group">
                     <label for="description_field">Deskripsi</label>
@@ -85,7 +90,7 @@
                 </div>
             </div>
             <div class="card-footer text-right">
-                <button type="submit" class="btn btn-primary" disabled> Cetak </button>
+                <button type="submit" class="btn btn-primary" disabled> Simpan dan Bayar </button>
             </div>
         </form>
     </div>

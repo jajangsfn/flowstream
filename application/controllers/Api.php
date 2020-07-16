@@ -19,15 +19,24 @@ class Api extends CI_Controller
             array(
                 "user_model" => "user_m",
                 "m_partner_model" => "partner",
+                "m_partner_type_model" => "partner_type",
                 "m_partner_salesman_model" => "part_salesman",
                 "m_salesman_map_model" => "salesman_map",
                 "m_map_model" => "m_map",
+                "m_unit_model" => "unit",
                 "m_goods_model" => "goods",
                 "m_branch_model" => "branch",
                 "m_warehouse_model" => "warehouse",
-                "s_reference_model" => "reference"
+                "s_reference_model" => "reference",
+                "t_order_request_model" => "or",
+                "t_pos_model" => "pos"
             )
         );
+    }
+
+    public function index()
+    {
+        echo json_encode($this->session->userdata);
     }
 
     public function register()
@@ -51,6 +60,7 @@ class Api extends CI_Controller
                 "id" => $user_query->row()->id,
                 "branch_id" => $user_query->row()->branch_id,
                 "branch_name" => $user_query->row()->branch_name,
+                "role_code" => $user_query->row()->role_code
             )
         );
 
@@ -70,6 +80,12 @@ class Api extends CI_Controller
         $user_query = $this->user_m->get($login_data);
 
         if ($user_query->num_rows()) {
+
+            if ($user_query->row()->role_code != "ROLE_ADMIN") {
+                // look for branch info
+                $branch_query = $this->branch->get(array("m_branch.id" => $user_query->row()->branch_id))->row();
+            }
+            
             // do login
             $this->session->set_userdata(
                 array(
@@ -80,6 +96,8 @@ class Api extends CI_Controller
                     "id" => $user_query->row()->id,
                     "branch_id" => $user_query->row()->branch_id,
                     "branch_name" => $user_query->row()->branch_name,
+                    "role_code" => $user_query->row()->role_code,
+                    "branch_obj" => $branch_query
                 )
             );
             // report last login
@@ -93,7 +111,7 @@ class Api extends CI_Controller
     public function get_barang($id)
     {
         $where['m_goods.id'] = $id;
-        
+
         $data_query = $this->goods->get($where)->row();
         $data['data'] = $data_query;
         echo json_encode($data);
@@ -297,6 +315,13 @@ class Api extends CI_Controller
     public function customer_branch($id_branch)
     {
         $data_query = $this->partner->get_customer_where(array("p.branch_id" => $id_branch))->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
+    public function get_customer($id)
+    {
+        $data_query = $this->partner->get_customer_where(array("p.id" => $id))->row();
         $data['data'] = $data_query;
         echo json_encode($data);
     }
@@ -622,10 +647,349 @@ class Api extends CI_Controller
         $this->session->set_flashdata("success", "Reference berhasil diubah");
         redirect($_SERVER['HTTP_REFERER']);
     }
+
     public function delete_reference()
     {
         $this->reference->delete($_POST);
         $this->session->set_flashdata("success", "Reference berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // order request
+    public function get_order_number($id_branch)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->or->get_next_no(array("branch_id" => $id_branch))
+            )
+        );
+    }
+
+    public function kirim_order_request()
+    {
+        $data = array(
+            "branch_id" => $_POST['branch_id'],
+            "partner_id" => $_POST['partner_id'],
+            "partner_name" => $_POST['partner_name'],
+            "order_no" => $_POST['order_no'],
+            "description" => $_POST['description'],
+        );
+        $this->or->insert($data);
+        $id_new_or = $this->db->insert_id();
+
+        // loop added goods
+        foreach ($_POST['barang'] as $good) {
+            $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $good['order_request_id'] = $id_new_or;
+            $this->or->insert_detail($good);
+        }
+
+        $this->session->set_flashdata("success", "Order Request berhasil dicetak");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function order_request()
+    {
+        echo json_encode(
+            array(
+                "data" => $this->or->get_all()->result()
+            )
+        );
+    }
+
+    public function delete_order_request()
+    {
+        $this->or->delete(array("id" => $_POST['id']));
+        $this->session->set_flashdata("success", "Order Request berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function update_order_request()
+    {
+        $where['id'] = $_POST['id'];
+        $data = array(
+            "description" => $_POST['description'],
+        );
+        $this->or->update($where, $data);
+
+        // clear details
+        $this->or->delete_detail(array("order_request_id" => $_POST['id']));
+
+        // loop added goods
+        foreach ($_POST['barang'] as $good) {
+            $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $good['order_request_id'] = $_POST['id'];
+            $this->or->insert_detail($good);
+        }
+
+        $this->session->set_flashdata("success", "Order Request berhasil diubah");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // Get next invoice number
+    public function get_invoice_number($id_branch)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->pos->get_next_invoice_no(array("branch_id" => $id_branch))
+            )
+        );
+    }
+
+    public function convert_to_pos($order_request_id)
+    {
+        // get order request info
+        $order_request = $this->or->get_specific($order_request_id);
+
+        // update order_request flag jadi 2
+        $where['id'] = $order_request_id;
+        $data = array(
+            "flag" => 2,
+        );
+        $this->or->update($where, $data);
+
+        // create POS data
+        $pos_data = array(
+            "branch_id" => $order_request->branch_id,
+            "partner_id" => $order_request->partner_id,
+            "partner_name" => $order_request->partner_name,
+            "order_no" => $order_request->order_no,
+            "invoice_no" => $_POST['invoice_no'],
+            "tax_no" => null,
+            "is_delivery" => $order_request->is_delivery,
+            "description" => $order_request->description,
+            "created_by" => $this->session->id,
+            "updated_by" => $this->session->id
+        );
+
+        $this->pos->insert($pos_data);
+        $pos_id = $this->db->insert_id();
+
+        // get order_request_details
+        $order_request_details = $order_request->details;
+
+        foreach ($order_request_details as $or_det) {
+            // generate POS detail data
+            $pos_det_data = array(
+                "pos_id" => $pos_id,
+                "goods_id" => $or_det->goods_id,
+                "warehouse_id" => $or_det->warehouse_id,
+                "goods_name" => $or_det->goods_name,
+                "quantity" => $or_det->quantity,
+                "discount" => $or_det->discount,
+                "discount_code" => $or_det->discount_code,
+                "tax" => $or_det->tax,
+                "total" => $or_det->total
+            );
+
+            $this->pos->insert_detail($pos_det_data);
+        }
+
+        $this->session->set_flashdata("success", "Faktur Order Request berhasil dicetak");
+        redirect(base_url("/index.php/penjualan/pos"));
+    }
+
+    // Point of Sales
+    public function pos()
+    {
+        echo json_encode(
+            array(
+                "data" => $this->pos->get_all()->result()
+            )
+        );
+    }
+
+    public function get_pos_number($id_branch)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->pos->get_next_no(array("branch_id" => $id_branch))
+            )
+        );
+    }
+
+    public function kirim_pos()
+    {
+        // create POS data
+        $pos_data = array(
+            "branch_id" => $_POST['branch_id'],
+            "partner_name" => $_POST['partner_name'],
+            "invoice_no" => $_POST['invoice_no'],
+            "tax_no" => null,
+            "is_delivery" => null,
+            "partner_id" => $_POST['partner_id'],
+            "order_no" => $_POST['order_no'],
+            "description" => $_POST['description'],
+            "created_by" => $this->session->id,
+            "updated_by" => $this->session->id
+        );
+
+        $this->pos->insert($pos_data);
+        $id_new_pos = $this->db->insert_id();
+
+        // loop added goods
+        foreach ($_POST['barang'] as $good) {
+            $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+
+            // generate POS detail data
+            $pos_det_data = array(
+                "pos_id" => $id_new_pos,
+                "goods_id" => $good['goods_id'],
+                "warehouse_id" => null,
+                "goods_name" => $good['goods_name'],
+                "quantity" => $good['quantity'],
+                "discount" => $good['discount'],
+                "discount_code" => null,
+                "tax" => null,
+                "total" => $good['total']
+            );
+
+            $this->pos->insert_detail($pos_det_data);
+        }
+
+        $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function partner_type_branch($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->partner_type->get(
+                    array("branch_id" => $branch_id)
+                )->result()
+            )
+        );
+    }
+
+    function add_partner_type()
+    {
+        $this->partner_type->insert($_POST);
+        $this->session->set_flashdata("success", "Tipe partner berhasil disimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_partner_type()
+    {
+        $this->partner_type->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "type" => $_POST['type'],
+                "description" => $_POST['description']
+            )
+        );
+        $this->session->set_flashdata("success", "Tipe partner berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function delete_partner_type()
+    {
+        $this->partner_type->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "flag" => 99
+            )
+        );
+        $this->session->set_flashdata("success", "Tipe partner berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function m_map_branch($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->m_map->get(
+                    array("branch_id" => $branch_id)
+                )->result()
+            )
+        );
+    }
+
+    function add_m_map()
+    {
+        $this->m_map->insert($_POST);
+        $this->session->set_flashdata("success", "Map harga berhasil disimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_m_map()
+    {
+        $this->m_map->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "price_index" => $_POST['price_index'],
+            )
+        );
+        $this->session->set_flashdata("success", "Tipe partner berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function delete_m_map()
+    {
+        $this->m_map->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "flag" => 99,
+            )
+        );
+        $this->session->set_flashdata("success", "Tipe partner berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // m_unit
+    function m_unit_branch($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->unit->get(
+                    array("branch_id" => $branch_id)
+                )->result()
+            )
+        );
+    }
+
+    function add_unit()
+    {
+        $this->unit->insert($_POST);
+        $this->session->set_flashdata("success", "Unit barang berhasil disimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_unit()
+    {
+        $this->unit->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "initial" => $_POST['initial'],
+                "name" => $_POST['name'],
+                "quantity" => $_POST['quantity'],
+            )
+        );
+        $this->session->set_flashdata("success", "Unit barang berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function delete_unit()
+    {
+        $this->unit->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "flag" => 99,
+            )
+        );
+        $this->session->set_flashdata("success", "Unit barang berhasil dihapus");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }

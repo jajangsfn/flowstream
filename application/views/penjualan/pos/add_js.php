@@ -62,10 +62,24 @@
                 // get Order Request Number
                 $.ajax({
                     method: "get",
-                    url: "<?= base_url("/index.php/api/get_order_number/") ?>" + branch_id,
+                    url: "<?= base_url("/index.php/api/get_pos_number/") ?>" + branch_id,
                     success: function(result) {
-                        $("#or_no").text("No #" + result.data).removeClass("d-none");
+                        $("#pos_no").text("No #" + result.data).fadeIn();
                         $("#order_no_afterselect").val(result.data);
+                    },
+                    error: function(response) {
+                        console.log(response.responseText);
+                    }
+                })
+
+                // get Invoice number
+                $.ajax({
+                    method: "get",
+                    url: "<?= base_url("/index.php/api/get_invoice_number/") ?>" + branch_id,
+                    success: function(result) {
+                        $("#inv_no").text("#" + result.data);
+                        $("#inv_no_container").fadeIn();
+                        $("#inv_no_afterselect").val(result.data);
                     },
                     error: function(response) {
                         console.log(response.responseText);
@@ -175,7 +189,7 @@
 
     function tambah_barang(element) {
         const id = $(element).attr("data-id-barang");
-
+        
         // cek jika barang sudah pernah dimasukan
         var same_found = false;
         $("table#daftar_barang_order tbody tr").each(function(rower) {
@@ -187,15 +201,11 @@
         if (same_found) {
 
             // jika sudah pernah dimasukan, tambahkan quantity dan hitung ulang
-            $(`tr#${id}`).animate({
-                opacity: 0
-            });
+            $(`tr#${id}`).animate({ opacity: 0 });
             $(`input#jumlah_${id}`).val(
                 parseInt($(`input#jumlah_${id}`).val()) + parseInt($("#jumlah_tambah_baru").val())
             );
-            $(`tr#${id}`).animate({
-                opacity: 1
-            });
+            $(`tr#${id}`).animate({ opacity: 1 });
 
 
             hitung_ulang(id)

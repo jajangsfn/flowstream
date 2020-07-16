@@ -185,7 +185,7 @@
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_division"),
                                     "object_name" => "Divisi",
 
                                     "selected" => false,
@@ -200,7 +200,7 @@
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_sub_division"),
                                     "object_name" => "Divisi",
 
                                     "selected" => false,
@@ -215,7 +215,7 @@
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_category"),
                                     "object_name" => "Kategori",
 
                                     "selected" => false,
@@ -230,7 +230,7 @@
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_sub_category"),
                                     "object_name" => "Kategori",
 
                                     "selected" => false,
@@ -245,7 +245,7 @@
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_package"),
                                     "object_name" => "Paket",
 
                                     "selected" => false,
@@ -260,7 +260,7 @@
                                     "identifier" => "id",
                                     "showable" => "detail_data",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_color"),
                                     "object_name" => "Warna",
 
                                     "selected" => false,
@@ -275,7 +275,7 @@
                                     "identifier" => "id",
                                     "showable" => "name",
 
-                                    "manage_url" => base_url("/index.php/setting/master/unit"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/unit"),
                                     "object_name" => "Unit",
 
                                     "selected" => false,
@@ -430,7 +430,7 @@
 
                                     "id" => "division_edit",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_division"),
                                     "object_name" => "Divisi",
 
                                     "selected" => false,
@@ -447,7 +447,7 @@
 
                                     "id" => "sub_division_edit",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_sub_division"),
                                     "object_name" => "Divisi",
 
                                     "selected" => false,
@@ -464,7 +464,7 @@
 
                                     "id" => "category_edit",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_category"),
                                     "object_name" => "Kategori",
 
                                     "selected" => false,
@@ -481,7 +481,7 @@
 
                                     "id" => "sub_category_edit",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_sub_category"),
                                     "object_name" => "Kategori",
 
                                     "selected" => false,
@@ -498,7 +498,7 @@
 
                                     "id" => "package_edit",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_package"),
                                     "object_name" => "Paket",
 
                                     "selected" => false,
@@ -515,7 +515,7 @@
 
                                     "id" => "color_edit",
 
-                                    "manage_url" => base_url("/index.php/setting/system/s_reference"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_color"),
                                     "object_name" => "Warna",
 
                                     "selected" => false,
@@ -532,7 +532,7 @@
 
                                     "id" => "unit_edit",
 
-                                    "manage_url" => base_url("/index.php/setting/master/unit"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/unit"),
                                     "object_name" => "Unit",
 
                                     "selected" => false,

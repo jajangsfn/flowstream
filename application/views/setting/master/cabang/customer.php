@@ -203,9 +203,9 @@
                         "type" => "text",
                         "required" => true,
 
-                        "placeholder" => "Nomor Pajak",
-                        "label" => "Nomor Pajak",
-                        "help" => "Masukan Nomor Pajak",
+                        "placeholder" => "Nomor Pajak (NPWP)",
+                        "label" => "Nomor Pajak (NPWP)",
+                        "help" => "Masukan NPWP",
 
                         "value" => false
                     ), true); ?>
@@ -219,8 +219,8 @@
                         "identifier" => "type",
                         "showable" => "type",
 
-                        "manage_url" => base_url("/index.php/setting/master/cabang"),
-                        "object_name" => "Not Implemented",
+                        "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/partner_type"),
+                        "object_name" => "tipe partner",
 
                         "selected" => false,
                     ), true); ?>
@@ -447,9 +447,9 @@
 
                         "id" => "tax_number_edit",
 
-                        "placeholder" => "Nomor Pajak",
-                        "label" => "Nomor Pajak",
-                        "help" => "Masukan Nomor Pajak",
+                        "placeholder" => "Nomor Pajak (NPWP)",
+                        "label" => "Nomor Pajak (NPWP)",
+                        "help" => "Masukan NPWP",
 
                         "value" => false
                     ), true); ?>
@@ -465,8 +465,8 @@
 
                         "id" => "partner_type_edit",
 
-                        "manage_url" => base_url("/index.php/setting/master/cabang"),
-                        "object_name" => "Not Implemented",
+                        "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/partner_type"),
+                        "object_name" => "tipe partner",
 
                         "selected" => false,
                     ), true); ?>
