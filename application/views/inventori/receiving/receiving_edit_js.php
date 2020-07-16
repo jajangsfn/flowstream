@@ -11,9 +11,17 @@
 
 		$("#btn_save_receiving").click(function(){
 
-			if (confirm("Anda Yakin ingin menyimpan transaksi ini?") ) {
-				$("#form_receiving").submit();
-			}
+			Swal.fire({
+		        title: "Anda Yakin ingin menyimpan transaksi ini?",
+		        text: "Data yg telah diproses tidak dapat diubah!",
+		        icon: "warning",
+		        showCancelButton: true,
+		        confirmButtonText: "Proses"
+		    }).then(function(result) { 
+		        if (result.value) {
+		            $("#form_receiving").submit();
+		        }
+		    });
 		});
 		
 	});

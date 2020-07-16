@@ -122,7 +122,7 @@ class Pembelian extends CI_Controller
     {
 
         $data['page_title']   = "Purchase Order";
-        $data['po_data']      = $this->po->get_all_trx(null,array("tab1.id"))->result();
+        $data['po_data']      = $this->po->get_all_trx(null,array("tab1.id"))->result(); 
         $data['master']       = array();
         $data['page_content'] = $this->load->view("pembelian/po/purchase_order", $data, true); 
 
@@ -432,7 +432,7 @@ class Pembelian extends CI_Controller
              $supplier = $this->input->get('id_supplier');             
              $where = "tab1.id=".$supplier;
              $where = ($goods) ? $where." AND tab4.brand_description like '".$goods."%' or tab4.sku_code like '".$goods."%' or tab4.plu_code like '".$goods."%' or tab4.barcode like '".$goods."%'" : $where;
-             $data  = $this->goods->get_goods_per_supplier($where)->result();
+             $data  = $this->goods->get_goods_per_supplier($where)->result(); 
 
         }else if( $type == 2){
             $goods  = $this->input->get('id_goods');
