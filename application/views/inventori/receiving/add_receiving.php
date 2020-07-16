@@ -79,46 +79,48 @@
 
 					<div class="row mt-1">
 						<div class="col-md-1"></div>
-						<div class="col-md-10 table-responsive">
-							<table class="table table-condensed">
-								<thead>
-									<tr>
-										<th width="200">Kode Barang</th>
-										<th width="350">Nama Barang</th>
-										<th width="150">Quantity</th>
-										<th width="150">Harga</th>
-										<th></th>
-									</tr>
-								</thead>
+						<div class="col-md-10 ">
+							<!-- <div class="table-responsive"> -->
+								<table class="table table-condensed">
+									<thead>
+										<tr>
+											<th width="200">Kode Barang</th>
+											<th width="350">Nama Barang</th>
+											<th width="150">Quantity</th>
+											<th width="150">Harga</th>
+											<th></th>
+										</tr>
+									</thead>
 
-								<tbody>
-									<tr>
-										<td>
-											<select name="goods_list" id="goods_list" class="form-control selectpicker" data-live-search="true" onchange="get_goods_detail()">
-												<option value="">Pilih Kode Barang</option>
-											</select>
-										</td>
-										<td>
-											<input type="text" name="goods_name" id="goods_name" class="form-control" readonly placeholder="Nama Barang">
-										</td>
-										<td>
-											<input type="hidden" name="goods_code" id="goods_code" class="form-control" value="0">
-											<input type="hidden" name="goods_id" id="goods_id" class="form-control" value="0">
-											<input type="hidden" name="goods_discount" id="goods_discount" class="form-control" value="0">
+									<tbody>
+										<tr>
+											<td>
+												<select name="goods_list" id="goods_list" class="form-control selectpicker" data-live-search="true" onchange="get_goods_detail()">
+													<option value="">Pilih Kode Barang</option>
+												</select>
+											</td>
+											<td>
+												<input type="text" name="goods_name" id="goods_name" class="form-control" readonly placeholder="Nama Barang">
+											</td>
+											<td>
+												<input type="hidden" name="goods_code" id="goods_code" class="form-control" value="0">
+												<input type="hidden" name="goods_id" id="goods_id" class="form-control" value="0">
+												<input type="hidden" name="goods_discount" id="goods_discount" class="form-control" value="0">
 
-											<input type="hidden" name="goods_qty_sisa" id="goods_qty_sisa" class="form-control" min="1" value="1">
-											<input type="number" name="goods_qty" id="goods_qty" class="form-control" min="1" value="1">
-										</td>
-										<td>
-											<input type="text" name="goods_price" id="goods_price" class="form-control" readonly>
-										</td>
-										<td>
-											<button type="button" id="btn_add" class="btn btn-primary" onclick="add_to_chart()">Tambah
-											</button>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+												<input type="hidden" name="goods_qty_sisa" id="goods_qty_sisa" class="form-control" min="1" value="1">
+												<input type="number" name="goods_qty" id="goods_qty" class="form-control" min="1" value="1">
+											</td>
+											<td>
+												<input type="text" name="goods_price" id="goods_price" class="form-control" readonly>
+											</td>
+											<td>
+												<button type="button" id="btn_add" class="btn btn-primary" onclick="add_to_chart()">Tambah
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							<!-- </div> -->
 						</div>
 					</div>
 

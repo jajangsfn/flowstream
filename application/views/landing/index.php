@@ -17,7 +17,7 @@
             </h3>
         </div>
         <div class="col-4 p-5 text-center">
-            <a href="<?= base_url("/index.php/pembelian") ?>" class="btn btn-shadow btn-icon btn-circle btn-primary display-2">
+            <a href="<?= base_url("/index.php/pembelian/purchase_order") ?>" class="btn btn-shadow btn-icon btn-circle btn-primary display-2">
                 <i class="flaticon2-lorry  display-3"></i>
             </a>
             <h3 class="mt-2">
@@ -25,7 +25,7 @@
             </h3>
         </div>
         <div class="col-4 p-5 text-center">
-            <a href="<?= base_url("/index.php/inventori") ?>" class="btn btn-shadow btn-icon btn-circle btn-primary display-2">
+            <a href="<?= base_url("/index.php/inventori/receiving") ?>" class="btn btn-shadow btn-icon btn-circle btn-primary display-2">
                 <i class="flaticon2-open-box  display-3"></i>
             </a>
             <h3 class="mt-2">

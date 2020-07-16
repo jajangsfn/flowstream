@@ -19,6 +19,7 @@ class Pembelian extends CI_Controller
                 "user_model" => "user_m",
                 "M_partner_model"=>"partner",
                 "M_goods_model"=>"goods",
+                "M_warehouse_model"=>"m_ws",
                 "Purchase_order_model" => "po",
                 "Purchase_order_detail_model" => "pod",
                 "S_history_model" => "history", 
@@ -70,7 +71,7 @@ class Pembelian extends CI_Controller
                  $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">PO berhasil diperbaharui</div>');
 
 
-            }else {
+            }else { 
 
                $entry_data   = array("branch_id" => $_POST['branch_id'],
                                 "salesman_id" => $_POST['salesman_id'],
@@ -150,7 +151,8 @@ class Pembelian extends CI_Controller
 
         $data['page_title']   = "Retur Pembelian";
         $data['return_no']    = generate_po_no(4);
-        $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
+        $data['warehouse']    = $this->m_ws->get_all()->result();
+        $data['tgl_indo']     = longdate_indo( date('Y-m-d') ); 
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['page_content'] = $this->load->view("pembelian/return/add_return", $data, true);
 
@@ -167,8 +169,9 @@ class Pembelian extends CI_Controller
         $data['return_no']    = generate_po_no(4);
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
-        $data['master']       = $this->return->get_all("tab1.id=".$id);
-        
+        $data['warehouse']    = $this->m_ws->get_all()->result();
+        $data['master']       = $this->return->get_all("tab1.id=".$id,"tab2.id");
+        // echo json_encode($data['master']);exit;
         $data['page_content'] = $this->load->view("pembelian/return/edit_return", $data, true);
 
         $this->load->view('layout/head');
@@ -192,7 +195,7 @@ class Pembelian extends CI_Controller
     public function save_return()
     {
         $param = $this->input->post();
-        // echo count($param);exit;
+        // echo json_encode($param);exit;
         if ( count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
@@ -230,7 +233,7 @@ class Pembelian extends CI_Controller
                     redirect("pembelian/return");
 
             }else {
-
+                // echo json_encode($param);exit;
                 $arr_return = array(
                             "branch_id" => $this->session->userdata('branch_id'),
                             "return_no" => $param['return_no'],
@@ -243,7 +246,7 @@ class Pembelian extends CI_Controller
                             "updated_date" => date('Y-m-d H:i:s'),
                             "updated_by" => $this->session->userdata('id'),
                             "flag" => 1);
-        
+         
                 $this->return->insert($arr_return, $param);
 
 
@@ -467,5 +470,13 @@ class Pembelian extends CI_Controller
         $data = $this->po->get_all_trx(array("tab1.id"=>$id),array("tab1.id","tab5.id"))->result();  
         
         $this->pdf->print_po(1,$data); 
+    }
+
+
+    function contoh ()
+    {
+        $id = 4;
+
+        $this->return->cut_qty($id);
     }
 }

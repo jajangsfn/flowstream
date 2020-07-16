@@ -10,7 +10,7 @@
 		
 
 		$("#btn_save_receiving").click(function(){
-
+			
 			Swal.fire({
 		        title: "Anda Yakin ingin menyimpan transaksi ini?",
 		        text: "Data yg telah diproses tidak dapat diubah!",
@@ -292,7 +292,7 @@
 				save_input.po_detail_id 	= val.purchase_order_detail_id
 				save_input.goods_id			= val.goods_id;
 				save_input.goods_code 		= code;
-				save_input.goods_name 		= val.brand_description;
+				save_input.goods_name 		= val.goods_name;
 				save_input.goods_price 		= parseInt(val.price);
 				save_input.goods_qty_order 	= val.qty_order;
 				save_input.goods_qty  		= parseInt(val.quantity);
