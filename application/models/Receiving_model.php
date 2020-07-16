@@ -97,10 +97,21 @@ class Receiving_model extends CI_Model
         // echo json_encode($data);exit;
         if ($data) {
             foreach ($data as $key => $val) {
-                // update quantity
-                $this->db->set("quantity","quantity+".$val->quantity,FALSE);
+
+                // get m goods qty and price
+                $goods = $this->db->get_where("m_goods", array("id" => $val->goods_id))->row();
+                // calculate m goods qty * price
+                $sum_m_goods = ( $goods->quantity * $goods->hpp );
+                // calculate qty * price receiving
+                $sum_r_detail= ( $val->quantity * $val->price );
+                //  sum (summary m_goods + summary receiving detail) / (qty m goods + qty receiving detail)
+                $new_hpp     =  floor( ($sum_m_goods + $sum_r_detail) / ($goods->quantity + $val->quantity) );
+                // update hpp & qty m goods
+                $new_qty     = $goods->quantity + $val->quantity;
+                $arr_hpp     = array( "quantity" => $new_qty,"hpp" => $new_hpp);
+                // $this->db->set($arr_hpp,FALSE);
                 $this->db->where("id", $val->goods_id );
-                $this->db->update("m_goods");
+                $this->db->update("m_goods",$arr_hpp);
 
                 //insert price history
                 $param['branch_id']         = $this->session->userdata('branch_id');
@@ -118,6 +129,15 @@ class Receiving_model extends CI_Model
         }
 
     } 
+
+    function calculate_hpp()
+    {
+        // loop receiving detail
+        // calculate (qty * price) from receiving detail
+        // get m_goods (qty * price)
+        //  sum (summary m_goods + summary receiving detail) / (qty m goods + qty receiving detail)
+
+    }
 
 
     function get_goods_receive($where,$group_by = null)

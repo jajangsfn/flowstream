@@ -6,18 +6,27 @@
 		$("#btn_save_ws").click(function(){
 
 			if ($("#prev_ws").val() === "") {
-				alert('Silahkan pilih gudang awal!');
+				Swal.fire("Info", "Silahkan pilih gudang awal!", "error");
 			}else if ($("#act_ws").val() === "") {
-				alert('Silahkan pilih gudang tujuan!');
+				Swal.fire("Info", "Silahkan pilih gudang tujuan!", "error");
 			}else if ($("#ref_no").val() === "") {
-				alert('Silahkan isi no referensi!');
+				Swal.fire("Info", "Silahkan isi no referensi!", "error");
 			}else {
 				if (goods_list.length > 0) {
-					if (confirm("Anda Yakin ingin menyimpan transaksi ini?") ) {
-						$("#form_ws").submit();
-					}
+
+					Swal.fire({
+				        title: "Anda Yakin ingin menyimpan transaksi ini?",
+				        text: "Data yg telah diproses tidak dapat diubah!",
+				        icon: "warning",
+				        showCancelButton: true,
+				        confirmButtonText: "Proses"
+				    }).then(function(result) { 
+				        if (result.value) {
+				            $("#form_ws").submit();
+				        }
+				    });
 				}else {
-					alert('Data barang masih kosong!');
+					Swal.fire("Info", "Data barang masih kosong!", "error");
 				}
 				
 			}

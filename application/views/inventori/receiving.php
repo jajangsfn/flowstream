@@ -18,6 +18,7 @@
     </div>
      <div class="card-body">
      	 <!--begin: Datatable-->
+        <div class="table-responsive">
         <table class="table table-separate table-head-custom table-checkable" id="master_barang_table">
             <thead>
                 <tr>
@@ -64,8 +65,8 @@
                     </tr>
                 <?php }
                 ?>
-
             </tbody>
         </table>
+        </div>
     </div>
 </div>

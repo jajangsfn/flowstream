@@ -81,7 +81,8 @@ class Purchase_order_model extends CI_Model
         if ($where) {
             $this->db->where($where);
         }
-        $this->db->having("sisa > 0");
+        
+        #$this->db->having("sisa > 0");
 
         if ($group_by) {
             $this->db->group_by($group_by);

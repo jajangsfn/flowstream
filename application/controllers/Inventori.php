@@ -215,7 +215,7 @@ class Inventori extends CI_Controller
     {
         $data['id'] = $this->input->get("rv_id");
 
-        $msg   = $this->rm->approve_receive($data);
+        $msg   = $this->rm->approve_receive($data); 
 
         echo json_encode($msg);
     }

@@ -46,11 +46,17 @@
 		});
 
 		$("#btn_save_purchase").click(function(){
-
-			if (confirm('Anda yakin ingin menyimpan transaksi ini?'))
-			{
-				$("#form_purchase").submit();
-			}
+			Swal.fire({
+		        title: "Anda Yakin ingin menyimpan transaksi ini?",
+		        text: "Data yg telah diproses tidak dapat diubah!",
+		        icon: "warning",
+		        showCancelButton: true,
+		        confirmButtonText: "Proses"
+		    }).then(function(result) { 
+		        if (result.value) {
+		            $("#form_purchase").submit();
+		        }
+		    });
 		});
 
 	});
@@ -102,13 +108,13 @@
 			{"id_goods":id_brg})
 		.done(function(data){
 			const goods_arr = JSON.parse(data);
-
+ 
 			$.each(goods_arr,function(id,val){
 				var code = (val.sku_code) ? val.sku_code : 'Kosong';
 				$("#id_goods").val(val.id);
 				$("#goods_code").html(code);
 				$("#goods_name").html(val.brand_description);
-				$("#goods_price").html(val.price_alternate);
+				$("#goods_price").html(val.hpp);
 			});
 		});
 		// show modal
@@ -130,7 +136,6 @@
 		save_goods.price= goods_price;
 		save_goods.qty  = goods_qty;
 		save_goods.discount  = 0;
-
 		// Build the "map"
 		var same = false;
 		$.each(chart_goods,function(id,val){
@@ -241,16 +246,23 @@
 
 	function delete_goods_from_chart(id)
 	{
-		if ( confirm('Anda yakin ingin menghapus barang ini?') ){
-			
-			chart_goods.splice(id,1);
-			show_chart_goods();
-		}
+			Swal.fire({
+		        title: "Anda yakin ingin menghapus barang ini?",
+		        text: "",
+		        icon: "warning",
+		        showCancelButton: true,
+		        confirmButtonText: "Proses"
+		    }).then(function(result) { 
+		        if (result.value) {
+		           chart_goods.splice(id,1);
+					show_chart_goods();
+		        }
+		    });
 	}
 
 	function get_chart_goods_from_db()
 	{
-		var data = "<?=isset($master) ? json_encode($master) :null;?>";
+		var data = <?=isset($master) ? json_encode($master) :'';?>;
 		
 		if (data.length > 0){
 

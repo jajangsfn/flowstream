@@ -2,10 +2,18 @@
 	var chart_goods = [];
 	$(document).ready( function(){
 		$("#btn_save_receiving").click(function(){
-
-			if (confirm("Anda Yakin ingin menyimpan transaksi ini?") ) {
-				$("#form_receiving").submit();
-			}
+			
+			Swal.fire({
+		        title: "Anda Yakin ingin menyimpan transaksi ini?",
+		        text: "Data yg telah diproses tidak dapat diubah!",
+		        icon: "warning",
+		        showCancelButton: true,
+		        confirmButtonText: "Proses"
+		    }).then(function(result) { 
+		        if (result.value) {
+		            $("#form_receiving").submit();
+		        }
+		    });
 		});
 	}); 
 	
@@ -270,7 +278,7 @@
 		        	 $.get("<?=base_url()?>index.php/inventori/approve_receive/",
 		        	 	{"rv_id":rv_id})
 		        	 .done(function(msg){
-		        	 	// console.log(msg);
+		        	 	// console.log(msg);return;
 		        	 	if (msg) {
 		        	 		Swal.fire(
 				                "Tersimpan!",
