@@ -64,22 +64,7 @@
 						
 					</div>
 
-					<div class="row ml-30">
-						<!-- <div class="col-md-1"></div> -->
-						<!-- <label class="col-form-label col-md-1 text-right">Gudang</label>
-						<div class="form-group col-md-3">
-		                    <div class="w-100">
-			                   <select name="ws" id="ws_id" class="form-control selectpicker" data-live-search="true" required="">
-			                      	<option value="" selected>Pilih Gudang</option>
-			                       	<?php
-			                      	foreach ($warehouse as $key => $val) { ?>
-			                       		<option value="<?=$val->id?>"><?=$val->name?></option>
-			                       	<?php } ?>
-			                    </select>
-			                </div>
-						</div>
-
- -->	
+					<div class="row ml-30">	
  						<label class="col-form-label col-md-2 text-right">Deskripsi</label>
 						<div class="col-md-3">
 							<textarea name="description" id="description" class="form-control"></textarea>	
@@ -90,16 +75,11 @@
 						
 					</div>
 
-					<div class="row ml-30">
-						<!-- <div class="col-md-1"></div> -->
-						
-
-					</div>
 					<hr>
 
 					<div class="row mt-1">
 						<div class="col-md-1"></div>
-						<div class="col-md-10">
+						<div class="col-md-10 table-responsive">
 							<table class="table table-condensed">
 								<thead>
 									<tr>
@@ -153,7 +133,7 @@
 					</div>
 					<hr>
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-12 table-responsive">
 							<table class="table table-bordered table-condensed table-striped">
 								<thead>
 									<tr>
