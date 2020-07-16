@@ -29,7 +29,7 @@
      <div class="card-body">
         <form method="post" action="<?=base_url()?>index.php/pembelian/save_return" id="form_return">
           <!-- <input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=date('Y-m-d')?>"> -->
-          <input type="hidden" name="warehouse_id" class="form-control col-md-3" id="warehouse_id" readonly>
+          <!-- <input type="hidden" name="warehouse_id" class="form-control col-md-3" id="warehouse_id" readonly> -->
 
           <div class="row mb-5">
             <div class="col-md-1"></div>
@@ -96,13 +96,14 @@
           <!-- form chart -->
           <hr>
            <div class="row mb-3">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
-              <table class="table">
+            <!-- <div class="col-md-1"></div> -->
+            <div class="col-md-12">
+              <table class="table table-condensed">
                 <thead>
                   <tr>
                     <th width="250">Kode Barang</th>
                     <th width="250">Nama Barang</th>
+                    <th width="250">Gudang</th>
                     <th>Quantity</th>
                     <th></th>
                   </tr>
@@ -119,6 +120,16 @@
                       <input type="hidden" name="kode_barang" id="kode_barang">
                       <input type="hidden" name="qty_awal" id="qty_receive" class="form-control" min="1" value="1">
                       <input type="text" name="nama_barang" id="nama_barang" class="form-control" placeholder="Nama Barang . . ." readonly="">
+                    </td>
+                    <td>
+                      <select name="warehouse_id" id="warehouse_id" class="form-control selectpicker" data-live-search="true">
+                        <option value="" disabled="">Pilih Gudang</option>
+                        <?php
+                          foreach ($warehouse as $key => $val) { ?>
+                            <option value="<?=$val->id?>"><?=$val->name?></option>
+                          <?php }
+                          ?>
+                      </select>
                     </td>
                     <td>
                       <input type="number" name="quantity" id="quantity" class="form-control" min="1" value="1">
@@ -145,6 +156,7 @@
                     <th>No</th>
                     <th>Kode Barang/PLU</th>
                     <th>Nama Barang</th>
+                    <th>Gudang</th>
                     <th>Harga</th>
                     <th>Quantity Order (PCS)</th>
                     <th>Harga</th>

@@ -15,7 +15,7 @@ class Landing extends CI_Controller
         $this->lang->load('menu_lang', 'indonesian');
 	}
 
-	public function index()
+	public function index() 
 	{
 		// if already login, show index page
 		if ($this->session->userdata('login')) {

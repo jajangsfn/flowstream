@@ -2,7 +2,7 @@
 	var goods_list = [];
 	$(document).ready( function() {
 		show_goods_from_db();
-		search_receive_order();
+		// search_receive_order();
 		$("#btn_save_ws").click(function(){
 
 			if ($("#prev_ws").val() === "") {
@@ -106,7 +106,7 @@
 
 		} else  {
 
-			Swal.fire("Info", "Silahkan Isi Data Barang!", "error");
+			Swal.fire("Info", "Silahkan Pilih Barang!", "error");
 		}
 	}
 
@@ -126,13 +126,19 @@
 				// text+="<input type='hidden' name='qty_barang[]' value='"+val.qty_barang+"'>";
 				text+=val.nama_barang+"</td>";
 				text+="<td width=150><input type='number' name='qty_barang[]' value="+val.qty_barang+" required class='form-control'></td>";
-				text+="<td><button class='btn btn-danger btn-sm'><span class='fa fa-trash'></span></button></td>";
+				text+="<td><button type='button' class='btn btn-danger btn-sm' onclick='delete_goods_from_chart("+id+")'><span class='fa fa-trash'></span></button></td>";
 				text+="</tr>";
 
 			});
 
 			$("#goods_ws_list").html(text);
 		}
+	}
+
+	function delete_goods_from_chart(id)
+	{
+		goods_list.splice(id,1);
+		show_goods_list();
 	}
 
 	function clear_search()
@@ -142,7 +148,7 @@
 		$("#kode_barang").val('');
 		$("#quantity").val(1);
 		$("#goods_list").val("");
-		$("#goods_list").selectpicker('');
+		$("#goods_list").selectpicker('refresh');
 	}
 
 
@@ -219,7 +225,7 @@
 	function search_receive_order() 
 	{
 		var receive_no = jQuery.trim($("#nro").val());
-		var text 	   = "";
+		var text 	   = ""; 
 
 		if (receive_no) {
 			$.get("<?=base_url()?>index.php/inventori/get_ws_goods",
@@ -227,16 +233,30 @@
 				.done( function(data) {
  
 					var parse = jQuery.parseJSON(data); 
-					console.log(parse);
-
+					// console.log(parse);
 					if ( parse.length > 0 ) {
 
 						$("#goods_list").html('<option value="">Pilih Barang</option>');
-
+						// reset data goods
+						goods_list = [];
 						$.each( parse, function(id, val) {
 							text+="<option value='"+val.goods_id+"'>"+val.sku_code+"</option>";
+							// hitung sisa yg belum tersimpan
+							// var sisa = val.quantity - val.receive_qty;
+							// kalo sisa lebih dari 1 maka bisa di pindahkan
+							// if (sisa > 0) {
+								var input = {};
+								input.id_barang 	= val.goods_id;
+								input.kode_barang 	= val.sku_code;
+								input.nama_barang 	= val.goods_name;
+								input.qty_barang  	= parseInt(val.quantity);
+
+								goods_list.push(input);
+							// }
 						});
 
+
+						show_goods_list();
 						$("#goods_list").append(text);
 						$("#goods_list").selectpicker('refresh');
 					}else {

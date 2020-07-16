@@ -114,7 +114,7 @@
 	{
 		var po_id    = $("#po_no_list").val();
 		var goods_id = $("#goods_list").val();
-		 console.log(po_id+' '+goods_id);
+		
 		$.get("<?=base_url()?>index.php/inventori/get_po_list/3",
 				{"po_id":po_id,"goods_id":goods_id})
 		.done( function (data) {
@@ -224,13 +224,13 @@
 				goods_chart+="<td>"+val.goods_price+"</td>";
 				goods_chart+="<td>"+val.goods_qty+"</td>";
 				goods_chart+="<td>"+val.goods_discount+"</td>";
-				goods_chart+="<td>"+total+"</td>";
+				goods_chart+="<td>"+numeral(total).format('0,[.]00')+"</td>";
 				goods_chart+="<td><button type='button' class='btn btn-light-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa la-trash'></span></button></td>";
 				goods_chart+="</tr>";
 			});
 
 			$("#receive_list").append(goods_chart);
-			$("#grant_total").html(grant_total);
+			$("#grant_total").html(numeral(grant_total).format('0,[.]00'));
 			$("#btn_save").prop('disabled',false);
 
 
