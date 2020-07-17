@@ -10,6 +10,8 @@
     <div class="card-body">
         <small>Customer</small>
         <p class="lead"><?= $data_or->partner_name ?></p>
+        <small>Salesman</small>
+        <p class="lead"><?= $data_or->user_salesman_name ?></p>
         <small>Nomor Order</small>
         <p class="lead"><?= $data_or->order_no ?></p>
         <small>Nomor Faktur</small>

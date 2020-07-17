@@ -21,6 +21,7 @@ class Api extends CI_Controller
                 "m_partner_model" => "partner",
                 "m_partner_type_model" => "partner_type",
                 "m_partner_salesman_model" => "part_salesman",
+                "m_user_salesman_model" => "usr_salesman",
                 "m_salesman_map_model" => "salesman_map",
                 "m_map_model" => "m_map",
                 "m_unit_model" => "unit",
@@ -675,6 +676,7 @@ class Api extends CI_Controller
             "partner_name" => $_POST['partner_name'],
             "order_no" => $_POST['order_no'],
             "description" => $_POST['description'],
+            "user_salesman_id" => $_POST['user_salesman_id'],
         );
         $this->or->insert($data);
         $id_new_or = $this->db->insert_id();
@@ -755,6 +757,7 @@ class Api extends CI_Controller
             "branch_id" => $order_request->branch_id,
             "partner_id" => $order_request->partner_id,
             "partner_name" => $order_request->partner_name,
+            "user_salesman_id" => $order_request->user_salesman_id,
             "order_no" => $order_request->order_no,
             "invoice_no" => $_POST['invoice_no'],
             "tax_no" => null,
@@ -1018,5 +1021,55 @@ class Api extends CI_Controller
             $this->session->set_flashdata('error', 'Current password did not match');
             redirect($_SERVER['HTTP_REFERER']);
         }
+    }
+
+    // user salesman
+    function usr_salesman($customer_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->usr_salesman->get(
+                    array(
+                        "m_user_salesman.partner_id" => $customer_id
+                    )
+                )->result()
+            )
+        );
+    }
+
+    function add_usr_salesman()
+    {
+        $this->usr_salesman->insert($_POST);
+        $this->session->set_flashdata("success", "Salesman berhasil didaftarkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_usr_salesman()
+    {
+        $this->usr_salesman->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "employee_id" => $_POST['employee_id'],
+                "phone" => $_POST['phone'],
+            )
+        );
+        $this->session->set_flashdata("success", "Salesman berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function delete_usr_salesman()
+    {
+        $this->usr_salesman->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "flag" => 99
+            )
+        );
+        $this->session->set_flashdata("success", "Salesman berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }
