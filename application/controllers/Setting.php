@@ -65,6 +65,7 @@ class Setting extends CI_Controller
 
     private function cabang($id = '', $firstpath = '', $second_path = '', $third_path = '', $fourth_path = '', $fifth_path = '')
     {
+        $data['transactional'] = true;
         if ($id) {
             // data cabang
             $content['data_branch'] = $this->branch->get(array("id" => $id))->row();

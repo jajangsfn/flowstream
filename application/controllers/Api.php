@@ -85,7 +85,7 @@ class Api extends CI_Controller
                 // look for branch info
                 $branch_query = $this->branch->get(array("m_branch.id" => $user_query->row()->branch_id))->row();
             }
-            
+
             // do login
             $this->session->set_userdata(
                 array(
@@ -96,6 +96,8 @@ class Api extends CI_Controller
                     "id" => $user_query->row()->id,
                     "branch_id" => $user_query->row()->branch_id,
                     "branch_name" => $user_query->row()->branch_name,
+                    "level" => $user_query->row()->level_name,
+                    "position" => $user_query->row()->position_name,
                     "role_code" => $user_query->row()->role_code,
                     "branch_obj" => $branch_query
                 )
@@ -756,7 +758,6 @@ class Api extends CI_Controller
             "order_no" => $order_request->order_no,
             "invoice_no" => $_POST['invoice_no'],
             "tax_no" => null,
-            "is_delivery" => $order_request->is_delivery,
             "description" => $order_request->description,
             "created_by" => $this->session->id,
             "updated_by" => $this->session->id
@@ -816,7 +817,6 @@ class Api extends CI_Controller
             "partner_name" => $_POST['partner_name'],
             "invoice_no" => $_POST['invoice_no'],
             "tax_no" => null,
-            "is_delivery" => null,
             "partner_id" => $_POST['partner_id'],
             "order_no" => $_POST['order_no'],
             "description" => $_POST['description'],
@@ -991,5 +991,32 @@ class Api extends CI_Controller
         );
         $this->session->set_flashdata("success", "Unit barang berhasil dihapus");
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function change_password()
+    {
+        $login_data = array(
+            "m_user.id" => $this->session->id,
+            "password" => md5($_POST['current_password'])
+        );
+
+        // check if login data match in database
+        $user_query = $this->user_m->get($login_data);
+
+        if ($user_query->num_rows()) {
+
+            // do change password
+            $this->user_m->update($login_data, array(
+                "password" => md5($_POST['new_password'])
+            ));
+
+            // Logout
+            $this->session->sess_destroy();
+            $this->session->set_flashdata('success', 'Password berhasil diubah, silahkan login kembali');
+            redirect(base_url());
+        } else {
+            $this->session->set_flashdata('error', 'Current password did not match');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
     }
 }

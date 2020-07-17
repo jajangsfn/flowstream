@@ -27,9 +27,9 @@
                     responsivePriority: -1,
                     render: function(data, type, row, meta) {
                         if (data == 1) {
-                            return "<span class='text-info'>Faktur Belum Dicetak</span>";
+                            return "<span class='text-info'>New Order</span>";
                         } else if (data == 2) {
-                            return "<span class='text-success'>Faktur Telah Dicetak</span>";
+                            return "<span class='text-success'>Complete</span>";
                         }
                     },
                     createdCell: function(td, cellData, rowData, row, col) {

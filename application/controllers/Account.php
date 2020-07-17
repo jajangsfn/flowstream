@@ -24,11 +24,11 @@ class Account extends CI_Controller
     {
         $data['page_title'] = "Profile";
         $data['page_content'] = $this->load->view("profile/content", "", true);
-        
+        $data['page_js'] = $this->load->view("profile/content_js", "", true);
+        $data['no_header'] = true;
+
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
-
-
 }

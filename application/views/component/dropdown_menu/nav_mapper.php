@@ -574,32 +574,38 @@ if (stripos(current_url(), "/index.php/dashboard")) {
         )
     );
 } else if (stripos(current_url(), "/index.php/setting")) {
-    $nav = array(
-        new NavItem(
-            "/user",
-            null,
-            null,
-            "User",
-            null,
-            array(
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/setting/user/user_management",
-                    "User Management",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/setting/user/role_management",
-                    "User Role",
-                    null,
-                    null
+    $nav = array();
+    if ($this->session->role_code == "ROLE_ADMIN") {
+        $nav = array(
+            new NavItem(
+                "/user",
+                null,
+                null,
+                "User",
+                null,
+                array(
+                    new NavItem(
+                        null,
+                        null,
+                        "/index.php/setting/user/user_management",
+                        "User Management",
+                        null,
+                        null
+                    ),
+                    new NavItem(
+                        null,
+                        null,
+                        "/index.php/setting/user/role_management",
+                        "User Role",
+                        null,
+                        null
+                    )
                 )
             )
-        ),
+        );
+    }
+    array_push(
+        $nav,
         new NavItem(
             "/master",
             null,
@@ -675,97 +681,6 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                             null,
                             "/index.php/setting/parameter/keuangan/kode_rekening",
                             "Parameter Kode Rekening",
-                            null,
-                            null
-                        )
-                    )
-                )
-            )
-        ),
-        new NavItem(
-            "/system",
-            null,
-            null,
-            "System",
-            null,
-            array(
-                new NavItem(
-                    null,
-                    null,
-                    null,
-                    "Group M",
-                    null,
-                    array(
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_master",
-                            "m_master",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_event",
-                            "m_event",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_event_detail",
-                            "m_event_detail",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_promo",
-                            "m_promo",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/m_delivery",
-                            "m_delivery",
-                            null,
-                            null
-                        )
-                    )
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    null,
-                    "Group Ol",
-                    null,
-                    array(
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/ol_connection",
-                            "ol_connection",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/ol_group",
-                            "ol_group",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/system/ol_group_detail",
-                            "ol_group_detail",
                             null,
                             null
                         )
