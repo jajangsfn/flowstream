@@ -19,7 +19,11 @@ class Penjualan extends CI_Controller
                 "user_model" => "user_m",
                 "m_partner_model" => "partner",
                 "m_goods_model" => "goods",
-                "t_order_request_model" => "or"
+                "m_warehouse_model" => "m_ws",
+                "t_order_request_model" => "or",
+                "t_pos_model" => "pos",
+                "t_pos_return_model" => "pos_return",
+                "S_history_model" => "history", 
             )
         );
     }
@@ -116,15 +120,155 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    public function retur()
+    // return
+    public function return()
     {
         $data['page_title'] = "Retur Penjualan";
-        $data['page_content'] = $this->load->view("penjualan/retur", "", true);
+        $data['return']     = $this->pos_return->get_all();
+        // echo json_encode($data);exit;
+        $data['page_content'] = $this->load->view("penjualan/return/return", $data, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
+        $this->load->view('penjualan/return/return_js'); 
     }
+
+    public function add_return()
+    {
+
+        $data['page_title']   = "Retur Penjualan";
+        $data['return_no']    = generate_po_no(5);
+        $data['warehouse']    = $this->m_ws->get_all()->result();
+        $data['tgl_indo']     = longdate_indo( date('Y-m-d') ); 
+        $data['supplier']     = $this->get_partner(array("is_customer"=>1));
+        $data['page_content'] = $this->load->view("penjualan/return/add_return", $data, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/js');
+        $this->load->view('penjualan/return/return_js'); 
+    }
+
+    public function edit_return($id)
+    {
+
+        $data['page_title']   = "Retur Pembelian";
+        $data['return_no']    = generate_po_no(5);
+        $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
+        $data['customer']     = $this->get_partner(array("is_customer"=>1));
+        $data['warehouse']    = $this->m_ws->get_all()->result();
+        $data['master']       = $this->pos_return->get_all("tab1.id=".$id,"tab2.id");
+        // echo json_encode($data['master']);exit;
+        $data['page_content'] = $this->load->view("penjualan/return/edit_return", $data, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/js');
+        $this->load->view('penjualan/return/return_js'); 
+    }
+
+    public function get_pos_goods($type = 1)
+    {
+
+        if ($type == 1) {
+            $invoice_no = $this->input->get('invoice_no'); 
+            $customer_id  = $this->input->get('customer_id'); 
+            $where        = "tab1.invoice_no='".$invoice_no."' and tab1.partner_id=".$customer_id;
+        
+        }else {
+            $invoice_no = $this->input->get('invoice_no'); 
+            $goods_id  = $this->input->get('goods_id'); 
+            $where        = "tab1.invoice_no='".$invoice_no."' and tab2.goods_id=".$goods_id;
+        
+        }
+        
+        $data       = $this->pos_return->get_all_pos($where,"tab2.goods_id")->result();
+
+        echo json_encode($data);
+    }
+
+
+    public function save_return()
+    {
+        $param = $this->input->post();
+        // echo json_encode($param);exit;
+        if ( count($param) > 0) {
+
+            if (array_key_exists("id", $param)) {
+
+
+                    $arr_return = array(
+                            "branch_id" => $this->session->userdata('branch_id'),
+                            "partner_id" => $param['supplier'],
+                            "return_no" => $param['return_no'],
+                            "reference_no" => $param['no_ref'],
+                            "description" => $param['deskripsi'],
+                            "transaction_date" => $param['tgl_trx'],
+                            "return_date" => $param['tgl_trx'],
+                            "updated_date" => date('Y-m-d H:i:s'),
+                            "updated_by" => $this->session->userdata('id'),
+                            "flag" => 1);
+                    // echo json_encode($arr_return);exit;
+                    $this->pos_return->delete($param['id']);
+                    $this->pos_return->insert($arr_return, $param);
+
+
+                     // insert hitory activity
+                    $history_data  = array("branch_id" => $this->session->userdata('branch_id'),
+                                           "branch_name" => $this->session->userdata('branch_name'),
+                                           "created_by" => $this->session->userdata('id'),
+                                           "created_name" => $this->session->userdata('name'),
+                                           "activity"  => "Mengubah Transaksi Retur",
+                                           "created_date" => date('Y-m-d H:i:s'),
+                                        );
+
+                    $this->history->insert($history_data);
+                    $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil diperbaharui</div>');
+
+                    redirect("penjualan/return");
+
+            }else {
+                // echo json_encode($param);exit;
+                $arr_return = array(
+                            "branch_id" => $this->session->userdata('branch_id'),
+                            "partner_id" => $param['supplier'],
+                            "return_no" => $param['return_no'],
+                            "reference_no" => $param['no_ref'],
+                            "description" => $param['deskripsi'],
+                            "transaction_date" => $param['tgl_trx'],
+                            "return_date" => $param['tgl_trx'],
+                            "created_by" => $this->session->userdata('id'),
+                            "created_date" => date('Y-m-d H:i:s'),
+                            "updated_date" => date('Y-m-d H:i:s'),
+                            "updated_by" => $this->session->userdata('id'),
+                            "flag" => 1);
+
+            // echo json_encode($arr_return);exit;
+                $this->pos_return->insert($arr_return, $param);
+
+
+                 // insert hitory activity
+                $history_data  = array("branch_id" => $this->session->userdata('branch_id'),
+                                       "branch_name" => $this->session->userdata('branch_name'),
+                                       "created_by" => $this->session->userdata('id'),
+                                       "created_name" => $this->session->userdata('name'),
+                                       "activity"  => "Membuat Transaksi Retur",
+                                       "created_date" => date('Y-m-d H:i:s'),
+                                    );
+
+                $this->history->insert($history_data);
+                $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil disimpan</div>');
+
+                redirect("penjualan/add_return");
+
+            }
+        }
+        
+        
+
+    }
+
 
     public function laporan($path, $next_path = '')
     {
@@ -206,5 +350,35 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
+    }
+
+
+    public function get_partner($where=array(),$return=false)
+    {
+        $data = $this->partner->get($where);
+
+        if($return) 
+        {
+            return json_encode($data);
+        }
+
+        return $data->result();
+    }
+
+
+    public function retur_pos($id=null)
+    {
+        $this->pos->cut_qty($id);
+    }
+
+
+
+    public function approve_return()
+    {
+        $where['id'] = $this->input->get("return_id");
+        $data['flag']= 2;
+        $msg   = $this->pos_return->update($where,$data);
+
+        echo json_encode($msg);
     }
 }

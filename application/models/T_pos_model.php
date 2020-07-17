@@ -116,61 +116,6 @@ class T_pos_model extends CI_Model
     }
 
 
-    function cut_qty($id)
-    {
 
-        $this->db->trans_begin();
-      
-      // get detail return
-        $retur_detail = $this->db->query("SELECT tab1.id retur_id,tab1.reference_no,tab2.* 
-                                          FROM t_po_return tab1  
-                                          JOIN t_po_return_detail tab2 ON tab2.po_return_id=tab1.id 
-                                          and tab2.flag<>99 WHERE tab1.id =".$id)->result();
-        
-        // loop data retur
-        foreach ($retur_detail as $key => $val) {
-            
-            // ambil data pos
-            $po_detail  = $this->db->query("SELECT tab1.order_no,tab1.reference_no,tab2.* 
-                                                    FROM t_pos tab1 
-                                                    JOIN t_pos_detail tab2 ON tab2.pos_id=tab1.id
-                                                    WHERE tab1.flag = 2 and 
-                                                          tab1.warehouse_id = ".$val->warehouse_id." and
-                                                          tab1.invoice_no='".$val->reference_no."' 
-                                                          and tab2.goods_id=".$val->goods_id)->row();
-            // echo json_encode($warehouse_detail);exit; 
-            // update pos detail
-            $this->db->set("quantity","quantity+".$val->quantity,FALSE);
-            $this->db->where("id",$po_detail->id);
-            $this->db->update("t_pos_detail");
-
-            // ambil data order request
-            $order_detail = $this->db->query("SELECT tab2.* FROM t_order_request tab1 
-                                                  JOIN t_order_request_detail tab2 ON tab2.order_request_id=tab1.id  and tab2.flag<>99
-                                                  WHERE tab1.flag =2 and  
-                                                        tab1.order_no='".$po_detail->order_no."' 
-                                                        and tab2.goods_id=".$val->goods_id)->row();
-            // update data receiving
-            $this->db->set("quantity","quantity+".$val->quantity,FALSE);
-            $this->db->where("id",$order_detail->id);
-            $this->db->update("t_order_request_detail");
-
-            // ambil data m goods
-            $goods = $this->db->query("SELECT * FROM m_goods WHERE id=".$val->goods_id)->row();
-            $this->db->set("quantity","quantity+".$val->quantity,FALSE);
-            $this->db->where("id",$val->goods_id);
-            $this->db->update("m_goods");
-            
-        }
-
-        if ($this->db->trans_status() == FALSE)
-        {
-            $this->db->trans_rollback();
-            return null;
-        }else {
-            $this->db->trans_commit();
-            return 1;
-        }
-
-    }
+ 
 }

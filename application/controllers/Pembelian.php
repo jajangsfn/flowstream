@@ -179,7 +179,7 @@ class Pembelian extends CI_Controller
         $this->load->view('layout/js');
         $this->load->view('pembelian/return/return_js'); 
     }
-
+ 
 
     public function get_receive_goods()
     {
