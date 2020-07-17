@@ -15,7 +15,7 @@ class pdf
 	function param_paper($type = 1)
 	{
 		// 1 pembelian
-		// 2 penjualan
+		// 2 penjualan tes
 		$param_paper = array(1 => array(
 									"po_in"=> array(
 										1 => array("paper"=>"A4",
