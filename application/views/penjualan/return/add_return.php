@@ -59,7 +59,7 @@
             </div>  
             <div class="col-md-3">
                 <div class="input-group mb-3">
-                      <input type="text" name="nro" id="nro" class="form-control" placeholder="No Receive Order. . ." aria-label="" aria-describedby="basic-addon1">
+                      <input type="text" name="nro" id="nro" class="form-control" placeholder="No Invoice. . ." aria-label="" aria-describedby="basic-addon1">
                     <div class="input-group-prepend">
                        <button class="btn btn-info" type="button" onclick="search_pos_order()">search</button>
                      </div>
