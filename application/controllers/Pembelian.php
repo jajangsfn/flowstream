@@ -482,7 +482,7 @@ class Pembelian extends CI_Controller
         $index = 0;
         
 
-        for ($i=0; $i <40 ; $i++) { 
+        for ($i=0; $i <30 ; $i++) { 
             // $data[$index] = new \stdClass();
             // $data[$index] = array();
             // $data[$index]['partner_name'] = "PT ABCD";
@@ -492,8 +492,9 @@ class Pembelian extends CI_Controller
             // $data[$index]['reference_no']  = '00000125202007000012';
             // $data[$index]['goods_name']    = $this->generateRandomString(20);
             // $data[$index]['sku_code']      = $this->generateRandomString(5);
-            // $data[$index]['price']         =  rand(1000, 155000);
-            // $data[$index]['quantity']      =  rand(10, 2390); 
+            // $data[$index]['plu_code']      = rand(000000,9999999);
+            // $data[$index]['goods_price']         =  rand(1000, 155000);
+            // $data[$index]['goods_qty']      =  rand(10, 2390); 
 
             $data[$index] = array();
             $data[$index]['partner_name'] = "PT ABCD";

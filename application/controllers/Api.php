@@ -650,7 +650,7 @@ class Api extends CI_Controller
         $this->session->set_flashdata("success", "Reference berhasil diubah");
         redirect($_SERVER['HTTP_REFERER']);
     }
-
+ 
     public function delete_reference()
     {
         $this->reference->delete($_POST);
@@ -660,7 +660,7 @@ class Api extends CI_Controller
 
     // order request
     public function get_order_number($id_branch)
-    {
+     {
         echo json_encode(
             array(
                 "data" => $this->or->get_next_no(array("branch_id" => $id_branch))
