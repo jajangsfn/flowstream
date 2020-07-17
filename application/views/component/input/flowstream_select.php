@@ -1,15 +1,28 @@
 <div class="form-group w-100">
     <label class="required"><?= $title ?></label>
     <select class="form-control select2" name="<?= $name ?>" <?= isset($id) ? "id='$id'" : "" ?> required>
-        <?php if (isset($selected) && $selected) { ?>
+        <?php if (
+            (isset($selected) && $selected)
+            ||
+            (isset($selected_showable) && $selected_showable)
+        ) { ?>
 
             <?php $found = false; ?>
             <?php foreach ($list as $option) { ?>
-                <?php if ($selected == $option->$identifier) { ?>
-                    <option value="<?= $option->$identifier ?>" selected><?= $option->$showable ?></option>
-                    <?php $found = true; ?>
+                <?php if (isset($selected) && $selected) { ?>
+                    <?php if ($selected == $option->$identifier) { ?>
+                        <option value="<?= $option->$identifier ?>" selected><?= $option->$showable ?></option>
+                        <?php $found = true; ?>
+                    <?php } else { ?>
+                        <option value="<?= $option->$identifier ?>"><?= $option->$showable ?></option>
+                    <?php } ?>
                 <?php } else { ?>
-                    <option value="<?= $option->$identifier ?>"><?= $option->$showable ?></option>
+                    <?php if ($selected_showable == $option->$showable) { ?>
+                        <option value="<?= $option->$identifier ?>" selected><?= $option->$showable ?></option>
+                        <?php $found = true; ?>
+                    <?php } else { ?>
+                        <option value="<?= $option->$identifier ?>"><?= $option->$showable ?></option>
+                    <?php } ?>
                 <?php } ?>
             <?php } ?>
             <?php if (!$found) { ?>
@@ -17,6 +30,7 @@
             <?php } ?>
 
         <?php } else { ?>
+
             <?php foreach ($list as $option) { ?>
                 <?php if ($option->$showable == "General") : ?>
                     <option value="<?= $option->$identifier ?>" selected><?= $option->$showable ?></option>

@@ -100,18 +100,38 @@
         })
     })
 
-    function suggester_me(element) {
+    function suggester_me(event, element) {
         const searchtarget = $(element).val().replace(/ /g, '').toLowerCase();
-        $('#goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
+        let total_found = 0;
+        let id_barang = 0;
+        $('.goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
             var targetkey = $(this).attr("data-keyword");
             if (targetkey.indexOf(searchtarget) >= 0) {
                 $(this).removeClass("d-none")
                 $(this).addClass("d-flex")
+                total_found++;
+                id_barang = $(this).attr("data-id-barang-passable");
             } else {
                 $(this).addClass("d-none")
                 $(this).removeClass("d-flex")
             }
         });
+        if (event.key == "Enter") {
+            // 2 karena fungsi each juga cari yang di dalam modal
+            if (total_found == 2) {
+                // auto add
+                tambah_barang($(document.createElement("div")).attr("data-id-barang", id_barang));
+
+                // clear
+                $(element).val("");
+
+                // show all
+                $('.goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
+                    $(this).removeClass("d-none")
+                    $(this).addClass("d-flex")
+                });
+            };
+        }
     }
 
     function suggester_my_map(element) {

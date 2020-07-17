@@ -61,7 +61,7 @@
                         <!--end::User-->
                         <!--begin::Name-->
                         <div class="my-2">
-                            <a href="#" class="text-dark font-weight-bold text-hover-primary font-size-h4">
+                            <a href="<?= base_url("/index.php/setting/master/cabang/$data_branch->id") ?>" class="text-dark font-weight-bold text-hover-primary font-size-h4">
                                 <?= $data_branch->name ?>
                             </a>
                         </div>

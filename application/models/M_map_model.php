@@ -4,6 +4,7 @@ class M_map_model extends CI_Model
 {
     function get($where)
     {
+        $where['flag <>'] = 99;
         return $this->db->get_where("m_map", $where);
     }
 

@@ -2,9 +2,16 @@
 <div id="kt_header_mobile" class="header-mobile">
     <!--begin::Logo-->
     <a href="<?= base_url() ?>">
-        <h1 class="display-3">
-            Flowstream
-        </h1>
+        <?php if ($this->session->branch_obj) : ?>
+            <h1 class="display-4 text-white font-weight-bold">
+                <img src="<?= base_url("/attachment") ?>/<?= $this->session->branch_obj->logo ?>" class="rounded-circle" alt="" style="height: 3.5rem;">
+                <?= $this->session->branch_obj->name ?>
+            </h1>
+        <?php else : ?>
+            <h1 class="display-3 text-white font-weight-bold">
+                Flowstream
+            </h1>
+        <?php endif ?>
     </a>
     <!--end::Logo-->
     <!--begin::Toolbar-->
@@ -37,9 +44,16 @@
         <div class="d-none d-lg-flex align-items-center mr-3">
             <!--begin::Logo-->
             <a href="<?= base_url() ?>" class="mr-20">
-                <h1 class="display-3">
-                    Flowstream
-                </h1>
+                <?php if ($this->session->branch_obj) : ?>
+                    <h1 class="display-4 text-white font-weight-bold">
+                        <img src="<?= base_url("/attachment") ?>/<?= $this->session->branch_obj->logo ?>" class="rounded-circle" alt="" style="height: 6rem;">
+                        <?= $this->session->branch_obj->name ?>
+                    </h1>
+                <?php else : ?>
+                    <h1 class="display-3 text-white font-weight-bold">
+                        Flowstream
+                    </h1>
+                <?php endif ?>
             </a>
             <!--end::Logo-->
         </div>

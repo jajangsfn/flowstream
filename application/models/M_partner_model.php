@@ -88,12 +88,14 @@ class M_partner_model extends CI_Model
         $this->db->select("
             p.*,
             b.name as branch,
-            m.name as master
+            m.name as master,
+            map.price_index as index_harga
         ");
 
         $this->db->from("m_partner p");
         $this->db->join("m_branch b", "b.id = p.branch_id", "left");
         $this->db->join("m_master m", "m.code = p.master_code", "left");
+        $this->db->join("m_map map", "map.partner_type = p.partner_type", "left");
 
         $where['p.flag <>'] = 99;
         $where['p.is_customer'] = 1;
