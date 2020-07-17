@@ -131,7 +131,7 @@ class T_pos_model extends CI_Model
         foreach ($retur_detail as $key => $val) {
             
             // ambil data pos
-            $po_detail  = $this->db->query("SELECT tab1.reference_no,tab2.* 
+            $po_detail  = $this->db->query("SELECT tab1.order_no,tab1.reference_no,tab2.* 
                                                     FROM t_pos tab1 
                                                     JOIN t_pos_detail tab2 ON tab2.pos_id=tab1.id
                                                     WHERE tab1.flag = 2 and 
@@ -148,9 +148,8 @@ class T_pos_model extends CI_Model
             $order_detail = $this->db->query("SELECT tab2.* FROM t_order_request tab1 
                                                   JOIN t_order_request_detail tab2 ON tab2.order_request_id=tab1.id  and tab2.flag<>99
                                                   WHERE tab1.flag =2 and  
-                                                        tab1.order_no='".$val->reference_no."' 
+                                                        tab1.order_no='".$po_detail->order_no."' 
                                                         and tab2.goods_id=".$val->goods_id)->row();
-            // echo json_encode($receiving_detail);exit;
             // update data receiving
             $this->db->set("quantity","quantity+".$val->quantity,FALSE);
             $this->db->where("id",$order_detail->id);
