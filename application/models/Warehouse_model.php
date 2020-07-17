@@ -26,7 +26,7 @@ class Warehouse_model extends CI_Model
 		$this->db->join("m_warehouse tab4","tab4.id=tab1.actual_warehouse","LEFT");
 		$this->db->join("m_goods tab5","tab5.id=tab2.goods_id","left");
 
-		if ($where) {
+		if ($where) { 
 
 			$this->db->where($where);
 		}

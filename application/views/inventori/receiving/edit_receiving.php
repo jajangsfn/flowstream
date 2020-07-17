@@ -21,13 +21,13 @@
 						</a>
 					<!--end::Daterange-->
 					
-					</div>
+					</div> 
 					<!--end::Toolbar-->
 				</div>
 		    </div>
 		    <!-- end card header -->
 		    <div class="card-body">
-		      	<form method="post" action="<?=base_url()?>index.php/inventori/receiving">
+		      	<form method="post" action="<?=base_url()?>index.php/inventori/receiving" id="form_receiving">
 		      		<input type="hidden" name="id" id="rv_id" value="<?=($master) ? $master[0]->receiving_id : ""?>">
 					<input type="hidden" name="branch_id" id="branch_id" value="<?=($master) ? $master[0]->branch_id : ""?>">
 					<input type="hidden" name="partner_name" id="partner_name" value="<?=($master) ? $master[0]->partner_name : ""?>">
@@ -180,7 +180,7 @@
 							</table>
 
 							<div class="text-center">
-								<button type="submit" class="btn btn-light-success btn-md" id="btn_save_receiving">
+								<button type="button" class="btn btn-light-success btn-md" id="btn_save_receiving">
 									<span class="fa la-save"></span> Save
 								</button>
 

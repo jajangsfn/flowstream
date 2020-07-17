@@ -59,6 +59,13 @@
 		    });
 		});
 
+		$('.scrollTable').DataTable( {
+	        "scrollY":        "300px",
+	        "scrollCollapse": true,
+	        "paging":         false,
+	        "ordering" : false,
+	    });
+
 	});
 </script>
 <script type="text/javascript">
@@ -171,7 +178,7 @@
 			$.each(chart_goods,function(id,val){
 				total = ((val.price * val.qty) - ((val.price * val.qty) * val.discount)/100);
 				grant_total+=total;
-				total = total > 0 ?  (total/1000).toFixed(3)  : 0;
+				total = total > 0 ?  numeral(total).format('0,0[.]00')  : 0;
 				rows+="<tr id='"+id+"'>";
 				rows+="<td>"+(id+1)+"</td>";
 				rows+="<td class='goods_code_chart'>";
@@ -196,7 +203,7 @@
 		// grant_total = (grant_total/1000).toFixed(3);
 
 		$("#goods_chart_table").append(rows);
-		$("#grant_total").html(grant_total);
+		$("#grant_total").html(numeral( grant_total ).format('0,0[.]00') );
 		
 	}
 

@@ -51,7 +51,6 @@
 					$("#warehouse_id").val('');
 
 					if ( parse.length > 0 ) {
-						console.log( parse[0].warehouse_id );
 						// set arehouse_id
 						$("#warehouse_id").val( parse[0].warehouse_id);
 						$("#goods_list").html('<option value="">Pilih Barang</option>');
@@ -101,7 +100,10 @@
 		var goods_price = parseInt( $("#harga_barang").val() );
 		var goods_qty  = parseInt( $("#quantity").val() );
 		var goods_qty_receive  = parseInt( $("#qty_receive").val() );
-
+		var goods_warehouse_id = $("#warehouse_id").val();
+		var goods_warehouse_name= $("#warehouse_id option:selected").text();
+		// console.log(goods_warehouse_id.split('_'));
+		// alert(goods_warehouse_name);
 		if ( goods_id ) {
 			var save_goods = {};
 			save_goods.id = goods_id;
@@ -111,6 +113,8 @@
 			save_goods.qty  = goods_qty;
 			save_goods.qty_receive = goods_qty_receive;
 			save_goods.discount  = 0;
+			save_goods.ws_id = goods_warehouse_id;
+			save_goods.ws_name= goods_warehouse_name;
 
 			if ( goods_qty > goods_qty_receive)
 			{
@@ -118,6 +122,7 @@
 			} else {
 
 				var same = false;
+				console.log(save_goods);
 				$.each(chart_goods,function(id,val){
 					if (val.id == goods_id)
 					{
@@ -126,7 +131,10 @@
 							Swal.fire("Info", "Jumlah retur melebihi jumlah penerimaan!", "error");
 						}else {
 							val.qty+=goods_qty;
+							val.ws_id = goods_warehouse_id;
+							val.ws_name = goods_warehouse_name;
 						}
+
 
 						same = true;
 						
@@ -160,6 +168,7 @@
 		if (chart_goods.length > 0 ){
 
 			$.each(chart_goods,function(id,val){
+				
 				total = (val.price * val.qty);
 				grant_total+=total;
 				total = total > 0 ?  (total/1000).toFixed(3)  : 0;
@@ -171,6 +180,7 @@
 				rows+="<input type='hidden' name='goods_code_chart[]' id='goods_code_chart' value='"+val.code+"'>"+val.code+"</td>";
 				
 				rows+= "<td>"+val.name+"'</td>";
+				rows+="<td><input type='hidden' name='goods_ws_id_chart[]' id='goods_ws_id_chart_"+id+"' value='"+val.ws_id+"'>"+val.ws_name+"</td>";
 				rows+="<td class='goods_price_chart'>";
 				rows+="<input type='hidden' name='goods_price_chart[]' class='form-control w-50' id='goods_price_chart_"+id+"' value='"+val.price+"'>"+val.price+"</td>";
 				rows+="<td><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' onchange='sum_total_goods("+id+")'></td>";
@@ -179,10 +189,10 @@
 				rows+="</tr>";	
 			});
 
-			$("#btn_save_purchase").attr('disabled',false);
+			$("#btn_save_return").prop('disabled',false);
 		}else {
 			rows+="<tr><td colspan='9' class='text-center'>Data Kosong</td></tr>";
-			$("#btn_save_return").attr('disabled',true);
+			$("#btn_save_return").prop('disabled',true);
 		}
 
 		$("#goods_return_table").append(rows);
@@ -254,12 +264,21 @@
 	}
 
 	function delete_goods_from_chart(id)
-	{
-		if ( confirm('Anda yakin ingin menghapus barang ini?') ){
-			
-			chart_goods.splice(id,1);
-			show_chart_goods();
-		}
+	{		
+		Swal.fire({
+		        title: "Anda yakin ingin memproses transaksi ini?",
+		        text: "",
+		        icon: "warning",
+		        showCancelButton: true,
+		        confirmButtonText: "Proses"
+		    }).then(function(result) { 
+
+		        if (result.value) {
+
+		        	chart_goods.splice(id,1);
+					show_chart_goods();
+		        }
+		    });
 	}
 
 	function clear_goods_chart()
@@ -273,6 +292,8 @@
 		$("#qty_receive").val(0);
 		$("#quantity").val(1);
 		$("#harga_barang").val('');	
+		$("#warehouse_id").val('1');
+		$("#warehouse_id").selectpicker('refresh');
 		// $("#goods_discount").val(0);
 	}
 
@@ -290,7 +311,7 @@
 		        	 $.get("<?=base_url()?>index.php/pembelian/approve_return/",
 		        	 	{"return_id":return_id})
 		        	 .done(function(msg){
-
+		        	 	// console.log(msg);
 		        	 	if (msg) {
 		        	 		Swal.fire(
 				                "Tersimpan!",
@@ -332,15 +353,16 @@
 			if (chart_goods) {
 
 				$.each(parse, function(id, val) {
-					console.log(val);
 
 					var save_goods = {};
 					save_goods.id = val.goods_id;
 					save_goods.code = val.sku_code;
 					save_goods.name = val.goods_name;
 					save_goods.price= val.price;
-					save_goods.qty  = val.quantity;
+					save_goods.qty  = parseInt(val.quantity);
 					save_goods.qty_receive = val.qty_receive;
+					save_goods.ws_id   = val.warehouse_id;
+					save_goods.ws_name = val.warehouse_name;
 					chart_goods.push(save_goods);
 				});
 
