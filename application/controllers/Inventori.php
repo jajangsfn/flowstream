@@ -224,9 +224,10 @@ class Inventori extends CI_Controller
     public function print_receive($id)
     {
         
-        $data = $this->rm->get_all_receive("tab1.id=".$id,null,"tab3.id")->result(); 
-        
-        $this->pdf->print_receive(1,$data); 
+        $data = $this->rm->get_all_receive("tab1.id=".$id,null,"tab3.id")->result_array(); 
+        // echo json_encode($data);exit;
+        // $this->pdf->print_receive(1,$data); 
+        $this->pdf->dynamic_print(1, "receive_in", $data);
     }
 
 

@@ -467,9 +467,11 @@ class Pembelian extends CI_Controller
  
     public function print_po($id)
     {
-        $data = $this->po->get_all_trx(array("tab1.id"=>$id),array("tab1.id","tab5.id"))->result();  
-        
-        $this->pdf->print_po(1,$data); 
+        $data = $this->po->get_all_trx(array("tab1.id"=>$id),array("tab1.id","tab5.id"))->result_array();  
+        // echo json_encode($data);exit;   
+        // $this->pdf->print_po(1,$data); 
+
+        $this->pdf->dynamic_print(1, "po_in", $data);
     }
 
 
@@ -477,6 +479,56 @@ class Pembelian extends CI_Controller
     {
         $id = 4;
 
-        $this->return->cut_qty($id);
+        $index = 0;
+        
+
+        for ($i=0; $i <40 ; $i++) { 
+            // $data[$index] = new \stdClass();
+            // $data[$index] = array();
+            // $data[$index]['partner_name'] = "PT ABCD";
+            // $data[$index]['salesman_name'] =  $this->generateRandomString(20);
+            // $data[$index]['purchase_order_no']     = '00000131202007000001';
+            // $data[$index]['purchase_order_date']   = date('Y-m-d');
+            // $data[$index]['reference_no']  = '00000125202007000012';
+            // $data[$index]['goods_name']    = $this->generateRandomString(20);
+            // $data[$index]['sku_code']      = $this->generateRandomString(5);
+            // $data[$index]['price']         =  rand(1000, 155000);
+            // $data[$index]['quantity']      =  rand(10, 2390); 
+
+            $data[$index] = array();
+            $data[$index]['partner_name'] = "PT ABCD";
+            $data[$index]['salesman_name'] =  $this->generateRandomString(20);
+            $data[$index]['receiving_no']     = '00000131202007000001';
+            $data[$index]['created_date']   = date('Y-m-d');
+            // $data[$index]['reference_no']  = '00000125202007000012';
+            $data[$index]['goods_name']    = $this->generateRandomString(20);
+            $data[$index]['sku_code']      = $this->generateRandomString(5);
+            $data[$index]['plu_code']      = rand(1000, 155000);
+            $data[$index]['price']         =  rand(1000, 155000);
+            $data[$index]['receive_qty']      =  rand(10, 2390); 
+            $data[$index]['discount']      =  rand(0,10); 
+
+
+            $index+=1;
+        }
+       
+
+
+        // echo json_encode($data);
+        $this->pdf->dynamic_print(1,"receive_in",$data);
     }
+
+
+    function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+
+
 }
