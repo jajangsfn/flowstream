@@ -54,7 +54,7 @@ class Landing extends CI_Controller
  
 		// check if login data match in database
 		$user_query = $this->user_m->get($login_data);
-		// echo json_encode($user_query);exit;
+		// echo json_encode($user_query);exit; 
 		if ($user_query->num_rows()) {
 			// do login
 			$this->session->set_userdata(
@@ -66,6 +66,7 @@ class Landing extends CI_Controller
 					"id" => $user_query->row()->id,
 					"branch_id" => $user_query->row()->branch_id,
 					"branch_name" => $user_query->row()->branch_name,
+					"branch_address" => $user_query->row()->address,
 				)
 			);
 		} else {

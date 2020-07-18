@@ -78,7 +78,7 @@ class Api extends CI_Controller
 
         // check if login data match in database
         $user_query = $this->user_m->get($login_data);
-
+    
         if ($user_query->num_rows()) {
 
             if ($user_query->row()->role_code != "ROLE_ADMIN") {
@@ -97,7 +97,8 @@ class Api extends CI_Controller
                     "branch_id" => $user_query->row()->branch_id,
                     "branch_name" => $user_query->row()->branch_name,
                     "role_code" => $user_query->row()->role_code,
-                    "branch_obj" => $branch_query
+                    "branch_obj" => $branch_query,
+                    "branch_address" => $user_query->row()->address,
                 )
             );
             // report last login
