@@ -9,7 +9,10 @@
             <!--begin::Wrapper-->
             <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
                 <?php $this->load->view("component/topbar"); ?>
-                <?php $this->load->view("component/header_menu"); ?>
+                <?php if (!isset($no_header) || !$no_header) {
+                    $this->load->view("component/header_menu");
+                }
+                ?>
 
                 <?php if (!(isset($transactional) && $transactional)) : ?>
                     <!--begin::Container-->

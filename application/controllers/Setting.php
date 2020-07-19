@@ -19,10 +19,12 @@ class Setting extends CI_Controller
                 "Delivery_cost_model" => "delivery_cost",
                 "M_goods_model" => "goods",
                 "M_unit_model" => "unit",
+                "M_employee_model" => "emp",
                 "M_branch_model" => "branch",
                 "M_master_model" => "master",
                 "M_partner_model" => "partner",
                 "M_partner_salesman_model" => "part_salesman",
+                "M_user_salesman_model" => "part_usr_salesman",
                 "M_partner_type_model" => "partner_type",
                 "M_salesman_model" => "salesman",
                 "M_salesman_map_model" => "salesman_map",
@@ -65,6 +67,7 @@ class Setting extends CI_Controller
 
     private function cabang($id = '', $firstpath = '', $second_path = '', $third_path = '', $fourth_path = '', $fifth_path = '')
     {
+        $data['transactional'] = true;
         if ($id) {
             // data cabang
             $content['data_branch'] = $this->branch->get(array("id" => $id))->row();
@@ -150,15 +153,41 @@ class Setting extends CI_Controller
                     }
                     break;
                 case "customer":
-                    $data['page_title'] = "Daftar Customer untuk Cabang " . $content['data_branch']->name;
+                    if ($third_path == "salesman") {
+                        // data supplier nya
+                        $content['data_customer'] = $this->partner->get(
+                            array(
+                                "id" => $second_path,
+                            )
+                        )->row();
 
-                    $content['m_master'] = $this->master->get_all()->result();
-                    $content['m_partner_type'] = $this->partner_type->get(array("branch_id" => $id))->result();
+                        $content['data_salesman'] = $this->part_usr_salesman->get(
+                            array(
+                                "partner_id" => $second_path,
+                            )
+                        )->result();
 
-                    $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
-                    $data['page_content'] = $this->load->view("setting/master/cabang/customer", $content, true);
-                    $data['page_js'] = $this->load->view("setting/master/cabang/customer_js", $content, true);
-                    $data['transactional'] = true;
+                        $content['m_employee'] = $this->emp->get(
+                            array(
+                                "branch_id" => $id,
+                            )
+                        )->result();
+
+                        $data['page_title'] = "Daftar User Salesman untuk Customer " . $content['data_customer']->name;
+                        $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id . "/customer");
+                        $data['page_content'] = $this->load->view("setting/master/cabang/customer/salesman", $content, true);
+                        $data['page_js'] = $this->load->view("setting/master/cabang/customer/salesman_js", "", true);
+                    } else {
+                        $data['page_title'] = "Daftar Customer untuk Cabang " . $content['data_branch']->name;
+
+                        $content['m_master'] = $this->master->get_all()->result();
+                        $content['m_partner_type'] = $this->partner_type->get(array("branch_id" => $id))->result();
+
+                        $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+                        $data['page_content'] = $this->load->view("setting/master/cabang/customer/customer", $content, true);
+                        $data['page_js'] = $this->load->view("setting/master/cabang/customer/customer_js", $content, true);
+                        $data['transactional'] = true;
+                    }
                     break;
                 case "gudang":
                     $data['page_title'] = "Daftar Gudang untuk Cabang " . $content['data_branch']->name;

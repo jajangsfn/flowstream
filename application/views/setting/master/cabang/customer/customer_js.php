@@ -8,7 +8,8 @@
                     data: 'id',
                     render: function(data, type, row, meta) {
                         return `<div class="text-center">${meta.row + 1}</div>`;
-                    }
+                    },
+                    responsivePriority: 1
                 },
                 {
                     data: 'name',
@@ -62,6 +63,22 @@
                 },
                 {
                     data: 'tax_address'
+                },
+                {
+                    data: 'salesman_total',
+                    responsivePriority: -1,
+                    render: function(data, type, row, meta) {
+                        return `
+                        <div class="d-flex justify-content-center align-items-center">
+                            <a href="<?= base_url("/index.php/setting/master/cabang/$data_branch->id/customer/") ?>${row.id}/salesman" class="btn btn-sm btn-light-warning">
+                            ${data} <i class="flaticon2-user px-0 mx-0"></i>
+                            </a>
+                        </div>
+                        `;
+                    },
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        $(td).attr('nowrap', 'nowrap').addClass("text-center")
+                    }
                 },
                 {
                     data: 'id',
