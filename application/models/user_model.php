@@ -6,10 +6,12 @@ class User_Model extends CI_Model
     {
         $this->db->select("
         m_user.*,
+        m_branch.address,
         ifnull(m_employee.branch_id,1) branch_id,
         s1.detail_data as level_name, 
         s2.detail_data as position_name, 
         ifnull(m_branch.name, '') branch_name");
+      
         $this->db->from("m_user");
         $this->db->join("m_employee", "m_employee.user_id = m_user.id", "left");
         $this->db->join("m_branch", "m_branch.id = m_employee.branch_id", "left");

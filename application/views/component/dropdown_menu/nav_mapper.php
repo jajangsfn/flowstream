@@ -57,9 +57,9 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             null
         ),
         new NavItem(
-            "/index.php/penjualan/retur",
+            "/index.php/penjualan/return",
             null,
-            "/index.php/penjualan/retur",
+            "/index.php/penjualan/return",
             "Retur Penjualan",
             null,
             null

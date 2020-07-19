@@ -79,7 +79,7 @@ class Api extends CI_Controller
 
         // check if login data match in database
         $user_query = $this->user_m->get($login_data);
-
+    
         if ($user_query->num_rows()) {
 
             if ($user_query->row()->role_code != "ROLE_ADMIN") {
@@ -100,7 +100,8 @@ class Api extends CI_Controller
                     "level" => $user_query->row()->level_name,
                     "position" => $user_query->row()->position_name,
                     "role_code" => $user_query->row()->role_code,
-                    "branch_obj" => $branch_query
+                    "branch_obj" => $branch_query,
+                    "branch_address" => $user_query->row()->address,
                 )
             );
             // report last login
@@ -824,7 +825,9 @@ class Api extends CI_Controller
             "order_no" => $_POST['order_no'],
             "description" => $_POST['description'],
             "created_by" => $this->session->id,
-            "updated_by" => $this->session->id
+            "updated_by" => $this->session->id,
+            #"warehouse_id"=>1, // di default dulu
+            "flag"=>1,
         );
 
         $this->pos->insert($pos_data);
@@ -838,13 +841,14 @@ class Api extends CI_Controller
             $pos_det_data = array(
                 "pos_id" => $id_new_pos,
                 "goods_id" => $good['goods_id'],
-                "warehouse_id" => null,
+                "warehouse_id" => 1, // default dulu buat test
                 "goods_name" => $good['goods_name'],
                 "quantity" => $good['quantity'],
                 "discount" => $good['discount'],
                 "discount_code" => null,
                 "tax" => null,
-                "total" => $good['total']
+                "total" => $good['total'],
+
             );
 
             $this->pos->insert_detail($pos_det_data);
