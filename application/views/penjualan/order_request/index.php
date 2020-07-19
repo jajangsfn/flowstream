@@ -8,7 +8,7 @@
                 </h3>
             </div>
             <div class="card-body daftar_barang_container pt-0">
-                <input type="text" class="form-control my-4" placeholder="Cari Barang" onkeyup="suggester_me(event, this)"/>
+                <input type="text" class="form-control my-4" placeholder="Cari Barang" onkeyup="suggester_me(event, this)" />
                 <div class="scroll scroll-pull ps ps--active-y goods_placement" data-scroll="true" data-wheel-propagation="true" style="max-height: 50vh; height: 100%; overflow: hidden;">
                 </div>
             </div>
@@ -36,6 +36,12 @@
                                 <?php foreach ($customers as $customer) : ?>
                                     <option value="<?= $customer->id ?>"><?= $customer->name ?> (<?= $customer->branch ?>)</option>
                                 <?php endforeach ?>
+                            </select>
+                        </div>
+                        <div class="form-group" id="user_salesman_id_cell" style="display: none;">
+                            <small>Pilih Salesman</small>
+                            <select id="pilih_salesman" name="user_salesman_id">
+                                <option label="Label"></option>
                             </select>
                         </div>
                     </div>

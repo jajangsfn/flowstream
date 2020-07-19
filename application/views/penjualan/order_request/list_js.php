@@ -27,9 +27,9 @@
                     responsivePriority: -1,
                     render: function(data, type, row, meta) {
                         if (data == 1) {
-                            return "<span class='text-info'>Faktur Belum Dicetak</span>";
+                            return "<span class='text-info'>New Order</span>";
                         } else if (data == 2) {
-                            return "<span class='text-success'>Faktur Telah Dicetak</span>";
+                            return "<span class='text-success'>Complete</span>";
                         }
                     },
                     createdCell: function(td, cellData, rowData, row, col) {
@@ -43,7 +43,7 @@
                         var ext_button = "";
                         if (row.flag == 1) {
                             ext_button = `
-                            <a class="btn btn-icon btn-sm btn-light-primary" data-toggle="tooltip" data-placement="top" title="cetak faktur pajak" href="<?= base_url("/index.php/penjualan/pos/cetak_faktur_pajak/") ?>${data}">
+                            <a class="btn btn-icon btn-sm btn-light-primary" data-toggle="tooltip" data-placement="top" title="cetak faktur" href="<?= base_url("/index.php/penjualan/pos/cetak_faktur/") ?>${data}">
                                 <i class="flaticon2-checkmark"></i>
                             </a>
                             <button type="button" class="btn btn-icon btn-sm btn-light-danger" onclick="delete_trigger(

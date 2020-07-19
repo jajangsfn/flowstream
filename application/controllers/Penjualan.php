@@ -88,13 +88,13 @@ class Penjualan extends CI_Controller
 
     public function pos($command = '', $id_or = '')
     {
-        if ($command == "cetak_faktur_pajak") {
-            $data['page_title'] = "Point of Sales - Cetak Faktur Pajak";
+        if ($command == "cetak_faktur") {
+            $data['page_title'] = "Point of Sales - Cetak Faktur";
             $data['back_url'] = base_url("/index.php/penjualan/order_request");
             $content['data_or'] = $this->or->get_specific($id_or);
 
-            $data['page_content'] = $this->load->view("penjualan/pos/cetak_faktur_pajak", $content, true);
-            $data['page_js'] = $this->load->view("penjualan/pos/cetak_faktur_pajak_js", $content, true);
+            $data['page_content'] = $this->load->view("penjualan/pos/cetak_faktur", $content, true);
+            $data['page_js'] = $this->load->view("penjualan/pos/cetak_faktur_js", $content, true);
         } else if ($command == "add") {
             $data['page_title'] = "Transaksi Baru - Point of Sales";
             $data['back_url'] = base_url("/index.php/penjualan/pos");

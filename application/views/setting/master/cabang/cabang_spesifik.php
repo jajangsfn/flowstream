@@ -90,6 +90,53 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="card mt-8">
+                    <div class="card-header">
+                        <div class="card-title m-0">
+                            <h5 class="card-label font-weight-bolder text-dark m-0">Master Employee</h5>
+                        </div>
+                    </div>
+                    <div class="card-body pt-4">
+                        <!--begin::Nav-->
+                        <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+                            <div class="navi-item mb-2">
+                                <a href="<?= current_url() ?>/employee" class="navi-link py-4">
+                                    <span class="navi-icon mr-2">
+                                        <span class="flaticon2-"></span>
+                                    </span>
+                                    <span class="navi-text font-size-lg">Employee</span>
+                                </a>
+                            </div>
+                            <div class="navi-item mb-2">
+                                <a href="<?= current_url() ?>/role" class="navi-link py-4">
+                                    <span class="navi-icon mr-2">
+                                        <span class="flaticon2-"></span>
+                                    </span>
+                                    <span class="navi-text font-size-lg">Role</span>
+                                </a>
+                            </div>
+                            <div class="navi-item mb-2">
+                                <a href="<?= current_url() ?>/reference/employee_level" class="navi-link py-4">
+                                    <span class="navi-icon mr-2">
+                                        <span class="flaticon-refresh"></span>
+                                    </span>
+                                    <span class="navi-text font-size-lg">Level</span>
+                                </a>
+                            </div>
+                            <div class="navi-item mb-2">
+                                <a href="<?= current_url() ?>/reference/employee_position" class="navi-link py-4">
+                                    <span class="navi-icon mr-2">
+                                        <span class="flaticon-refresh"></span>
+                                    </span>
+                                    <span class="navi-text font-size-lg">Position</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!--end::Nav-->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-6">
@@ -222,22 +269,6 @@
                                         <span class="flaticon-refresh"></span>
                                     </span>
                                     <span class="navi-text font-size-lg">Goods Color</span>
-                                </a>
-                            </div>
-                            <div class="navi-item mb-2">
-                                <a href="<?= current_url() ?>/reference/employee_level" class="navi-link py-4">
-                                    <span class="navi-icon mr-2">
-                                        <span class="flaticon-refresh"></span>
-                                    </span>
-                                    <span class="navi-text font-size-lg">Employee Level</span>
-                                </a>
-                            </div>
-                            <div class="navi-item mb-2">
-                                <a href="<?= current_url() ?>/reference/employee_position" class="navi-link py-4">
-                                    <span class="navi-icon mr-2">
-                                        <span class="flaticon-refresh"></span>
-                                    </span>
-                                    <span class="navi-text font-size-lg">Employee Position</span>
                                 </a>
                             </div>
                             <div class="navi-item mb-2">

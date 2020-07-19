@@ -32,6 +32,7 @@
                     <th>Tipe Partner</th>
                     <th>Sales Price Level</th>
                     <th>Alamat Pajak</th>
+                    <th>Salesman</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
