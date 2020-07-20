@@ -55,11 +55,12 @@
             success: function(result) {
                 branch_id = result.data.branch_id;
                 index_harga = result.data.index_harga;
-
+                customer_id = result.data.id;
+                
                 $("#branch_id_afterselect").val(branch_id);
                 $("#partner_name_afterselect").val(result.data.name);
 
-                // get Order Request Number
+                // get Order POS Number
                 $.ajax({
                     method: "get",
                     url: "<?= base_url("/index.php/api/get_pos_number/") ?>" + branch_id,
@@ -69,6 +70,24 @@
                     },
                     error: function(response) {
                         console.log(response.responseText);
+                    }
+                })
+
+                // get daftar salesman
+                $.ajax({
+                    url: "<?= base_url("/index.php/api/usr_salesman/") ?>" + customer_id,
+                    success: function(result) {
+                        $("#pilih_salesman").append(
+                            result.data.map(function(datum) {
+                                return (
+                                    `<option value="${datum.id}">${datum.name}</option>`
+                                )
+                            })
+                        ).select2({
+                            placeholder: "Pilih Salesman",
+                            width: "100%"
+                        })
+                        $("#user_salesman_id_cell").fadeIn();
                     }
                 })
 

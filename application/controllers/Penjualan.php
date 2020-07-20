@@ -34,14 +34,22 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    public function order_request()
+    public function order_request($command = '', $id_or = '')
     {
-        // tampilkan list of order request
-        $data['page_title'] = "Penjualan - Daftar Order Request";
-        $data['back_url'] = base_url("/index.php/penjualan/home");
-
-        $data['page_content'] = $this->load->view("penjualan/order_request/list", "", true);
-        $data['page_js'] = $this->load->view("penjualan/order_request/list_js", "", true);
+        if ($command == "view") {
+            $data['page_title'] = "Penjualan - Order Request";
+            $data['back_url'] = base_url("/index.php/penjualan/order_request");
+            $content['data_or'] = $this->or->get_specific($id_or);
+            
+            $data['page_content'] = $this->load->view("penjualan/order_request/view/view", $content, true);
+        } else {
+            // tampilkan list of order request
+            $data['page_title'] = "Penjualan - Daftar Order Request";
+            $data['back_url'] = base_url("/index.php/penjualan/home");
+    
+            $data['page_content'] = $this->load->view("penjualan/order_request/list", "", true);
+            $data['page_js'] = $this->load->view("penjualan/order_request/list_js", "", true);
+        }
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

@@ -15,7 +15,20 @@
                     }
                 },
                 {
-                    data: 'brand_description'
+                    data: 'brand_name',
+                    render: function(data, type, row, meta) {
+                        return `
+                        <div>
+                            <span class="font-size-h6 font-weight-bold">${data}</span>
+                        </div>
+                        <div>
+                            <span>${row.brand_description}</span>
+                        </div>
+                        <div>
+                            <small>${row.sku_code}</small>
+                        </div>
+                        `;
+                    }
                 },
                 {
                     data: 'default_price',

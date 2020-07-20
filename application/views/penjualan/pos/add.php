@@ -39,6 +39,12 @@
                                 <?php endforeach ?>
                             </select>
                         </div>
+                        <div class="form-group" id="user_salesman_id_cell" style="display: none;">
+                            <small>Pilih Salesman</small>
+                            <select id="pilih_salesman" name="user_salesman_id">
+                                <option label="Label"></option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="d-flex align-items-center justify-content-end">

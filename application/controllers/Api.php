@@ -818,6 +818,7 @@ class Api extends CI_Controller
         $pos_data = array(
             "branch_id" => $_POST['branch_id'],
             "partner_name" => $_POST['partner_name'],
+            "user_salesman_id" => $_POST['user_salesman_id'],
             "invoice_no" => $_POST['invoice_no'],
             "tax_no" => null,
             "partner_id" => $_POST['partner_id'],
