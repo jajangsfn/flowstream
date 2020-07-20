@@ -179,7 +179,7 @@ class Pembelian extends CI_Controller
         $this->load->view('layout/js');
         $this->load->view('pembelian/return/return_js'); 
     }
-
+ 
 
     public function get_receive_goods()
     {
@@ -468,9 +468,6 @@ class Pembelian extends CI_Controller
     public function print_po($id)
     {
         $data = $this->po->get_all_trx(array("tab1.id"=>$id),array("tab1.id","tab5.id"))->result_array();  
-        // echo json_encode($data);exit;   
-        // $this->pdf->print_po(1,$data); 
-
         $this->pdf->dynamic_print(1, "po_in", $data);
     }
 
@@ -482,31 +479,47 @@ class Pembelian extends CI_Controller
         $index = 0;
         
 
-        for ($i=0; $i <40 ; $i++) { 
+        for ($i=0; $i <30 ; $i++) { 
             // $data[$index] = new \stdClass();
-            // $data[$index] = array();
-            // $data[$index]['partner_name'] = "PT ABCD";
-            // $data[$index]['salesman_name'] =  $this->generateRandomString(20);
-            // $data[$index]['purchase_order_no']     = '00000131202007000001';
-            // $data[$index]['purchase_order_date']   = date('Y-m-d');
-            // $data[$index]['reference_no']  = '00000125202007000012';
-            // $data[$index]['goods_name']    = $this->generateRandomString(20);
-            // $data[$index]['sku_code']      = $this->generateRandomString(5);
-            // $data[$index]['price']         =  rand(1000, 155000);
-            // $data[$index]['quantity']      =  rand(10, 2390); 
-
             $data[$index] = array();
+            // PO
             $data[$index]['partner_name'] = "PT ABCD";
             $data[$index]['salesman_name'] =  $this->generateRandomString(20);
-            $data[$index]['receiving_no']     = '00000131202007000001';
-            $data[$index]['created_date']   = date('Y-m-d');
-            // $data[$index]['reference_no']  = '00000125202007000012';
+            $data[$index]['purchase_order_no']     = '00000131202007000001';
+            $data[$index]['purchase_order_date']   = date('Y-m-d');
+            $data[$index]['reference_no']  = '00000125202007000012';
             $data[$index]['goods_name']    = $this->generateRandomString(20);
             $data[$index]['sku_code']      = $this->generateRandomString(5);
-            $data[$index]['plu_code']      = rand(1000, 155000);
-            $data[$index]['price']         =  rand(1000, 155000);
-            $data[$index]['receive_qty']      =  rand(10, 2390); 
-            $data[$index]['discount']      =  rand(0,10); 
+            $data[$index]['plu_code']      = rand(000000,9999999);
+            $data[$index]['goods_price']         =  rand(1000, 155000);
+            $data[$index]['goods_qty']      =  rand(10, 2390); 
+
+            // $data[$index] = array();
+            // RECEIVING
+            // $data[$index]['partner_name'] = "PT ABCD";
+            // $data[$index]['salesman_name'] =  $this->generateRandomString(20);
+            // $data[$index]['receiving_no']     = '00000131202007000001';
+            // $data[$index]['created_date']   = date('Y-m-d');
+            // // $data[$index]['reference_no']  = '00000125202007000012';
+            // $data[$index]['goods_name']    = $this->generateRandomString(20);
+            // $data[$index]['sku_code']      = $this->generateRandomString(5);
+            // $data[$index]['plu_code']      = rand(1000, 155000);
+            // $data[$index]['price']         =  rand(1000, 155000);
+            // $data[$index]['receive_qty']      =  rand(10, 2390); 
+            // $data[$index]['discount']      =  rand(0,10); 
+
+
+            // $data[$index]['partner_name'] = "PT ABCD";
+            // $data[$index]['salesman_name'] =  $this->generateRandomString(20);
+            // $data[$index]['physical_warehouse_no']     = '00000131202007000001';
+            // $data[$index]['created_date']   = date('Y-m-d');
+            // // $data[$index]['reference_no']  = '00000125202007000012';
+            // $data[$index]['brand_description']    = $this->generateRandomString(20);
+            // $data[$index]['sku_code']      = $this->generateRandomString(5);
+            // $data[$index]['plu_code']      = rand(000000,9999999);
+            // $data[$index]['quantity']      =  rand(10, 2390); 
+            // $data[$index]['total_item']      =  rand(10, 2390); 
+            // $data[$index]['actual_warehouse_name']    = $this->generateRandomString(10);
 
 
             $index+=1;
@@ -515,7 +528,9 @@ class Pembelian extends CI_Controller
 
 
         // echo json_encode($data);
-        $this->pdf->dynamic_print(1,"receive_in",$data);
+        $this->pdf->dynamic_print(1,"po_in",$data);
+        // $this->pdf->dynamic_print(1,"receive_in",$data);
+        // $this->pdf->dynamic_print(1,"warehouse_in",$data);
     }
 
 

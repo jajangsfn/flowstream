@@ -386,9 +386,10 @@ class Inventori extends CI_Controller
     public function print_warehouse($id)
     {
         
-        $data = $this->t_ws->get_all(array("tab1.id"=>$id),array("tab2.id"))->result(); 
-        
-        $this->pdf->print_warehouse(1,$data); 
+        $data = $this->t_ws->get_all(array("tab1.id"=>$id),array("tab2.id"))->result_array(); 
+        // echo json_encode($data);exit;
+        // $this->pdf->print_warehouse(1,$data); 
+        $this->pdf->dynamic_print(1,"warehouse_in",$data);
     }
 
     public function edit_warehouse($ws_id) 

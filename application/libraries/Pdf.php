@@ -14,6 +14,35 @@ class pdf
 
 	function param_paper($type = 1)
 	{
+
+		$param_header = array(1 => array(
+										"title" => array(
+							 				"width" => 30,
+								 			"height" => 2.5,
+								 			"position_x" => 0.2,
+											"position_y" => 0.01
+										),
+										 "address" => array(
+										 	 "width" => 60,
+										 	 "height" =>2,
+										 	 "position_x" => 0.2,
+									     	 "position_y" => 0.8),
+										), 
+							 2 => array(
+							 			"title" => array(
+							 				"width" => 30,
+								 			"height" => 3.5,
+								 			"position_x" => 0.8,
+											"position_y" => 8
+										),
+										"address" => array(
+											"width" => 30,
+							 				"height" => 3.5,
+							 				"position_x" => 0.8,
+											"position_y" => 13,
+										), 										
+									  ),
+							);
 		// 1 pembelian
 		// 2 penjualan tes
 		$param_paper = array(1 => array(
@@ -29,7 +58,7 @@ class pdf
 												   "space" => 1.7,
 												   "header"=> array(
 												   					0 => array("position_x" => 0.2,
-												  								"position_y" => 0.7,
+												  								"position_y" => 1.8,
 												   								"name" => 0.2,
 												   								"pad" => 0.2,
 												   								"val" => 3,
@@ -37,7 +66,7 @@ class pdf
 												   								"align" => 'L',
 												   								"index" => "partner_name"),
 																	1 => array("position_x" => 0.2,
-												  								"position_y" => 1.2,
+												  								"position_y" => 2.2,
 												   								"name" => 2,
 												   								"pad" => 0.2,
 												   								"val" => 11.8,
@@ -45,7 +74,7 @@ class pdf
 												   								"align" => 'L',
 												   								"index" => 'salesman_name'),
 												   					2 => array("position_x" => 0.2,
-												   								"position_y" => 1.7,
+												   								"position_y" => 2.6,
 												   								"name" => 2,
 												   								"pad" => 0.2,
 												   								"val" => 11.8,
@@ -53,7 +82,7 @@ class pdf
 												   								"align" => 'L',
 												   								"index" => "purchase_order_no"),
 												   					3 => array("position_x" => 0.2,
-												   								"position_y" => 2.3,
+												   								"position_y" => 3,
 												   								"name" => 2,
 												   								"pad" => 0.2,
 												   								"val" => 11.8,
@@ -61,58 +90,71 @@ class pdf
 												   								"align" => 'L',
 												   								"index" => "purchase_order_date"),
 																),
-												   "body_position_y" => 3.2,
+												   "body_position_y" => 3.8,
 												   "body_position_x" => 0.3,
-												   "body_ln" => 0.6,
-												   "body_start_y" => 0.6,
+												   "body_ln" => 0.4,
+												   "body_start_y" => 0.4,
 												   "body_start_x" => 0.3,
 												   "body" => array(0 => array( "title"=> "No",
 												   								"width"=>0.6,
-												   								"height"=>0.6,
+												   								"height"=>0.4,
+												   								"align"=>'C',
+												   							),
+												   					1 => array( "title"=> "Kode Barang",
+												   								"width"=>4,
+												   								"height"=>0.4,
 												   								"align"=>'L',
 												   							),
-												   					1 => array( "title"=> "Nama Barang",
-												   								"width"=>9,
-												   								"height"=>0.6,
+												   					2 => array( "title"=> "Nama Barang",
+												   								"width"=>7,
+												   								"height"=>0.4,
 												   								"align"=>'L',
 												   							),
-												   					2 => array( "title"=> "Harga Satuan",
-												   								"width"=>3.5,
-												   								"height"=>0.6,
+												   					3 => array( "title"=> "Harga Satuan",
+												   								"width"=>2.5,
+												   								"height"=>0.4,
 												   								"align"=>'R',
 												   							),
-												   					3 => array( "title"=> "Qty (Pcs)",
-												   								"width"=>3.5,
-												   								"height"=>0.6,
+												   					4 => array( "title"=> "Qty (Pcs)",
+												   								"width"=>2.5,
+												   								"height"=>0.4,
 												   								"align"=>'R',
 												   							),
-												   					4 => array( "title"=> "Jumlah",
+												   					5 => array( "title"=> "Jumlah",
 												   								"width"=>3.5,
-												   								"height"=>0.6,
+												   								"height"=>0.4,
 												   								"align"=>'R',
 												   							),
 																	),
-												   "footer" => array("footer_ln" => 0.7,
+												   "footer" => array("footer_ln" => 0,
 												   					"signature" => array("title" => "Disahkan Oleh :",
 																						  "width" => 4,
 																						  "height" => 0.8,
 																						  "align"=>'L',
 																						  "position_x" => 0.3,
 																						), 
-												   					"total" => array("title" => "Jumlah Rp.",
-														   							"width" => 4,
-														   							"height" => 0.8,
+												   					"total" => array("title" => "Total Rp.",
+														   							"width" => 16.6,
+														   							"height" => 0.6,
 														   							"align"=>'R',
-														   							"position_x" => 15),
+														   							"position_x" => 0.3),
 														   			"summary" => array("title" => "",
 														   								"width" => 3.5,
-														   								"height" => 0.8,
+														   								"height" => 0.6,
 														   								"align"=>'R',
-														   								"position_x" => 17),
+														   								"position_x" => 16.9),
+
+														   			"terbilang" => array("title" => "Terbilang",
+														   							"width" => 16.6,
+														   							"height" => 0.6,
+														   							"align"=>'L',
+														   							"position_x" => 0.3),
 																	),
 
 														), //end size a4
-								2 => array("paper"=> array(215,139),
+								2 => array(
+											"paper"=> "a5",
+											// "paper"=> array(215,139),
 										   "view" => "L",
 										   "type_size" => "mm",
 										   "title_paper" => array( "title" => 'Bukti Purchase Order',
@@ -120,18 +162,18 @@ class pdf
 																	"height" => 1,
 																	"align" => 'C'),
 										   "title_position_y" => 5,
-										   "space" => 18,
+										   "space" => 16,
 										   "header"=> array(
-										   					0 => array("position_x" => 1,
-														   				"position_y" => 10,
+										   					0 => array("position_x" => 0.8,
+														   				"position_y" => 20,
 														   				"name" => 15,
-														   				"pad" => 1.7,
+														   				"pad" => 1.6,
 														   				"val" => 11.8,
 														   				"title" => 'Supplier',
 														   				"align" => 'L',
 														   				"index" => "partner_name"),
 														   	1 => array("position_x" => 0.8,
-														   				"position_y" => 15,
+														   				"position_y" => 24,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
@@ -139,7 +181,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => 'salesman_name'),
 														   	2 => array("position_x" => 0.8,
-														   				"position_y" => 20,
+														   				"position_y" => 28,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
@@ -147,7 +189,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => "purchase_order_no"),
 														   	3 => array("position_x" => 0.8,
-														   				"position_y" => 25,
+														   				"position_y" => 32,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
@@ -155,9 +197,9 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => "purchase_order_date"),
 																		),
-											"body_position_y" => 28,
+											"body_position_y" => 36,
 											"body_position_x" => 3,
-											"body_ln" => 5,
+											"body_ln" => 4,
 											"body_start_y" => 5,
 											"body_start_x" => 3,
 											"body" => array(0 => array( "title"=> "No",
@@ -165,46 +207,56 @@ class pdf
 														   				"height"=>5,
 														   				"align"=>'L',
 														   			  ),
-														   	1 => array( "title"=> "Nama Barang",
-														   				"width"=>83,
+															1 => array( "title"=> "Kode Barang",
+														   				"width"=>23,
+														   				"height"=>5,
+														   				"align"=>'L',
+														   			),
+														   	2 => array( "title"=> "Nama Barang",
+														   				"width"=>93,
 														   				"height"=>5,
 														   				"align"=>'L',
 														   			  ),
-														   	2 => array( "title"=> "Harga Satuan",
-														   				"width"=>35,
+														   	3 => array( "title"=> "Harga Satuan",
+														   				"width"=>25,
 														   				"height"=>5,
 														   				"align"=>'R',
 														   			  ),
-														   	3 => array( "title"=> "Qty (Pcs)",
-														   				"width"=>35,
+														   	4 => array( "title"=> "Qty (Pcs)",
+														   				"width"=>25,
 														   				"height"=>5,
 														   				"align"=>'R',
 														   			),
-														   	4 => array( "title"=> "Jumlah",
-														   				"width"=>50,
+														   	5 => array( "title"=> "Jumlah",
+														   				"width"=>30,
 														   				"height"=>5,
 														   				"align"=>'R',
 														   			),
 																			),
 											"footer" => array(
-														  	"footer_ln" => 0.1,
+														  	"footer_ln" => 0.9,
 														  	"signature" => array("title" => "Disahkan Oleh :",
 																				"width" => 4,
 																				"height" => 0.8,
 																				"align"=>'L',
 																				"position_x" => 3,
 																			),
-														   	"total" => array("title" => "Jumlah Rp.",
-														   				"width" => 160.2,
+														   	"total" => array("title" => "Total Rp.",
+														   				"width" => 173.3,
 														   				"height" => 5,
 														   				"align"=>'R',
-														   				"position_x" => 2.8),
+														   				"position_x" => 3),
 														   	"summary" => array("title" => "",
-														   							"width" => 50,
+														   							"width" => 30,
 														   							"height" => 5,
 														   							"align"=>'R',
-														   							"position_x" => 163),
-																			),
+														   							"position_x" => 176),
+														   	"terbilang" => array("title" => "Terbilang",
+														   							"width" => 173.3,
+														   							"height" => 5,
+														   							"align"=>'L',
+														   							"position_x" => 3.1),
+															),
 
 										), //end size B5
 									), //end po
@@ -221,7 +273,7 @@ class pdf
 												   "space" => 1.8,
 												   "header"=> array(
 												   					0 => array("position_x" => 0.2,
-												  								"position_y" => 0.7,
+												  								"position_y" => 1.7,
 												   								"name" => 0.2,
 												   								"pad" => 0.2,
 												   								"val" => 3,
@@ -229,7 +281,7 @@ class pdf
 												   								"align" => 'L',
 												   								"index" => "partner_name"),
 												   					2 => array("position_x" => 0.2,
-												   								"position_y" => 1.2,
+												   								"position_y" => 2.1,
 												   								"name" => 2,
 												   								"pad" => 0.2,
 												   								"val" => 11.8,
@@ -237,7 +289,7 @@ class pdf
 												   								"align" => 'L',
 												   								"index" => "receiving_no"),
 												   					3 => array("position_x" => 0.2,
-												   								"position_y" => 1.7,
+												   								"position_y" => 2.5,
 												   								"name" => 2,
 												   								"pad" => 0.2,
 												   								"val" => 11.8,
@@ -245,58 +297,58 @@ class pdf
 												   								"align" => 'L',
 												   								"index" => "created_date"),
 																),
-												   "body_position_y" => 2.6,
+												   "body_position_y" => 3.2,
 												   "body_position_x" => 0.3,
-												   "body_ln" => 0.6,
-												   "body_start_y" => 0.6,
+												   "body_ln" => 0.4,
+												   "body_start_y" => 0.5,
 												   "body_start_x" => 0.3,
 												   "body" => array(
 												   					0 => array( "title"=> "No",
 												   								"width"=>0.6,
-												   								"height"=>0.6,
+												   								"height"=>0.5,
 												   								"align"=>'L',
 												   							),
 												   					1 => array( "title"=> "Kode Barang",
 												   								"width"=>3,
-												   								"height"=>0.6,
+												   								"height"=>0.5,
 												   								"align"=>'L',
 												   							),
 												   					2 => array( "title"=> "Nama Barang",
 												   								"width"=>6.3,
-												   								"height"=>0.6,
+												   								"height"=>0.5,
 												   								"align"=>'L',
 												   							),
 												   					3 => array( "title"=> "Harga Satuan",
 												   								"width"=>2.5,
-												   								"height"=>0.6,
+												   								"height"=>0.5,
 												   								"align"=>'R',
 												   							),
 												   					4 => array( "title"=> "Qty (Pcs)",
 												   								"width"=>2,
-												   								"height"=>0.6,
+												   								"height"=>0.5,
 												   								"align"=>'R',
 												   							),
 												   					5 => array( "title"=> "Disc",
 												   								"width"=>2.5,
-												   								"height"=>0.6,
+												   								"height"=>0.5,
 												   								"align"=>'R',
 												   							),
 												   					6 => array( "title"=> "Jumlah",
 												   								"width"=>3.5,
-												   								"height"=>0.6,
+												   								"height"=>0.5,
 												   								"align"=>'R',
 												   							),
 																	),
 												   				
-												   "footer" => array("footer_ln" => 0.01,
+												   "footer" => array("footer_ln" => 0.09,
 												   					"signature" => array("title" => "Disahkan Oleh :",
 																						  "width" => 4,
-																						  "height" => 0.8,
+																						  "height" => 0.2,
 																						  "align"=>'L',
 																						  "position_x" => 0.3,
 
 																						), 
-												   					"total" => array("title" => "Jumlah Rp.",
+												   					"total" => array("title" => "Total Rp.",
 														   							"width" => 16.9,
 														   							"height" => 0.4,
 														   							"align"=>'R',
@@ -306,10 +358,18 @@ class pdf
 														   								"height" => 0.4,
 														   								"align"=>'R',
 														   								"position_x" => 17.2),
+
+														   			"terbilang" => array("title" => "Terbilang",
+														   							"width" => 16.6,
+														   							"height" => 0.6,
+														   							"align"=>'L',
+														   							"position_x" => 0.3),
 																	),
 
 														), //end size a4
-								2 => array("paper"=> array(215,139),
+								2 => array(
+											"paper"=> "a5",
+										   // "paper"=> array(215,139),
 										   "view" => "L",
 										   "type_size" => "mm",
 										   "title_paper" => array( "title" => 'Bukti Terima Barang',
@@ -320,7 +380,7 @@ class pdf
 										   "space" => 22,
 										   "header"=> array(
 										   					0 => array("position_x" => 1,
-														   				"position_y" => 10,
+														   				"position_y" => 19,
 														   				"name" => 15,
 														   				"pad" => 1.7,
 														   				"val" => 11.8,
@@ -329,7 +389,7 @@ class pdf
 														   				"index" => "partner_name"
 														   			),
 														   	1 => array("position_x" => 0.8,
-														   				"position_y" => 15,
+														   				"position_y" => 23,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
@@ -338,7 +398,7 @@ class pdf
 														   				"index" => "receiving_no"
 														   			),
 														   	3 => array("position_x" => 0.8,
-														   				"position_y" => 20,
+														   				"position_y" => 27,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
@@ -346,7 +406,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => "created_date"),
 																		),
-											"body_position_y" => 25,
+											"body_position_y" => 30,
 											"body_position_x" => 3,
 											"body_ln" => 5,
 											"body_start_y" => 5,
@@ -357,7 +417,7 @@ class pdf
 														   				"align"=>'L',
 														   			  ),
 															1 => array( "title"=> "Kode Barang",
-														   				"width"=>35,
+														   				"width"=>30,
 														   				"height"=>5,
 														   				"align"=>'L',
 														   			),
@@ -398,7 +458,7 @@ class pdf
 																				"position_x" => 3,
 																			),
 														   	"total" => array("title" => "Jumlah Rp.",
-															   				"width" => 177,
+															   				"width" => 172,
 															   				"height" => 5,
 															   				"align"=>'R',
 															   				"position_x" => 3
@@ -407,7 +467,12 @@ class pdf
 														   					   "width" => 33,
 														   					   "height" => 5,
 														   						"align"=>'R',
-														   						"position_x" => 180),
+														   						"position_x" => 175),
+														   	"terbilang" => array("title" => "Terbilang",
+														   							"width" => 173.3,
+														   							"height" => 5,
+														   							"align"=>'L',
+														   							"position_x" => 3.1),
 														),
 
 										), //end size B5
@@ -422,18 +487,18 @@ class pdf
 																			"align" => 'C'
 																		),
 												   "title_position_y" => 0.5,
-												   "space" => 1.8,
+												   "space" => 2.5,
 												   "header"=> array(
 												   					0 => array("position_x" => 0.2,
-												   								"position_y" => 1.2,
-												   							"name" => 2,
-												   								"pad" => 0.2,
+												   								"position_y" => 1.7,
+												   								"name" => 10,
+												   								"pad" => 0.3,
 												   								"val" => 11.8,
 												   								"title" => 'No Transaksi',
 												   								"align" => 'L',
-												   								"index" => "receiving_no"),
+												   								"index" => "physical_warehouse_no"),
 												   					1 => array("position_x" => 0.2,
-												   								"position_y" => 1.7,
+												   								"position_y" => 2.1,
 												   								"name" => 2,
 												   								"pad" => 0.2,
 												   								"val" => 11.8,
@@ -441,52 +506,44 @@ class pdf
 												   								"align" => 'L',
 												   								"index" => "created_date"),
 												   					2 => array("position_x" => 0.2,
-												   								"position_y" => 1.7,
+												   								"position_y" => 2.5,
 												   								"name" => 2,
 												   								"pad" => 0.2,
 												   								"val" => 11.8,
-												   								"title" => 'Gudang Awal',
+												   								"title" => 'Gudang',
 												   								"align" => 'L',
-												   								"index" => "created_date"),
-												   					3 => array("position_x" => 0.2,
-												   								"position_y" => 1.7,
-												   								"name" => 2,
-												   								"pad" => 0.2,
-												   								"val" => 11.8,
-												   								"title" => 'Gudang Tujuan',
-												   								"align" => 'L',
-												   								"index" => "created_date"),
+												   								"index" => "actual_warehouse_name"),
 																),
-												   "body_position_y" => 2.6,
+												   "body_position_y" => 3.2,
 												   "body_position_x" => 0.3,
-												   "body_ln" => 0.6,
-												   "body_start_y" => 0.6,
+												   "body_ln" => 0.4,
+												   "body_start_y" => 0.5,
 												   "body_start_x" => 0.3,
 												   "body" => array(
 												   					0 => array( "title"=> "No",
 												   								"width"=>0.6,
-												   								"height"=>0.6,
+												   								"height"=>0.5,
 												   								"align"=>'L',
 												   							),
 												   					1 => array( "title"=> "Kode Barang",
-												   								"width"=>3,
-												   								"height"=>0.6,
+												   								"width"=>4,
+												   								"height"=>0.5,
 												   								"align"=>'L',
 												   							),
 												   					2 => array( "title"=> "Nama Barang",
-												   								"width"=>6.3,
-												   								"height"=>0.6,
+												   								"width"=>12.3,
+												   								"height"=>0.5,
 												   								"align"=>'L',
 												   							),
-												   					4 => array( "title"=> "Qty (Pcs)",
-												   								"width"=>2,
-												   								"height"=>0.6,
+												   					3 => array( "title"=> "Qty (Pcs)",
+												   								"width"=>3.5,
+												   								"height"=>0.5,
 												   								"align"=>'R',
 												   							),
 												   				),
 												   				
-												   "footer" => array("footer_ln" => 0.01,
-												   					"signature" => array("title" => "Disahkan Oleh :",
+												   "footer" => array("footer_ln" => 0.09,
+												   					"signature" => array("title" => "Diterima Oleh :",
 																						  "width" => 4,
 																						  "height" => 0.8,
 																						  "align"=>'L',
@@ -503,13 +560,18 @@ class pdf
 														   								"height" => 0.4,
 														   								"align"=>'R',
 														   								"position_x" => 17.2),
+														   			"terbilang" => array("title" => "Terbilang",
+														   							"width" => 16.6,
+														   							"height" => 0.6,
+														   							"align"=>'L',
+														   							"position_x" => 0.3),
 																	),
 
 														), //end size a4
-								2 => array("paper"=> array(215,139),
+								2 => array("paper"=> "a5",
 										   "view" => "L",
 										   "type_size" => "mm",
-										   "title_paper" => array( "title" => 'Bukti Terima Barang',
+										   "title_paper" => array( "title" => 'Bukti Penempatan Barang',
 																	"width" => 200,
 																	"height" => 1,
 																	"align" => 'C'),
@@ -517,35 +579,35 @@ class pdf
 										   "space" => 22,
 										   "header"=> array(
 										   					0 => array("position_x" => 1,
-														   				"position_y" => 10,
+														   				"position_y" => 18,
 														   				"name" => 15,
 														   				"pad" => 1.7,
 														   				"val" => 11.8,
 														   				"title" => 'No Transaksi',
 														   				"align" => 'L',
-														   				"index" => "partner_name"
+														   				"index" => "physical_warehouse_no"
 														   			),
 														   	1 => array("position_x" => 0.8,
-														   				"position_y" => 15,
+														   				"position_y" => 22,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
-														   				"title" => 'No Receive',
+														   				"title" => 'Tgl Transaksi',
 														   				"align" => 'L',
-														   				"index" => "receiving_no"
+														   				"index" => "created_date"
 														   			),
-														   	3 => array("position_x" => 0.8,
-														   				"position_y" => 20,
+														   	2 => array("position_x" => 0.8,
+														   				"position_y" => 26,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
-														   				"title" => 'Tgl Terima',
+														   				"title" => 'Gudang',
 														   				"align" => 'L',
-														   				"index" => "created_date"),
+														   				"index" => "actual_warehouse_name"),
 																		),
-											"body_position_y" => 25,
+											"body_position_y" => 30,
 											"body_position_x" => 3,
-											"body_ln" => 5,
+											"body_ln" => 4,
 											"body_start_y" => 5,
 											"body_start_x" => 3,
 											"body" => array(0 => array( "title"=> "No",
@@ -560,42 +622,27 @@ class pdf
 														   			),
 
 														   	2 => array( "title"=> "Nama Barang",
-														   				"width"=> 70,
+														   				"width"=> 130,
 														   				"height"=>5,
 														   				"align"=>'L',
 														   			  ),
-														   	3 => array( "title"=> "Harga Satuan",
-														   				"width"=>25,
-														   				"height"=>5,
-														   				"align"=>'R',
-														   			  ),
-														   	4 => array( "title"=> "Qty (Pcs)",
-														   				"width"=>25,
-														   				"height"=>5,
-														   				"align"=>'R',
-														   			),
-														   	5 => array( "title"=> "Disc",
-														   				"width"=>15,
-														   				"height"=>5,
-														   				"align"=>'R',
-														   			),
-
-														   	6 => array( "title"=> "Jumlah",
+														   	3 => array( "title"=> "Qty (Pcs)",
 														   				"width"=>33,
 														   				"height"=>5,
 														   				"align"=>'R',
 														   			),
+
 															),
 											"footer" => array(
-														  	"footer_ln" => 0.2,
-														  	"signature" => array("title" => "Disahkan Oleh :",
+														  	"footer_ln" => 0.9,
+														  	"signature" => array("title" => "Diterima Oleh :",
 																				"width" => 4,
 																				"height" => 0.8,
 																				"align"=>'L',
 																				"position_x" => 3,
 																			),
-														   	"total" => array("title" => "Jumlah Rp.",
-															   				"width" => 177,
+														   	"total" => array("title" => "Jumlah (Pcs)",
+															   				"width" => 172,
 															   				"height" => 5,
 															   				"align"=>'R',
 															   				"position_x" => 3
@@ -604,7 +651,7 @@ class pdf
 														   					   "width" => 33,
 														   					   "height" => 5,
 														   						"align"=>'R',
-														   						"position_x" => 180),
+														   						"position_x" => 175),
 														),
 
 										), //end size B5
@@ -613,17 +660,22 @@ class pdf
 					2 => array());
 
 
-		return $param_paper[$type];
+		return array( 	'setting_header' => $param_header,
+						'setting_paper'=>$param_paper[$type]
+					);
 	}
 
 
 	// type 1 pembelian
 	// type 2 penjualan
 	function dynamic_print($type = 1,$type_print = "po_in", $data) {
-
+		// echo json_encode($data);exit;
 		// get paper 
-		$paper_reference = $this->param_paper($type);
-		// echo json_encode();
+		$setting_paper   = $this->param_paper($type);
+		$paper_reference = $setting_paper['setting_paper'];
+		$header_reference= $setting_paper['setting_header']; 
+
+		
 		// count data
 		$count_data = count($data);
 
@@ -633,8 +685,7 @@ class pdf
 		if ( $count_data <= 10 ) {
 			$use_paper = 2;
 		}
-		// echo $count_data." ".$use_paper;exit;
-		// echo json_encode($paper_reference[$type_print][$use_paper]);exit;
+		// echo json_encode($header_reference[$use_paper]);exit;
 		// initilization paper
 		$pdf = new FPDF($paper_reference[$type_print][$use_paper]['view'], 
 						$paper_reference[$type_print][$use_paper]['type_size'], 
@@ -647,17 +698,35 @@ class pdf
 		// set position to top
 		$pdf->SetY($paper_reference[$type_print][$use_paper]['title_position_y']);
 
-
 		// set tile header
 		$pdf->Cell($paper_reference[$type_print][$use_paper]['title_paper']['width'], 
 					$paper_reference[$type_print][$use_paper]['title_paper']['height'], 
 					$paper_reference[$type_print][$use_paper]['title_paper']['title'],0,1,
 					$paper_reference[$type_print][$use_paper]['title_paper']['align']);
+
+		// set branch name
+		$pdf->SetFont('Arial','B',13);
+		// get userdata
+		$CI =& get_instance();
+		
+		$pdf->SetY($header_reference[$use_paper]['title']['position_y']);
+		$pdf->SetX($header_reference[$use_paper]['title']['position_x']);
+		$pdf->Cell($header_reference[$use_paper]['title']['width'], 
+					$header_reference[$use_paper]['title']['height'], 
+					$CI->session->userdata('branch_name'),0,1,'L');
+
+		// set branch address
+		$pdf->SetFont('Arial','',10);
+		$pdf->SetY($header_reference[$use_paper]['address']['position_y']);
+		$pdf->SetX($header_reference[$use_paper]['address']['position_x']);
+		$pdf->Cell($header_reference[$use_paper]['address']['width'], 
+					$header_reference[$use_paper]['address']['height'], 
+					$CI->session->userdata('branch_address'),0,1,'L');
+
+		// $pdf->ln();
 		
 		// set header 
-		$pdf->SetFont('Arial','B',10);
-		// if ( $type_print == 'po_in') {
-
+		$pdf->SetFont('Arial','B',9);
 			foreach ($paper_reference[$type_print][$use_paper]['header'] as $key => $value) {
 				$pdf->SetY($value['position_y']);
 				$pdf->SetX($value['position_x']);
@@ -667,7 +736,6 @@ class pdf
 				 		   $value['align']);
 
 				$pdf->SetY($value['position_y']);
-				// $sum = 1.7;
 				$pdf->SetX($value['position_x']+$paper_reference[$type_print][$use_paper]['space']);
 
 				$pdf->Cell($value['pad'], 1,
@@ -677,10 +745,8 @@ class pdf
 				$pdf->Cell($value['val'], 1,
 				 		   $data[0][$value['index']],0,0,
 				 		   $value['align']);
-				$pdf->ln(0.8);	
+				$pdf->ln(0.7);	
 			}
-
-		// }
 
 
 		// set body title
@@ -698,79 +764,167 @@ class pdf
 		$pdf->SetFont('Arial','',8);
 
 		$grant_total = 0;
+
+		$total_row = count( $data );
+
 		if ($type_print == 'po_in'){
 			foreach ($data as $key => $val) {
+
+				// if first row then set border top left and right
+				// if last row then set border bottom left right
+				// else set border to 0
+				if ( $key == 0)
+				{
+					$border = 'L,R,T';
+				} else if ( ($key+1) == $total_row) {
+					$border ='L,B,R';
+				}else {
+					$border = 'L,R';
+				}
+				
+
 				$total = $val['goods_price'] * $val['goods_qty'];
 				$grant_total+=$total;
 				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
 							$paper_reference[$type_print][$use_paper]['body'][0]['height'], 
-							($key+1),1,0,$paper_reference[$type_print][$use_paper]['body'][0]['align']);	
+							($key+1),$border,0,$paper_reference[$type_print][$use_paper]['body'][0]['align']);	
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
-						   $val['goods_name'],1,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
-				
+						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
+
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
-						   number_format($val['goods_price']),1,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);
-
+						   $val['goods_name'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
-						   number_format($val['goods_qty']),1,0,
-						   $paper_reference[$type_print][$use_paper]['body'][3]['align']);	
+						   number_format($val['goods_price']),$border,0,$paper_reference[$type_print][$use_paper]['body'][3]['align']);
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
-						   number_format($total),1,0,
+						   number_format($val['goods_qty']),$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][4]['align']);	
 
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
+						   number_format($total),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
+
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
+
+				// set margin bottom
+				// jika data / row lebih dari atau sama dengan 10
+				if ( ($key+1) >= 10) {
+					$pdf->SetAutoPageBreak(true,0);
+				}
+
 			}
 		}
 
 		if ($type_print == 'receive_in'){
 			foreach ($data as $key => $val) {
+
+				// if first row then set border top left and right
+				if ( $key == 0)
+				{
+					$border = 'L,R,T';
+				} else if ( ($key+1) == $total_row) {
+					$border ='L,B,R';
+				}else {
+					$border = 'L,R';
+				}
+
+
 				$total = ($val['price'] * $val['receive_qty']) - (($val['price'] * $val['receive_qty']) * $val['discount'] /100 );
 				$grant_total+=$total;
 				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
 							$paper_reference[$type_print][$use_paper]['body'][0]['height'], 
-							($key+1),1,0,$paper_reference[$type_print][$use_paper]['body'][0]['align']);	
+							($key+1),$border,0,$paper_reference[$type_print][$use_paper]['body'][0]['align']);	
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
-						   $val['plu_code'],1,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
+						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
-						   $val['goods_name'],1,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+						   $val['goods_name'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
-						   number_format($val['price']),1,0,$paper_reference[$type_print][$use_paper]['body'][3]['align']);
+						   number_format($val['price']),$border,0,$paper_reference[$type_print][$use_paper]['body'][3]['align']);
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
-						   number_format($val['receive_qty']),1,0,
+						   number_format($val['receive_qty']),$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][4]['align']);	
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
-						   number_format($val['discount']),1,0,
+						   number_format($val['discount']),$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
-						   number_format($total),1,0,
+						   number_format($total),$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][6]['align']);	
 
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
+				// set margin bottom
+				// jika data / row lebih dari atau sama dengan 10
+				if ( ($key+1) >= 10) {
+					$pdf->SetAutoPageBreak(true,0);
+				}
+			}
+		}
+
+
+		if ($type_print == 'warehouse_in'){
+			foreach ($data as $key => $val) {
+
+				// if first row then set border top left and right
+				if ( $key == 0)
+				{
+					$border = 'L,R,T';
+				} else if ( ($key+1) == $total_row) {
+					$border ='L,B,R';
+				}else {
+					$border = 'L,R';
+				}
+
+				$total = $val['total_item'];
+				$grant_total+=$total;
+				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
+							$paper_reference[$type_print][$use_paper]['body'][0]['height'], 
+							($key+1),$border,0,$paper_reference[$type_print][$use_paper]['body'][0]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
+						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
+						   $val['brand_description'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
+						   number_format($val['total_item']),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][3]['align']);	
+
+				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
+				// set margin bottom
+				// jika data / row lebih dari atau sama dengan 10
+				if ( ($key+1) >= 10) {
+					$pdf->SetAutoPageBreak(true,0);
+				}
 			}
 		}
 
 		// set signature
-		$pdf->SetFont('Arial','',9);		
+		$pdf->SetFont('Arial','',8);		
 		$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln']);
 		// total
 		$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total']['position_x']);
@@ -784,8 +938,18 @@ class pdf
 				   $paper_reference[$type_print][$use_paper]['footer']['summary']['height'], 
 				   number_format($grant_total),1,1,
 				   $paper_reference[$type_print][$use_paper]['footer']['summary']['align']);
+
+		// terbilang
+		if (!in_array($type_print, array("warehouse_in"))) {
+			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['terbilang']['position_x']);
+			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['terbilang']['width'], 
+					   $paper_reference[$type_print][$use_paper]['footer']['terbilang']['height'], 
+					   "TERBILANG : ".ucwords($this->terbilang($grant_total)),0,1,
+					   $paper_reference[$type_print][$use_paper]['footer']['terbilang']['align']);
+		}
 		// disahkan
-		$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln']*40);
+		// $pdf->SetFont('Arial','',8);
+		$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln'] * 10);
 		$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['signature']['position_x']);
 		$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['signature']['width'], 
 				   $paper_reference[$type_print][$use_paper]['footer']['signature']['height'], 
@@ -796,233 +960,6 @@ class pdf
 		$pdf->output('i',$type_print.'-'.date('Y-m-d'));
 		// echo json_encode();
 	}
-
-	// function print_po($type = 1,$data) {
-	// 	// echo json_encode($data);exit;
-	// 	// type 1 = pembelian
-	// 	// type 2 = penjualan
-
-	// 	if ($type == 1) {
-
-	// 		$pdf = new FPDF("L","cm","A4");
-	// 		$pdf->SetMargins(0.8,1,1);
-	// 		$pdf->AliasNbPages();
-	// 		$pdf->AddPage();
-	// 		$pdf->SetFont('Arial','B',16);
-	// 		// judul
-	// 		$pdf->Cell(30,1,'Bukti Purchase Order',0,1,'C');
-
-	// 		$pdf->SetFont('Arial','B',10);
-	// 		$pdf->Cell(4,0.7,"Printed On : ".date("d/m/Y"),0,0,'C');
-	// 		$pdf->ln(1);
-
-	// 		// header
-	// 		$pdf->SetFont('Arial','B',11);
-	// 		$pdf->setFillColor(155,89,182);
-	// 		$pdf->SetTextColor(255,255,255);
-	// 		$pdf->Cell(15, 1, 'Rincian Supplier', 1, 0, 'L',true);
-	// 		$pdf->Cell(13, 1, 'Rincian PO', 1, 0, 'L',true);
-	// 		$pdf->ln(1);
-
-	// 		$pdf->SetFont('Arial','B',9);
-	// 		$pdf->setFillColor(236, 240, 241);
-	// 		$pdf->SetTextColor(0,0,0);
-
-	// 		$pdf->Cell(3, 1, 'Supplier', 0, 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-	// 		$pdf->Cell(11.8, 1, $data[0]->partner_name, 0, 0, 'L',true);
-
-	// 		$pdf->Cell(3, 1, 'No PO', array(1,1,0,0), 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, $data[0]->purchase_order_no, 0, 0, 'L',true);
-
-	// 		$pdf->ln(1);
-	// 		$pdf->Cell(3, 1, 'Salesman', 0, 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-	// 		$pdf->Cell(11.8, 1, $data[0]->salesman_name, 0, 0, 'L',true);
-
-	// 		$pdf->Cell(3, 1, 'Tgl PO', array(1,1,0,0), 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, $data[0]->created_date, 0, 0, 'L',true);
-
-	// 		$pdf->ln(1);
-	// 		$pdf->Cell(5, 1, '', 0, 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, '', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, '', 0, 0, 'L',true);
-
-	// 		$pdf->Cell(3, 1, 'No Referensi', array(1,1,0,0), 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, $data[0]->reference_no, 0, 0, 'L',true);
-
-	// 		$pdf->ln(1);
-	// 		$pdf->Cell(5, 1, '', 0, 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, '', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, '', 0, 0, 'L',true);
-
-	// 		$pdf->Cell(3, 1, 'Deskripsi', array(1,1,0,0), 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, $data[0]->description, 0, 0, 'L',true);
-
-	// 		$pdf->ln(2);
-
-			
-	// 		$pdf->SetFont('Arial','B',9);
-	// 		$pdf->setFillColor(155,89,182);
-	// 		$pdf->SetTextColor(255,255,255);
-			
-
-			
-	// 		$pdf->Cell(1, 0.8, 'No', 1, 0, 'C',1);
-	// 		$pdf->Cell(5, 0.8, 'Kode Barang', 1, 0, 'C',1);
-	// 		$pdf->Cell(9, 0.8, 'Nama Barang', 1, 0, 'C',1);
-	// 		$pdf->Cell(3.5, 0.8, 'Harga', 1, 0, 'C',1);
-	// 		$pdf->Cell(3.5, 0.8, 'Qty', 1, 0, 'C',1);
-	// 		$pdf->Cell(2, 0.8, 'Diskon (%)', 1, 0, 'C',1);
-	// 		$pdf->Cell(4, 0.8, 'Total', 1, 1, 'C',1);
-	// 		$pdf->SetFont('Arial','',9);
-	// 		$pdf->SetTextColor(0,0,0);
-
-	// 		$grant_total = 0;
-	// 		if ($data) {
-	// 			foreach ($data as $key => $val) {
-	// 				$sku_code = ($val->sku_code) ? $val->sku_code : "Kosong";
-	// 				$total = ($val->goods_price * $val->goods_qty) - ( ($val->goods_price * $val->goods_qty) * $val->goods_discount /100);
-	// 				$grant_total+=$total;
-	// 				$pdf->Cell(1,0.8,($key+1),1,0,'C');
-	// 				$pdf->Cell(5,0.8,($sku_code),1,0,'C');
-	// 				$pdf->Cell(9,0.8,($val->goods_name),1,0,'L');
-	// 				$pdf->Cell(3.5,0.8,number_format($val->goods_price),1,0,'R');
-	// 				$pdf->Cell(3.5,0.8,number_format($val->goods_qty),1,0,'R');
-	// 				$pdf->Cell(2,0.8,( ($val->goods_discount) ? $val->goods_discount :"0" ),1,0,'C');
-	// 				$pdf->Cell(4, 0.8, number_format(floor($total)), 1, 1, 'R');
-	// 				// $pdf->ln(1);
-	// 			}
-	// 		}
-
-	// 		$pdf->SetFont('Arial','B',9);
-	// 		$pdf->setFillColor(155,89,182);
-	// 		$pdf->SetTextColor(255,255,255);
-	// 		$pdf->Cell(24,0.8,"Grant Total",1,0,'R',1);
-	// 		$pdf->Cell(4, 0.8, number_format(floor($grant_total)), 1, 1, 'R',1);
-
-
-	// 		$pdf->output();
-	// 	}
-
-	// }
-
-
-
-	// function print_receive($type = 1,$data) {
-	// 	// echo json_encode($data);
-	// 	// if ($type == 1) {
-
-	// 		$pdf = new FPDF("L","cm","A4");
-	// 		$pdf->SetMargins(0.8,1,1);
-	// 		$pdf->AliasNbPages();
-	// 		$pdf->AddPage();
-	// 		$pdf->SetFont('Arial','B',16);
-	// 		// judul
-	// 		$pdf->Cell(30,1,'Bukti Penerimaan Barang',0,1,'C');
-
-	// 		$pdf->SetFont('Arial','B',10);
-	// 		$pdf->Cell(4,0.7,"Printed On : ".date("d/m/Y"),0,0,'C');
-	// 		$pdf->ln(1);
-
-	// 		// header
-	// 		$pdf->SetFont('Arial','B',11);
-	// 		$pdf->setFillColor(155,89,182);
-	// 		$pdf->SetTextColor(255,255,255);
-	// 		$pdf->Cell(15, 1, 'Rincian Supplier', 1, 0, 'L',true);
-	// 		$pdf->Cell(13, 1, 'Rincian Penerimaan Barang', 1, 0, 'L',true);
-	// 		$pdf->ln(1);
-
-	// 		$pdf->SetFont('Arial','B',9);
-	// 		$pdf->setFillColor(236, 240, 241);
-	// 		$pdf->SetTextColor(0,0,0);
-
-	// 		$pdf->Cell(3, 1, 'Supplier', 0, 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-	// 		$pdf->Cell(11.8, 1, $data[0]->supplier_name, 0, 0, 'L',true);
-
-	// 		$pdf->Cell(3, 1, 'No PO', array(1,1,0,0), 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, $data[0]->receiving_no, 0, 0, 'L',true);
-	// 		$pdf->ln(1);
-
-	// 		$pdf->Cell(5, 1, '', 0, 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, '', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, '', 0, 0, 'L',true);
-
-
-	// 		$pdf->Cell(3, 1, 'Tgl PO', array(1,1,0,0), 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, $data[0]->created_date, 0, 0, 'L',true);
-
-	// 		$pdf->ln(1);
-	// 		$pdf->Cell(5, 1, '', 0, 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, '', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, '', 0, 0, 'L',true);
-
-	// 		$pdf->Cell(3, 1, 'No Referensi', array(1,1,0,0), 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, $data[0]->reference_no, 0, 0, 'L',true);
-
-	// 		$pdf->ln(1);
-	// 		$pdf->Cell(5, 1, '', 0, 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, '', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, '', 0, 0, 'L',true);
-
-	// 		$pdf->Cell(3, 1, 'Deskripsi', array(1,1,0,0), 0, 'L',true);
-	// 		$pdf->Cell(0.2, 1, ':', 0, 0, 'L',true);
-	// 		$pdf->Cell(9.8, 1, $data[0]->description, 0, 0, 'L',true);
-
-	// 		$pdf->ln(2);
-
-			
-	// 		$pdf->SetFont('Arial','B',9);
-	// 		$pdf->setFillColor(155,89,182);
-	// 		$pdf->SetTextColor(255,255,255);
-			
-
-			
-	// 		$pdf->Cell(1, 0.8, 'No', 1, 0, 'C',1);
-	// 		$pdf->Cell(5, 0.8, 'Kode Barang', 1, 0, 'C',1);
-	// 		$pdf->Cell(9, 0.8, 'Nama Barang', 1, 0, 'C',1);
-	// 		$pdf->Cell(3.5, 0.8, 'Harga', 1, 0, 'C',1);
-	// 		$pdf->Cell(3.5, 0.8, 'Qty', 1, 0, 'C',1);
-	// 		$pdf->Cell(2, 0.8, 'Diskon (%)', 1, 0, 'C',1);
-	// 		$pdf->Cell(4, 0.8, 'Total', 1, 1, 'C',1);
-	// 		$pdf->SetFont('Arial','',9);
-	// 		$pdf->SetTextColor(0,0,0);
-
-	// 		$grant_total = 0;
-	// 		if ($data) {
-	// 			foreach ($data as $key => $val) {
-	// 				$sku_code = ($val->sku_code) ? $val->sku_code : "Kosong";
-	// 				$total = ($val->price * $val->quantity) - ( ($val->price * $val->quantity) * $val->discount /100);
-	// 				$grant_total+=$total;
-	// 				$pdf->Cell(1,0.8,($key+1),1,0,'C');
-	// 				$pdf->Cell(5,0.8,($sku_code),1,0,'C');
-	// 				$pdf->Cell(9,0.8,($val->goods_name),1,0,'L');
-	// 				$pdf->Cell(3.5,0.8,number_format($val->price),1,0,'R');
-	// 				$pdf->Cell(3.5,0.8,number_format($val->quantity),1,0,'R');
-	// 				$pdf->Cell(2,0.8,( ($val->discount) ? $val->discount :"0" ),1,0,'C');
-	// 				$pdf->Cell(4, 0.8, number_format(floor($total)), 1, 1, 'R');
-	// 				// $pdf->ln(1);
-	// 			}
-	// 		}
-
-	// 		$pdf->SetFont('Arial','B',9);
-	// 		$pdf->setFillColor(155,89,182);
-	// 		$pdf->SetTextColor(255,255,255);
-	// 		$pdf->Cell(24,0.8,"Grant Total",1,0,'R',1);
-	// 		$pdf->Cell(4, 0.8, number_format(floor($grant_total)), 1, 1, 'R',1);
-
-
-	// 		$pdf->output();
-	// 	// }
-	// }
 
 
 	function print_warehouse($type = 1,$data) {
