@@ -48,8 +48,8 @@
                       ?>
                         <a href="<?=base_url()?>index.php/Penjualan/edit_return/<?=$val->id?>" class="btn btn-light-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa la-edit" title="Edit"></i></a>
                       <?php }?>
-                        <button type="button" class="btn btn-light-info btn-sm" data-toggle="tooltip" data-placement="top" title="Print">
-                         <!-- onclick="print_return(<?=$val->id?>)"  -->
+                        <button type="button" class="btn btn-light-info btn-sm" data-toggle="tooltip" data-placement="top" title="Print" onclick="print_return(<?=$val->id?>)">
+                          
                             <i class="fa la-print" title="Print"></i>
                         </button>
                       <?php

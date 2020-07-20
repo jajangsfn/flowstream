@@ -77,14 +77,15 @@ class T_pos_return_model extends CI_Model
         }
     }
 
-    function get_all($where = null, $group = null)
+    function get_all($where = null, $group = null, $type = 1)
     {
 
-        return $this->db->query("SELECT tab1.*,tab2.goods_id,
+        $data = $this->db->query("SELECT tab1.*,date_format(tab1.return_date, '%Y-%m-%d') return_date_convert, tab2.goods_id,
                                 tab8.brand_description goods_name,tab8.sku_code,tab8.plu_code,
                                 tab2.warehouse_id,tab7.`name` warehouse_name,tab1.partner_id,tab9.name customer,
-                                tab2.quantity,tab6.price,
-                                (tab2.quantity * tab6.price) total
+                                tab9.name supplier_name,
+                                tab2.quantity,tab6.price,tab6.discount,
+                                ((tab2.quantity * tab6.price) - ((tab2.quantity * tab6.price) * tab6.discount)/100) total
                                 FROM t_pos_return tab1
                                 JOIN t_pos_return_detail tab2 ON tab2.purchase_return_id=tab1.id
                                 LEFT JOIN t_pos tab3 ON tab3.invoice_no=tab1.reference_no
@@ -96,7 +97,12 @@ class T_pos_return_model extends CI_Model
                                 LEFT JOIN m_partner tab9 ON tab9.id=tab1.partner_id
                                 ".(($where) ? "WHERE ".$where: "")."
                                 GROUP BY tab1.id ".(($group) ? ",".$group: "")."
-                                ORDER BY tab1.updated_date desc")->result();  
+                                ORDER BY tab1.updated_date desc");
+        if ($type == 1) {
+            return $data->result();
+        }else {
+            return $data->result_array();
+        }
     }
 
 

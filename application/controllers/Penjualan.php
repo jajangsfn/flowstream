@@ -127,7 +127,7 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
-
+ 
     // return
     public function return()
     {
@@ -272,10 +272,16 @@ class Penjualan extends CI_Controller
 
             }
         }
-        
-        
-
     }
+
+    public function print_return($id)
+    {
+        $where = "tab1.id=".$id;
+        $group = "tab1.id,tab2.id";
+        $data = $this->pos_return->get_all($where, $group, 2);
+        $this->pdf->dynamic_print(2,"return_out",$data);
+    }
+
 
 
     public function laporan($path, $next_path = '')

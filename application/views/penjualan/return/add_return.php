@@ -104,6 +104,7 @@
                     <th width="250">Gudang</th>
                     <th>Quantity</th>
                     <th>Harga</th>
+                    <th>Diskon</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -122,7 +123,7 @@
                     </td>
                     <td>
                       <select name="warehouse_id" id="warehouse_id" class="form-control selectpicker" data-live-search="true">
-                        <option value="" disabled="">Pilih Gudang</option>
+                        <option value="">Pilih Gudang</option>
                         <?php
                           foreach ($warehouse as $key => $val) { ?>
                             <option value="<?=$val->id?>"><?=$val->name?></option>
@@ -135,6 +136,9 @@
                     </td>
                      <td>
                       <input type="number" name="harga_barang" id="harga_barang" class="form-control" min="1" value="1" readonly>
+                    </td>
+                    <td>
+                      <input type="number" name="diskon_barang" id="diskon_barang" class="form-control" min="1" value="1" readonly>
                     </td>
                     <td>
                       <button type="button" class="btn btn-primary btn-sm" onclick="add_to_chart()">Tambah</button>
@@ -158,7 +162,8 @@
                     <th>Gudang</th>
                     <th>Harga</th>
                     <th>Quantity Order (PCS)</th>
-                    <th>Harga</th>
+                    <th>Diskon</th>
+                    <th>Total</th>
                     <th>#</th>
                   </tr>
                 </thead>

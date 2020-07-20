@@ -205,7 +205,7 @@ class pdf
 											"body" => array(0 => array( "title"=> "No",
 														   				"width"=>7,
 														   				"height"=>5,
-														   				"align"=>'L',
+														   				"align"=>'C',
 														   			  ),
 															1 => array( "title"=> "Kode Barang",
 														   				"width"=>23,
@@ -306,7 +306,7 @@ class pdf
 												   					0 => array( "title"=> "No",
 												   								"width"=>0.6,
 												   								"height"=>0.5,
-												   								"align"=>'L',
+												   								"align"=>'C',
 												   							),
 												   					1 => array( "title"=> "Kode Barang",
 												   								"width"=>3,
@@ -379,7 +379,7 @@ class pdf
 										   "title_position_y" => 5,
 										   "space" => 22,
 										   "header"=> array(
-										   					0 => array("position_x" => 1,
+										   					0 => array("position_x" => 1.5,
 														   				"position_y" => 19,
 														   				"name" => 15,
 														   				"pad" => 1.7,
@@ -388,7 +388,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => "partner_name"
 														   			),
-														   	1 => array("position_x" => 0.8,
+														   	1 => array("position_x" => 1.5,
 														   				"position_y" => 23,
 														   				"name" => 18,
 														   				"pad" => 1.6,
@@ -397,7 +397,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => "receiving_no"
 														   			),
-														   	3 => array("position_x" => 0.8,
+														   	3 => array("position_x" => 1.5,
 														   				"position_y" => 27,
 														   				"name" => 18,
 														   				"pad" => 1.6,
@@ -408,13 +408,13 @@ class pdf
 																		),
 											"body_position_y" => 30,
 											"body_position_x" => 3,
-											"body_ln" => 5,
+											"body_ln" => 4,
 											"body_start_y" => 5,
 											"body_start_x" => 3,
 											"body" => array(0 => array( "title"=> "No",
 														   				"width"=>7,
 														   				"height"=>5,
-														   				"align"=>'L',
+														   				"align"=>'C',
 														   			  ),
 															1 => array( "title"=> "Kode Barang",
 														   				"width"=>30,
@@ -450,7 +450,7 @@ class pdf
 														   			),
 															),
 											"footer" => array(
-														  	"footer_ln" => 0.2,
+														  	"footer_ln" => 0.9,
 														  	"signature" => array("title" => "Disahkan Oleh :",
 																				"width" => 4,
 																				"height" => 0.8,
@@ -469,10 +469,10 @@ class pdf
 														   						"align"=>'R',
 														   						"position_x" => 175),
 														   	"terbilang" => array("title" => "Terbilang",
-														   							"width" => 173.3,
-														   							"height" => 5,
-														   							"align"=>'L',
-														   							"position_x" => 3.1),
+														   						 "width" => 173.3,
+														   						 "height" => 5,
+														   						 "align"=>'L',
+														   						 "position_x" => 3.1),
 														),
 
 										), //end size B5
@@ -523,7 +523,7 @@ class pdf
 												   					0 => array( "title"=> "No",
 												   								"width"=>0.6,
 												   								"height"=>0.5,
-												   								"align"=>'L',
+												   								"align"=>'C',
 												   							),
 												   					1 => array( "title"=> "Kode Barang",
 												   								"width"=>4,
@@ -578,7 +578,7 @@ class pdf
 										   "title_position_y" => 5,
 										   "space" => 22,
 										   "header"=> array(
-										   					0 => array("position_x" => 1,
+										   					0 => array("position_x" => 1.5,
 														   				"position_y" => 18,
 														   				"name" => 15,
 														   				"pad" => 1.7,
@@ -587,7 +587,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => "physical_warehouse_no"
 														   			),
-														   	1 => array("position_x" => 0.8,
+														   	1 => array("position_x" => 1.5,
 														   				"position_y" => 22,
 														   				"name" => 18,
 														   				"pad" => 1.6,
@@ -596,7 +596,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => "created_date"
 														   			),
-														   	2 => array("position_x" => 0.8,
+														   	2 => array("position_x" => 1.5,
 														   				"position_y" => 26,
 														   				"name" => 18,
 														   				"pad" => 1.6,
@@ -613,7 +613,7 @@ class pdf
 											"body" => array(0 => array( "title"=> "No",
 														   				"width"=>7,
 														   				"height"=>5,
-														   				"align"=>'L',
+														   				"align"=>'C',
 														   			  ),
 															1 => array( "title"=> "Kode Barang",
 														   				"width"=>35,
@@ -652,12 +652,495 @@ class pdf
 														   					   "height" => 5,
 														   						"align"=>'R',
 														   						"position_x" => 175),
+														   	"terbilang" => array("title" => "Terbilang",
+														   							"width" => 16.6,
+														   							"height" => 0.6,
+														   							"align"=>'L',
+														   							"position_x" => 0.3),
 														),
 
 										), //end size B5
-									), //end recive
+									), //end warehouse
+							"return_in"=> array(
+										1 => array("paper"=>"A4",
+												   "view" => "P",
+												   "type_size" => "cm",
+												   "title_paper" => array( "title" => 'Nota Retur Pembelian',
+																			"width" => 20,
+																			"height" => 0.5,
+																			"align" => 'C'
+																		),
+												   "title_position_y" => 0.5,
+												   "space" => 2.5,
+												   "header"=> array(
+												   					0 => array("position_x" => 0.2,
+												   								"position_y" => 1.7,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'No Retur',
+												   								"align" => 'L',
+												   								"index" => "return_no"),
+
+												   					1 => array("position_x" => 0.2,
+												   								"position_y" => 2.1,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'No Referensi',
+												   								"align" => 'L',
+												   								"index" => "reference_no"),
+												   					2 => array("position_x" => 0.2,
+												   								"position_y" => 2.5,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'Supplier',
+												   								"align" => 'L',
+												   								"index" => "supplier_name"),
+
+												   					3 => array("position_x" => 0.2,
+												   								"position_y" => 2.9,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'Tgl Retur',
+												   								"align" => 'L',
+												   								"index" => "return_date_convert"),
+												   				),
+												   "body_position_y" => 3.7,
+												   "body_position_x" => 0.3,
+												   "body_ln" => 0.4,
+												   "body_start_y" => 0.5,
+												   "body_start_x" => 0.3,
+												   "body" => array(
+												   					0 => array( "title"=> "No",
+												   								"width"=>0.6,
+												   								"height"=>0.5,
+												   								"align"=>'C',
+												   							),
+												   					1 => array( "title"=> "Kode Barang",
+												   								"width"=>3.3,
+												   								"height"=>0.5,
+												   								"align"=>'L',
+												   							),
+												   					2 => array( "title"=> "Nama Barang",
+												   								"width"=>8,
+												   								"height"=>0.5,
+												   								"align"=>'L',
+												   							),
+												   					3 => array( "title"=> "Gudang",
+												   								"width"=>2.5,
+												   								"height"=>0.5,
+												   								"align"=>'C',
+												   							),
+												   					4 => array( "title"=> "Harga",
+												   								"width"=>1.8,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   					5 => array( "title"=> "Qty (Pcs)",
+												   								"width"=>1.8,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   					6 => array( "title"=> "Total",
+												   								"width"=>2.4,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   				),
+												   				
+												   "footer" => array("footer_ln" => 0.09,
+												   					"signature" => array("title" => "Disahkan Oleh :",
+																						  "width" => 4,
+																						  "height" => 0.8,
+																						  "align"=>'L',
+																						  "position_x" => 0.3,
+
+																						), 
+												   					"total" => array("title" => "Grant Total Rp.",
+														   							"width" => 18,
+														   							"height" => 0.4,
+														   							"align"=>'R',
+														   							"position_x" => 0.3),
+														   			"summary" => array("title" => "",
+														   								"width" => 2.4,
+														   								"height" => 0.4,
+														   								"align"=>'R',
+														   								"position_x" => 18.3),
+														   			"terbilang" => array("title" => "Terbilang",
+														   							"width" => 16.6,
+														   							"height" => 0.6,
+														   							"align"=>'L',
+														   							"position_x" => 0.3),
+																	),
+
+														), //end size a4
+								2 => array("paper"=> "a5",
+										   "view" => "L",
+										   "type_size" => "mm",
+										   "title_paper" => array( "title" => 'Nota Retur Pembelian',
+																	"width" => 200,
+																	"height" => 1,
+																	"align" => 'C'),
+										   "title_position_y" => 5,
+										   "space" => 22,
+										   "header"=> array(
+										   					0 => array("position_x" => 1.5,
+														   				"position_y" => 18,
+														   				"name" => 15,
+														   				"pad" => 1.7,
+														   				"val" => 11.8,
+														   				"title" => 'No Retur',
+														   				"align" => 'L',
+														   				"index" => "return_no"
+														   			),
+														   	1 => array("position_x" => 1.5,
+														   				"position_y" => 22,
+														   				"name" => 18,
+														   				"pad" => 1.6,
+														   				"val" => 11.8,
+														   				"title" => 'No Referensi',
+														   				"align" => 'L',
+														   				"index" => "reference_no"
+														   			),
+														   	2 => array("position_x" => 1.5,
+														   				"position_y" => 25.5,
+														   				"name" => 18,
+														   				"pad" => 1.6,
+														   				"val" => 11.8,
+														   				"title" => 'Supplier',
+														   				"align" => 'L',
+														   				"index" => "supplier_name"),
+										   					3 => array("position_x" => 1.5,
+														   				"position_y" => 29,
+														   				"name" => 18,
+														   				"pad" => 1.6,
+														   				"val" => 11.8,
+														   				"title" => 'Tgl Retur',
+														   				"align" => 'L',
+														   				"index" => "return_date"
+														   			),
+															),
+											"body_position_y" => 33,
+											"body_position_x" => 3,
+											"body_ln" => 4,
+											"body_start_y" => 5,
+											"body_start_x" => 3,
+											"body" => array(0 => array( "title"=> "No",
+														   				"width"=>7,
+														   				"height"=>5,
+														   				"align"=>'C',
+														   			  ),
+															1 => array( "title"=> "Kode Barang",
+														   				"width"=>30,
+														   				"height"=>5,
+														   				"align"=>'L',
+														   			),
+
+														   	2 => array( "title"=> "Nama Barang",
+														   				"width"=> 70,
+														   				"height"=>5,
+														   				"align"=>'L',
+														   			  ),
+														   	3 => array( "title"=> "Gudang",
+														   				"width"=>28,
+														   				"height"=>5,
+														   				"align"=>'C',
+														   			),
+														   	4 => array( "title"=> "Harga",
+														   				"width"=>25,
+														   				"height"=>5,
+														   				"align"=>'R',
+														   			),
+														   	5 => array( "title"=> "Qty (Pcs)",
+														   				"width"=>20,
+														   				"height"=>5,
+														   				"align"=>'R',
+														   			),
+														   	6 => array( "title"=> "Total",
+														   				"width"=>25,
+														   				"height"=>5,
+														   				"align"=>'R',
+														   			),
+
+															),
+											"footer" => array(
+														  	"footer_ln" => 0.9,
+														  	"signature" => array("title" => "Disahkan Oleh :",
+																				"width" => 4,
+																				"height" => 0.8,
+																				"align"=>'L',
+																				"position_x" => 3,
+																			),
+														   	"total" => array("title" => "Grant Total",
+															   				"width" => 180,
+															   				"height" => 4,
+															   				"align"=>'R',
+															   				"position_x" => 3
+															   				),
+														   	"summary" => array("title" => "",
+														   					   "width" => 25,
+														   					   "height" => 4,
+														   						"align"=>'R',
+														   						"position_x" => 183),
+														   	"terbilang" => array("title" => "Terbilang",
+														   						"width" => 16.6,
+														   						"height" => 0.6,
+														   						"align"=>'L',
+														   						"position_x" => 1.5),
+														),
+
+										), //end size B5
+									), //end return
+
 						),
-					2 => array());
+					2 => array("return_out"=> array(
+											1 => array("paper"=>"A4",
+												   "view" => "P",
+												   "type_size" => "cm",
+												   "title_paper" => array( "title" => 'Nota Retur Penjualan',
+																			"width" => 20,
+																			"height" => 0.5,
+																			"align" => 'C'
+																		),
+												   "title_position_y" => 0.5,
+												   "space" => 2.5,
+												   "header"=> array(
+												   					0 => array("position_x" => 0.2,
+												   								"position_y" => 1.7,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'No Retur',
+												   								"align" => 'L',
+												   								"index" => "return_no"),
+
+												   					1 => array("position_x" => 0.2,
+												   								"position_y" => 2.1,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'No Referensi',
+												   								"align" => 'L',
+												   								"index" => "reference_no"),
+												   					2 => array("position_x" => 0.2,
+												   								"position_y" => 2.5,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'Supplier',
+												   								"align" => 'L',
+												   								"index" => "customer"),
+
+												   					3 => array("position_x" => 0.2,
+												   								"position_y" => 2.9,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'Tgl Retur',
+												   								"align" => 'L',
+												   								"index" => "return_date_convert"),
+												   				),
+												   "body_position_y" => 3.7,
+												   "body_position_x" => 0.3,
+												   "body_ln" => 0.4,
+												   "body_start_y" => 0.5,
+												   "body_start_x" => 0.3,
+												   "body" => array(
+												   					0 => array( "title"=> "No",
+												   								"width"=>0.6,
+												   								"height"=>0.5,
+												   								"align"=>'C',
+												   							),
+												   					1 => array( "title"=> "Kode Barang",
+												   								"width"=>3.3,
+												   								"height"=>0.5,
+												   								"align"=>'L',
+												   							),
+												   					2 => array( "title"=> "Nama Barang",
+												   								"width"=>6,
+												   								"height"=>0.5,
+												   								"align"=>'L',
+												   							),
+												   					3 => array( "title"=> "Gudang",
+												   								"width"=>2.5,
+												   								"height"=>0.5,
+												   								"align"=>'C',
+												   							),
+												   					4 => array( "title"=> "Harga",
+												   								"width"=>1.8,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   					5 => array( "title"=> "Qty (Pcs)",
+												   								"width"=>1.8,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   					6 => array( "title"=> "Disc",
+												   								"width"=>1.8,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   					7 => array( "title"=> "Total",
+												   								"width"=>2.7,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   				),
+												   				
+												   "footer" => array("footer_ln" => 0.09,
+												   					"signature" => array("title" => "Diterima Oleh :",
+																						  "width" => 4,
+																						  "height" => 0.8,
+																						  "align"=>'L',
+																						  "position_x" => 0.3,
+
+																						), 
+												   					"total" => array("title" => "Grant Total Rp.",
+														   							"width" => 17.8,
+														   							"height" => 0.4,
+														   							"align"=>'R',
+														   							"position_x" => 0.3),
+														   			"summary" => array("title" => "",
+														   								"width" => 2.7,
+														   								"height" => 0.4,
+														   								"align"=>'R',
+														   								"position_x" => 18.1),
+														   			"terbilang" => array("title" => "Terbilang",
+														   							"width" => 16.6,
+														   							"height" => 0.6,
+														   							"align"=>'L',
+														   							"position_x" => 0.3),
+																	),
+
+														), //end size a4
+											2 => array("paper"=> "a5",
+													   "view" => "L",
+													   "type_size" => "mm",
+													   "title_paper" => array( "title" => 'Nota Retur Penjualan',
+																				"width" => 200,
+																				"height" => 1,
+																				"align" => 'C'),
+													   "title_position_y" => 5,
+													   "space" => 22,
+													   "header"=> array(
+													   					0 => array("position_x" => 1.5,
+																	   				"position_y" => 18,
+																	   				"name" => 15,
+																	   				"pad" => 1.7,
+																	   				"val" => 11.8,
+																	   				"title" => 'No Retur',
+																	   				"align" => 'L',
+																	   				"index" => "return_no"
+																	   			),
+																	   	1 => array("position_x" => 1.5,
+																	   				"position_y" => 22,
+																	   				"name" => 18,
+																	   				"pad" => 1.6,
+																	   				"val" => 11.8,
+																	   				"title" => 'No Referensi',
+																	   				"align" => 'L',
+																	   				"index" => "reference_no"
+																	   			),
+																	   	2 => array("position_x" => 1.5,
+																	   				"position_y" => 25.5,
+																	   				"name" => 18,
+																	   				"pad" => 1.6,
+																	   				"val" => 11.8,
+																	   				"title" => 'Customer',
+																	   				"align" => 'L',
+																	   				"index" => "customer"),
+													   					3 => array("position_x" => 1.5,
+																	   				"position_y" => 29,
+																	   				"name" => 18,
+																	   				"pad" => 1.6,
+																	   				"val" => 11.8,
+																	   				"title" => 'Tgl Retur',
+																	   				"align" => 'L',
+																	   				"index" => "return_date_convert"
+																	   			),
+																		),
+														"body_position_y" => 33,
+														"body_position_x" => 3,
+														"body_ln" => 4,
+														"body_start_y" => 5,
+														"body_start_x" => 3,
+														"body" => array(0 => array( "title"=> "No",
+																	   				"width"=>7,
+																	   				"height"=>5,
+																	   				"align"=>'C',
+																	   			  ),
+																		1 => array( "title"=> "Kode Barang",
+																	   				"width"=>25,
+																	   				"height"=>5,
+																	   				"align"=>'L',
+																	   			),
+
+																	   	2 => array( "title"=> "Nama Barang",
+																	   				"width"=> 60,
+																	   				"height"=>5,
+																	   				"align"=>'L',
+																	   			  ),
+																	   	3 => array( "title"=> "Gudang",
+																	   				"width"=>28,
+																	   				"height"=>5,
+																	   				"align"=>'C',
+																	   			),
+																	   	4 => array( "title"=> "Harga",
+																	   				"width"=>25,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+																	   	5 => array( "title"=> "Qty (Pcs)",
+																	   				"width"=>20,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+																	   	6 => array( "title"=> "Disc",
+																	   				"width"=>20,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+																	   	7 => array( "title"=> "Total",
+																	   				"width"=>20,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+
+																		),
+														"footer" => array(
+																	  	"footer_ln" => 0.9,
+																	  	"signature" => array("title" => "Disahkan Oleh :",
+																							"width" => 4,
+																							"height" => 0.8,
+																							"align"=>'L',
+																							"position_x" => 3,
+																						),
+																	   	"total" => array("title" => "Grant Total",
+																		   				"width" => 185,
+																		   				"height" => 4,
+																		   				"align"=>'R',
+																		   				"position_x" => 3
+																		   				),
+																	   	"summary" => array("title" => "",
+																	   					   "width" => 20,
+																	   					   "height" => 4,
+																	   						"align"=>'R',
+																	   						"position_x" => 188),
+																	   	"terbilang" => array("title" => "Terbilang",
+																	   						"width" => 16.6,
+																	   						"height" => 0.6,
+																	   						"align"=>'L',
+																	   						"position_x" => 1.5),
+																	),
+
+													), //end size B5
+												), //end return
+					)
+				);
 
 
 		return array( 	'setting_header' => $param_header,
@@ -923,6 +1406,83 @@ class pdf
 			}
 		}
 
+
+		if ($type_print == 'return_in' || $type_print == 'return_out'){
+			foreach ($data as $key => $val) {
+
+				// if first row then set border top left and right
+				if ( $key == 0)
+				{
+					$border = 'L,R,T';
+				} else if ( ($key+1) == $total_row) {
+					$border ='L,B,R';
+				}else {
+					$border = 'L,R';
+				}
+
+				$total = $val['total'];
+				if ($type_print == 'return_out') {
+					$total = $val['total'] - (($val['total'] * $val['discount'])/100);
+				}
+				
+				$grant_total+=$total;
+
+				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
+							$paper_reference[$type_print][$use_paper]['body'][0]['height'], 
+							($key+1),$border,0,$paper_reference[$type_print][$use_paper]['body'][0]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
+						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
+						   $val['goods_name'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
+						   $val['warehouse_name'],$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][3]['align']);	
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
+						   number_format($val['price']),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][4]['align']);
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
+						   number_format($val['quantity']),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);
+				if ($type_print == "return_out") {
+					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
+						   number_format($val['discount']),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][6]['align']);
+
+
+					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][7]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][7]['height'], 
+						   number_format($total),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][7]['align']);
+				}else {
+					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
+						   number_format($total),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][6]['align']);
+				}
+
+				
+
+				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
+				// set margin bottom
+				// jika data / row lebih dari atau sama dengan 10
+				if ( ($key+1) >= 10) {
+					$pdf->SetAutoPageBreak(true,0);
+				}
+			}
+		}
+
 		// set signature
 		$pdf->SetFont('Arial','',8);		
 		$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln']);
@@ -941,10 +1501,11 @@ class pdf
 
 		// terbilang
 		if (!in_array($type_print, array("warehouse_in"))) {
+			$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln']* 3);
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['terbilang']['position_x']);
 			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['terbilang']['width'], 
 					   $paper_reference[$type_print][$use_paper]['footer']['terbilang']['height'], 
-					   "TERBILANG : ".ucwords($this->terbilang($grant_total)),0,1,
+					   "TERBILANG : ".ucwords($this->terbilang(ceil($grant_total))),0,1,
 					   $paper_reference[$type_print][$use_paper]['footer']['terbilang']['align']);
 		}
 		// disahkan
@@ -1155,7 +1716,8 @@ class pdf
 	}
 
 	function penyebut($nilai) {
-		$nilai = abs($nilai);
+		// $nilai = abs($nilai);
+		$nilai = ($nilai);
 		$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
 		$temp = "";
 		if ($nilai < 12) {
@@ -1186,7 +1748,7 @@ class pdf
 		if($nilai<0) {
 			$hasil = "minus ". trim(penyebut($nilai));
 		} else {
-			$hasil = trim($this->penyebut($nilai));
+			$hasil = trim($this->penyebut($nilai))." rupiah";
 		}     		
 		return $hasil;
 	}
