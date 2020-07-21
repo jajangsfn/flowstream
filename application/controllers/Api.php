@@ -28,6 +28,7 @@ class Api extends CI_Controller
                 "m_goods_model" => "goods",
                 "m_branch_model" => "branch",
                 "m_warehouse_model" => "warehouse",
+                "m_employee_model" => "employee",
                 "s_reference_model" => "reference",
                 "t_order_request_model" => "or",
                 "t_pos_model" => "pos"
@@ -79,10 +80,10 @@ class Api extends CI_Controller
 
         // check if login data match in database
         $user_query = $this->user_m->get($login_data);
-    
+
         if ($user_query->num_rows()) {
 
-            if ($user_query->row()->role_code != "ROLE_ADMIN") {
+            if ($user_query->row()->role_code != "ROLE_SUPER_ADMIN") {
                 // look for branch info
                 $branch_query = $this->branch->get(array("m_branch.id" => $user_query->row()->branch_id))->row();
             }
@@ -651,7 +652,7 @@ class Api extends CI_Controller
         $this->session->set_flashdata("success", "Reference berhasil diubah");
         redirect($_SERVER['HTTP_REFERER']);
     }
- 
+
     public function delete_reference()
     {
         $this->reference->delete($_POST);
@@ -661,7 +662,7 @@ class Api extends CI_Controller
 
     // order request
     public function get_order_number($id_branch)
-     {
+    {
         echo json_encode(
             array(
                 "data" => $this->or->get_next_no(array("branch_id" => $id_branch))
@@ -828,7 +829,7 @@ class Api extends CI_Controller
             "created_by" => $this->session->id,
             "updated_by" => $this->session->id,
             #"warehouse_id"=>1, // di default dulu
-            "flag"=>1,
+            "flag" => 1,
         );
 
         $this->pos->insert($pos_data);
@@ -1075,6 +1076,92 @@ class Api extends CI_Controller
             )
         );
         $this->session->set_flashdata("success", "Salesman berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // employee
+    function employee_branch($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->employee->get(
+                    array(
+                        "m_employee.branch_id" => $branch_id
+                    )
+                )->result()
+            )
+        );
+    }
+
+    function add_employee()
+    {
+        // info branch id untuk tiap record
+        $_POST['emp']['branch_id'] = $_POST['branch_id'];
+        $_POST['usr']['branch_id'] = $_POST['branch_id'];
+
+        // set as active
+        $_POST['emp']['is_active'] = 1;
+
+        // default flag
+        $_POST['emp']['flag'] = 1;
+
+        // default role sebagai user
+        $_POST['usr']['role_code'] = "ROLE_USER";
+
+        // created by
+        $_POST['usr']['created_by'] = $this->session->id;
+
+        // encrypt password
+        $_POST['usr']['password'] = md5($_POST['usr']['password']);
+
+        // create user
+        $this->user_m->insert($_POST['usr']);
+        $_POST['emp']['user_id'] = $this->user_m->get(
+            array(
+                "m_user.user_id" => $_POST['usr']['user_id'],
+                "password" => $_POST['usr']['password']
+            )
+        )->row()->id;
+
+        // create employee
+        $this->employee->insert($_POST['emp']);
+
+        $this->session->set_flashdata("success", "Akun employee berhasil dibuat");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_employee()
+    {
+        $this->employee->update(array("m_employee.id" => $_POST['id']), $_POST['emp']);
+        $this->session->set_flashdata("success", "Data employee berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function delete_employee()
+    {
+        $this->employee->update(
+            array(
+                "m_employee.id" => $_POST['id']
+            ),
+            array(
+                "is_active" => 0
+            )
+        );
+        $this->session->set_flashdata("success", "Akun employee berhasil dinonaktifkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function activate_employee()
+    {
+        $this->employee->update(
+            array(
+                "m_employee.id" => $_POST['id']
+            ),
+            array(
+                "is_active" => 1
+            )
+        );
+        $this->session->set_flashdata("success", "Akun employee berhasil diaktifkan");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }

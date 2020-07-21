@@ -10,7 +10,7 @@
                             <div class="text-center">
                                 <a href="#" class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary"><?= $this->session->username; ?></a>
                                 <div class="text-muted">
-                                    <?= $this->session->role_code == "ROLE_ADMIN" ? "Administrator" : ""; ?>
+                                    <?= $this->session->role_code == "ROLE_SUPER_ADMIN" ? "Administrator" : ""; ?>
                                 </div>
                             </div>
                         </div>
