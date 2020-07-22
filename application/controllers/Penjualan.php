@@ -99,7 +99,7 @@ class Penjualan extends CI_Controller
         } else if ($command == "add") {
             $data['page_title'] = "Transaksi Baru - Point of Sales";
             $data['back_url'] = base_url("/index.php/penjualan/pos");
-
+ 
             $content["customers"] = $this->partner->get_customer()->result();
 
             $data['page_content'] = $this->load->view("penjualan/pos/add", $content, true);
@@ -352,8 +352,8 @@ class Penjualan extends CI_Controller
         $data['page_title'] = "<a href='".base_url('index.php/penjualan/laporan/penjualan/harian')."'><span class='la la-arrow-left'></span></a> Detail Laporan Penjualan Harian";
         $data['type']       = $type;
         $data['id']         = $id;
-        $data['master']     = $this->pos_report->pos_report("tab1.id=".$id, "tab2.id")->result(); 
-
+        $data['master']     = $this->pos_report->pos_report("tab1.id=".$id, "tab3.id")->result(); 
+        
          $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/preview", $data, true);
         
         $this->load->view('layout/head');

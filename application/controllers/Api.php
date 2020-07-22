@@ -826,6 +826,8 @@ class Api extends CI_Controller
             "description" => $_POST['description'],
             "created_by" => $this->session->id,
             "updated_by" => $this->session->id,
+            "created_date" => date('Y-m-d H:i:s'),
+            "updated_date" => date('Y-m-d H:i:s'),
             #"warehouse_id"=>1, // di default dulu
             "flag"=>1,
         );
