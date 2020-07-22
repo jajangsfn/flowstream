@@ -26,7 +26,10 @@
                     }
                 },
                 {
-                    data: 'brand_description'
+                    data: 'brand_name',
+                    render: function(data, type, row, meta) {
+                        return `<div class="font-weight-bold">${data} </div><span>${row.brand_description}</span>`
+                    }
                 },
                 {
                     data: "barcode"
@@ -77,6 +80,7 @@
                         return `
                             <button type="button" class="btn btn-icon btn-sm btn-light-success" onclick="edit_barang(
                                 '${row.id}',
+                                '${row.brand_name}',
                                 '${row.brand_description}',
                                 '${row.barcode}',
                                 '${row.sku_code}',
@@ -121,6 +125,7 @@
 
     function edit_barang(
         id,
+        brand_name,
         brand_description,
         barcode,
         sku_code,
@@ -137,6 +142,7 @@
         tax,
     ) {
         $("#id_barang_edit").val(id)
+        $("#brand_name_edit").val(brand_name)
         $("#brand_description_edit").val(brand_description)
         $("#barcode_edit").val(barcode)
         $("#sku_edit").val(sku_code)

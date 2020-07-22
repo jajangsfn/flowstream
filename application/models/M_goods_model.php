@@ -56,11 +56,6 @@ class M_goods_model extends CI_Model
         return $this->db->get();
     }
 
-    function get_all()
-    {
-        return $this->db->get("m_goods");
-    }
-
     function get_complete()
     {
         return $this->db->query(
@@ -130,7 +125,9 @@ class M_goods_model extends CI_Model
 
             $data['barcode'] = $barcode;
         }
+        echo "insert done";
         $this->db->insert("m_goods", $data);
+        echo "insert done";
     }
 
     function setup_checkdigit($barcode)
@@ -169,10 +166,11 @@ class M_goods_model extends CI_Model
         $this->db->where("branch_id = $branch_id");
         $this->db->order_by("unique_id desc");
         $this->db->limit(1);
-        if ($this->db->get()->num_rows() == 0) {
+        $qres = $this->db->get();
+        if ($qres->num_rows() == 0) {
             return 1;
         } else {
-            return $this->db->get()->row()->unique_id + 1;
+            return $qres->row()->unique_id + 1;
         }
     }
 

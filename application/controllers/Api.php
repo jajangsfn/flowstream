@@ -144,6 +144,7 @@ class Api extends CI_Controller
     {
         $entry_data = array(
             "branch_id" => $_POST['branch_id'],
+            "brand_name" => $_POST['brand_name'],
             "brand_description" => $_POST['brand_description'],
             "sku_code" => $_POST['sku_code'],
             "plu_code" => $_POST['plu_code'],
@@ -170,6 +171,7 @@ class Api extends CI_Controller
     {
         $where_id['id'] = $_POST['id'];
         $entry_data = array(
+            "brand_name" => $_POST['brand_name'],
             "brand_description" => $_POST['brand_description'],
             "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
             "sku_code" => $_POST['sku_code'],

@@ -78,6 +78,19 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "brand_name",
+                                    "type" => "text",
+                                    "required" => true,
+
+                                    "placeholder" => "Nama brand",
+                                    "label" => "Nama brand",
+                                    "help" => "Masukan nama brand",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
                                     "name" => "brand_description",
                                     "type" => "text",
                                     "required" => true,
@@ -159,7 +172,7 @@
                                     "value" => false
                                 ), true); ?>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_input", array(
                                     "name" => "rekening_no",
                                     "type" => "number",
@@ -266,7 +279,7 @@
                                     "selected" => false,
                                 ), true); ?>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-lg-12">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "unit",
                                     "title" => "Unit",
@@ -305,6 +318,22 @@
                 <div class="card-body row">
                     <div class="col-lg-6">
                         <div class="row">
+                            <div class="col-lg-6">
+                                <?= $this->load->view("component/input/flowstream_input", array(
+                                    "name" => "brand_name",
+                                    "type" => "text",
+                                    "required" => true,
+
+                                    "id" => "brand_name_edit",
+
+                                    "placeholder" => "Nama brand",
+                                    "label" => "Nama brand",
+                                    "help" => "Masukan nama brand",
+
+                                    "value" => false
+                                ), true); ?>
+                            </div>
+
                             <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_input", array(
                                     "name" => "brand_description",
@@ -400,7 +429,7 @@
                                     "value" => false
                                 ), true); ?>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_input", array(
                                     "name" => "rekening_no",
                                     "type" => "number",
@@ -521,7 +550,7 @@
                                     "selected" => false,
                                 ), true); ?>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-lg-12">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "unit",
                                     "title" => "Unit",
