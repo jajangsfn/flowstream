@@ -6,7 +6,7 @@
 <body onload="window.print()">
 	<div class="container">
 		<div class="text-center">
-			<h1>Cetak Laporan Penjualan <?= $type == 1 ? "Harian per tanggal ".date('d M Y') : "Bulanan"?></h1>
+			<h1>Cetak Laporan Penjualan <?= $type == 1 || $type == 3 ? "Harian per tanggal ".date('d M Y') : "Bulanan"?></h1>
 			<h3><?=$type== 2 ? "Dari tanggal ".$from." sampai tanggal ".$to : ""?></h3>
 		</div>
 			<div class="row mt-10">
@@ -32,7 +32,7 @@
 									<th>Harga</th>
 									<th>Quantity</th>
 									<th>Diskon %</th>
-									<th>Jumlah</th>
+									<th>Total</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -62,7 +62,7 @@
 							<tfoot>
 								<tr>
 									<td colspan="12" class="text-right">
-										<b>Total</b>
+										<b>Grant Total</b>
 									</td>
 									<td class="text-right">
 										<?=number_format($total);?>
@@ -103,7 +103,7 @@
 							<tfoot>
 								<tr>
 									<td colspan="3" class="text-right">
-										<b>Total</b>
+										<b>Grant Total</b>
 									</td>
 									<td class="text-right">
 										<?=number_format($total);?>

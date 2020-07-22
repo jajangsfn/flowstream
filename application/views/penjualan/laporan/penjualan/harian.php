@@ -61,13 +61,13 @@
 					<form method="get" action="<?=base_url()?>index.php/penjualan/laporan/penjualan/harian">
 					<div class="row">
 						<div class="col-lg-1 col-form-label">
-							<label for="key">Search</label>
+							<label for="key">Pencarian</label>
 						</div>
 						<div class="col-lg-3">
 							<input type="text" name="key" class="form-control" id="key" required placeholder="Silahkan masukkan kata kunci" value="<?=$key?>" autocomplete="off">
 						</div>
-						<div class="col-lg-2">
-							<button type="submit" class="btn btn-md btn-primary" name="search">Search</button>
+						<div class="col-lg-3">
+							<button type="submit" class="btn btn-md btn-primary" name="search">Cari</button>
 							<a href="<?=current_url()?>">
 								<button type="button" class="btn btn-md btn-warning">Refresh</button>
 							</a>
@@ -81,8 +81,8 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-body">
-					<div class="text-right">
-						<a href="<?=base_url()?>index.php/penjualan/print_laporan_penjualan_harian?id=&key=<?=$key?>" target="_blank">
+					<div class="text-right mb-3">
+						<a href="<?=base_url()?>index.php/penjualan/print_laporan_penjualan_harian?id=&key=<?=$key?>&group=&type=1" target="_blank">
 							<button class="btn btn-light-warning btn-sm">
 								<i class="la la-file-upload"></i>
 								Print

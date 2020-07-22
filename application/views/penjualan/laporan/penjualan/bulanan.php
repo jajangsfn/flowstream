@@ -77,7 +77,7 @@
 											<input type="date" name="to" class="form-control" id="to" required placeholder="Sampai tanggal" value="<?=$to?>" autocomplete="off">
 										</td>
 										<td>
-											<button type="submit" class="btn btn-md btn-primary" name="search">Search</button>
+											<button type="submit" class="btn btn-md btn-primary" name="search">Cari</button>
 											<a href="<?=current_url()?>">
 												<button type="button" class="btn btn-md btn-warning">Refresh</button>
 											</a>

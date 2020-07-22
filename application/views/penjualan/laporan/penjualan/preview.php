@@ -12,7 +12,7 @@
 							<thead>
 								<tr>
 									<th colspan="13" class="text-right">
-										<a href="<?=base_url()?>index.php/penjualan/print_laporan_penjualan_harian/<?=$id?>" target="_blank">
+										<a href="<?=base_url()?>index.php/penjualan/print_laporan_penjualan_harian?id=<?=$id?>&key=&group=1&type=3" target="_blank">
 											<button class="btn btn-light-warning btn-sm">
 												<i class="la la-file-upload"></i>
 												Print
@@ -35,7 +35,7 @@
 									<th>Harga</th>
 									<th>Quantity</th>
 									<th>Diskon %</th>
-									<th>Jumlah</th>
+									<th>Total</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -53,10 +53,10 @@
 										<td><?=$val->barcode?></td>
 										<td><?=$val->brand_name?></td>
 										<td nowrap><?=$val->brand_description?></td>
-										<td><?=number_format( ceil($val->price) )?></td>
-										<td><?=number_format($val->quantity)?></td>
-										<td><?=number_format($val->discount)?></td>
-										<td><?=number_format( ceil($val->total) )?></td>
+										<td class="text-right"><?=number_format( ceil($val->price) )?></td>
+										<td class="text-right"><?=number_format($val->quantity)?></td>
+										<td class="text-right"><?=number_format($val->discount)?></td>
+										<td class="text-right"><?=number_format( ceil($val->total) )?></td>
 
 									</tr>
 								<?php }

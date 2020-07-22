@@ -327,15 +327,15 @@ class Penjualan extends CI_Controller
         if (count($_GET)) {
 
             $key   = trim($_GET['key']);
-            $where = "tab1.invoice_no LIKE '".$key."' OR tab1.partner_name LIKE '%".$key."%' AND DATE(tab1.updated_date) = '".$today."'";
+            $where = "(tab4.brand_name LIKE '".$key."%' or tab1.invoice_no LIKE '".$key."' OR tab1.partner_name LIKE '%".$key."%') AND DATE(tab1.updated_date) = '".$today."'";
 
         } else {
             $key   = "";
         }
-
+        // echo $where;exit;
         $data['page_title']   = "Laporan Penjualan Harian";        
-        $data['total_trans']  = count($this->pos_report->pos_report("DATE(tab1.updated_date) = DATE('".$today."')", "tab1.id")->result());
-        $data['total_sum']    = $this->pos_report->pos_report("DATE(tab1.updated_date) = DATE('".$today."')")->row()->total;
+        $data['total_trans']  = count($this->pos_report->pos_report($where, "tab1.id")->result());
+        $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
         $data['master']       = $this->pos_report->pos_report($where, "tab1.id")->result(); 
         $data['key']          = $key;
         $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/harian", $data, true);
@@ -352,6 +352,7 @@ class Penjualan extends CI_Controller
         $data['page_title'] = "<a href='".base_url('index.php/penjualan/laporan/penjualan/harian')."'><span class='la la-arrow-left'></span></a> Detail Laporan Penjualan Harian";
         $data['type']       = $type;
         $data['id']         = $id;
+        $data['key']        = null;
         $data['master']     = $this->pos_report->pos_report("tab1.id=".$id, "tab3.id")->result(); 
         
          $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/preview", $data, true);
@@ -362,15 +363,16 @@ class Penjualan extends CI_Controller
         $this->load->view('penjualan/laporan/penjualan/js');
     }
 
-    public function print_laporan_penjualan_harian($id = null)
+    public function print_laporan_penjualan_harian()
     {
-        
-        $where = ($id) ? "tab1.id=".$id : "tab1.invoice_no LIKE '".$_GET['key']."' OR tab1.partner_name LIKE '%".$_GET['key']."%' AND DATE(tab1.updated_date) = '".date('Y-m-d')."'";
-        // echo $where;exit;
-        $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
-        $data['master']       = $this->pos_report->pos_report($where,"tab1.id")->result(); 
-        $data['type']         = 1;
+        // echo json_encode($_GET);exit;
+        $where = ($_GET['id']) ? "tab1.id=".$_GET['id'] : "(tab4.brand_name LIKE '".$_GET['key']."%' or tab1.invoice_no LIKE '".$_GET['key']."' OR tab1.partner_name LIKE '".$_GET['key']."%' ) AND DATE(tab1.updated_date) = '".date('Y-m-d')."'";
+        $group = ($_GET['group']) ? "tab3.id" : "tab1.id";
 
+        $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
+        $data['master']       = $this->pos_report->pos_report($where,$group)->result(); 
+        $data['type']         = $_GET['type'];
+        // echo json_encode($data['master']);exit;
         $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan',$data);
 
     }
@@ -380,7 +382,7 @@ class Penjualan extends CI_Controller
     private function laporan_penjualan_bulanan()
     {
 
-        $where = "DATE_FORMAT(tab1.updated_date,'%Y-%m')";
+        $where = "DATE_FORMAT(tab1.updated_date,'%Y-%m') = date('Y-m')";
         $group = "DATE(tab1.updated_date)";
         $from  = "";
         $to    = "";
@@ -396,8 +398,8 @@ class Penjualan extends CI_Controller
 
         $data['page_title'] = "Laporan Penjualan Bulanan";
         $data['type']         = 2;
-        $data['total_trans']  = $this->pos_report->pos_report("DATE_FORMAT(tab1.updated_date,'%Y-%m')")->row()->total_trans;
-        $data['total_sum']    = $this->pos_report->pos_report("DATE_FORMAT(tab1.updated_date,'%Y-%m')")->row()->total;
+        $data['total_trans']  = $this->pos_report->pos_report($where)->row()->total_trans;
+        $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
         $data['master']       = $this->pos_report->pos_report($where, $group)->result(); 
         $data['from']         = $from;
         $data['to']           = $to;
@@ -418,9 +420,14 @@ class Penjualan extends CI_Controller
 
         if (count($_GET)) {
 
-            $from  = trim($_GET['from']);
-            $to    = trim($_GET['to']);
-            $where = "DATE(tab1.updated_date) >='".$from."' and DATE(tab1.updated_date) <='".$to."'";
+            $from  = !empty($_GET['from'])  ? trim($_GET['from']) : null;
+            $to    = !empty($_GET['to']) ? trim($_GET['to']) : null;
+
+            if ($from && $to)
+            {
+                $where = "DATE(tab1.updated_date) >='".$from."' and DATE(tab1.updated_date) <='".$to."'";
+            }
+            
 
         }
         
