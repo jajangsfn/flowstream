@@ -2,10 +2,10 @@
 	var chart_goods = [];
 	$(document).ready( function(){
 
+		get_chart_goods_from_db();	
 		get_po_list();
 		get_goods_list();
-
-		get_chart_goods_from_db();		
+			
 		show_goods_to_chart();		
 		
 
@@ -84,6 +84,55 @@
 
 		clear_goods_chart();
 	}
+	// function get_po_list()
+	// {
+	// 	var supplier_id_temp= <?=isset($master[0]) ? $master[0]->partner_id : "";?>;
+		
+	// 	var supplier_id 	= $("#supplier_id").val();
+		
+	// 		$.get("<?=base_url()?>index.php/inventori/get_po_list/1",
+	// 			{"supplier_id":supplier_id})
+	// 		.done(function(data){
+				
+	// 			var po_list = jQuery.parseJSON(data);
+	// 			var po_text = ""; 
+				
+	// 			$("#po_no_list").html('<option value="">PO Kosong</option>');
+
+	// 			if (po_list.length > 0) {
+
+	// 				$("#po_no_list").html('<option value="">Pilih No PO</option>');
+
+	// 				$.each(po_list,function(id,val) {
+	// 					po_text+="<option value='"+val.id+"'>"+val.purchase_order_no+"</option>";
+	// 				});
+
+	// 				$("#po_no_list").append(po_text);
+	// 				$("#po_no_list").selectpicker('refresh');
+					
+	// 			}else {
+
+	// 				Swal.fire("Info", "Data No PO tidak ditemukan!", "error");
+					
+	// 			}
+
+	// 			$("#po_no_list").selectpicker('refresh');
+				
+	// 		});
+
+	// 		if (supplier_id_temp) {
+	// 			if(supplier_id_temp!=supplier_id) {
+	// 				$("#receive_list").html('');
+	// 				chart_goods = [];
+	// 				$("#supplier_id_temp").val(supplier_id);
+	// 			}
+	// 		}else {
+	// 			$("#supplier_id_temp").val(supplier_id);
+	// 		}
+		
+	// 	clear_goods_chart();
+	// 	get_goods_per_supplier();
+	// }
 
 	function get_goods_list()
 	{
@@ -236,16 +285,15 @@
 				goods_chart+="<tr>";
 				goods_chart+="<input type='hidden' name='po_detail_id[]' value='"+val.po_detail_id+"'>";
 				goods_chart+="<input type='hidden' name='goods_id[]' value='"+val.goods_id+"'>";
-				goods_chart+="<input type='hidden' name='goods_qty[]' value='"+val.goods_qty+"'>";
 				goods_chart+="<input type='hidden' name='goods_discount[]' value='"+val.goods_discount+"'>";
 				goods_chart+="<input type='hidden' name='goods_price[]' value='"+val.goods_price+"'>";
 				goods_chart+="<td>"+(id+1)+"</td>";
 				goods_chart+="<td>"+val.goods_code+"</td>";
 				goods_chart+="<td>"+val.goods_name+"</td>";
-				goods_chart+="<td>"+val.goods_price+"</td>";
-				goods_chart+="<td>"+val.goods_qty+"</td>";
+				goods_chart+="<td>"+numeral(val.goods_price).format('0,[.]00')+"</td>";
+				goods_chart+="<td><input type='number' name='goods_qty[]' value='"+val.goods_qty+"' min='1' class='form-control' style='width:30%'></td>";
 				goods_chart+="<td>"+val.goods_discount+"</td>";
-				goods_chart+="<td>"+total+"</td>";
+				goods_chart+="<td>"+numeral(total).format('0,[.]00')+"</td>";
 				goods_chart+="<td><button type='button' class='btn btn-light-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa la-trash'></span></button></td>";
 				goods_chart+="</tr>";
 			});
@@ -282,14 +330,14 @@
 
 	function get_chart_goods_from_db()
 	{
-		var json = '<?=isset($master) ? json_encode($master) :"";?>';
-		var data = (json) ? jQuery.parseJSON(json) : [];
+		var json = <?=isset($master) ? json_encode($master) : "";?>;
+		console.log(json);
+		var data = (json!="") ? json : [];
 		if (data.length > 0){
-			console.log(data);
 			$.each(data,function(id,val){
 				var code = (val.sku_code) ? val.sku_code : 'Kosong';
 				var save_input = {};
-				save_input.po_detail_id 	= val.purchase_order_detail_id
+				save_input.po_detail_id 	= val.purchase_order_id;
 				save_input.goods_id			= val.goods_id;
 				save_input.goods_code 		= code;
 				save_input.goods_name 		= val.goods_name;
@@ -301,6 +349,8 @@
 				
 			});
 		}
+
+		show_goods_to_chart();
 	}
 
 
@@ -351,6 +401,39 @@
 		        	window.open("<?=base_url()?>index.php/inventori/print_receive/"+rv_id);
 		        }
 		    });
+	}
+
+	function get_goods_per_supplier()
+	{
+		var supplier_id = $("#supplier_id").val();
+
+		$.get("<?=base_url()?>index.php/inventori/get_po_list/4",
+				{"supplier_id":supplier_id})
+			.done(function(data){
+				
+				var goods_list = jQuery.parseJSON(data);
+				var goods_text = ""; 
+
+				$("#goods_list").html('<option value="">Barang Kosong</option>');
+
+				if ( goods_list.length > 0 ){
+					
+					$("#goods_list").html('<option value="">Pilih Kode Barang</option>');
+					$.each(goods_list, function(id, val) {
+						goods_text+="<option value='"+val.goods_id+"'>"+val.sku_code+"</option>";
+					});
+					
+					$("#goods_list").append(goods_text);
+					$("#goods_list").selectpicker('referesh');
+				}
+				$("#goods_list").selectpicker('refresh');
+
+
+
+				
+
+
+			});
 	}
 
 

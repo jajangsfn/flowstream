@@ -35,7 +35,7 @@
             <div class="col-md-1"></div>
             <div class="col-form-label col-md-2 text-right">Supplier</div>
             <div class="col-md-3">
-              <select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" required="">
+              <select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" required="" onchange="get_all_goods_supplier()">
                   <option value="" selected>Pilih Supplier</option>
                   <?php
                     foreach ($supplier as $key => $val) { 

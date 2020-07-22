@@ -45,6 +45,8 @@ class Inventori extends CI_Controller
     // receiving
     public function receiving()
     {
+
+        // echo json_encode($_POST);exit;
          if (count($_POST)) {
             
             $id_user           = $this->session->userdata('id');
@@ -146,7 +148,7 @@ class Inventori extends CI_Controller
         $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['page_content'] = $this->load->view("inventori/receiving/add_receiving", $data ,true);
-
+ 
         $this->load->view('layout/head');
         $this->load->view('layout/base_maxwidth', $data);
         $this->load->view('layout/js');
@@ -161,6 +163,7 @@ class Inventori extends CI_Controller
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_no(2);
         $data['master']       = $this->rm->get_all_receive("tab1.id=".$rv_id,null,"tab2.id")->result(); 
+        // echo json_encode($data['master']);exit;
         $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['page_content'] = $this->load->view("inventori/receiving/edit_receiving", $data ,true);
@@ -190,23 +193,26 @@ class Inventori extends CI_Controller
 
         if ( $type == 1 ) {
             $where              = "tab4.id=". $this->input->get('supplier_id');
+            $data               = $this->rm->get_goods_receive($where)->result(); 
 
-            $data               = $this->rm->get_goods_receive($where)->result();
-
-        } elseif ( $type == 2 ) {
+        } else if ( $type == 2 ) {
 
             $where              = "tab1.id =".$this->input->get('po_id');
             $group              = "tab6.goods_id";
             $data               = $this->rm->get_goods_receive($where,$group)->result();
 
-        } elseif ( $type == 3 ) {
+        } else if ( $type == 3 ) {
 
            $where               = 'tab1.id='.$this->input->get('po_id').' and tab6.goods_id='.$this->input->get('goods_id');
            $group               = 'tab6.goods_id';
             
             $data                     = $this->rm->get_goods_receive($where,$group)->result();
 
-        } 
+        } else if ( $type == 4) {
+            $where              = "tab4.id=". $this->input->get('supplier_id');
+            $group              = "tab6.goods_id";
+            $data               = $this->rm->get_goods_receive($where, $group)->result(); 
+        }
 
         echo json_encode($data);
     }    
@@ -387,8 +393,7 @@ class Inventori extends CI_Controller
     {
         
         $data = $this->t_ws->get_all(array("tab1.id"=>$id),array("tab2.id"))->result_array(); 
-        // echo json_encode($data);exit;
-        // $this->pdf->print_warehouse(1,$data); 
+        
         $this->pdf->dynamic_print(1,"warehouse_in",$data);
     }
 

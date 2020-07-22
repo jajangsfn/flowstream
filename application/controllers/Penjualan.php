@@ -23,6 +23,7 @@ class Penjualan extends CI_Controller
                 "t_order_request_model" => "or",
                 "t_pos_model" => "pos",
                 "t_pos_return_model" => "pos_return",
+                "T_pos_report_model" => "pos_report",
                 "S_history_model" => "history", 
             )
         );
@@ -320,22 +321,119 @@ class Penjualan extends CI_Controller
 
     private function laporan_penjualan_harian()
     {
-        $data['page_title'] = "Laporan Penjualan Harian";
-        $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/harian", "", true);
+        $today = date('Y-m-d');
+        $where = "DATE(tab1.updated_date) = DATE('".$today."')";
 
+        if (count($_GET)) {
+
+            $key   = trim($_GET['key']);
+            $where = "tab1.invoice_no LIKE '".$key."' OR tab1.partner_name LIKE '%".$key."%' AND DATE(tab1.updated_date) = '".$today."'";
+
+        } else {
+            $key   = "";
+        }
+
+        $data['page_title']   = "Laporan Penjualan Harian";        
+        $data['total_trans']  = count($this->pos_report->pos_report("DATE(tab1.updated_date) = DATE('".$today."')", "tab1.id")->result());
+        $data['total_sum']    = $this->pos_report->pos_report("DATE(tab1.updated_date) = DATE('".$today."')")->row()->total;
+        $data['master']       = $this->pos_report->pos_report($where, "tab1.id")->result(); 
+        $data['key']          = $key;
+        $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/harian", $data, true);
+        
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+        $this->load->view('penjualan/laporan/penjualan/js');
+    }
+
+
+    public function detail_laporan_penjualan($type = 1, $id)
+    {
+        $data['page_title'] = "<a href='".base_url('index.php/penjualan/laporan/penjualan/harian')."'><span class='la la-arrow-left'></span></a> Detail Laporan Penjualan Harian";
+        $data['type']       = $type;
+        $data['id']         = $id;
+        $data['master']     = $this->pos_report->pos_report("tab1.id=".$id, "tab2.id")->result(); 
+
+         $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/preview", $data, true);
+        
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+        $this->load->view('penjualan/laporan/penjualan/js');
+    }
+
+    public function print_laporan_penjualan_harian($id = null)
+    {
+        
+        $where = ($id) ? "tab1.id=".$id : "tab1.invoice_no LIKE '".$_GET['key']."' OR tab1.partner_name LIKE '%".$_GET['key']."%' AND DATE(tab1.updated_date) = '".date('Y-m-d')."'";
+        // echo $where;exit;
+        $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
+        $data['master']       = $this->pos_report->pos_report($where,"tab1.id")->result(); 
+        $data['type']         = 1;
+
+        $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan',$data);
+
+    }
+
+
+
+    private function laporan_penjualan_bulanan()
+    {
+
+        $where = "DATE_FORMAT(tab1.updated_date,'%Y-%m')";
+        $group = "DATE(tab1.updated_date)";
+        $from  = "";
+        $to    = "";
+
+        if (count($_GET)) {
+
+            $from  = trim($_GET['from']);
+            $to    = trim($_GET['to']);
+            $where = "DATE(tab1.updated_date) >='".$from."' and DATE(tab1.updated_date) <='".$to."'";
+
+        } 
+
+
+        $data['page_title'] = "Laporan Penjualan Bulanan";
+        $data['type']         = 2;
+        $data['total_trans']  = $this->pos_report->pos_report("DATE_FORMAT(tab1.updated_date,'%Y-%m')")->row()->total_trans;
+        $data['total_sum']    = $this->pos_report->pos_report("DATE_FORMAT(tab1.updated_date,'%Y-%m')")->row()->total;
+        $data['master']       = $this->pos_report->pos_report($where, $group)->result(); 
+        $data['from']         = $from;
+        $data['to']           = $to;
+        $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/bulanan", $data, true);
+        // echo json_encode($data);exit;
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
 
-    private function laporan_penjualan_bulanan()
+    public function print_laporan_penjualan_bulanan()
     {
-        $data['page_title'] = "Laporan Penjualan Bulanan";
-        $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/bulanan", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        $where = "DATE_FORMAT(tab1.updated_date,'%Y-%m')";
+        $group = "DATE(tab1.updated_date)";
+        $from  = "";
+        $to    = "";
+
+        if (count($_GET)) {
+
+            $from  = trim($_GET['from']);
+            $to    = trim($_GET['to']);
+            $where = "DATE(tab1.updated_date) >='".$from."' and DATE(tab1.updated_date) <='".$to."'";
+
+        }
+        
+
+        $data['total_trans']  = $this->pos_report->pos_report($where)->row()->total_trans;
+        $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
+        $data['master']       = $this->pos_report->pos_report($where, $group)->result();
+        $data['type']         = 2;
+        $data['from']         = $from;
+        $data['to']           = $to;
+         
+         $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan',$data);
+
     }
 
     private function laporan_retur_harian()

@@ -68,11 +68,13 @@ class Return_model extends CI_Model
                                                           tab1.actual_warehouse = ".$val->warehouse_id." and
                                                           tab1.reference_no='".$val->reference_no."' 
                                                           and tab2.goods_id=".$val->goods_id)->row();
-            // echo json_encode($warehouse_detail);exit; 
             // update warehouse detail
-            $this->db->set("quantity","quantity-".$val->quantity,FALSE);
-            $this->db->where("id",$warehouse_detail->id);
-            $this->db->update("t_physical_warehouse_detail");
+
+            if ($warehouse_detail) {
+                $this->db->set("quantity","quantity-".$val->quantity,FALSE);
+                $this->db->where("id",$warehouse_detail->id);
+                $this->db->update("t_physical_warehouse_detail");
+            }
 
             // ambil data receiving
             $receiving_detail = $this->db->query("SELECT tab2.* FROM t_receiving tab1 
@@ -80,11 +82,12 @@ class Return_model extends CI_Model
                                                   WHERE tab1.flag =2 and  
                                                         tab1.reference_no='".$val->reference_no."' 
                                                         and tab2.goods_id=".$val->goods_id)->row();
-            // echo json_encode($receiving_detail);exit;
             // update data receiving
-            $this->db->set("quantity","quantity-".$val->quantity,FALSE);
-            $this->db->where("id",$receiving_detail->id);
-            $this->db->update("t_receiving_detail");
+            if ($receiving_detail) {
+                $this->db->set("quantity","quantity-".$val->quantity,FALSE);
+                $this->db->where("id",$receiving_detail->id);
+                $this->db->update("t_receiving_detail");
+            }
 
             // ambil data m goods
             $goods = $this->db->query("SELECT * FROM m_goods WHERE id=".$val->goods_id)->row();
@@ -130,6 +133,7 @@ class Return_model extends CI_Model
                             "goods_id" => $param['goods_id_chart'][$i],
                             "warehouse_id" => $param['goods_ws_id_chart'][$i],
                             "quantity" => $param['goods_qty_chart'][$i],
+                            "price" => $param['goods_price_chart'][$i],
                             "flag" => 1
                         );
             $this->db->insert("t_purchase_return_detail", $arr_detail);
@@ -140,8 +144,8 @@ class Return_model extends CI_Model
     {
 
         $data = $this->db->query("SELECT tab1.*,tab7.`name` supplier_name,tab8.`name` warehouse_name ,tab8.id warehouse_id,
-                            (tab2.quantity * tab5.price) total,
-                            tab9.id goods_id, tab9.brand_description goods_name,tab9.plu_code,tab9.sku_code,tab5.price,tab2.quantity,tab7.id supplier_id,tab5.quantity qty_receive,date_format(tab1.return_date, '%Y-%m-%d') return_date_convert
+                            (tab2.quantity * tab2.price) total,
+                            tab9.id goods_id, tab9.brand_description goods_name,tab9.plu_code,tab9.sku_code,tab2.price,tab2.quantity,tab7.id supplier_id,tab5.quantity qty_receive,date_format(tab1.return_date, '%Y-%m-%d') return_date_convert
                             FROM t_purchase_return tab1 
                             JOIN t_purchase_return_detail tab2 ON tab2.purchase_return_id=tab1.id 
                             LEFT JOIN t_receiving tab3 ON tab3.receiving_no=tab1.reference_no
