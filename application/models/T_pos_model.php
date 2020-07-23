@@ -115,7 +115,22 @@ class T_pos_model extends CI_Model
         return $current_order_no;
     }
 
+    function get_this_month($where = '')
+    {
+        $this->db->select("id");
+        $this->db->from("t_pos");
 
+        if ($where) {
+            $where['created_date < '] = date("Y-m-d", strtotime('first day of next month'));
+            $where['created_date >= '] = date("Y-m-d", strtotime('first day of this month'));
+        } else {
+            $where = array(
+                "created_date < " => date("Y-m-d", strtotime('first day of next month')),
+                "created_date >= " => date("Y-m-d", strtotime('first day of this month'))
+            );
+        }
 
- 
+        $this->db->where($where);
+        return $this->db->get();
+    }
 }

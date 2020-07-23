@@ -40,7 +40,7 @@
                         </div>
                         <div class="form-group" id="user_salesman_id_cell" style="display: none;">
                             <small>Pilih Salesman</small>
-                            <select id="pilih_salesman" name="user_salesman_id">
+                            <select id="pilih_salesman" name="user_salesman_id" required>
                                 <option label="Label"></option>
                             </select>
                         </div>
