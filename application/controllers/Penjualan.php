@@ -172,9 +172,7 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
-<<<<<<< Updated upstream
- 
-=======
+
 
     public function print_pos($pos_id)
     {
@@ -185,7 +183,6 @@ class Penjualan extends CI_Controller
         // echo json_encode($data);
     }
 
->>>>>>> Stashed changes
     // return
     public function return()
     {

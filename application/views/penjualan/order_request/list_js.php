@@ -54,15 +54,12 @@
                         `;
                         }
                         return `
-<<<<<<< Updated upstream
                         <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/edit_order_request/") ?>${data}" data-toggle="tooltip" title="edit">
                             <i class="flaticon2-edit"></i>
                         </a>
-                        <a class="btn btn-icon btn-sm btn-light-info" href="#" data-toggle="tooltip" title="cetak ulang">
-=======
+                        
                         ${ext_button}
                         <a class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" title="cetak ulang" href="<?= base_url("/index.php/penjualan/print_order_request/") ?>${data}" target="_blank">
->>>>>>> Stashed changes
                             <i class="fa la-print"></i>
                         </a>
                         ${ext_button}
