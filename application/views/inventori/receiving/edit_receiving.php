@@ -41,7 +41,7 @@
 						<!-- <div class="col-md-1"></div> -->
 						<label class="col-form-label col-md-2 text-right">Supplier</label>
 						<div class="form-group col-md-3">
-		                    <div class="w-100">
+		                    <div class="w-100"> 
 			                   <select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" onchange="get_po_list()">
 			                      	<option value="" selected>Pilih Supplier</option>
 			                       	<?php

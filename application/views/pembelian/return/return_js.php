@@ -3,6 +3,7 @@
 	$(document).ready( function() {
 
 		get_data_from_db();
+		get_all_goods_supplier();
 		$("#btn_save_return").click(function(){
 
 			Swal.fire({
@@ -51,19 +52,43 @@
 					$("#warehouse_id").val('');
 
 					if ( parse.length > 0 ) {
-						// set arehouse_id
-						$("#warehouse_id").val( parse[0].warehouse_id);
-						$("#goods_list").html('<option value="">Pilih Barang</option>');
-
+						
 						$.each( parse, function(id, val) {
-							text+="<option value='"+val.goods_id+"'>"+val.sku_code+"</option>";
-						});
+							var save_goods = {};
+							save_goods.id = val.goods_id;
+							save_goods.code = val.plu_code;
+							save_goods.name = val.goods_name;
+							save_goods.price= parseInt(val.price);
+							save_goods.qty  = parseInt(val.quantity);
+							save_goods.qty_receive = parseInt(val.qty_receive);
+							save_goods.discount  = 0;
+							save_goods.ws_id = 1;
+							save_goods.ws_name= 'Receiving';
 
-						$("#goods_list").append(text);
-						$("#goods_list").selectpicker('refresh');
+							if (chart_goods.length > 0) {
+								var same = false;
+								$.each(chart_goods,function(id,val){
+									if (val.id == save_goods.id && val.ws_id == save_goods.ws_id)
+									{				
+										val.qty+=save_goods.qty;
+										val.ws_id = save_goods.ws_id;
+										val.ws_name = save_goods.ws_name;
+										same = true;
+										
+									}
+								});
+									if (!same){
+										chart_goods.push(save_goods);
+									}
+							}else {
+								chart_goods.push(save_goods);
+							}
+
+						});
+						show_chart_goods();
+						clear_goods_chart();
+
 					}else {
-						$("#goods_list").html('<option value="">Barang tidak ditemukan</option>');
-						$("#goods_list").selectpicker('refresh');
 						Swal.fire("Info", "Data tidak ditemukan!", "error");
 					}
 			});
@@ -73,23 +98,38 @@
 
 	function get_goods_detail()
 	{
-		var receive_no    = $("#nro").val();
+		// var receive_no    = $("#nro").val();
+		var supplier_id = $("#supplier_id").val();
 		var goods_id      = $("#goods_list").val();
-		 
-		$.get("<?=base_url()?>index.php/inventori/get_ws_goods_detail",
-				{"receive_no":receive_no,"goods_id":goods_id})
+
+		$.get("<?=base_url()?>index.php/pembelian/get_goods_json/4",
+				{"id_supplier":supplier_id,"goods_id":goods_id})
 		.done( function (data) {
 			
 			var goods_detail = jQuery.parseJSON(data);			
-
-			$("#kode_barang").val(goods_detail[0].sku_code);
-			$("#id_barang").val(goods_detail[0].goods_id);
-			$("#nama_barang").val(goods_detail[0].goods_name);
-			$("#quantity").val(goods_detail[0].receive_qty);
-			$("#qty_receive").val(goods_detail[0].receive_qty);
-			$("#harga_barang").val(goods_detail[0].price);
+			$("#kode_barang").val(goods_detail[0].plu_code);
+			$("#id_barang").val(goods_detail[0].id);
+			$("#nama_barang").val(goods_detail[0].brand_description);
+			$("#quantity").val(1);
+			$("#qty_receive").val(0);
+			$("#harga_barang").val(goods_detail[0].hpp);
 
 		});
+		 
+		// $.get("<?=base_url()?>index.php/inventori/get_ws_goods_detail",
+		// 		{"receive_no":receive_no,"goods_id":goods_id})
+		// .done( function (data) {
+			
+		// 	var goods_detail = jQuery.parseJSON(data);			
+
+		// 	$("#kode_barang").val(goods_detail[0].sku_code);
+		// 	$("#id_barang").val(goods_detail[0].goods_id);
+		// 	$("#nama_barang").val(goods_detail[0].goods_name);
+		// 	$("#quantity").val(goods_detail[0].receive_qty);
+		// 	$("#qty_receive").val(goods_detail[0].receive_qty);
+		// 	$("#harga_barang").val(goods_detail[0].price);
+
+		// });
 	}
 
 	function add_to_chart()
@@ -102,8 +142,7 @@
 		var goods_qty_receive  = parseInt( $("#qty_receive").val() );
 		var goods_warehouse_id = $("#warehouse_id").val();
 		var goods_warehouse_name= $("#warehouse_id option:selected").text();
-		// console.log(goods_warehouse_id.split('_'));
-		// alert(goods_warehouse_name);
+		
 		if ( goods_id ) {
 			var save_goods = {};
 			save_goods.id = goods_id;
@@ -116,37 +155,22 @@
 			save_goods.ws_id = goods_warehouse_id;
 			save_goods.ws_name= goods_warehouse_name;
 
-			if ( goods_qty > goods_qty_receive)
-			{
-				Swal.fire("Info", "Jumlah retur melebihi jumlah penerimaan!", "error");			
-			} else {
-
-				var same = false;
-				console.log(save_goods);
-				$.each(chart_goods,function(id,val){
-					if (val.id == goods_id)
-					{
-						var goods_sum = (val.qty + goods_qty);
-						if ( goods_sum > val.qty_receive  ) {
-							Swal.fire("Info", "Jumlah retur melebihi jumlah penerimaan!", "error");
-						}else {
-							val.qty+=goods_qty;
-							val.ws_id = goods_warehouse_id;
-							val.ws_name = goods_warehouse_name;
-						}
-
-
-						same = true;
-						
-					}
-				});
-
+			var same = false;
+			
+			$.each(chart_goods,function(id,val){
+				if (val.id == goods_id && val.ws_id == goods_warehouse_id)
+				{				
+					val.qty+=goods_qty;
+					val.ws_id = goods_warehouse_id;
+					val.ws_name = goods_warehouse_name;
+					same = true;
+					
+				}
+			});
 				if (!same){
 					chart_goods.push(save_goods);
 				}
 
-			}
-			
 			show_chart_goods();
 			set_zero_qty();
 			clear_goods_chart();
@@ -171,7 +195,8 @@
 				
 				total = (val.price * val.qty);
 				grant_total+=total;
-				total = total > 0 ?  (total/1000).toFixed(3)  : 0;
+				total = total > 0 ?  numeral(total).format('0,0[.]00')  : 0;
+				price = numeral(val.price).format('0,0[.]00');
 				rows+="<tr id='"+id+"'>";
 				rows+="<td>"+(id+1)+"</td>";
 				rows+="<td class='goods_code_chart'>";
@@ -182,8 +207,8 @@
 				rows+= "<td>"+val.name+"'</td>";
 				rows+="<td><input type='hidden' name='goods_ws_id_chart[]' id='goods_ws_id_chart_"+id+"' value='"+val.ws_id+"'>"+val.ws_name+"</td>";
 				rows+="<td class='goods_price_chart'>";
-				rows+="<input type='hidden' name='goods_price_chart[]' class='form-control w-50' id='goods_price_chart_"+id+"' value='"+val.price+"'>"+val.price+"</td>";
-				rows+="<td><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' onchange='sum_total_goods("+id+")'></td>";
+				rows+="<input type='hidden' name='goods_price_chart[]' class='form-control w-50' id='goods_price_chart_"+id+"' value='"+val.price+"'>"+price+"</td>";
+				rows+="<td style='width:10%'><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' onchange='sum_total_goods("+id+")'></td>";
 				rows+="<td class='text-right'>"+total+"</td>";
 				rows+="<td><button type='button' class='btn btn-xs btn-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa fa-trash'></span></button></td>";
 				rows+="</tr>";	
@@ -215,26 +240,21 @@
 											  parseInt( $(this).find('td #goods_price_chart_'+id).val() ) : 0;
 
            // check if qty more then qty receive
-           if (goods_qty_chart > goods_qty_receive_chart)
-           {
-           	// change border to red
-           	 // $(this).find('#goods_qty_chart_'+id).css({"border-color": "#C1E0FF", 
-             // "border-width":"1px", 
-             // "border-style":"solid"});
-
-           	 Swal.fire("Info", "Jumlah retur melebihi jumlah penerimaan!", "error");
-           	  new_input.id = goods_id_chart;
-			  new_input.qty = goods_qty_receive_chart;
-			  new_input.qty_receive = goods_qty_receive_chart;
-			  new_input.price = goods_price_chart;
-           }else {
+     //       if (goods_qty_chart > goods_qty_receive_chart)
+     //       {
+     //       	 Swal.fire("Info", "Jumlah retur melebihi jumlah penerimaan!", "error");
+     //       	  new_input.id = goods_id_chart;
+			  // new_input.qty = goods_qty_receive_chart;
+			  // new_input.qty_receive = goods_qty_receive_chart;
+			  // new_input.price = goods_price_chart;
+     //       }else {
            		// set new value to chart_goods array
 				new_input.id = goods_id_chart;
 				new_input.qty = goods_qty_chart;
 				new_input.qty_receive = goods_qty_receive_chart;
 				new_input.price = goods_price_chart;
 
-           }
+           // }
 
 			set_new_value(id,new_input);
 
@@ -371,5 +391,35 @@
 			}
 		}
 
+	}
+
+
+	function get_all_goods_supplier(e)
+	{
+
+		var supplier_id = $("#supplier_id").val();
+
+		$.get("<?=base_url()?>index.php/pembelian/get_goods_json/3",
+				{"id_supplier": supplier_id})
+		.done(function( result){
+
+			var parse = jQuery.parseJSON(result);
+			var goods = "";
+			if (parse.length > 0) {
+				
+				$("#goods_list").html('<option value="">Pilih Kode Barang</option>');
+				
+				$.each(parse, function(id, val) {
+					
+					goods+="<option value='"+val.id+"'>"+val.sku_code+"</option>";
+				});
+
+				$("#goods_list").append(goods);
+				$("#goods_list").selectpicker('refresh');
+			}else {
+				$("#goods_list").html('<option value="">Barang Kosong</option>');
+				$("#goods_list").selectpicker('refresh');
+			}
+		});
 	}
 </script>

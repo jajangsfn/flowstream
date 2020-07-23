@@ -230,7 +230,7 @@ class Pembelian extends CI_Controller
                     $this->history->insert($history_data);
                     $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil diperbaharui</div>');
 
-                    redirect("pembelian/return");
+                    redirect("pembelian/return"); 
 
             }else {
                 // echo json_encode($param);exit;
@@ -286,6 +286,7 @@ class Pembelian extends CI_Controller
         $where = "tab1.id=".$id;
         $group = "tab1.id,tab2.id";
         $data = $this->return->get_all($where, $group, 2);  
+        // echo json_encode($data);exit;
         $this->pdf->dynamic_print(1,"return_in",$data);
     }
 
@@ -423,7 +424,7 @@ class Pembelian extends CI_Controller
             return json_encode($data);
         }
 
-        return $data->result();
+        return $data->result(); 
     }
 
     public function get_goods_json($type = 1)
@@ -440,11 +441,19 @@ class Pembelian extends CI_Controller
             $goods  = $this->input->get('id_goods');
             $where  = "goods_id=".$goods;
             $data  = $this->goods->get_goods_price($where)->result();
-        }else {
+        }else if ( $type == 3){
 
             $supplier = $this->input->get("id_supplier");   
             $where = "tab1.id=".$supplier;
             $data  = $this->goods->get_goods_per_supplier($where)->result();
+        }else if ( $type == 4)
+        {
+             $goods = $this->input->get('goods_id');
+             $supplier = $this->input->get('id_supplier');             
+             $where = "tab1.id=".$supplier;
+             $where = ($goods) ? $where." AND tab4.id='".$goods."'" : $where;
+             $data  = $this->goods->get_goods_per_supplier($where)->result(); 
+
         }
        
         
