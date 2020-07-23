@@ -18,7 +18,7 @@
 	}); 
 	
 </script> 
-<script>
+<script> 
 	 
 	function get_po_list()
 	{
@@ -33,9 +33,11 @@
 				var po_list = jQuery.parseJSON(data);
 				var po_text = ""; 
 				
-				$("#po_no_list").html('<option value="">Pilih No PO</option>');
+				$("#po_no_list").html('<option value="">PO Kosong</option>');
 
 				if (po_list.length > 0) {
+
+					$("#po_no_list").html('<option value="">Pilih No PO</option>');
 
 					$.each(po_list,function(id,val) {
 						po_text+="<option value='"+val.id+"'>"+val.purchase_order_no+"</option>";
@@ -47,8 +49,10 @@
 				}else {
 
 					Swal.fire("Info", "Data No PO tidak ditemukan!", "error");
+					
 				}
 
+				$("#po_no_list").selectpicker('refresh');
 				
 			});
 
@@ -62,8 +66,8 @@
 				$("#supplier_id_temp").val(supplier_id);
 			}
 		
-
 		clear_goods_chart();
+		get_goods_per_supplier();
 	}
 
 	function get_goods_list()
@@ -78,21 +82,29 @@
 				var goods_list = jQuery.parseJSON(data);
 				var goods_text = "";
 
-				$("#goods_list").html('<option value="">Pilih Kode Barang</option>');
-
 				if ( goods_list.length > 0) {
+					
 
 					$.each(goods_list, function(id, val) {
-						goods_text+="<option value='"+val.goods_id+"'>"+val.sku_code+"</option>";
+						var save_input = {};
+
+						save_input.po_detail_id 	= po_id;
+						save_input.goods_code 		= val.sku_code;
+						save_input.goods_id 		= val.goods_id;
+						save_input.goods_name 		= val.goods_name;
+						save_input.goods_qty_sisa 	= parseInt(val.sisa);
+						save_input.goods_qty  		= parseInt(val.sisa);
+						save_input.goods_price  	= val.goods_price;
+						save_input.goods_discount 	= val.goods_discount;
+
+						chart_goods.push(save_input);
 					});
 
-					$("#goods_list").append(goods_text);
+					show_goods_to_chart();
 
 				}else {
 					Swal.fire("Info", "Data Barang tidak ditemukan!", "error");
 				}
-
-				$("#goods_list").selectpicker('refresh');
 
 			});
 		
@@ -106,7 +118,7 @@
 			$("#po_id_temp").val(po_id);
 		}
 
-		clear_goods_chart();
+		// clear_goods_chart();
 			
 	}
 
@@ -215,14 +227,13 @@
 				goods_chart+="<tr>";
 				goods_chart+="<input type='hidden' name='po_detail_id[]' value='"+val.po_detail_id+"'>";
 				goods_chart+="<input type='hidden' name='goods_id[]' value='"+val.goods_id+"'>";
-				goods_chart+="<input type='hidden' name='goods_qty[]' value='"+val.goods_qty+"'>";
 				goods_chart+="<input type='hidden' name='goods_discount[]' value='"+val.goods_discount+"'>";
 				goods_chart+="<input type='hidden' name='goods_price[]' value='"+val.goods_price+"'>";
 				goods_chart+="<td>"+(id+1)+"</td>";
 				goods_chart+="<td>"+val.goods_code+"</td>";
 				goods_chart+="<td>"+val.goods_name+"</td>";
-				goods_chart+="<td>"+val.goods_price+"</td>";
-				goods_chart+="<td>"+val.goods_qty+"</td>";
+				goods_chart+="<td>"+numeral(val.goods_price).format('0,[.]00')+"</td>";
+				goods_chart+="<td><input type='number' name='goods_qty[]' value='"+val.goods_qty+"' min='1' class='form-control' style='width:30%'></td>";
 				goods_chart+="<td>"+val.goods_discount+"</td>";
 				goods_chart+="<td>"+numeral(total).format('0,[.]00')+"</td>";
 				goods_chart+="<td><button type='button' class='btn btn-light-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa la-trash'></span></button></td>";
@@ -247,7 +258,7 @@
 
 	function clear_goods_chart()
 	{
-		$("#goods_list").val("");
+		$("#goods_list").html('<option value="">Barang Kosong</option>');
 		$("#goods_list").selectpicker('refresh');
 		$("#goods_code").val('');
 		$("#goods_id").val('');
@@ -306,6 +317,40 @@
 		        	window.open("<?=base_url()?>index.php/inventori/print_receive/"+rv_id);
 		        }
 		    });
+	}
+
+
+	function get_goods_per_supplier()
+	{
+		var supplier_id = $("#supplier_id").val();
+
+		$.get("<?=base_url()?>index.php/inventori/get_po_list/4",
+				{"supplier_id":supplier_id})
+			.done(function(data){
+				
+				var goods_list = jQuery.parseJSON(data);
+				var goods_text = ""; 
+
+				$("#goods_list").html('<option value="">Barang Kosong</option>');
+
+				if ( goods_list.length > 0 ){
+					
+					$("#goods_list").html('<option value="">Pilih Kode Barang</option>');
+					$.each(goods_list, function(id, val) {
+						goods_text+="<option value='"+val.goods_id+"'>"+val.sku_code+"</option>";
+					});
+					
+					$("#goods_list").append(goods_text);
+					$("#goods_list").selectpicker('referesh');
+				}
+				$("#goods_list").selectpicker('refresh');
+
+
+
+				
+
+
+			});
 	}
 
 

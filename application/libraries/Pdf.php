@@ -820,7 +820,7 @@ class pdf
 														   				"val" => 11.8,
 														   				"title" => 'Tgl Retur',
 														   				"align" => 'L',
-														   				"index" => "return_date"
+														   				"index" => "return_date_convert"
 														   			),
 															),
 											"body_position_y" => 33,

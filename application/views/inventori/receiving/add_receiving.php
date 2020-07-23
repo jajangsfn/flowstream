@@ -12,7 +12,7 @@
 							<h5 class="text-dark font-weight-bold my-2 mr-5">Add Receiving</h5>
 						</div>
 						<!--end::Page Heading-->
-					</div>
+					</div> 
 					<!--end::Info-->
 					<!--begin::Toolbar-->
 					<div class="d-flex align-items-center">
@@ -96,7 +96,7 @@
 										<tr>
 											<td>
 												<select name="goods_list" id="goods_list" class="form-control selectpicker" data-live-search="true" onchange="get_goods_detail()">
-													<option value="">Pilih Kode Barang</option>
+													<option value="">Barang Kosong</option>
 												</select>
 											</td>
 											<td>
