@@ -681,6 +681,8 @@ class Api extends CI_Controller
             "order_no" => $_POST['order_no'],
             "description" => $_POST['description'],
             "user_salesman_id" => $_POST['user_salesman_id'],
+            "created_by" => $this->session->id,
+            "flag" => 1
         );
         $this->or->insert($data);
         $id_new_or = $this->db->insert_id();
@@ -689,6 +691,7 @@ class Api extends CI_Controller
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
             $good['order_request_id'] = $id_new_or;
+            $good['flag'] = 1;
             $this->or->insert_detail($good);
         }
 
@@ -774,7 +777,7 @@ class Api extends CI_Controller
             "payment_paid" => $_POST['payment_paid'],
 
             "created_by" => $this->session->id,
-            "updated_by" => $this->session->id
+            "flag" => 1
         );
 
         $this->pos->insert($pos_data);
@@ -794,7 +797,9 @@ class Api extends CI_Controller
                 "discount" => $or_det->discount,
                 "discount_code" => $or_det->discount_code,
                 "tax" => $or_det->tax,
-                "total" => $or_det->total
+                "total" => $or_det->total,
+
+                "flag" => 1
             );
 
             $this->pos->insert_detail($pos_det_data);
