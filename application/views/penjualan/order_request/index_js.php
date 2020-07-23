@@ -273,6 +273,7 @@
                             // unit barang
                             $(document.createElement("td")).text(data.unit),
 
+                            // Harga barang
                             $(document.createElement("td")).append(
                                 $(document.createElement("input"))
                                 .attr("type", "number")

@@ -32,7 +32,7 @@
                             </div>
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <span class="font-weight-bold mr-2">Status Pajak:</span>
-                                <span class="text-muted"><?= $data_branch->tax_status ?></span>
+                                <span class="text-muted"><?= $data_branch->tax_status == 1 ? "Kena Pajak" : "Tidak Kena Pajak" ?></span>
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
                                 <span class="font-weight-bold mr-2">NPWP:</span>
