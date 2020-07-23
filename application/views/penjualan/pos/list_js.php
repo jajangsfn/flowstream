@@ -1,7 +1,7 @@
 <script>
     $(document).ready(() => {
         $("#pos_table").DataTable({
-            responsive: true,
+            responsive: true, 
             paging_type: 'full_numbers',
             ajax: "<?= base_url("/index.php/api/pos") ?>",
             columns: [{
@@ -36,7 +36,7 @@
                     responsivePriority: -1,
                     render: function(data, type, row, meta) {
                         return `
-                        <a class="btn btn-icon btn-sm btn-light-info" href="#" data-toggle="tooltip" title="cetak ulang">
+                        <a class="btn btn-icon btn-sm btn-light-info" href="<?=base_url("/index.php/penjualan/print_pos/")?>${data}" data-toggle="tooltip" title="cetak ulang" target="_blank">
                             <i class="fa la-print"></i>
                         </a>
                         <a class="btn btn-icon btn-sm btn-light-success" href="#" data-toggle="tooltip" title="cetak faktur pajak">
