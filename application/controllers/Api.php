@@ -766,6 +766,13 @@ class Api extends CI_Controller
             "invoice_no" => $_POST['invoice_no'],
             "tax_no" => null,
             "description" => $order_request->description,
+            
+            "payment_total" => $_POST['payment_total'],
+            "payment_method" => $_POST['payment_method'],
+            "payment_description" => $_POST['payment_description'],
+            "bank" => $_POST['bank'],
+            "payment_paid" => $_POST['payment_paid'],
+
             "created_by" => $this->session->id,
             "updated_by" => $this->session->id
         );
@@ -832,6 +839,11 @@ class Api extends CI_Controller
             "updated_by" => $this->session->id,
             "created_date" => date('Y-m-d H:i:s'),
             "updated_date" => date('Y-m-d H:i:s'),
+            "payment_total" => $_POST['payment_total'],
+            "payment_method" => $_POST['payment_method'],
+            "payment_description" => $_POST['payment_description'],
+            "bank" => $_POST['bank'],
+            "payment_paid" => $_POST['payment_paid'],
             #"warehouse_id"=>1, // di default dulu
             "flag" => 1,
         );

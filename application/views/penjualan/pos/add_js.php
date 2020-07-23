@@ -3,6 +3,9 @@
     var index_harga = 0;
 
     $(document).ready(function() {
+        $('.select2').select2({
+            width: "100%"
+        });
         $('#pilih_customer').select2({
             placeholder: "Pilih Customer",
             width: "100%"
@@ -56,7 +59,7 @@
                 branch_id = result.data.branch_id;
                 index_harga = result.data.index_harga;
                 customer_id = result.data.id;
-                
+
                 $("#branch_id_afterselect").val(branch_id);
                 $("#partner_name_afterselect").val(result.data.name);
 
@@ -67,6 +70,7 @@
                     success: function(result) {
                         $("#pos_no").text("No #" + result.data).fadeIn();
                         $("#order_no_afterselect").val(result.data);
+                        $("#nomor_transaksi").val(result.data);
                     },
                     error: function(response) {
                         console.log(response.responseText);
@@ -156,14 +160,15 @@
         $subtotal_sebelumnya = parseInt($("#total_harga_" + id).text());
         $total_sebelumnya = parseInt($("#total_harga_order").text());
         $("#total_harga_order").text($total_sebelumnya - $subtotal_sebelumnya);
+        $("#total_pembayaran").val($total_sebelumnya - $subtotal_sebelumnya);
 
         $("#" + id).remove();
         render_table_number();
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
-            $("button[type=submit]").removeAttr("disabled");
+            $("#payment-button").removeAttr("disabled");
         } else {
-            $("button[type=submit]").attr("disabled", "disabled");
+            $("#payment-button").attr("disabled", "disabled");
         }
     }
 
@@ -172,9 +177,9 @@
             $(elem).text(index + 1);
         })
         if ($("table#daftar_barang_order tbody th:first-child").length === 0) {
-            $("input[type=submit]").attr("disabled", "disabled");
+            $("#payment-button").attr("disabled", "disabled");
         } else {
-            $("input[type=submit]").removeAttr("disabled");
+            $("#payment-button").removeAttr("disabled");
         }
     }
 
@@ -198,17 +203,18 @@
 
         // Tambahkan ke total bersih
         $("#total_harga_order").text($total_bersih + $subtotal_baru);
+        $("#total_pembayaran").val($total_bersih + $subtotal_baru);
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
-            $("button[type=submit]").removeAttr("disabled");
+            $("#payment-button").removeAttr("disabled");
         } else {
-            $("button[type=submit]").attr("disabled", "disabled");
+            $("#payment-button").attr("disabled", "disabled");
         }
     }
 
     function tambah_barang(element) {
         const id = $(element).attr("data-id-barang");
-        
+
         // cek jika barang sudah pernah dimasukan
         var same_found = false;
         $("table#daftar_barang_order tbody tr").each(function(rower) {
@@ -220,11 +226,15 @@
         if (same_found) {
 
             // jika sudah pernah dimasukan, tambahkan quantity dan hitung ulang
-            $(`tr#${id}`).animate({ opacity: 0 });
+            $(`tr#${id}`).animate({
+                opacity: 0
+            });
             $(`input#jumlah_${id}`).val(
                 parseInt($(`input#jumlah_${id}`).val()) + parseInt($("#jumlah_tambah_baru").val())
             );
-            $(`tr#${id}`).animate({ opacity: 1 });
+            $(`tr#${id}`).animate({
+                opacity: 1
+            });
 
 
             hitung_ulang(id)
@@ -324,9 +334,10 @@
                     render_table_number();
                     $total_sebelumnya = parseInt($("#total_harga_order").text());
                     $("#total_harga_order").text($total_sebelumnya + $subtotal_baru);
+                    $("#total_pembayaran").val($total_sebelumnya + $subtotal_baru);
 
                     // tombol submit
-                    $("button[type=submit]").removeAttr("disabled");
+                    $("#payment-button").removeAttr("disabled");
                 }
             })
         }
@@ -371,6 +382,27 @@
     function toggleshow() {
         $(".brand_description_show").toggleClass("d-none");
         show_desc = !show_desc;
+    }
+
+    function salesman_changed() {
+        $("#salesman_input").val(
+            $("#pilih_salesman option:selected").text()
+        )
+    }
+
+    function change_payment_method() {
+        switch ($("#payment_method").val()) {
+            case "CASH":
+                $("#nama_bank_cell").fadeOut();
+                $("#jumlah_bayar_cell").removeClass("col-lg-4").addClass("col-lg-6");
+                $("#payment_method_cell").removeClass("col-lg-4").addClass("col-lg-6");
+                break;
+            default:
+                $("#nama_bank_cell").fadeIn();
+                $("#jumlah_bayar_cell").removeClass("col-lg-6").addClass("col-lg-4");
+                $("#payment_method_cell").removeClass("col-lg-6").addClass("col-lg-4");
+                break;
+        }
     }
 </script>
 
