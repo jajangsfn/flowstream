@@ -17,6 +17,7 @@ class Penjualan extends CI_Controller
         $this->load->model(
             array(
                 "user_model" => "user_m",
+                "m_branch_model" => "branch",
                 "m_partner_model" => "partner",
                 "m_goods_model" => "goods",
                 "m_warehouse_model" => "m_ws",
@@ -24,29 +25,52 @@ class Penjualan extends CI_Controller
                 "t_pos_model" => "pos",
                 "t_pos_return_model" => "pos_return",
                 "T_pos_report_model" => "pos_report",
-                "S_history_model" => "history", 
+                "S_history_model" => "history",
+                "S_reference_model" => "ref"
             )
         );
     }
 
     public function home()
     {
-        $data['page_title'] = "Daftar Penjualan";
-        $data['page_content'] = $this->load->view("penjualan/index", "", true);
+        if ($this->session->role_code != "ROLE_SUPER_ADMIN") {
+            $content = array(
+                "belum_cetak_faktur" => $this->or->get_non_pos("branch_id = " . $this->session->branch_id)->num_rows(),
+                "pos_di_bulan_berjalan" => $this->pos->get_this_month("branch_id = " . $this->session->branch_id)->num_rows(),
+                "pos_di_bulan_berjalan" => $this->pos->get_this_month("branch_id = " . $this->session->branch_id)->num_rows(),
+            );
+        } else {
+            $content = array(
+                "belum_cetak_faktur" => $this->or->get_non_pos()->num_rows(),
+                "pos_di_bulan_berjalan" => $this->pos->get_this_month()->num_rows(),
+                "or_di_bulan_berjalan" => $this->or->get_this_month()->num_rows()
+            );
+        }
+
+        $data['page_title'] = "Penjualan";
+        $data['page_content'] = $this->load->view("penjualan/index", $content, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
 
-    public function order_request()
+    public function order_request($command = '', $id_or = '')
     {
-        // tampilkan list of order request
-        $data['page_title'] = "Penjualan - Daftar Order Request";
-        $data['back_url'] = base_url("/index.php/penjualan/home");
+        if ($command == "view") {
+            $data['page_title'] = "Penjualan - Order Request";
+            $data['back_url'] = base_url("/index.php/penjualan/order_request");
+            $content['data_or'] = $this->or->get_specific($id_or);
 
-        $data['page_content'] = $this->load->view("penjualan/order_request/list", "", true);
-        $data['page_js'] = $this->load->view("penjualan/order_request/list_js", "", true);
+            $data['page_content'] = $this->load->view("penjualan/order_request/view/view", $content, true);
+        } else {
+            // tampilkan list of order request
+            $data['page_title'] = "Penjualan - Daftar Order Request";
+            $data['back_url'] = base_url("/index.php/penjualan/home");
+
+            $data['page_content'] = $this->load->view("penjualan/order_request/list", "", true);
+            $data['page_js'] = $this->load->view("penjualan/order_request/list_js", "", true);
+        }
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
@@ -146,13 +170,20 @@ class Penjualan extends CI_Controller
             $data['back_url'] = base_url("/index.php/penjualan/order_request");
             $content['data_or'] = $this->or->get_specific($id_or);
 
+            $content['banks'] = $this->ref->get(array("group_data" => "BANK"))->result();
+            $content['payment_methods'] = $this->ref->get(array("group_data" => "PAYMENT_METHOD"))->result();
+            $content['data_branch'] = $this->branch->get(array("id" => $this->session->branch_id))->row();
+
             $data['page_content'] = $this->load->view("penjualan/pos/cetak_faktur", $content, true);
             $data['page_js'] = $this->load->view("penjualan/pos/cetak_faktur_js", $content, true);
         } else if ($command == "add") {
             $data['page_title'] = "Transaksi Baru - Point of Sales";
             $data['back_url'] = base_url("/index.php/penjualan/pos");
- 
+
             $content["customers"] = $this->partner->get_customer()->result();
+            $content['banks'] = $this->ref->get(array("group_data" => "BANK"))->result();
+            $content['payment_methods'] = $this->ref->get(array("group_data" => "PAYMENT_METHOD"))->result();
+            $content['data_branch'] = $this->branch->get(array("id" => $this->session->branch_id))->row();
 
             $data['page_content'] = $this->load->view("penjualan/pos/add", $content, true);
             $data['page_js'] = $this->load->view("penjualan/pos/add_js", "", true);
@@ -172,7 +203,6 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
-
 
     public function print_pos($pos_id)
     {
@@ -194,7 +224,7 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
-        $this->load->view('penjualan/return/return_js'); 
+        $this->load->view('penjualan/return/return_js');
     }
 
     public function add_return()
@@ -203,14 +233,14 @@ class Penjualan extends CI_Controller
         $data['page_title']   = "Retur Penjualan";
         $data['return_no']    = generate_po_no(5);
         $data['warehouse']    = $this->m_ws->get_all()->result();
-        $data['tgl_indo']     = longdate_indo( date('Y-m-d') ); 
-        $data['supplier']     = $this->get_partner(array("is_customer"=>1));
+        $data['tgl_indo']     = longdate_indo(date('Y-m-d'));
+        $data['supplier']     = $this->get_partner(array("is_customer" => 1));
         $data['page_content'] = $this->load->view("penjualan/return/add_return", $data, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base_maxwidth', $data);
         $this->load->view('layout/js');
-        $this->load->view('penjualan/return/return_js'); 
+        $this->load->view('penjualan/return/return_js');
     }
 
     public function edit_return($id)
@@ -218,35 +248,33 @@ class Penjualan extends CI_Controller
 
         $data['page_title']   = "Retur Pembelian";
         $data['return_no']    = generate_po_no(5);
-        $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
-        $data['customer']     = $this->get_partner(array("is_customer"=>1));
+        $data['tgl_indo']     = longdate_indo(date('Y-m-d'));
+        $data['customer']     = $this->get_partner(array("is_customer" => 1));
         $data['warehouse']    = $this->m_ws->get_all()->result();
-        $data['master']       = $this->pos_return->get_all("tab1.id=".$id,"tab2.id");
+        $data['master']       = $this->pos_return->get_all("tab1.id=" . $id, "tab2.id");
         // echo json_encode($data['master']);exit;
         $data['page_content'] = $this->load->view("penjualan/return/edit_return", $data, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base_maxwidth', $data);
         $this->load->view('layout/js');
-        $this->load->view('penjualan/return/return_js'); 
+        $this->load->view('penjualan/return/return_js');
     }
 
     public function get_pos_goods($type = 1)
     {
 
         if ($type == 1) {
-            $invoice_no = $this->input->get('invoice_no'); 
-            $customer_id  = $this->input->get('customer_id'); 
-            $where        = "tab1.invoice_no='".$invoice_no."' and tab1.partner_id=".$customer_id;
-        
-        }else {
-            $invoice_no = $this->input->get('invoice_no'); 
-            $goods_id  = $this->input->get('goods_id'); 
-            $where        = "tab1.invoice_no='".$invoice_no."' and tab2.goods_id=".$goods_id;
-        
+            $invoice_no = $this->input->get('invoice_no');
+            $customer_id  = $this->input->get('customer_id');
+            $where        = "tab1.invoice_no='" . $invoice_no . "' and tab1.partner_id=" . $customer_id;
+        } else {
+            $invoice_no = $this->input->get('invoice_no');
+            $goods_id  = $this->input->get('goods_id');
+            $where        = "tab1.invoice_no='" . $invoice_no . "' and tab2.goods_id=" . $goods_id;
         }
-        
-        $data       = $this->pos_return->get_all_pos($where,"tab2.goods_id")->result();
+
+        $data       = $this->pos_return->get_all_pos($where, "tab2.goods_id")->result();
 
         echo json_encode($data);
     }
@@ -256,85 +284,87 @@ class Penjualan extends CI_Controller
     {
         $param = $this->input->post();
         // echo json_encode($param);exit;
-        if ( count($param) > 0) {
+        if (count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
 
 
-                    $arr_return = array(
-                            "branch_id" => $this->session->userdata('branch_id'),
-                            "partner_id" => $param['supplier'],
-                            "return_no" => $param['return_no'],
-                            "reference_no" => $param['no_ref'],
-                            "description" => $param['deskripsi'],
-                            "transaction_date" => $param['tgl_trx'],
-                            "return_date" => $param['tgl_trx'],
-                            "updated_date" => date('Y-m-d H:i:s'),
-                            "updated_by" => $this->session->userdata('id'),
-                            "flag" => 1);
-                    // echo json_encode($arr_return);exit;
-                    $this->pos_return->delete($param['id']);
-                    $this->pos_return->insert($arr_return, $param);
-
-
-                     // insert hitory activity
-                    $history_data  = array("branch_id" => $this->session->userdata('branch_id'),
-                                           "branch_name" => $this->session->userdata('branch_name'),
-                                           "created_by" => $this->session->userdata('id'),
-                                           "created_name" => $this->session->userdata('name'),
-                                           "activity"  => "Mengubah Transaksi Retur",
-                                           "created_date" => date('Y-m-d H:i:s'),
-                                        );
-
-                    $this->history->insert($history_data);
-                    $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil diperbaharui</div>');
-
-                    redirect("penjualan/return");
-
-            }else {
-                // echo json_encode($param);exit;
                 $arr_return = array(
-                            "branch_id" => $this->session->userdata('branch_id'),
-                            "partner_id" => $param['supplier'],
-                            "return_no" => $param['return_no'],
-                            "reference_no" => $param['no_ref'],
-                            "description" => $param['deskripsi'],
-                            "transaction_date" => $param['tgl_trx'],
-                            "return_date" => $param['tgl_trx'],
-                            "created_by" => $this->session->userdata('id'),
-                            "created_date" => date('Y-m-d H:i:s'),
-                            "updated_date" => date('Y-m-d H:i:s'),
-                            "updated_by" => $this->session->userdata('id'),
-                            "flag" => 1);
-
-            // echo json_encode($arr_return);exit;
+                    "branch_id" => $this->session->userdata('branch_id'),
+                    "partner_id" => $param['supplier'],
+                    "return_no" => $param['return_no'],
+                    "reference_no" => $param['no_ref'],
+                    "description" => $param['deskripsi'],
+                    "transaction_date" => $param['tgl_trx'],
+                    "return_date" => $param['tgl_trx'],
+                    "updated_date" => date('Y-m-d H:i:s'),
+                    "updated_by" => $this->session->userdata('id'),
+                    "flag" => 1
+                );
+                // echo json_encode($arr_return);exit;
+                $this->pos_return->delete($param['id']);
                 $this->pos_return->insert($arr_return, $param);
 
 
-                 // insert hitory activity
-                $history_data  = array("branch_id" => $this->session->userdata('branch_id'),
-                                       "branch_name" => $this->session->userdata('branch_name'),
-                                       "created_by" => $this->session->userdata('id'),
-                                       "created_name" => $this->session->userdata('name'),
-                                       "activity"  => "Membuat Transaksi Retur",
-                                       "created_date" => date('Y-m-d H:i:s'),
-                                    );
+                // insert hitory activity
+                $history_data  = array(
+                    "branch_id" => $this->session->userdata('branch_id'),
+                    "branch_name" => $this->session->userdata('branch_name'),
+                    "created_by" => $this->session->userdata('id'),
+                    "created_name" => $this->session->userdata('name'),
+                    "activity"  => "Mengubah Transaksi Retur",
+                    "created_date" => date('Y-m-d H:i:s'),
+                );
 
                 $this->history->insert($history_data);
-                $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil disimpan</div>');
+                $this->session->set_flashdata('msg', '<div class="alert alert-success" role="alert">Retur berhasil diperbaharui</div>');
+
+                redirect("penjualan/return");
+            } else {
+                // echo json_encode($param);exit;
+                $arr_return = array(
+                    "branch_id" => $this->session->userdata('branch_id'),
+                    "partner_id" => $param['supplier'],
+                    "return_no" => $param['return_no'],
+                    "reference_no" => $param['no_ref'],
+                    "description" => $param['deskripsi'],
+                    "transaction_date" => $param['tgl_trx'],
+                    "return_date" => $param['tgl_trx'],
+                    "created_by" => $this->session->userdata('id'),
+                    "created_date" => date('Y-m-d H:i:s'),
+                    "updated_date" => date('Y-m-d H:i:s'),
+                    "updated_by" => $this->session->userdata('id'),
+                    "flag" => 1
+                );
+
+                // echo json_encode($arr_return);exit;
+                $this->pos_return->insert($arr_return, $param);
+
+
+                // insert hitory activity
+                $history_data  = array(
+                    "branch_id" => $this->session->userdata('branch_id'),
+                    "branch_name" => $this->session->userdata('branch_name'),
+                    "created_by" => $this->session->userdata('id'),
+                    "created_name" => $this->session->userdata('name'),
+                    "activity"  => "Membuat Transaksi Retur",
+                    "created_date" => date('Y-m-d H:i:s'),
+                );
+
+                $this->history->insert($history_data);
+                $this->session->set_flashdata('msg', '<div class="alert alert-success" role="alert">Retur berhasil disimpan</div>');
 
                 redirect("penjualan/add_return");
-
             }
         }
     }
 
     public function print_return($id)
     {
-        $where = "tab1.id=".$id;
+        $where = "tab1.id=" . $id;
         $group = "tab1.id,tab2.id";
         $data = $this->pos_return->get_all($where, $group, 2);
-        $this->pdf->dynamic_print(2,"return_out",$data);
+        $this->pdf->dynamic_print(2, "return_out", $data);
     }
 
 
@@ -384,24 +414,23 @@ class Penjualan extends CI_Controller
     private function laporan_penjualan_harian()
     {
         $today = date('Y-m-d');
-        $where = "DATE(tab1.updated_date) = DATE('".$today."')";
+        $where = "DATE(tab1.updated_date) = DATE('" . $today . "')";
 
         if (count($_GET)) {
 
             $key   = trim($_GET['key']);
-            $where = "(tab4.brand_name LIKE '".$key."%' or tab1.invoice_no LIKE '".$key."' OR tab1.partner_name LIKE '%".$key."%') AND DATE(tab1.updated_date) = '".$today."'";
-
+            $where = "(tab4.brand_name LIKE '" . $key . "%' or tab1.invoice_no LIKE '" . $key . "' OR tab1.partner_name LIKE '%" . $key . "%') AND DATE(tab1.updated_date) = '" . $today . "'";
         } else {
             $key   = "";
         }
         // echo $where;exit;
-        $data['page_title']   = "Laporan Penjualan Harian";        
+        $data['page_title']   = "Laporan Penjualan Harian";
         $data['total_trans']  = count($this->pos_report->pos_report($where, "tab1.id")->result());
         $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
-        $data['master']       = $this->pos_report->pos_report($where, "tab1.id")->result(); 
+        $data['master']       = $this->pos_report->pos_report($where, "tab1.id")->result();
         $data['key']          = $key;
         $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/harian", $data, true);
-        
+
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
@@ -411,14 +440,14 @@ class Penjualan extends CI_Controller
 
     public function detail_laporan_penjualan($type = 1, $id)
     {
-        $data['page_title'] = "<a href='".base_url('index.php/penjualan/laporan/penjualan/harian')."'><span class='la la-arrow-left'></span></a> Detail Laporan Penjualan Harian";
+        $data['page_title'] = "<a href='" . base_url('index.php/penjualan/laporan/penjualan/harian') . "'><span class='la la-arrow-left'></span></a> Detail Laporan Penjualan Harian";
         $data['type']       = $type;
         $data['id']         = $id;
         $data['key']        = null;
-        $data['master']     = $this->pos_report->pos_report("tab1.id=".$id, "tab3.id")->result(); 
-        
-         $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/preview", $data, true);
-        
+        $data['master']     = $this->pos_report->pos_report("tab1.id=" . $id, "tab3.id")->result();
+
+        $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/preview", $data, true);
+
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
@@ -428,15 +457,14 @@ class Penjualan extends CI_Controller
     public function print_laporan_penjualan_harian()
     {
         // echo json_encode($_GET);exit;
-        $where = ($_GET['id']) ? "tab1.id=".$_GET['id'] : "(tab4.brand_name LIKE '".$_GET['key']."%' or tab1.invoice_no LIKE '".$_GET['key']."' OR tab1.partner_name LIKE '".$_GET['key']."%' ) AND DATE(tab1.updated_date) = '".date('Y-m-d')."'";
+        $where = ($_GET['id']) ? "tab1.id=" . $_GET['id'] : "(tab4.brand_name LIKE '" . $_GET['key'] . "%' or tab1.invoice_no LIKE '" . $_GET['key'] . "' OR tab1.partner_name LIKE '" . $_GET['key'] . "%' ) AND DATE(tab1.updated_date) = '" . date('Y-m-d') . "'";
         $group = ($_GET['group']) ? "tab3.id" : "tab1.id";
 
         $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
-        $data['master']       = $this->pos_report->pos_report($where,$group)->result(); 
+        $data['master']       = $this->pos_report->pos_report($where, $group)->result();
         $data['type']         = $_GET['type'];
         // echo json_encode($data['master']);exit;
-        $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan',$data);
-
+        $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan', $data);
     }
 
 
@@ -453,16 +481,15 @@ class Penjualan extends CI_Controller
 
             $from  = trim($_GET['from']);
             $to    = trim($_GET['to']);
-            $where = "DATE(tab1.updated_date) >='".$from."' and DATE(tab1.updated_date) <='".$to."'";
-
-        } 
+            $where = "DATE(tab1.updated_date) >='" . $from . "' and DATE(tab1.updated_date) <='" . $to . "'";
+        }
 
 
         $data['page_title'] = "Laporan Penjualan Bulanan";
         $data['type']         = 2;
         $data['total_trans']  = $this->pos_report->pos_report($where)->row()->total_trans;
         $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
-        $data['master']       = $this->pos_report->pos_report($where, $group)->result(); 
+        $data['master']       = $this->pos_report->pos_report($where, $group)->result();
         $data['from']         = $from;
         $data['to']           = $to;
         $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/bulanan", $data, true);
@@ -485,14 +512,11 @@ class Penjualan extends CI_Controller
             $from  = !empty($_GET['from'])  ? trim($_GET['from']) : null;
             $to    = !empty($_GET['to']) ? trim($_GET['to']) : null;
 
-            if ($from && $to)
-            {
-                $where = "DATE(tab1.updated_date) >='".$from."' and DATE(tab1.updated_date) <='".$to."'";
+            if ($from && $to) {
+                $where = "DATE(tab1.updated_date) >='" . $from . "' and DATE(tab1.updated_date) <='" . $to . "'";
             }
-            
-
         }
-        
+
 
         $data['total_trans']  = $this->pos_report->pos_report($where)->row()->total_trans;
         $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
@@ -500,9 +524,8 @@ class Penjualan extends CI_Controller
         $data['type']         = 2;
         $data['from']         = $from;
         $data['to']           = $to;
-         
-         $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan',$data);
 
+        $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan', $data);
     }
 
     private function laporan_retur_harian()
@@ -526,12 +549,11 @@ class Penjualan extends CI_Controller
     }
 
 
-    public function get_partner($where=array(),$return=false)
+    public function get_partner($where = array(), $return = false)
     {
         $data = $this->partner->get($where);
 
-        if($return) 
-        {
+        if ($return) {
             return json_encode($data);
         }
 
@@ -539,7 +561,7 @@ class Penjualan extends CI_Controller
     }
 
 
-    public function retur_pos($id=null)
+    public function retur_pos($id = null)
     {
         $this->pos->cut_qty($id);
     }
@@ -549,8 +571,8 @@ class Penjualan extends CI_Controller
     public function approve_return()
     {
         $where['id'] = $this->input->get("return_id");
-        $data['flag']= 2;
-        $msg   = $this->pos_return->update($where,$data);
+        $data['flag'] = 2;
+        $msg   = $this->pos_return->update($where, $data);
 
         echo json_encode($msg);
     }

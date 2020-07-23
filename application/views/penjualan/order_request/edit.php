@@ -42,6 +42,10 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <small>Salesman</small>
+                    <p class="lead"><?= $data_or->user_salesman_name ?></p>
+                </div>
+                <div class="form-group">
                     <label for="description_field">Deskripsi</label>
                     <textarea class="form-control" id="description_field" name="description" rows="3" placeholder="Masukan catatan order"><?= $data_or->description ?></textarea>
                 </div>

@@ -79,7 +79,7 @@ class Setting extends CI_Controller
                         // pengaturan harga
                         $data['back_url'] = base_url("/index.php/setting/master/cabang/$id/barang");
 
-                        $data['page_title'] = "Atur Harga Barang untuk Cabang " . $content['data_branch']->id;
+                        $data['page_title'] = "Atur Harga Barang " . $content['data_branch']->id;
                         $data['transactional'] = true;
                         $data['page_content'] = $this->load->view("setting/master/cabang/harga", $content, true);
                         $data['page_js'] = $this->load->view("setting/master/cabang/harga_js", $content, true);
@@ -94,7 +94,7 @@ class Setting extends CI_Controller
                         $content['color'] = $this->ref->get(array("group_data" => "GOODS_COLOR"))->result();
                         $content['unit'] = $this->unit->get_all()->result();
 
-                        $data['page_title'] = "Daftar Barang untuk Cabang " . $content['data_branch']->name;
+                        $data['page_title'] = "Daftar Barang " . $content['data_branch']->name;
                         $data['transactional'] = true;
                         $data['back_url'] = base_url("/index.php/setting/master/cabang/$id");
                         $data['page_content'] = $this->load->view("setting/master/cabang/barang", $content, true);
@@ -143,7 +143,7 @@ class Setting extends CI_Controller
                         $data['page_js'] = $this->load->view("setting/master/cabang/salesman_js", "", true);
                     } else {
                         // pengaturan supplier
-                        $data['page_title'] = "Daftar Supplier untuk Cabang " . $content['data_branch']->name;
+                        $data['page_title'] = "Daftar Supplier " . $content['data_branch']->name;
 
                         $content['m_master'] = $this->master->get_all()->result();
                         $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
@@ -178,7 +178,7 @@ class Setting extends CI_Controller
                         $data['page_content'] = $this->load->view("setting/master/cabang/customer/salesman", $content, true);
                         $data['page_js'] = $this->load->view("setting/master/cabang/customer/salesman_js", "", true);
                     } else {
-                        $data['page_title'] = "Daftar Customer untuk Cabang " . $content['data_branch']->name;
+                        $data['page_title'] = "Daftar Customer " . $content['data_branch']->name;
 
                         $content['m_master'] = $this->master->get_all()->result();
                         $content['m_partner_type'] = $this->partner_type->get(array("branch_id" => $id))->result();
@@ -190,21 +190,21 @@ class Setting extends CI_Controller
                     }
                     break;
                 case "gudang":
-                    $data['page_title'] = "Daftar Gudang untuk Cabang " . $content['data_branch']->name;
+                    $data['page_title'] = "Daftar Gudang " . $content['data_branch']->name;
                     $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
 
                     $data['page_content'] = $this->load->view("setting/master/cabang/gudang/index", $content, true);
                     $data['page_js'] = $this->load->view("setting/master/cabang/gudang/index_js", $content, true);
                     break;
                 case "partner_type":
-                    $data['page_title'] = "Daftar Tipe Partner untuk Cabang " . $content['data_branch']->name;
+                    $data['page_title'] = "Daftar Tipe Partner " . $content['data_branch']->name;
                     $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
 
                     $data['page_content'] = $this->load->view("setting/master/cabang/partner_type/index", $content, true);
                     $data['page_js'] = $this->load->view("setting/master/cabang/partner_type/index_js", $content, true);
                     break;
                 case "map":
-                    $data['page_title'] = "Daftar Map Harga untuk Cabang " . $content['data_branch']->name;
+                    $data['page_title'] = "Daftar Map Harga " . $content['data_branch']->name;
                     $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
 
                     $content['m_partner_type'] = $this->partner_type->get(array("branch_id" => $id))->result();
@@ -214,16 +214,36 @@ class Setting extends CI_Controller
                     $data['page_js'] = $this->load->view("setting/master/cabang/m_map/index_js", $content, true);
                     break;
                 case "unit":
-                    $data['page_title'] = "Daftar Unit Barang untuk Cabang " . $content['data_branch']->name;
+                    $data['page_title'] = "Daftar Unit Barang " . $content['data_branch']->name;
                     $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
 
                     $data['page_content'] = $this->load->view("setting/master/cabang/unit/index", $content, true);
                     $data['page_js'] = $this->load->view("setting/master/cabang/unit/index_js", $content, true);
                     break;
+                case "employee":
+                    $data['page_title'] = "Daftar Employee " . $content['data_branch']->name;
+                    $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+
+                    $content['levels'] = $this->ref->get(
+                        array(
+                            "group_data" => "EMPLOYEE_LEVEL",
+                            "branch_id" => $id
+                        )
+                    )->result();
+                    $content['positions'] = $this->ref->get(
+                        array(
+                            "group_data" => "EMPLOYEE_POSITION",
+                            "branch_id" => $id
+                        )
+                    )->result();
+
+                    $data['page_content'] = $this->load->view("setting/master/cabang/employee/index", $content, true);
+                    $data['page_js'] = $this->load->view("setting/master/cabang/employee/index_js", $content, true);
+                    break;
                 case "reference":
                     $target = ucwords(str_replace("_", " ", $second_path));
 
-                    $data['page_title'] = "Daftar $target untuk Cabang " . $content['data_branch']->name;
+                    $data['page_title'] = "Daftar $target " . $content['data_branch']->name;
                     $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
 
                     $content['target'] = $target;
@@ -238,7 +258,7 @@ class Setting extends CI_Controller
                     $data['page_content'] = $this->load->view("setting/master/cabang/cabang_spesifik", $content, true);
                     break;
             }
-        } else if ($this->session->role_code != "ROLE_ADMIN") {
+        } else if ($this->session->role_code != "ROLE_SUPER_ADMIN") {
             redirect(current_url() . "/" . $this->session->branch_id);
         } else {
             $content['data_branches'] = $this->branch->get_all()->result();

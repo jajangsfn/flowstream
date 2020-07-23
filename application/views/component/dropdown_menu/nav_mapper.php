@@ -575,7 +575,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
     );
 } else if (stripos(current_url(), "/index.php/setting")) {
     $nav = array();
-    if ($this->session->role_code == "ROLE_ADMIN") {
+    if ($this->session->role_code == "ROLE_SUPER_ADMIN") {
         $nav = array(
             new NavItem(
                 "/user",

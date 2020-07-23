@@ -98,6 +98,36 @@ class T_order_request_model extends CI_Model
         return $this->db->get();
     }
 
+    function get_non_pos($where = '')
+    {
+        $query = "SELECT id FROM t_order_request WHERE order_no not in (
+            SELECT order_no from t_pos
+            )";
+        if ($where) {
+            $query .= " AND $where";
+        }
+        return $this->db->query($query);
+    }
+
+    function get_this_month($where = '')
+    {
+        $this->db->select("id");
+        $this->db->from("t_order_request");
+
+        if ($where) {
+            $where['created_date < '] = date("Y-m-d", strtotime('first day of next month'));
+            $where['created_date >= '] = date("Y-m-d", strtotime('first day of this month'));
+        } else {
+            $where = array(
+                "created_date < " => date("Y-m-d", strtotime('first day of next month')),
+                "created_date >= " => date("Y-m-d", strtotime('first day of this month'))
+            );
+        }
+
+        $this->db->where($where);
+        return $this->db->get();
+    }
+
     function delete($where)
     {
         $this->db->update("t_order_request", array("flag" => 99), $where);

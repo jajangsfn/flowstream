@@ -43,6 +43,9 @@
                         var ext_button = "";
                         if (row.flag == 1) {
                             ext_button = `
+                            <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/edit_order_request/") ?>${data}" data-toggle="tooltip" title="edit">
+                                <i class="flaticon2-edit"></i>
+                            </a>
                             <a class="btn btn-icon btn-sm btn-light-primary" data-toggle="tooltip" data-placement="top" title="cetak faktur" href="<?= base_url("/index.php/penjualan/pos/cetak_faktur/") ?>${data}">
                                 <i class="flaticon2-checkmark"></i>
                             </a>
@@ -52,17 +55,18 @@
                                 <i class="flaticon2-trash"></i>
                             </button>
                         `;
+                        } else {
+                            ext_button = `
+                            <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/order_request/view/") ?>${data}" data-toggle="tooltip" title="view">
+                                <i class="flaticon-eye"></i>
+                            </a>
+                            `
                         }
                         return `
-                        <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/edit_order_request/") ?>${data}" data-toggle="tooltip" title="edit">
-                            <i class="flaticon2-edit"></i>
-                        </a>
-                        
                         ${ext_button}
                         <a class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" title="cetak ulang" href="<?= base_url("/index.php/penjualan/print_order_request/") ?>${data}" target="_blank">
                             <i class="fa la-print"></i>
                         </a>
-                        ${ext_button}
                         `;
                     },
                     createdCell: function(td, cellData, rowData, row, col) {

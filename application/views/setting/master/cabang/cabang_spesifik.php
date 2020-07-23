@@ -32,7 +32,7 @@
                             </div>
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <span class="font-weight-bold mr-2">Status Pajak:</span>
-                                <span class="text-muted"><?= $data_branch->tax_status ?></span>
+                                <span class="text-muted"><?= $data_branch->tax_status == 1 ? "Kena Pajak" : "Tidak Kena Pajak" ?></span>
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
                                 <span class="font-weight-bold mr-2">NPWP:</span>
@@ -103,17 +103,9 @@
                             <div class="navi-item mb-2">
                                 <a href="<?= current_url() ?>/employee" class="navi-link py-4">
                                     <span class="navi-icon mr-2">
-                                        <span class="flaticon2-"></span>
+                                        <span class="flaticon-users-1"></span>
                                     </span>
                                     <span class="navi-text font-size-lg">Employee</span>
-                                </a>
-                            </div>
-                            <div class="navi-item mb-2">
-                                <a href="<?= current_url() ?>/role" class="navi-link py-4">
-                                    <span class="navi-icon mr-2">
-                                        <span class="flaticon2-"></span>
-                                    </span>
-                                    <span class="navi-text font-size-lg">Role</span>
                                 </a>
                             </div>
                             <div class="navi-item mb-2">
@@ -186,7 +178,7 @@
                             <div class="navi-item mb-2">
                                 <a href="<?= current_url() ?>/partner_type" class="navi-link py-4">
                                     <span class="navi-icon mr-2">
-                                        <span class="flaticon-"></span>
+                                        <span class="flaticon2-user-1"></span>
                                     </span>
                                     <span class="navi-text font-size-lg">Tipe Partner</span>
                                 </a>
@@ -194,7 +186,7 @@
                             <div class="navi-item mb-2">
                                 <a href="<?= current_url() ?>/map" class="navi-link py-4">
                                     <span class="navi-icon mr-2">
-                                        <span class="flaticon-"></span>
+                                        <span class="flaticon2-graph-2"></span>
                                     </span>
                                     <span class="navi-text font-size-lg">Map Harga</span>
                                 </a>
@@ -202,7 +194,7 @@
                             <div class="navi-item mb-2">
                                 <a href="<?= current_url() ?>/unit" class="navi-link py-4">
                                     <span class="navi-icon mr-2">
-                                        <span class="flaticon-"></span>
+                                        <span class="flaticon2-layers-2"></span>
                                     </span>
                                     <span class="navi-text font-size-lg">Unit Barang</span>
                                 </a>

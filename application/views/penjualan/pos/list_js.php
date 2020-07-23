@@ -29,7 +29,13 @@
                     data: 'created_date'
                 },
                 {
-                    data: 'flag'
+                    data: 'flag',
+                    render: function(data, type, row, meta) {
+                        if (data == 1) {
+                            return `<span class="text-success">Complete</span>`
+                        }
+                        return `-`;
+                    },
                 },
                 {
                     data: 'id',

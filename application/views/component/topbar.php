@@ -84,8 +84,8 @@
                     <!--begin::Header-->
                     <div class="d-flex align-items-center p-8 rounded-top">
                         <!--begin::Symbol-->
-                        <div class="symbol symbol-md bg-light-primary mr-3 flex-shrink-0">
-                            <img src="<?= base_url() ?>assets/media/users/300_21.jpg" alt="" />
+                        <div class="symbol symbol-md mr-3 flex-shrink-0">
+                            <i class="flaticon2-user icon-2x"></i>
                         </div>
                         <!--end::Symbol-->
                         <!--begin::Text-->
