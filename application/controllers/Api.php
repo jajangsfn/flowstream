@@ -18,6 +18,7 @@ class Api extends CI_Controller
         $this->load->model(
             array(
                 "user_model" => "user_m",
+                "M_account_code_model" => "account",
                 "m_partner_model" => "partner",
                 "m_partner_type_model" => "partner_type",
                 "m_partner_salesman_model" => "part_salesman",
@@ -1189,6 +1190,47 @@ class Api extends CI_Controller
             )
         );
         $this->session->set_flashdata("success", "Akun employee berhasil diaktifkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // kode akun (parameter)
+    function account_code_cabang($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->account->get(
+                    array(
+                        "branch_id" => $branch_id
+                    )
+                )->result()
+            )
+        );
+    }
+
+    function add_account()
+    {
+        $_POST['is_active'] = isset($_POST['is_active']) ? "1" : "0";
+        $_POST['inv_required'] = isset($_POST['inv_required']) ? "1" : "0";
+        $_POST['created_date'] = date("Y-m-d H:i:s");
+        $_POST['created_by'] = $this->session->id;
+        $this->account->insert($_POST);
+
+        $this->session->set_flashdata("success", "Akun berhasil didaftarkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_account()
+    {
+        $_POST['data']['is_active'] = isset($_POST['data']['is_active']) ? "1" : "0";
+        $_POST['data']['inv_required'] = isset($_POST['data']['inv_required']) ? "1" : "0";
+
+        $this->account->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            $_POST['data']
+        );
+        $this->session->set_flashdata("success", "Akun berhasil diperbarui");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }
