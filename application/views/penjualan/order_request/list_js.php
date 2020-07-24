@@ -40,6 +40,7 @@
                     data: 'id',
                     responsivePriority: -1,
                     render: function(data, type, row, meta) {
+                        var container = $(document.createElement("div"));
                         var ext_button = "";
                         if (row.flag == 1) {
                             ext_button = `
@@ -62,12 +63,18 @@
                             </a>
                             `
                         }
-                        return `
-                        ${ext_button}
-                        <a class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" title="cetak ulang" href="<?= base_url("/index.php/penjualan/print_order_request/") ?>${data}" target="_blank">
-                            <i class="fa la-print"></i>
-                        </a>
-                        `;
+                        container.append(
+                            ext_button,
+                            $(document.createElement("div"))
+                            .addClass("btn btn-icon btn-sm btn-light-info")
+                            .attr("data-toggle", "tooltip")
+                            .attr("title", "cetak ulang")
+                            .attr("onclick", `confirm_cetak(${data})`)
+                            .append(
+                                $(document.createElement("i")).addClass("fa la-print")
+                            )
+                        )
+                        return container.html();
                     },
                     createdCell: function(td, cellData, rowData, row, col) {
                         $(td).attr('nowrap', 'nowrap').addClass("text-center")
@@ -98,6 +105,20 @@
         });
 
     })
+
+    function confirm_cetak(id) {
+        Swal.fire({
+            title: "Anda yakin?",
+            text: "Anda akan mencetak ulang order request ini",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Cetak!"
+        }).then(function(result) {
+            if (result.value) {
+                window.open(`<?= base_url("/index.php/penjualan/print_order_request/") ?>${id}`, "_blank");
+            }
+        })
+    }
 
     function delete_trigger(id) {
         $("#id_delete").val(id);

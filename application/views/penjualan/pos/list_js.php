@@ -1,7 +1,7 @@
 <script>
     $(document).ready(() => {
         $("#pos_table").DataTable({
-            responsive: true, 
+            responsive: true,
             paging_type: 'full_numbers',
             ajax: "<?= base_url("/index.php/api/pos") ?>",
             columns: [{
@@ -42,10 +42,10 @@
                     responsivePriority: -1,
                     render: function(data, type, row, meta) {
                         return `
-                        <a class="btn btn-icon btn-sm btn-light-info" href="<?=base_url("/index.php/penjualan/print_pos/")?>${data}" data-toggle="tooltip" title="cetak ulang" target="_blank">
+                        <a class="btn btn-icon btn-sm btn-light-info" onclick="confirm_cetak(${data})" data-toggle="tooltip" title="cetak ulang" target="_blank">
                             <i class="fa la-print"></i>
                         </a>
-                        <a class="btn btn-icon btn-sm btn-light-success" href="#" data-toggle="tooltip" title="cetak faktur pajak">
+                        <a class="btn btn-icon btn-sm btn-light-success" onclick="confirm_cetak_pajak(${data})" data-toggle="tooltip" title="cetak faktur pajak">
                             <i class="fa la-print"></i>
                         </a>
                         `;
@@ -77,6 +77,33 @@
         $('.select2').select2({
             width: '100%'
         });
-
     })
+
+    function confirm_cetak(id) {
+        Swal.fire({
+            title: "Anda yakin?",
+            text: "Anda akan mencetak ulang faktur transaksi ini",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Cetak!"
+        }).then(function(result) {
+            if (result.value) {
+                window.open(`<?= base_url("/index.php/penjualan/print_pos/") ?>${id}`, "_blank");
+            }
+        })
+    }
+
+    function confirm_cetak_pajak(id) {
+        Swal.fire({
+            title: "Anda yakin?",
+            text: "Anda akan mencetak faktur pajak transaksi ini",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Cetak!"
+        }).then(function(result) {
+            if (result.value) {
+                Swal.fire("Belum Terimplementasi");
+            }
+        })
+    }
 </script>
