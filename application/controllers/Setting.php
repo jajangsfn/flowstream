@@ -245,6 +245,17 @@ class Setting extends CI_Controller
                     $data['page_content'] = $this->load->view("setting/master/cabang/employee/index", $content, true);
                     $data['page_js'] = $this->load->view("setting/master/cabang/employee/index_js", $content, true);
                     break;
+
+                case "kode_rekening":
+                    $content['parent_accs'] = $this->account->get("is_active = 0")->result();
+
+                    $data['page_title'] = "Kode Rekening " . $content['data_branch']->name;
+                    $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id);
+
+                    $data['page_content'] = $this->load->view("setting/master/cabang/kode_rekening/kode_rekening", $content, true);
+                    $data['page_js'] = $this->load->view("setting/master/cabang/kode_rekening/kode_rekening_js", $content, true);
+                    break;
+
                 case "reference":
                     $target = ucwords(str_replace("_", " ", $second_path));
 
@@ -300,7 +311,6 @@ class Setting extends CI_Controller
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/akuntansi/akuntansi_js.php", $content, true);
                             break;
                         case 'kode_rekening':
-                            $content['parent_accs'] = $this->account->get("is_active = 0")->result();
                             $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/kode_rekening/kode_rekening.php", $content, true);
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/kode_rekening/kode_rekening_js.php", $content, true);
                             break;
