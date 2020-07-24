@@ -142,7 +142,7 @@ class Return_model extends CI_Model
 
     function get_all($where = null, $group = null,$type = 1)
     {
-
+ 
         $data = $this->db->query("SELECT tab1.*,tab7.`name` supplier_name,tab8.`name` warehouse_name ,tab8.id warehouse_id,
                             (tab2.quantity * tab2.price) total,tab9.barcode,
                             tab9.id goods_id, tab9.brand_description goods_name,tab9.plu_code,tab9.sku_code,tab2.price,tab2.quantity,tab7.id supplier_id,tab5.quantity qty_receive,date_format(tab1.return_date, '%Y-%m-%d') return_date_convert
