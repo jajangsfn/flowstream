@@ -278,20 +278,20 @@
 					total = (val.goods_qty * val.goods_price) - ( (val.goods_qty * val.goods_price) * val.goods_discount / 100);
 				}else {
 					total = (val.goods_qty * val.goods_price);
-				}
+				} 
 				
 				grant_total+=total;
 
-				goods_chart+="<tr>";
-				goods_chart+="<input type='hidden' name='po_detail_id[]' value='"+val.po_detail_id+"'>";
-				goods_chart+="<input type='hidden' name='goods_id[]' value='"+val.goods_id+"'>";
-				goods_chart+="<input type='hidden' name='goods_discount[]' value='"+val.goods_discount+"'>";
-				goods_chart+="<input type='hidden' name='goods_price[]' value='"+val.goods_price+"'>";
+				goods_chart+="<tr id='"+id+"'>";
+				goods_chart+="<input type='hidden' name='po_detail_id[]' id='po_detail_id_"+id+"' value='"+val.po_detail_id+"'>";
+				goods_chart+="<input type='hidden' name='goods_id[]' id='goods_id_"+id+"' value='"+val.goods_id+"'>";
+				goods_chart+="<input type='hidden' name='goods_discount[]' id='goods_discount_"+id+"' value='"+val.goods_discount+"'>";
+				goods_chart+="<input type='hidden' name='goods_price[]' id='goods_price_"+id+"' value='"+val.goods_price+"'>";
 				goods_chart+="<td>"+(id+1)+"</td>";
 				goods_chart+="<td>"+val.goods_code+"</td>";
 				goods_chart+="<td>"+val.goods_name+"</td>";
 				goods_chart+="<td>"+numeral(val.goods_price).format('0,[.]00')+"</td>";
-				goods_chart+="<td><input type='number' name='goods_qty[]' value='"+val.goods_qty+"' min='1' class='form-control' style='width:30%'></td>";
+				goods_chart+="<td><input type='number' name='goods_qty[]' id='goods_qty_"+id+"' value='"+val.goods_qty+"' min='1' class='form-control' style='width:30%' onchange='sum_total("+id+")'></td>";
 				goods_chart+="<td>"+val.goods_discount+"</td>";
 				goods_chart+="<td>"+numeral(total).format('0,[.]00')+"</td>";
 				goods_chart+="<td><button type='button' class='btn btn-light-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa la-trash'></span></button></td>";
@@ -434,6 +434,45 @@
 
 
 			});
+	}
+
+
+	function sum_total(id)
+	{
+		// var price = $("tr #"+id).find("input #goods_price_id_"+id).val();
+		// alert(id+' '+price);
+		
+		$("tr#"+id).each(function() {
+			var goods_id_chart = $(this).find('#goods_id_'+id).val();
+			var goods_qty_chart = ($(this).find('td #goods_qty_'+id).val() ) ? parseInt( $(this).find('td #goods_qty_'+id).val() ) : 0;
+			var goods_price_chart = ($(this).find('#goods_price_'+id).val()) ? parseInt( $(this).find('#goods_price_'+id).val() ) : 0;
+			var goods_discount_chart =  $(this).find('#goods_discount_'+id).val()!= "" ? parseInt( $(this).find('#goods_discount_'+id).val() )  : 0;
+
+			// set new value to chart_goods array
+			var new_input = {};
+			new_input.id = goods_id_chart;
+			new_input.qty = goods_qty_chart;
+			new_input.price = goods_price_chart;
+			new_input.discount = goods_discount_chart;
+
+			console.log(new_input);
+			set_new_value(id,new_input);
+		});
+
+		show_goods_to_chart();
+	}
+
+	function set_new_value(id,new_input)
+	{
+		$.each(chart_goods,function(idx,val){
+			if (idx == id)
+			{
+				val.id =new_input.id;
+				val.goods_qty =new_input.qty;
+				val.goods_price =new_input.price;
+				val.goods_discount =new_input.discount;
+			}
+		});
 	}
 
 

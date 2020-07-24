@@ -63,7 +63,7 @@ class Purchase_order_model extends CI_Model
                                       )
                                     )
                             ) sum_trx
-                            ,tab2.goods_id,tab5.brand_description goods_name,tab2.price goods_price,sum( `tab2`.`quantity`) goods_qty,ifnull(tab2.discount,0) goods_discount,tab5.plu_code,tab5.sku_code,tab6.name branch_name,tab3.name salesman_name, tab2.id purchase_order_detail_id,
+                            ,tab2.goods_id,tab5.barcode,tab5.brand_description goods_name,tab2.price goods_price,sum( `tab2`.`quantity`) goods_qty,ifnull(tab2.discount,0) goods_discount,tab5.plu_code,tab5.sku_code,tab6.name branch_name,tab3.name salesman_name, tab2.id purchase_order_detail_id,
                                 ( sum(tab2.quantity) - ifnull(tab7.diterima, 0) )sisa
                             ");
         $this->db->from("t_purchase_order tab1");

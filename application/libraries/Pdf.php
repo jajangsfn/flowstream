@@ -1744,7 +1744,7 @@ class pdf
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
-						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
+						   $val['barcode'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
@@ -1865,7 +1865,7 @@ class pdf
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
-						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
+						   $val['barcode'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
@@ -1922,7 +1922,7 @@ class pdf
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
-						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
+						   $val['barcode'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
@@ -1972,7 +1972,7 @@ class pdf
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
-						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
+						   $val['barcode'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
