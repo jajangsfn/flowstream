@@ -160,7 +160,9 @@
         $subtotal_sebelumnya = parseInt($("#total_harga_" + id).text());
         $total_sebelumnya = parseInt($("#total_harga_order").text());
         $("#total_harga_order").text($total_sebelumnya - $subtotal_sebelumnya);
-        $("#total_pembayaran").val($total_sebelumnya - $subtotal_sebelumnya);
+        $("#tax_price").text(10 * ($total_sebelumnya - $subtotal_sebelumnya) / 100);
+        $("#total_harga_order_tax").text(110 * ($total_sebelumnya - $subtotal_sebelumnya) / 100);
+        $("#total_pembayaran").val(110 * ($total_sebelumnya - $subtotal_sebelumnya) / 100);
 
         $("#" + id).remove();
         render_table_number();
@@ -203,7 +205,9 @@
 
         // Tambahkan ke total bersih
         $("#total_harga_order").text($total_bersih + $subtotal_baru);
-        $("#total_pembayaran").val($total_bersih + $subtotal_baru);
+        $("#tax_price").text(10 * ($total_bersih + $subtotal_baru) / 100);
+        $("#total_harga_order_tax").text(110 * ($total_bersih + $subtotal_baru) / 100);
+        $("#total_pembayaran").val(110 * ($total_bersih + $subtotal_baru) / 100);
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
             $("#payment-button").removeAttr("disabled");
@@ -334,7 +338,9 @@
                     render_table_number();
                     $total_sebelumnya = parseInt($("#total_harga_order").text());
                     $("#total_harga_order").text($total_sebelumnya + $subtotal_baru);
-                    $("#total_pembayaran").val($total_sebelumnya + $subtotal_baru);
+                    $("#tax_price").text(10 * ($total_sebelumnya + $subtotal_baru) / 100);
+                    $("#total_harga_order_tax").text(110 * ($total_sebelumnya + $subtotal_baru) / 100);
+                    $("#total_pembayaran").val(110 * ($total_sebelumnya + $subtotal_baru) / 100);
 
                     // tombol submit
                     $("#payment-button").removeAttr("disabled");

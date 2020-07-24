@@ -39,7 +39,7 @@
                 $("#nama_barang_tambah").text(focus.brand_name);
                 $("#desk_barang_tambah").text(focus.brand_description);
                 $("#barcode_barang_tambah").text(focus.barcode);
-                $("#harga_barang_tambah").text(price);
+                $("#harga_barang_tambah").text(price ? price : 0);
                 $("#tombol_tambah_baru").attr("data-id-barang", focus.id)
 
                 $("#tambah_barang").modal("show");
@@ -142,6 +142,8 @@
         $subtotal_sebelumnya = parseInt($("#total_harga_" + id).text());
         $total_sebelumnya = parseInt($("#total_harga_order").text());
         $("#total_harga_order").text($total_sebelumnya - $subtotal_sebelumnya);
+        $("#tax_price").text(10 * ($total_sebelumnya - $subtotal_sebelumnya) / 100);
+        $("#total_harga_order_tax").text(110 * ($total_sebelumnya - $subtotal_sebelumnya) / 100);
 
         $("#" + id).remove();
         render_table_number();
@@ -184,6 +186,8 @@
 
         // Tambahkan ke total bersih
         $("#total_harga_order").text($total_bersih + $subtotal_baru);
+        $("#tax_price").text(10 * ($total_bersih + $subtotal_baru) / 100);
+        $("#total_harga_order_tax").text(110 * ($total_bersih + $subtotal_baru) / 100);
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
             $("button[type=submit]").removeAttr("disabled");
@@ -230,7 +234,7 @@
                         price = response.data["default_price"];
                     }
 
-                    price = parseInt(price);
+                    price = price ? parseInt(price) : 0;
                     $jumlah_baru = $("#jumlah_tambah_baru").val();
                     $subtotal_baru = $jumlah_baru * price;
                     const data = response.data;
@@ -315,6 +319,8 @@
                     render_table_number();
                     $total_sebelumnya = parseInt($("#total_harga_order").text());
                     $("#total_harga_order").text($total_sebelumnya + $subtotal_baru);
+                    $("#tax_price").text(10 * ($total_sebelumnya + $subtotal_baru) / 100);
+                    $("#total_harga_order_tax").text(110 * ($total_sebelumnya + $subtotal_baru) / 100);
 
                     // tombol submit
                     $("button[type=submit]").removeAttr("disabled");

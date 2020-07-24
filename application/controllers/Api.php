@@ -690,6 +690,8 @@ class Api extends CI_Controller
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $good['tax'] = 10 * $good['total'] / 100;
+            $good['total'] = $good['total'] + $good['tax'];
             $good['order_request_id'] = $id_new_or;
             $good['flag'] = 1;
             $this->or->insert_detail($good);
@@ -729,6 +731,8 @@ class Api extends CI_Controller
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $good['tax'] = 10 * $good['total'] / 100;
+            $good['total'] = $good['total'] + $good['tax'];
             $good['order_request_id'] = $_POST['id'];
             $this->or->insert_detail($good);
         }
@@ -769,7 +773,7 @@ class Api extends CI_Controller
             "invoice_no" => $_POST['invoice_no'],
             "tax_no" => null,
             "description" => $order_request->description,
-            
+
             "payment_total" => $_POST['payment_total'],
             "payment_method" => $_POST['payment_method'],
             "payment_description" => $_POST['payment_description'],
@@ -859,6 +863,8 @@ class Api extends CI_Controller
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $good['tax'] = 10 * $good['total'] / 100;
+            $good['total'] = $good['total'] + $good['tax'];
 
             // generate POS detail data
             $pos_det_data = array(
@@ -869,9 +875,9 @@ class Api extends CI_Controller
                 "quantity" => $good['quantity'],
                 "discount" => $good['discount'],
                 "discount_code" => null,
-                "tax" => null,
+                "tax" => $good['tax'],
                 "total" => $good['total'],
-
+                "flag" => 1,
             );
 
             $this->pos->insert_detail($pos_det_data);

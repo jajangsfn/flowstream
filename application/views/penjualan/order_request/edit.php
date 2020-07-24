@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-3 d-none d-lg-block">
         <div class="card card-custom gutter-b sticky-top" style="top: 100px">
             <div class="card-header py-5">
                 <h3 class="card-title align-items-start flex-column">
@@ -9,7 +9,7 @@
             </div>
             <div class="card-body daftar_barang_container pt-0">
                 <input type="text" class="form-control my-4" placeholder="Cari Barang" onkeyup="suggester_me(event, this)" />
-                <div class="scroll scroll-pull ps ps--active-y" data-scroll="true" data-wheel-propagation="true" style="max-height: 50vh; height: 100%; overflow: hidden;" id="goods_placement">
+                <div class="scroll scroll-pull ps ps--active-y goods_placement" data-scroll="true" data-wheel-propagation="true" style="max-height: 50vh; height: 100%; overflow: hidden;">
                 </div>
             </div>
         </div>
@@ -91,7 +91,7 @@
                                         <input type="number" name="barang[<?= $detail->goods_id ?>][discount]" class="form-control text-center" id="diskon_<?= $detail->goods_id ?>" value="<?= $detail->discount ?>" min="0" onchange="hitung_ulang(<?= $detail->goods_id ?>)">
                                     </td>
                                     <td id="total_harga_<?= $detail->goods_id ?>" class="text-right rupiah">
-                                        <?= $detail->total ?>
+                                        <?= $detail->quantity * $detail->price * (1 - $detail->discount / 100) ?>
                                     </td>
                                     <td class="text-center">
                                         <button class="mr-3 btn btn-icon btn-light btn-hover-primary btn-sm" type="button" onclick="delete_baris(<?= $detail->goods_id ?>)">
@@ -113,17 +113,29 @@
                         </tbody>
                     </table>
                 </div>
-                <h5 class="text-right font-weight-bold">
-                    Total <span id="total_harga_order">
-                        <?php
-                        $i = 0;
-                        foreach ($data_or->details as $detail) {
-                            $i += $detail->total;
-                        }
-                        echo $i;
-                        ?>
-                    </span>
-                </h5>
+                <div class="text-right">
+                    <p class="text-right m-0">
+                        Subtotal <span id="total_harga_order">
+                            <?php
+                            $subtotal = 0;
+                            foreach ($data_or->details as $detail) {
+                                $subtotal += ($detail->quantity * $detail->price * (1 - $detail->discount / 100));
+                            }
+                            echo $subtotal;
+                            ?>
+                        </span>
+                    </p>
+                    <p class="text-right m-0">
+                        Pajak <span id="tax_price">
+                            <?= 10 * $subtotal / 100 ?>
+                        </span>
+                    </p>
+                    <h5 class="text-right font-weight-bold">
+                        Total <span id="total_harga_order_tax">
+                            <?= 110 * $subtotal / 100 ?>
+                        </span>
+                    </h5>
+                </div>
             </div>
             <div class="card-footer text-right">
                 <button type="submit" class="btn btn-primary"> Simpan </button>
