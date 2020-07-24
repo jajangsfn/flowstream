@@ -159,6 +159,7 @@ class Api extends CI_Controller
             "package" => $_POST['package'],
             "color" => $_POST['color'],
             "unit" => $_POST['unit'],
+            "ratio_flag" => $_POST['ratio_flag']
         );
         if (isset($_POST['barcode']) && $_POST['barcode']) {
             $entry_data['barcode'] = $_POST['barcode'];
@@ -187,6 +188,7 @@ class Api extends CI_Controller
             "package" => $_POST['package'],
             "color" => $_POST['color'],
             "unit" => $_POST['unit'],
+            "ratio_flag" => $_POST['ratio_flag']
         );
         $this->goods->update($where_id, $entry_data);
         $this->session->set_flashdata("success", "Barang berhasil tersimpan");

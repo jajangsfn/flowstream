@@ -27,7 +27,9 @@ class M_goods_model extends CI_Model
             ref10.price as price_2,
             ref11.price as price_3,
             ref12.price as price_4,
-            ref13.price as price_5
+            ref13.price as price_5,
+
+            ref7.quantity as converted_quantity
         ");
 
         $this->db->from("m_goods");
@@ -82,7 +84,9 @@ class M_goods_model extends CI_Model
         ref10.price as price_2,
         ref11.price as price_3,
         ref12.price as price_4,
-        ref13.price as price_5
+        ref13.price as price_5,
+
+        ref7.quantity as converted_quantity
         
         FROM `m_goods`
         

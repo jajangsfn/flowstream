@@ -39,7 +39,7 @@
                 $("#nama_barang_tambah").text(focus.brand_name);
                 $("#desk_barang_tambah").text(focus.brand_description);
                 $("#barcode_barang_tambah").text(focus.barcode);
-                $("#harga_barang_tambah").text(price ? price : 0);
+                $("#harga_barang_tambah").text((price ? price : "0") + " / " + focus.unit);
                 $("#tombol_tambah_baru").attr("data-id-barang", focus.id)
 
                 $("#tambah_barang").modal("show");
@@ -220,7 +220,6 @@
                 opacity: 1
             });
 
-
             hitung_ulang(id)
         } else {
             // ambil info barang dengan ajax
@@ -236,6 +235,12 @@
 
                     price = price ? parseInt(price) : 0;
                     $jumlah_baru = $("#jumlah_tambah_baru").val();
+
+                    // cek ratio_flag
+                    if (response.data.ratio_flag == 1) {
+                        $jumlah_baru = $jumlah_baru * response.data.converted_quantity;
+                    }
+
                     $subtotal_baru = $jumlah_baru * price;
                     const data = response.data;
                     $("table#daftar_barang_order tbody").append(
@@ -263,19 +268,20 @@
                             ),
 
                             // jumlah barang
-                            $(document.createElement("td")).attr("style", "width: 70px").append(
+                            $(document.createElement("td")).attr("style", "width: 90px").append(
                                 $(document.createElement("input"))
                                 .attr("type", "number")
                                 .addClass("form-control text-center")
                                 .attr("id", "jumlah_" + data.id)
                                 .attr("name", `barang[${data.id}][quantity]`)
                                 .val($jumlah_baru)
-                                .attr("min", "1")
+                                .attr("min", data.ratio_flag == 1 ? data.converted_quantity : 1)
+                                .attr("step", data.ratio_flag == 1 ? data.converted_quantity : 1)
                                 .change(() => hitung_ulang(data.id))
                             ),
 
                             // unit barang
-                            $(document.createElement("td")).text(data.unit),
+                            $(document.createElement("td")).text(data.ratio_flag == 1 ? "Pieces" : data.unit),
 
                             // Harga barang
                             $(document.createElement("td")).append(
@@ -290,7 +296,7 @@
                             ),
 
                             // diskon (TODO)
-                            $(document.createElement("td")).append(
+                            $(document.createElement("td")).attr("style", "width: 90px").append(
                                 $(document.createElement("input"))
                                 .attr("type", "number")
                                 .addClass("form-control text-center")

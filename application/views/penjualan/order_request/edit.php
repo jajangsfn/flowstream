@@ -78,16 +78,16 @@
                                         <div><?= $detail->brand_description ?></div>
                                         <input type="hidden" name="barang[<?= $detail->goods_id ?>][goods_name]" value="<?= $detail->goods_name ?>">
                                     </td>
-                                    <td style="width: 70px;">
-                                        <input type="number" name="barang[<?= $detail->goods_id ?>][quantity]" class="form-control text-center" id="jumlah_<?= $detail->goods_id ?>" value="<?= $detail->quantity ?>" min="1" onchange="hitung_ulang(<?= $detail->goods_id ?>)">
+                                    <td style="width: 90px;">
+                                        <input type="number" name="barang[<?= $detail->goods_id ?>][quantity]" class="form-control text-center" id="jumlah_<?= $detail->goods_id ?>" value="<?= $detail->quantity ?>" min="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>" onchange="hitung_ulang(<?= $detail->goods_id ?>)" step="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>">
                                     </td>
                                     <td>
-                                        <?= $detail->unit_name ?>
+                                        <?= $detail->ratio_flag == 1 ? "Pieces" : $detail->unit_name ?>
                                     </td>
-                                    <td style="width: 100px;">
+                                    <td style="width: 130px;">
                                         <input type="number" name="barang[<?= $detail->goods_id ?>][price]" class="form-control text-center" id="harga_<?= $detail->goods_id ?>" value="<?= $detail->price ?>" min="1" onchange="hitung_ulang(<?= $detail->goods_id ?>)">
                                     </td>
-                                    <td style="width: 80px;">
+                                    <td style="width: 90px;">
                                         <input type="number" name="barang[<?= $detail->goods_id ?>][discount]" class="form-control text-center" id="diskon_<?= $detail->goods_id ?>" value="<?= $detail->discount ?>" min="0" onchange="hitung_ulang(<?= $detail->goods_id ?>)">
                                     </td>
                                     <td id="total_harga_<?= $detail->goods_id ?>" class="text-right rupiah">
