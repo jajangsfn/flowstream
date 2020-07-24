@@ -285,7 +285,7 @@ class Pembelian extends CI_Controller
     {
         $where = "tab1.id=".$id;
         $group = "tab1.id,tab2.id";
-        $data = $this->return->get_all($where, $group, 2);  
+        $data = $this->return->get_all($where, $group, 2);   
         // echo json_encode($data);exit;
         $this->pdf->dynamic_print(1,"return_in",$data);
     }
@@ -477,7 +477,7 @@ class Pembelian extends CI_Controller
     {
         $data = $this->po->get_all_trx(array("tab1.id"=>$id),array("tab1.id","tab5.id"))->result_array();  
         $this->pdf->dynamic_print(1, "po_in", $data);
-    }
+    } 
 
 
     function contoh ()

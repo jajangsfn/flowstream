@@ -81,7 +81,7 @@ class T_pos_return_model extends CI_Model
     {
 
         $data = $this->db->query("SELECT tab1.*,date_format(tab1.return_date, '%Y-%m-%d') return_date_convert, tab2.goods_id,
-                                tab8.brand_description goods_name,tab8.sku_code,tab8.plu_code,
+                                tab8.barcode,tab8.brand_description goods_name,tab8.sku_code,tab8.plu_code,
                                 tab2.warehouse_id,tab7.`name` warehouse_name,tab1.partner_id,tab9.name customer,
                                 tab9.name supplier_name,
                                 tab2.quantity,tab6.price,tab6.discount,
