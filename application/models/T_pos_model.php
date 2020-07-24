@@ -78,6 +78,23 @@ class T_pos_model extends CI_Model
         return $this->db->get();
     }
 
+    function get($where)
+    {
+        $this->db->select("
+        m_branch.name as branch_name,
+        pos.*
+        ");
+
+        $this->db->from("t_pos pos");
+        $this->db->join("m_branch", "m_branch.id = pos.branch_id", "left");
+        $this->db->order_by("pos.id desc");
+        if (!array_key_exists("id", $where)) {
+            $where['pos.flag <>'] = 99;
+        }
+        $this->db->where($where);
+        return $this->db->get();
+    }
+
     function get_next_no($where)
     {
         $this->db->select("order_no");

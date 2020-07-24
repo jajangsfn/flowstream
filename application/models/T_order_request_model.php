@@ -100,6 +100,25 @@ class T_order_request_model extends CI_Model
         return $this->db->get();
     }
 
+    function get($where)
+    {
+        $this->db->select("
+        m_branch.name as branch_name,
+        or.*
+        ");
+
+        $this->db->from("t_order_request or");
+        $this->db->join("m_branch", "m_branch.id = or.branch_id", "left");
+        $this->db->order_by("or.id desc");
+
+        if (!array_key_exists("id", $where)) {
+            $where['or.flag <>'] = 99;
+        }
+
+        $this->db->where($where);
+        return $this->db->get();
+    }
+
     function get_non_pos($where = '')
     {
         $query = "SELECT id FROM t_order_request WHERE order_no not in (

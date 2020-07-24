@@ -132,7 +132,7 @@ class Api extends CI_Controller
         }
         $data['data'] = $data_query;
         echo json_encode($data);
-    } 
+    }
 
     public function barang_cabang($id_cabang)
     {
@@ -707,13 +707,23 @@ class Api extends CI_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function order_request()
+    public function order_request($branch_id = '')
     {
-        echo json_encode(
-            array(
-                "data" => $this->or->get_all()->result()
-            )
-        );
+        if ($branch_id) {
+            echo json_encode(
+                array(
+                    "data" => $this->or->get(array(
+                        "or.branch_id" => $branch_id
+                    ))->result()
+                )
+            );
+        } else {
+            echo json_encode(
+                array(
+                    "data" => $this->or->get_all()->result()
+                )
+            );
+        }
     }
 
     public function delete_order_request()
@@ -820,13 +830,25 @@ class Api extends CI_Controller
     }
 
     // Point of Sales
-    public function pos()
+    public function pos($branch_id = '')
     {
-        echo json_encode(
-            array(
-                "data" => $this->pos->get_all()->result()
-            )
-        );
+        if ($branch_id) {
+            echo json_encode(
+                array(
+                    "data" => $this->pos->get(
+                        array(
+                            "pos.branch_id" => $branch_id
+                        )
+                    )->result()
+                )
+            );
+        } else {
+            echo json_encode(
+                array(
+                    "data" => $this->pos->get_all()->result()
+                )
+            );
+        }
     }
 
     public function get_pos_number($id_branch)

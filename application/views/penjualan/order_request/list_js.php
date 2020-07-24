@@ -3,7 +3,7 @@
         $("#order_request_table").DataTable({
             responsive: true,
             paging_type: 'full_numbers',
-            ajax: "<?= base_url("/index.php/api/order_request") ?>",
+            ajax: "<?= base_url("/index.php/api/order_request/") ?><?= $this->session->role_code == "ROLE_SUPER_ADMIN" ? "" : "/" . $this->session->branch_id ?>",
             columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {
