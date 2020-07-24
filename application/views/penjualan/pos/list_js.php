@@ -32,7 +32,11 @@
                     data: 'flag',
                     render: function(data, type, row, meta) {
                         if (data == 1) {
-                            return `<span class="text-success">Complete</span>`
+                            return `<span class="text-info">Selesai</span>`
+                        } else if (data == 3) {
+                            return `<span class="text-warning">Retur / Pembetulan</span>`
+                        } else if (data == 10) {
+                            return `<span class="text-success">Faktur Pajak Telah Dicetak</span>`
                         }
                         return `-`;
                     },
@@ -41,13 +45,19 @@
                     data: 'id',
                     responsivePriority: -1,
                     render: function(data, type, row, meta) {
+                        var extbutton = `<a class="btn btn-icon btn-sm btn-light-success" onclick="confirm_cetak_pajak(${data})" data-toggle="tooltip" title="cetak faktur pajak">
+                            <i class="fa la-print"></i>
+                        </a>`
+
+                        if (row.flag == 10) {
+                            extbutton = ""
+                        }
+
                         return `
                         <a class="btn btn-icon btn-sm btn-light-info" onclick="confirm_cetak(${data})" data-toggle="tooltip" title="cetak ulang" target="_blank">
                             <i class="fa la-print"></i>
                         </a>
-                        <a class="btn btn-icon btn-sm btn-light-success" onclick="confirm_cetak_pajak(${data})" data-toggle="tooltip" title="cetak faktur pajak">
-                            <i class="fa la-print"></i>
-                        </a>
+                        ${extbutton}
                         `;
                     },
                     createdCell: function(td, cellData, rowData, row, col) {
