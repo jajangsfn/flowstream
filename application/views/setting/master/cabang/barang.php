@@ -199,7 +199,7 @@
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_division"),
-                                    "object_name" => "Divisi",
+                                    "object_name" => "divisi",
 
                                     "selected" => false,
                                 ), true); ?>
@@ -214,7 +214,7 @@
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_sub_division"),
-                                    "object_name" => "Divisi",
+                                    "object_name" => "sub divisi",
 
                                     "selected" => false,
                                 ), true); ?>
@@ -229,7 +229,7 @@
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_category"),
-                                    "object_name" => "Kategori",
+                                    "object_name" => "kategori",
 
                                     "selected" => false,
                                 ), true); ?>
@@ -244,7 +244,7 @@
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_sub_category"),
-                                    "object_name" => "Kategori",
+                                    "object_name" => "sub kategori",
 
                                     "selected" => false,
                                 ), true); ?>
@@ -259,7 +259,7 @@
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_package"),
-                                    "object_name" => "Paket",
+                                    "object_name" => "paket",
 
                                     "selected" => false,
                                 ), true); ?>
@@ -274,12 +274,12 @@
                                     "showable" => "detail_data",
 
                                     "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/goods_color"),
-                                    "object_name" => "Warna",
+                                    "object_name" => "warna",
 
                                     "selected" => false,
                                 ), true); ?>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "unit",
                                     "title" => "Unit",
@@ -289,10 +289,19 @@
                                     "showable" => "name",
 
                                     "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/unit"),
-                                    "object_name" => "Unit",
+                                    "object_name" => "unit",
 
                                     "selected" => false,
                                 ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group w-100">
+                                    <label class="required">Rasio Penjualan</label>
+                                    <select class="form-control select2" name="ratio_flag" required>
+                                        <option value="1">per Pieces</option>
+                                        <option value="0">per Unit</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -550,7 +559,7 @@
                                     "selected" => false,
                                 ), true); ?>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "unit",
                                     "title" => "Unit",
@@ -566,6 +575,15 @@
 
                                     "selected" => false,
                                 ), true); ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group w-100">
+                                    <label class="required">Rasio Penjualan</label>
+                                    <select class="form-control select2" name="ratio_flag" id="ratio_flag_edit" required>
+                                        <option value="1">per Pieces</option>
+                                        <option value="0">per Unit</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>

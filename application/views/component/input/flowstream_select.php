@@ -40,9 +40,11 @@
             <?php } ?>
         <?php } ?>
     </select>
-    <a class="form-text text-info" href="<?= $manage_url ?>">
-        <div class="my-2">
-            (Kelola <?= $object_name ?>)
-        </div>
-    </a>
+    <?php if ($manage_url) : ?>
+        <a class="form-text text-info" href="<?= $manage_url ?>">
+            <div class="my-2">
+                (Kelola <?= $object_name ?>)
+            </div>
+        </a>
+    <?php endif ?>
 </div>

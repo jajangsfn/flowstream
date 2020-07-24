@@ -90,9 +90,17 @@
                         <input type="checkbox" checked="checked" onchange="toggleshow()" /> Tampilkan Deskripsi Barang
                         <span></span>
                     </label>
-                    <h5 class="text-right font-weight-bold">
-                        Total <span id="total_harga_order">0</span>
-                    </h5>
+                    <div class="text-right">
+                        <p class="text-right m-0">
+                            Subtotal <span id="total_harga_order">0</span>
+                        </p>
+                        <p class="text-right m-0">
+                            Pajak <span id="tax_price">0</span>
+                        </p>
+                        <h5 class="text-right font-weight-bold">
+                            Total <span id="total_harga_order_tax">0</span>
+                        </h5>
+                    </div>
                 </div>
             </div>
             <div class="card-footer text-right">

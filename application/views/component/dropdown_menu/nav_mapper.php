@@ -617,76 +617,10 @@ if (stripos(current_url(), "/index.php/dashboard")) {
         new NavItem(
             "/parameter",
             null,
-            null,
+            "/index.php/setting/parameter/cabang",
             "Parameter",
             null,
-            array(
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/setting/parameter/pembelian",
-                    "Parameter Pembelian",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/setting/parameter/penjualan",
-                    "Parameter Penjualan",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/setting/parameter/barang",
-                    "Parameter Barang",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    "/index.php/setting/parameter/inventori",
-                    "Parameter Inventori",
-                    null,
-                    null
-                ),
-                new NavItem(
-                    null,
-                    null,
-                    null,
-                    "Parameter Keuangan",
-                    null,
-                    array(
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/parameter/keuangan/master",
-                            "Parameter Master",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/parameter/keuangan/akuntansi",
-                            "Parameter Akuntansi",
-                            null,
-                            null
-                        ),
-                        new NavItem(
-                            null,
-                            null,
-                            "/index.php/setting/parameter/keuangan/kode_rekening",
-                            "Parameter Kode Rekening",
-                            null,
-                            null
-                        )
-                    )
-                )
-            )
+            null
         )
     );
 }

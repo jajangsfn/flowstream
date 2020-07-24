@@ -60,24 +60,36 @@
                                 <?= $detail->discount == 0 ? "-" : $detail->discount . "%" ?>
                             </td>
                             <td class="text-right rupiah">
-                                <?= $detail->total ?>
+                                <?= $detail->quantity * $detail->price * (1 - $detail->discount / 100) ?>
                             </td>
                         </tr>
                     <?php endforeach ?>
                 </tbody>
             </table>
         </div>
-        <h5 class="text-right font-weight-bold">
-            Total <span id="total_harga_order">
-                <?php
-                $i = 0;
-                foreach ($data_or->details as $detail) {
-                    $i += $detail->total;
-                }
-                echo $i;
-                ?>
-            </span>
-        </h5>
+        <div class="text-right">
+            <p class="text-right m-0">
+                Subtotal <span id="total_harga_order">
+                    <?php
+                    $subtotal = 0;
+                    foreach ($data_or->details as $detail) {
+                        $subtotal += ($detail->quantity * $detail->price * (1 - $detail->discount / 100));
+                    }
+                    echo $subtotal;
+                    ?>
+                </span>
+            </p>
+            <p class="text-right m-0">
+                Pajak <span id="tax_price">
+                    <?= 10 * $subtotal / 100 ?>
+                </span>
+            </p>
+            <h5 class="text-right font-weight-bold">
+                Total <span id="total_harga_order_tax">
+                    <?= 110 * $subtotal / 100 ?>
+                </span>
+            </h5>
+        </div>
     </div>
     <div class="card-footer text-right">
         <button type="button" data-toggle="modal" data-target="#payment_modal" class="btn btn-primary"> Lanjutkan ke Pembayaran </button>
@@ -109,7 +121,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="total_pembayaran">Total Pembayaran</label>
-                                <input type="text" name="payment_total" class="form-control" id="total_pembayaran" readonly value="<?= $i ?>" />
+                                <input type="text" name="payment_total" class="form-control" id="total_pembayaran" readonly value="<?= 110 * $subtotal / 100 ?>" />
                             </div>
                         </div>
                         <div class="col-lg-6" id="payment_method_cell">

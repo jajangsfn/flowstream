@@ -103,7 +103,7 @@ class Penjualan extends CI_Controller
 
         $data['page_content'] = $this->load->view("penjualan/order_request/edit", $content, true);
         $data['page_js'] = $this->load->view("penjualan/order_request/edit_js", "", true);
-        $data['page_modal'] = $this->load->view("penjualan/order_request/edit_modal", "", true);
+        $data['page_modal'] = $this->load->view("penjualan/order_request/modal", "", true);
 
         $data['transactional'] = true;
         $this->load->view('layout/head');
