@@ -43,7 +43,7 @@ class Setting extends CI_Controller
                 "Production_model" => "production",
                 "Production_detail_model" => "production_detail",
                 "S_reference_model" => "ref",
-                "User_model" => "user_m",
+                "User_model" => "user_m"
             )
         );
     }
@@ -94,6 +94,10 @@ class Setting extends CI_Controller
                         $content['package'] = $this->ref->get(array("group_data" => "GOODS_PACKAGE"))->result();
                         $content['color'] = $this->ref->get(array("group_data" => "GOODS_COLOR"))->result();
                         $content['unit'] = $this->unit->get_all()->result();
+                        $content['accounts'] = $this->account->get(array(
+                            "branch_id" => $id,
+                            "is_active" => 1
+                        ))->result();
 
                         $data['page_title'] = "Daftar Barang " . $content['data_branch']->name;
                         $data['transactional'] = true;
