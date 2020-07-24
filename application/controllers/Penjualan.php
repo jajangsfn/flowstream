@@ -76,7 +76,7 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
-
+ 
     public function add_order_request()
     {
         $data['page_title'] = "Tambah Order Request";
@@ -111,6 +111,58 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/js');
     }
 
+
+    public function print_order_request($id_or)
+    {
+        $content = $this->or->get_specific($id_or);
+
+
+        $data = array();
+
+        foreach ($content->details as $key => $val) {
+
+        
+            $data[] = array(
+                            "id" => $content->id,
+                            "branch_id" => $content->branch_id,
+                            "branch_name" => $content->branch_name,
+                            "partner_id" => $content->partner_id,
+                            "user_salesman_id" => $content->user_salesman_id,
+                            "order_no" => $content->order_no,
+                            "order_date" => $content->order_date,
+                            "partner_name" => $content->partner_name,
+                            "is_delivery" => $content->is_delivery,
+                            "description" => $content->description,
+                            "created_by" => $content->created_by,
+                            "created_date" => $content->created_date,
+                            "updated_date" => $content->updated_date,
+                            "updated_by" => $content->updated_by,
+                            "id"=> "4",
+                            "order_request_id"=> $val->order_request_id,
+                            "warehouse_id"=> $val->warehouse_id,
+                            "goods_id"=> $val->goods_id,
+                            "goods_name" => $val->goods_name,
+                            "quantity" => $val->quantity,
+                            "discount" => $val->discount,
+                            "discount_code" => $val->discount_code,
+                            "price" => $val->price,
+                            "tax" => $val->tax,
+                            "total"=> $val->total,
+                            "flag" => $val->flag,
+                            "barcode" => $val->barcode,
+                            "brand_name" => $val->brand_name,
+                            "brand_description" =>  $val->brand_description,
+                            "unit_name" => $val->unit_name
+
+                        );
+
+        }
+
+        $this->pdf->dynamic_print(2,"order_request_out", $data);
+    }
+
+    // POS
+
     public function pos($command = '', $id_or = '')
     {
         if ($command == "cetak_faktur") {
@@ -141,7 +193,7 @@ class Penjualan extends CI_Controller
         } else {
             // tampilkan list of Point of Sales
             $data['back_url'] = base_url("/index.php/penjualan/home");
-
+  
             $data['page_title'] = "Penjualan - Daftar Point of Sales";
             $data['page_content'] = $this->load->view("penjualan/pos/list", "", true);
             $data['page_js'] = $this->load->view("penjualan/pos/list_js", "", true);
@@ -150,6 +202,15 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
+    }
+
+    public function print_pos($pos_id)
+    {
+        $data = $this->pos_report->pos_report("tab1.id=".$pos_id, "tab3.id")->result_array();
+
+       
+        $this->pdf->dynamic_print(2,"pos_out", $data);
+        // echo json_encode($data);
     }
 
     // return

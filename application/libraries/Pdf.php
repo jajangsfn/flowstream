@@ -1139,6 +1139,475 @@ class pdf
 
 													), //end size B5
 												), //end return
+								"order_request_out"=> array(
+											1 => array("paper"=>"A4",
+												   "view" => "P",
+												   "type_size" => "cm",
+												   "title_paper" => array( "title" => 'Bukti Order Request',
+																			"width" => 20,
+																			"height" => 0.5,
+																			"align" => 'C'
+																		),
+												   "title_position_y" => 0.5,
+												   "space" => 2.5,
+												   "header"=> array(
+												   					0 => array("position_x" => 0.2,
+												   								"position_y" => 1.9,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'No Order',
+												   								"align" => 'L',
+												   								"index" => "order_no"),
+
+												   					1 => array("position_x" => 0.2,
+												   								"position_y" => 2.3,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'Customer',
+												   								"align" => 'L',
+												   								"index" => "partner_name"),
+
+												   					2 => array("position_x" => 0.2,
+												   								"position_y" => 2.7,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'Tgl Order',
+												   								"align" => 'L',
+												   								"index" => "order_date"),
+												   				),
+												   "body_position_y" => 3.7,
+												   "body_position_x" => 0.3,
+												   "body_ln" => 0.4,
+												   "body_start_y" => 0.5,
+												   "body_start_x" => 0.3,
+												   "body" => array(
+												   					0 => array( "title"=> "No",
+												   								"width"=>0.6,
+												   								"height"=>0.5,
+												   								"align"=>'C',
+												   							),
+												   					1 => array( "title"=> "Kode Barang",
+												   								"width"=>3.3,
+												   								"height"=>0.5,
+												   								"align"=>'L',
+												   							),
+												   					2 => array( "title"=> "Nama Barang",
+												   								"width"=>6,
+												   								"height"=>0.5,
+												   								"align"=>'L',
+												   							),
+												   					3 => array( "title"=> "Satuan",
+												   								"width"=>1.8,
+												   								"height"=>0.5,
+												   								"align"=>'C',
+												   							),
+												   					4 => array( "title"=> "Jumlah",
+												   								"width"=>2.5,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   					5 => array( "title"=> "Harga",
+												   								"width"=>1.8,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   					6 => array( "title"=> "Disc",
+												   								"width"=>1.8,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   					7 => array( "title"=> "Total",
+												   								"width"=>2.7,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   				),
+												   				
+												   "footer" => array("footer_ln" => 0.09,
+												   					"signature" => array("title" => "Disahkan Oleh :",
+																						  "width" => 4,
+																						  "height" => 0.8,
+																						  "align"=>'L',
+																						  "position_x" => 0.3,
+
+																						), 
+												   					"total" => array("title" => "Grant Total Rp.",
+														   							"width" => 17.8,
+														   							"height" => 0.4,
+														   							"align"=>'R',
+														   							"position_x" => 0.3),
+														   			"summary" => array("title" => "",
+														   								"width" => 2.7,
+														   								"height" => 0.4,
+														   								"align"=>'R',
+														   								"position_x" => 18.1),
+														   			"terbilang" => array("title" => "Terbilang",
+														   							"width" => 16.6,
+														   							"height" => 0.6,
+														   							"align"=>'L',
+														   							"position_x" => 0.3),
+																	),
+
+														), //end size a4
+											2 => array("paper"=> "a5",
+													   "view" => "L",
+													   "type_size" => "mm",
+													   "title_paper" => array( "title" => 'Bukti Order Request',
+																				"width" => 200,
+																				"height" => 1,
+																				"align" => 'C'),
+													   "title_position_y" => 5,
+													   "space" => 22,
+													   "header"=> array(
+													   					0 => array("position_x" => 1.5,
+																	   				"position_y" => 20,
+																	   				"name" => 15,
+																	   				"pad" => 1.7,
+																	   				"val" => 11.8,
+																	   				"title" => 'No Order',
+																	   				"align" => 'L',
+																	   				"index" => "order_no"
+																	   			),
+																	   	1 => array("position_x" => 1.5,
+																	   				"position_y" => 24.5,
+																	   				"name" => 18,
+																	   				"pad" => 1.6,
+																	   				"val" => 11.8,
+																	   				"title" => 'Customer',
+																	   				"align" => 'L',
+																	   				"index" => "partner_name"),
+													   					2 => array("position_x" => 1.5,
+																	   				"position_y" => 29,
+																	   				"name" => 18,
+																	   				"pad" => 1.6,
+																	   				"val" => 11.8,
+																	   				"title" => 'Tgl Order',
+																	   				"align" => 'L',
+																	   				"index" => "order_date"
+																	   			),
+																		),
+														"body_position_y" => 33,
+														"body_position_x" => 3,
+														"body_ln" => 4,
+														"body_start_y" => 5,
+														"body_start_x" => 3,
+														"body" => array(0 => array( "title"=> "No",
+																	   				"width"=>7,
+																	   				"height"=>5,
+																	   				"align"=>'C',
+																	   			  ),
+																		1 => array( "title"=> "Kode Barang",
+																	   				"width"=>25,
+																	   				"height"=>5,
+																	   				"align"=>'L',
+																	   			),
+
+																	   	2 => array( "title"=> "Nama Barang",
+																	   				"width"=> 60,
+																	   				"height"=>5,
+																	   				"align"=>'L',
+																	   			  ),																	   	
+																	   3 => array( "title"=> "Satuan",
+																	   				"width"=>25,
+																	   				"height"=>5,
+																	   				"align"=>'C',
+																	   			),
+																	   4 => array( "title"=> "Jumlah",
+																	   				"width"=>28,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+																	   	5 => array( "title"=> "Harga",
+																	   				"width"=>20,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+																	   	6 => array( "title"=> "Disc",
+																	   				"width"=>20,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+																	   	7 => array( "title"=> "Sub Total",
+																	   				"width"=>20,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+
+																		),
+														"footer" => array(
+																	  	"footer_ln" => 0.9,
+																	  	"signature" => array("title" => "Disahkan Oleh :",
+																							"width" => 4,
+																							"height" => 0.8,
+																							"align"=>'L',
+																							"position_x" => 3,
+																						),
+																	   	"total" => array("title" => "Grant Total",
+																		   				"width" => 185,
+																		   				"height" => 4,
+																		   				"align"=>'R',
+																		   				"position_x" => 3
+																		   				),
+																	   	"summary" => array("title" => "",
+																	   					   "width" => 20,
+																	   					   "height" => 4,
+																	   						"align"=>'R',
+																	   						"position_x" => 188),
+																	   	"terbilang" => array("title" => "Terbilang",
+																	   						"width" => 16.6,
+																	   						"height" => 0.6,
+																	   						"align"=>'L',
+																	   						"position_x" => 1.5),
+																	),
+
+													), //end size B5
+												), //end return
+							"pos_out"=> array(
+											1 => array("paper"=>"A4",
+												   "view" => "P",
+												   "type_size" => "cm",
+												   "title_paper" => array( "title" => 'Bukti Point Of Sales',
+																			"width" => 20,
+																			"height" => 0.5,
+																			"align" => 'C'
+																		),
+												   "title_position_y" => 0.5,
+												   "space" => 2.5,
+												   "header"=> array(
+												   					0 => array("position_x" => 0.2,
+												   								"position_y" => 1.9,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'No Faktur',
+												   								"align" => 'L',
+												   								"index" => "invoice_no"),
+												   					1 => array("position_x" => 0.2,
+												   								"position_y" => 2.3,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'No Order',
+												   								"align" => 'L',
+												   								"index" => "order_no"),
+
+												   					2 => array("position_x" => 0.2,
+												   								"position_y" => 2.7,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'Customer',
+												   								"align" => 'L',
+												   								"index" => "partner_name"),
+
+												   					3 => array("position_x" => 0.2,
+												   								"position_y" => 3.1,
+												   								"name" => 2,
+												   								"pad" => 0.2,
+												   								"val" => 11.8,
+												   								"title" => 'Tgl POS',
+												   								"align" => 'L',
+												   								"index" => "updated_date"),
+												   				),
+												   "body_position_y" => 4.0,
+												   "body_position_x" => 0.3,
+												   "body_ln" => 0.4,
+												   "body_start_y" => 0.5,
+												   "body_start_x" => 0.3,
+												   "body" => array(
+												   					0 => array( "title"=> "No",
+												   								"width"=>0.6,
+												   								"height"=>0.5,
+												   								"align"=>'C',
+												   							),
+												   					1 => array( "title"=> "Kode Barang",
+												   								"width"=>3.3,
+												   								"height"=>0.5,
+												   								"align"=>'L',
+												   							),
+												   					2 => array( "title"=> "Nama Barang",
+												   								"width"=>6,
+												   								"height"=>0.5,
+												   								"align"=>'L',
+												   							),
+												   					3 => array( "title"=> "Satuan",
+												   								"width"=>1.8,
+												   								"height"=>0.5,
+												   								"align"=>'C',
+												   							),
+												   					4 => array( "title"=> "Jumlah",
+												   								"width"=>2.5,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   					5 => array( "title"=> "Harga",
+												   								"width"=>1.8,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   					6 => array( "title"=> "Disc",
+												   								"width"=>1.8,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   					7 => array( "title"=> "Total",
+												   								"width"=>2.7,
+												   								"height"=>0.5,
+												   								"align"=>'R',
+												   							),
+												   				),
+												   				
+												   "footer" => array("footer_ln" => 0.09,
+												   					"signature" => array("title" => "Disahkan Oleh :",
+																						  "width" => 4,
+																						  "height" => 0.8,
+																						  "align"=>'L',
+																						  "position_x" => 0.3,
+
+																						), 
+												   					"total" => array("title" => "Grant Total Rp.",
+														   							"width" => 17.8,
+														   							"height" => 0.4,
+														   							"align"=>'R',
+														   							"position_x" => 0.3),
+														   			"summary" => array("title" => "",
+														   								"width" => 2.7,
+														   								"height" => 0.4,
+														   								"align"=>'R',
+														   								"position_x" => 18.1),
+														   			"terbilang" => array("title" => "Terbilang",
+														   							"width" => 16.6,
+														   							"height" => 0.6,
+														   							"align"=>'L',
+														   							"position_x" => 0.3),
+																	),
+
+														), //end size a4
+											2 => array("paper"=> "a5",
+													   "view" => "L",
+													   "type_size" => "mm",
+													   "title_paper" => array( "title" => 'Bukti Point Of Sales',
+																				"width" => 200,
+																				"height" => 1,
+																				"align" => 'C'),
+													   "title_position_y" => 5,
+													   "space" => 22,
+													   "header"=> array(
+													   					0 => array("position_x" => 1.5,
+																	   				"position_y" => 20,
+																	   				"name" => 15,
+																	   				"pad" => 1.7,
+																	   				"val" => 11.8,
+																	   				"title" => 'No Faktur',
+																	   				"align" => 'L',
+																	   				"index" => "invoice_no"
+																	   			),
+													   					1 => array("position_x" => 1.5,
+																	   				"position_y" => 23.8,
+																	   				"name" => 15,
+																	   				"pad" => 1.7,
+																	   				"val" => 11.8,
+																	   				"title" => 'No Order',
+																	   				"align" => 'L',
+																	   				"index" => "order_no"
+																	   			),
+																	   	2 => array("position_x" => 1.5,
+																	   				"position_y" => 27.6,
+																	   				"name" => 18,
+																	   				"pad" => 1.6,
+																	   				"val" => 11.8,
+																	   				"title" => 'Customer',
+																	   				"align" => 'L',
+																	   				"index" => "partner_name"),
+													   					3 => array("position_x" => 1.5,
+																	   				"position_y" => 31.6,
+																	   				"name" => 18,
+																	   				"pad" => 1.6,
+																	   				"val" => 11.8,
+																	   				"title" => 'Tgl POS',
+																	   				"align" => 'L',
+																	   				"index" => "updated_date"
+																	   			),
+																		),
+														"body_position_y" => 35,
+														"body_position_x" => 3,
+														"body_ln" => 4,
+														"body_start_y" => 5,
+														"body_start_x" => 3,
+														"body" => array(0 => array( "title"=> "No",
+																	   				"width"=>7,
+																	   				"height"=>5,
+																	   				"align"=>'C',
+																	   			  ),
+																		1 => array( "title"=> "Kode Barang",
+																	   				"width"=>25,
+																	   				"height"=>5,
+																	   				"align"=>'L',
+																	   			),
+
+																	   	2 => array( "title"=> "Nama Barang",
+																	   				"width"=> 60,
+																	   				"height"=>5,
+																	   				"align"=>'L',
+																	   			  ),																	   	
+																	   3 => array( "title"=> "Satuan",
+																	   				"width"=>25,
+																	   				"height"=>5,
+																	   				"align"=>'C',
+																	   			),
+																	   4 => array( "title"=> "Jumlah",
+																	   				"width"=>28,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+																	   	5 => array( "title"=> "Harga",
+																	   				"width"=>20,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+																	   	6 => array( "title"=> "Disc",
+																	   				"width"=>20,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+																	   	7 => array( "title"=> "Sub Total",
+																	   				"width"=>20,
+																	   				"height"=>5,
+																	   				"align"=>'R',
+																	   			),
+
+																		),
+														"footer" => array(
+																	  	"footer_ln" => 0.9,
+																	  	"signature" => array("title" => "Disahkan Oleh :",
+																							"width" => 4,
+																							"height" => 0.8,
+																							"align"=>'L',
+																							"position_x" => 3,
+																						),
+																	   	"total" => array("title" => "Grant Total",
+																		   				"width" => 185,
+																		   				"height" => 4,
+																		   				"align"=>'R',
+																		   				"position_x" => 3
+																		   				),
+																	   	"summary" => array("title" => "",
+																	   					   "width" => 20,
+																	   					   "height" => 4,
+																	   						"align"=>'R',
+																	   						"position_x" => 188),
+																	   	"terbilang" => array("title" => "Terbilang",
+																	   						"width" => 16.6,
+																	   						"height" => 0.6,
+																	   						"align"=>'L',
+																	   						"position_x" => 1.5),
+																	),
+
+													), //end size B5
+												), //end return
 					)
 				);
 
@@ -1249,7 +1718,7 @@ class pdf
 		$grant_total = 0;
 
 		$total_row = count( $data );
-
+		// PO
 		if ($type_print == 'po_in'){
 			foreach ($data as $key => $val) {
 
@@ -1294,6 +1763,73 @@ class pdf
 						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
 						   number_format($total),$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
+
+				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
+
+				// set margin bottom
+				// jika data / row lebih dari atau sama dengan 10
+				if ( ($key+1) >= 10) {
+					$pdf->SetAutoPageBreak(true,0);
+				}
+
+			}
+		}
+
+		// ORDER REQUEST
+		if ($type_print == 'order_request_out'){
+			foreach ($data as $key => $val) {
+
+				// if first row then set border top left and right
+				// if last row then set border bottom left right
+				// else set border to 0
+				if ( $key == 0)
+				{
+					$border = 'L,R,T';
+				} else if ( ($key+1) == $total_row) {
+					$border ='L,B,R';
+				}else {
+					$border = 'L,R';
+				}
+				
+
+				$total = $val['price'] * $val['quantity'] - ( ($val['price'] * $val['quantity'] * $val['discount']) / 100);
+				$grant_total+=$total;
+				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
+							$paper_reference[$type_print][$use_paper]['body'][0]['height'], 
+							($key+1),$border,0,$paper_reference[$type_print][$use_paper]['body'][0]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
+						   $val['barcode'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
+						   $val['brand_description'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
+						   $val['unit_name'],$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][3]['align']);
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
+						   number_format($val['quantity']),$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
+						   number_format($val['price']),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
+						   number_format($val['discount']),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][6]['align']);
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][7]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][7]['height'], 
+						   number_format($val['total']),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][7]['align']);	
 
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
 
@@ -1363,7 +1899,7 @@ class pdf
 			}
 		}
 
-
+		// warehouse
 		if ($type_print == 'warehouse_in'){
 			foreach ($data as $key => $val) {
 
@@ -1406,6 +1942,8 @@ class pdf
 			}
 		}
 
+
+		// retur
 
 		if ($type_print == 'return_in' || $type_print == 'return_out'){
 			foreach ($data as $key => $val) {
@@ -1480,6 +2018,73 @@ class pdf
 				if ( ($key+1) >= 10) {
 					$pdf->SetAutoPageBreak(true,0);
 				}
+			}
+		}
+
+		// ORDER REQUEST
+		if ($type_print == 'pos_out'){
+			foreach ($data as $key => $val) {
+
+				// if first row then set border top left and right
+				// if last row then set border bottom left right
+				// else set border to 0
+				if ( $key == 0)
+				{
+					$border = 'L,R,T';
+				} else if ( ($key+1) == $total_row) {
+					$border ='L,B,R';
+				}else {
+					$border = 'L,R';
+				}
+				
+
+				$total = $val['price'] * $val['quantity'] - ( ($val['price'] * $val['quantity'] * $val['discount']) / 100);
+				$grant_total+=$total;
+				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
+							$paper_reference[$type_print][$use_paper]['body'][0]['height'], 
+							($key+1),$border,0,$paper_reference[$type_print][$use_paper]['body'][0]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
+						   $val['barcode'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
+						   $val['brand_description'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
+						   $val['unit_name'],$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][3]['align']);
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
+						   number_format($val['quantity']),$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
+						   number_format($val['price']),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
+						   number_format($val['discount']),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][6]['align']);
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][7]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][7]['height'], 
+						   number_format($val['total']),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][7]['align']);	
+
+				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
+
+				// set margin bottom
+				// jika data / row lebih dari atau sama dengan 10
+				if ( ($key+1) >= 10) {
+					$pdf->SetAutoPageBreak(true,0);
+				}
+
 			}
 		}
 

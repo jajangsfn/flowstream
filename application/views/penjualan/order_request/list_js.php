@@ -64,7 +64,7 @@
                         }
                         return `
                         ${ext_button}
-                        <a class="btn btn-icon btn-sm btn-light-info" href="#" data-toggle="tooltip" title="cetak ulang">
+                        <a class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" title="cetak ulang" href="<?= base_url("/index.php/penjualan/print_order_request/") ?>${data}" target="_blank">
                             <i class="fa la-print"></i>
                         </a>
                         `;

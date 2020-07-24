@@ -132,7 +132,7 @@ class Api extends CI_Controller
         }
         $data['data'] = $data_query;
         echo json_encode($data);
-    }
+    } 
 
     public function barang_cabang($id_cabang)
     {
@@ -684,6 +684,9 @@ class Api extends CI_Controller
             "order_no" => $_POST['order_no'],
             "description" => $_POST['description'],
             "user_salesman_id" => $_POST['user_salesman_id'],
+            "order_date" => date('Y-m-d H:i:s'),
+            "created_date" => date('Y-m-d H:i:s'),
+            "updated_date" => date('Y-m-d H:i:s'),
             "created_by" => $this->session->id,
             "flag" => 1
         );
