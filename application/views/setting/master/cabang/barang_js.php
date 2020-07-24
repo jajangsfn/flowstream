@@ -94,7 +94,8 @@
                                 '${row.unit_id}',
                                 '${row.hpp}',
                                 '${row.quantity}',
-                                '${row.tax}'
+                                '${row.tax}',
+                                '${row.ratio_flag}'
                                 )">
                                 <i class="flaticon2-pen"></i>
                             </button>
@@ -140,6 +141,7 @@
         hpp,
         quantity,
         tax,
+        ratio_flag
     ) {
         $("#id_barang_edit").val(id)
         $("#brand_name_edit").val(brand_name)
@@ -156,6 +158,7 @@
         $("#unit_edit").val(unit)
         $("#quantity_edit").val(quantity)
         $("#tax_edit").val(tax)
+        $("#ratio_flag_edit").val(ratio_flag)
 
         $('.select2').trigger('change');
         $("#edit_barang").modal('show');

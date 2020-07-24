@@ -18,6 +18,7 @@ class Api extends CI_Controller
         $this->load->model(
             array(
                 "user_model" => "user_m",
+                "M_account_code_model" => "account",
                 "m_partner_model" => "partner",
                 "m_partner_type_model" => "partner_type",
                 "m_partner_salesman_model" => "part_salesman",
@@ -158,6 +159,7 @@ class Api extends CI_Controller
             "package" => $_POST['package'],
             "color" => $_POST['color'],
             "unit" => $_POST['unit'],
+            "ratio_flag" => $_POST['ratio_flag']
         );
         if (isset($_POST['barcode']) && $_POST['barcode']) {
             $entry_data['barcode'] = $_POST['barcode'];
@@ -186,6 +188,7 @@ class Api extends CI_Controller
             "package" => $_POST['package'],
             "color" => $_POST['color'],
             "unit" => $_POST['unit'],
+            "ratio_flag" => $_POST['ratio_flag']
         );
         $this->goods->update($where_id, $entry_data);
         $this->session->set_flashdata("success", "Barang berhasil tersimpan");
@@ -684,6 +687,8 @@ class Api extends CI_Controller
             "order_date" => date('Y-m-d H:i:s'),
             "created_date" => date('Y-m-d H:i:s'),
             "updated_date" => date('Y-m-d H:i:s'),
+            "created_by" => $this->session->id,
+            "flag" => 1
         );
         $this->or->insert($data);
         $id_new_or = $this->db->insert_id();
@@ -691,7 +696,10 @@ class Api extends CI_Controller
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $good['tax'] = 10 * $good['total'] / 100;
+            $good['total'] = $good['total'] + $good['tax'];
             $good['order_request_id'] = $id_new_or;
+            $good['flag'] = 1;
             $this->or->insert_detail($good);
         }
 
@@ -729,6 +737,8 @@ class Api extends CI_Controller
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $good['tax'] = 10 * $good['total'] / 100;
+            $good['total'] = $good['total'] + $good['tax'];
             $good['order_request_id'] = $_POST['id'];
             $this->or->insert_detail($good);
         }
@@ -769,7 +779,7 @@ class Api extends CI_Controller
             "invoice_no" => $_POST['invoice_no'],
             "tax_no" => null,
             "description" => $order_request->description,
-            
+
             "payment_total" => $_POST['payment_total'],
             "payment_method" => $_POST['payment_method'],
             "payment_description" => $_POST['payment_description'],
@@ -777,7 +787,7 @@ class Api extends CI_Controller
             "payment_paid" => $_POST['payment_paid'],
 
             "created_by" => $this->session->id,
-            "updated_by" => $this->session->id
+            "flag" => 1
         );
 
         $this->pos->insert($pos_data);
@@ -797,7 +807,9 @@ class Api extends CI_Controller
                 "discount" => $or_det->discount,
                 "discount_code" => $or_det->discount_code,
                 "tax" => $or_det->tax,
-                "total" => $or_det->total
+                "total" => $or_det->total,
+
+                "flag" => 1
             );
 
             $this->pos->insert_detail($pos_det_data);
@@ -857,6 +869,8 @@ class Api extends CI_Controller
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $good['tax'] = 10 * $good['total'] / 100;
+            $good['total'] = $good['total'] + $good['tax'];
 
             // generate POS detail data
             $pos_det_data = array(
@@ -867,9 +881,9 @@ class Api extends CI_Controller
                 "quantity" => $good['quantity'],
                 "discount" => $good['discount'],
                 "discount_code" => null,
-                "tax" => null,
+                "tax" => $good['tax'],
                 "total" => $good['total'],
-
+                "flag" => 1,
             );
 
             $this->pos->insert_detail($pos_det_data);
@@ -1181,6 +1195,47 @@ class Api extends CI_Controller
             )
         );
         $this->session->set_flashdata("success", "Akun employee berhasil diaktifkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // kode akun (parameter)
+    function account_code_cabang($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->account->get(
+                    array(
+                        "branch_id" => $branch_id
+                    )
+                )->result()
+            )
+        );
+    }
+
+    function add_account()
+    {
+        $_POST['is_active'] = isset($_POST['is_active']) ? "1" : "0";
+        $_POST['inv_required'] = isset($_POST['inv_required']) ? "1" : "0";
+        $_POST['created_date'] = date("Y-m-d H:i:s");
+        $_POST['created_by'] = $this->session->id;
+        $this->account->insert($_POST);
+
+        $this->session->set_flashdata("success", "Akun berhasil didaftarkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_account()
+    {
+        $_POST['data']['is_active'] = isset($_POST['data']['is_active']) ? "1" : "0";
+        $_POST['data']['inv_required'] = isset($_POST['data']['inv_required']) ? "1" : "0";
+
+        $this->account->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            $_POST['data']
+        );
+        $this->session->set_flashdata("success", "Akun berhasil diperbarui");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }
