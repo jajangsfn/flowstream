@@ -32,7 +32,8 @@ class Api extends CI_Controller
                 "m_employee_model" => "employee",
                 "s_reference_model" => "reference",
                 "t_order_request_model" => "or",
-                "t_pos_model" => "pos"
+                "t_pos_model" => "pos",
+                "T_jurnal_model" => "jurnal"
             )
         );
     }
@@ -879,7 +880,7 @@ class Api extends CI_Controller
             "payment_total" => $_POST['payment_total'],
             "payment_method" => $_POST['payment_method'],
             "payment_description" => $_POST['payment_description'],
-            "bank" => $_POST['bank'],
+            "bank" => $_POST['payment_method'] == "CASH" ? "" : $_POST['bank'],
             "payment_paid" => $_POST['payment_paid'],
             #"warehouse_id"=>1, // di default dulu
             "flag" => 1,
@@ -888,11 +889,15 @@ class Api extends CI_Controller
         $this->pos->insert($pos_data);
         $id_new_pos = $this->db->insert_id();
 
+        $fullprice = 0;
+        $fullend_price = 0;
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $fullprice += $good['total'];
             $good['tax'] = 10 * $good['total'] / 100;
             $good['total'] = $good['total'] + $good['tax'];
+            $fullend_price += $good['total'];
 
             // generate POS detail data
             $pos_det_data = array(
@@ -910,6 +915,42 @@ class Api extends CI_Controller
 
             $this->pos->insert_detail($pos_det_data);
         }
+
+        // // add to journal
+        // $this->jurnal->insert(
+        //     array(
+        //         "jurnal_no",
+        //         "branch_id" => $_POST['branch_id'],
+        //         "invoice_no" => $_POST['invoice_no'],
+        //         "jurnal_date" => date("Y-m-d H:i:s"),
+        //         "carry_over",
+        //         "kurs" => 1,
+        //         "description",
+        //         "flag" => 1,
+        //         "username" => $this->session->username,
+        //         "created_date" => date("Y-m-d H:i:s"),
+        //         "updated_date",
+        //         "printed_date",
+        //         "printed_flag",
+        //         "registered_date",
+        //         "registered_flag" => $_POST['payment_total'] == $fullend_price ? "1" : 0,
+        //         "registered_user",
+        //         "registered_id",
+        //         "print_count",
+        //         "print_registered_count",
+        //         "re_printed_date",
+        //         "re_registered_date",
+        //         "cara_penerimaan" => $_POST['payment_method'],
+        //         "no_seri_pajak_dipungut",
+        //         "no_seri_pajak_ditanggung",
+        //         "bukti_pendukung",
+        //         "tanggal_pendukung",
+        //         "dpp_dipungut" => $fullprice,
+        //         "dpp_ditanggung",
+        //         "tipe_jurnal_id",
+        //         "mata_uang_id"
+        //     )
+        // );
 
         $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
         redirect($_SERVER['HTTP_REFERER']);
