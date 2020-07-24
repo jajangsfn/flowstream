@@ -150,7 +150,7 @@ class Pembelian extends CI_Controller
     {
 
         $data['page_title']   = "Retur Pembelian";
-        $data['return_no']    = generate_po_no(4);
+        $data['return_no']    = generate_po_no(4); 
         $data['warehouse']    = $this->m_ws->get_all()->result();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') ); 
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
@@ -285,7 +285,7 @@ class Pembelian extends CI_Controller
     {
         $where = "tab1.id=".$id;
         $group = "tab1.id,tab2.id";
-        $data = $this->return->get_all($where, $group, 2);  
+        $data = $this->return->get_all($where, $group, 2);   
         // echo json_encode($data);exit;
         $this->pdf->dynamic_print(1,"return_in",$data);
     }
@@ -436,7 +436,7 @@ class Pembelian extends CI_Controller
              $where = "tab1.id=".$supplier;
              $where = ($goods) ? $where." AND tab4.brand_description like '".$goods."%' or tab4.sku_code like '".$goods."%' or tab4.plu_code like '".$goods."%' or tab4.barcode like '".$goods."%'" : $where;
              $data  = $this->goods->get_goods_per_supplier($where)->result(); 
-
+ 
         }else if( $type == 2){
             $goods  = $this->input->get('id_goods');
             $where  = "goods_id=".$goods;
@@ -477,7 +477,7 @@ class Pembelian extends CI_Controller
     {
         $data = $this->po->get_all_trx(array("tab1.id"=>$id),array("tab1.id","tab5.id"))->result_array();  
         $this->pdf->dynamic_print(1, "po_in", $data);
-    }
+    } 
 
 
     function contoh ()

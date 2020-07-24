@@ -56,7 +56,7 @@
 						$.each( parse, function(id, val) {
 							var save_goods = {};
 							save_goods.id = val.goods_id;
-							save_goods.code = val.plu_code;
+							save_goods.code = val.barcode;
 							save_goods.name = val.goods_name;
 							save_goods.price= parseInt(val.price);
 							save_goods.qty  = parseInt(val.quantity);
@@ -107,7 +107,7 @@
 		.done( function (data) {
 			
 			var goods_detail = jQuery.parseJSON(data);			
-			$("#kode_barang").val(goods_detail[0].plu_code);
+			$("#kode_barang").val(goods_detail[0].barcode);
 			$("#id_barang").val(goods_detail[0].id);
 			$("#nama_barang").val(goods_detail[0].brand_description);
 			$("#quantity").val(1);
@@ -214,6 +214,7 @@
 				rows+="</tr>";	
 			});
 
+			$("#grant_total").html( numeral(grant_total).format('0,0[.]00'))
 			$("#btn_save_return").prop('disabled',false);
 		}else {
 			rows+="<tr><td colspan='9' class='text-center'>Data Kosong</td></tr>";

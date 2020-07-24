@@ -230,7 +230,7 @@ class Inventori extends CI_Controller
     public function print_receive($id)
     {
         
-        $data = $this->rm->get_all_receive("tab1.id=".$id,null,"tab3.id")->result_array(); 
+        $data = $this->rm->get_all_receive("tab1.id=".$id,null,"tab3.id")->result_array();  
         // echo json_encode($data);exit;
         // $this->pdf->print_receive(1,$data); 
         $this->pdf->dynamic_print(1, "receive_in", $data);
@@ -392,7 +392,7 @@ class Inventori extends CI_Controller
     public function print_warehouse($id)
     {
         
-        $data = $this->t_ws->get_all(array("tab1.id"=>$id),array("tab2.id"))->result_array(); 
+        $data = $this->t_ws->get_all(array("tab1.id"=>$id),array("tab2.id"))->result_array();  
         
         $this->pdf->dynamic_print(1,"warehouse_in",$data);
     }

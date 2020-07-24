@@ -48,7 +48,7 @@ class Receiving_model extends CI_Model
 
         return $this->db->query("SELECT tab1.*,tab4.name supplier_name,tab4.name partner_name,tab4.id partner_id FROM 
                             (
-                            SELECT tab1.*,tab2.goods_id,tab3.brand_description goods_name,tab3.sku_code,tab3.plu_code, sum(tab2.quantity) receive_qty,
+                            SELECT tab1.*,tab2.goods_id,tab3.barcode,tab3.brand_description goods_name,tab3.sku_code,tab3.plu_code, sum(tab2.quantity) receive_qty,
                             floor (sum( (tab2.quantity * tab2.price) - ( (tab2.quantity * tab2.price * tab2.discount)/100) ))sum_trx ,tab1.flag flag_receive,tab1.id receiving_id,
                             tab2.price,tab2.quantity,tab2.discount
                             FROM t_receiving tab1 
@@ -163,7 +163,7 @@ class Receiving_model extends CI_Model
                                         WHERE tab1.flag=2 and tab2.flag<>99
                                         GROUP BY tab1.purchase_order_id,tab2.goods_id)tab7 on tab7.purchase_order_id = tab6.purchase_order_id and tab7.goods_id=tab6.goods_id
                                 WHERE ".$where."
-                                GROUP BY tab1.id ".(($group_by)?",".$group_by: "")."
+                                GROUP BY  ".(($group_by)? $group_by: " tab1.id")."
                                 HAVING sisa >0 ");
 
 

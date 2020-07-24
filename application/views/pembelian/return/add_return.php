@@ -143,7 +143,14 @@
             </div>
           </div>
           <!-- end row -->
-
+          <div class="row">
+            <div class="col-md-10 text-right h3">
+              Total
+            </div>
+            <div class="col-md-2 h3" id="grant_total">
+              0
+            </div>
+          </div>
 
           <hr>
             <div class="table-responsive">

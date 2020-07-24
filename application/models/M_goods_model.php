@@ -16,7 +16,7 @@ class M_goods_model extends CI_Model
             ref4.detail_data as sub_category,
             ref4.id as sub_category_id,
             ref5.detail_data as package,
-            ref5.id as package_id,
+            ref5.id as package_id, 
             ref6.detail_data as color,
             ref6.id as color_id,
             ref7.name as unit,
