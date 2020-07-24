@@ -150,7 +150,7 @@ class Pembelian extends CI_Controller
     {
 
         $data['page_title']   = "Retur Pembelian";
-        $data['return_no']    = generate_po_no(4);
+        $data['return_no']    = generate_po_no(4); 
         $data['warehouse']    = $this->m_ws->get_all()->result();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') ); 
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
@@ -436,7 +436,7 @@ class Pembelian extends CI_Controller
              $where = "tab1.id=".$supplier;
              $where = ($goods) ? $where." AND tab4.brand_description like '".$goods."%' or tab4.sku_code like '".$goods."%' or tab4.plu_code like '".$goods."%' or tab4.barcode like '".$goods."%'" : $where;
              $data  = $this->goods->get_goods_per_supplier($where)->result(); 
-
+ 
         }else if( $type == 2){
             $goods  = $this->input->get('id_goods');
             $where  = "goods_id=".$goods;
