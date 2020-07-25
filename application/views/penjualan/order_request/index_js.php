@@ -310,7 +310,7 @@
                             ),
 
                             // subtotal
-                            $(document.createElement("td")).text($subtotal_baru).addClass("text-right rupiah").attr("id", "total_harga_" + data.id),
+                            $(document.createElement("td")).text(numeral($subtotal_baru).format('0,[.]00')).addClass("text-right rupiah").attr("id", "total_harga_" + data.id),
 
                             // aksi hapus
                             $(document.createElement("td")).addClass("text-center").append(
@@ -324,9 +324,9 @@
                     );
                     render_table_number();
                     $total_sebelumnya = parseInt($("#total_harga_order").text());
-                    $("#total_harga_order").text($total_sebelumnya + $subtotal_baru);
-                    $("#tax_price").text(10 * ($total_sebelumnya + $subtotal_baru) / 100);
-                    $("#total_harga_order_tax").text(110 * ($total_sebelumnya + $subtotal_baru) / 100);
+                    $("#total_harga_order").text( numeral($total_sebelumnya + $subtotal_baru).format('0,[.]00'));
+                    $("#tax_price").text( numeral(10 * ($total_sebelumnya + $subtotal_baru) / 100).format('0,[.]00') );
+                    $("#total_harga_order_tax").text( numeral(110 * ($total_sebelumnya + $subtotal_baru) / 100).format('0,[.]00')) ;
 
                     // tombol submit
                     $("button[type=submit]").removeAttr("disabled");

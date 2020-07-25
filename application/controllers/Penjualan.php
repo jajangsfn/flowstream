@@ -76,7 +76,7 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
- 
+  
     public function add_order_request()
     {
         $data['page_title']   = "Tambah Order Request";
