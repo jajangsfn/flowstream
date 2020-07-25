@@ -33,7 +33,7 @@ class Receiving extends CI_Controller
         $data['page_content'] = $this->load->view("inventori/receiving", "", true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
 

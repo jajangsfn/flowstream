@@ -29,7 +29,7 @@
 
     function add_modal(id_barang) {
         $.ajax({
-            method: "get",
+            method: "get", 
             url: "<?= base_url("/index.php/api/get_barang/") ?>" + id_barang,
             success: function(result) {
                 const focus = result.data;

@@ -20,7 +20,7 @@ class T_pos_model extends CI_Model
         $nomor_nota .= date("m");
 
         // 6 digit transaction incremental
-
+ 
         $where['invoice_no like'] = "$nomor_nota%";
         $this->db->where($where);
         $this->db->order_by("invoice_no desc");
