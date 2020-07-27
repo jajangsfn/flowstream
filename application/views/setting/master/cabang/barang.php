@@ -173,16 +173,18 @@
                                 ), true); ?>
                             </div>
                             <div class="col-lg-6">
-                                <?= $this->load->view("component/input/flowstream_input", array(
+                                <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "rekening_no",
-                                    "type" => "number",
-                                    "required" => true,
+                                    "title" => "Kode Akun",
 
-                                    "placeholder" => "Masukan nomor akun untuk barang ini",
-                                    "label" => "Nomor Akun",
-                                    "help" => "Masukan nomor rekening",
+                                    "list" => $accounts,
+                                    "identifier" => "acc_code",
+                                    "showable" => "acc_name",
 
-                                    "value" => "1"
+                                    "manage_url" => base_url("/index.php/setting/parameter/cabang/$data_branch->id/keuangan/kode_rekening"),
+                                    "object_name" => "kode akun",
+
+                                    "selected" => false,
                                 ), true); ?>
                             </div>
                         </div>
@@ -439,18 +441,20 @@
                                 ), true); ?>
                             </div>
                             <div class="col-lg-6">
-                                <?= $this->load->view("component/input/flowstream_input", array(
+                                <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "rekening_no",
-                                    "type" => "number",
-                                    "required" => true,
+                                    "title" => "Kode Akun",
+
+                                    "list" => $accounts,
+                                    "identifier" => "acc_code",
+                                    "showable" => "acc_name",
 
                                     "id" => "rekening_no_edit",
 
-                                    "placeholder" => "Masukan nomor akun untuk barang ini",
-                                    "label" => "Nomor Akun",
-                                    "help" => "Masukan nomor rekening",
+                                    "manage_url" => base_url("/index.php/setting/parameter/cabang/$data_branch->id/keuangan/kode_rekening"),
+                                    "object_name" => "kode akun",
 
-                                    "value" => "1"
+                                    "selected" => false,
                                 ), true); ?>
                             </div>
                         </div>

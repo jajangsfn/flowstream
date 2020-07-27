@@ -42,7 +42,7 @@
                 $("#nama_barang_tambah").text(focus.brand_name);
                 $("#desk_barang_tambah").text(focus.brand_description);
                 $("#barcode_barang_tambah").text(focus.barcode);
-                $("#harga_barang_tambah").text(numeral(price).format('0,[.]00'));
+                $("#harga_barang_tambah").text(price ? numeral(price).format('0,[.]00') : 0);
                 $("#tombol_tambah_baru").attr("data-id-barang", focus.id)
 
                 $("#tambah_barang").modal("show");
@@ -254,7 +254,7 @@
                         price = response.data["default_price"];
                     }
 
-                    price = parseInt(price);
+                    price = price ? parseInt(price) : 0;
                     $jumlah_baru = $("#jumlah_tambah_baru").val();
 
                     // cek ratio_flag
