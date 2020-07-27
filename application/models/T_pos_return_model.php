@@ -84,8 +84,8 @@ class T_pos_return_model extends CI_Model
                                 tab8.barcode,tab8.brand_description goods_name,tab8.sku_code,tab8.plu_code,
                                 tab2.warehouse_id,tab7.`name` warehouse_name,tab1.partner_id,tab9.name customer,
                                 tab9.name supplier_name,
-                                tab2.quantity,tab6.price,tab6.discount,
-                                ((tab2.quantity * tab6.price) - ((tab2.quantity * tab6.price) * tab6.discount)/100) total
+                                tab2.quantity,tab10.price,tab6.discount,
+                                ((tab2.quantity * tab10.price))total
                                 FROM t_pos_return tab1
                                 JOIN t_pos_return_detail tab2 ON tab2.purchase_return_id=tab1.id
                                 LEFT JOIN t_pos tab3 ON tab3.invoice_no=tab1.reference_no
@@ -95,6 +95,7 @@ class T_pos_return_model extends CI_Model
                                 LEFT JOIN m_warehouse tab7 ON tab7.id=tab2.warehouse_id
                                 LEFT JOIN m_goods tab8 ON tab8.id=tab2.goods_id
                                 LEFT JOIN m_partner tab9 ON tab9.id=tab1.partner_id
+                                LEFT JOIN m_price tab10 ON tab10.goods_id=tab2.goods_id
                                 ".(($where) ? "WHERE ".$where: "")."
                                 GROUP BY tab1.id ".(($group) ? ",".$group: "")."
                                 ORDER BY tab1.updated_date desc");
@@ -172,13 +173,14 @@ class T_pos_return_model extends CI_Model
 
         return $this->db->query("SELECT tab1.id, tab1.invoice_no,tab1.partner_id,tab2.goods_id,
                                 tab5.brand_description goods_name,
-                                tab2.quantity,tab2.discount,tab4.price,tab2.warehouse_id,tab6.`name` warehouse_name,tab5.sku_code,tab5.plu_code 
+                                tab2.quantity,tab2.discount,tab7.price,tab2.warehouse_id,tab6.`name` warehouse_name,tab5.sku_code,tab5.plu_code 
                                 FROM t_pos tab1 
                                 JOIN t_pos_detail tab2 ON tab2.pos_id=tab1.id
                                 LEFT JOIN t_order_request tab3 ON tab3.order_no=tab1.order_no
                                 LEFT JOIN t_order_request_detail tab4 ON tab4.order_request_id=tab3.id
                                 LEFT JOIN m_goods tab5 ON tab5.id=tab2.goods_id
                                 LEFT JOIN m_warehouse tab6 ON tab6.id=tab2.warehouse_id
+                                LEFT JOIN m_price tab7 ON tab7.goods_id=tab2.goods_id
 
                                 WHERE ".$where.(($group_by) ? " GROUP BY ".$group_by: ""));
                                  

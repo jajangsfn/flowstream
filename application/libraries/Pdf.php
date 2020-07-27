@@ -1735,7 +1735,7 @@ class pdf
 				}
 				
 
-				$total = $val['goods_price'] * $val['goods_qty'];
+				$total = $val['goods_price'] * $val['goods_qty'] - (($val['goods_price'] * $val['goods_qty'] * $val['goods_discount']) /100);
 				$grant_total+=$total;
 				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
