@@ -67,12 +67,12 @@
 			}
 		
 		clear_goods_chart();
-		get_goods_per_supplier();
+		// get_goods_per_supplier();
 	}
 
 	function get_goods_list()
 	{
-		// var po_id_temp  = $("#po_id_temp").val();
+		
 		var po_id       = $("#po_no_list").val();
 			
 			$.get("<?=base_url()?>index.php/inventori/get_po_list/2",
@@ -82,29 +82,40 @@
 				var goods_list = jQuery.parseJSON(data);
 				var goods_text = "";
 
-				if ( goods_list.length > 0) {
-					
+				$("#goods_list").html('<option value="">Barang Kosong</option>');
 
+				if ( goods_list.length > 0) {
+						
+					$("#goods_list").html('<option value="">Pilih Kode Barang</option>');
 					$.each(goods_list, function(id, val) {
 						var save_input = {};
 
 						save_input.po_detail_id 	= po_id;
-						save_input.goods_code 		= val.sku_code;
+						save_input.goods_code 		= val.barcode;
 						save_input.goods_id 		= val.goods_id;
 						save_input.goods_name 		= val.goods_name;
 						save_input.goods_qty_sisa 	= parseInt(val.sisa);
 						save_input.goods_qty  		= parseInt(val.sisa);
 						save_input.goods_price  	= val.goods_price;
 						save_input.goods_discount 	= val.goods_discount;
-
 						chart_goods.push(save_input);
-					});
 
+
+						// add to kode barang
+						goods_text+="<option value='"+val.goods_id+"'>"+val.barcode+"</option>";
+					});
+					// add barang ke dropdown
+					$("#goods_list").append(goods_text);
+					$("#goods_list").selectpicker('refresh');
+					// loop goods
 					show_goods_to_chart();
 
 				}else {
 					Swal.fire("Info", "Data Barang tidak ditemukan!", "error");
+					$("#goods_list").selectpicker('refresh');
 				}
+
+				
 
 			});
 		
@@ -130,10 +141,10 @@
 		$.get("<?=base_url()?>index.php/inventori/get_po_list/3",
 				{"po_id":po_id,"goods_id":goods_id})
 		.done( function (data) {
-			
+			 
 			var goods_detail = jQuery.parseJSON(data);
 			
-			$("#goods_code").val(goods_detail[0].sku_code);
+			$("#goods_code").val(goods_detail[0].barcode);
 			$("#goods_id").val(goods_detail[0].goods_id);
 			$("#goods_name").val(goods_detail[0].goods_name);
 			$("#goods_qty_sisa").val(goods_detail[0].sisa);
@@ -166,25 +177,15 @@
 		save_input.goods_qty  		= goods_qty;
 		save_input.goods_price  	= goods_price;
 		save_input.goods_discount 	= goods_discount;
-		// console.log(save_input);
-		// if (goods_qty > goods_qty_sisa)
-		// {
-		// 	show_alert("Gagal","Maaf jumlah Barang melebihi jumlah sisa!","error");
-		// } else {
+		
 			// check same product
 			var same = false;
 			$.each(chart_goods,function(id,val){
 				if (val.goods_id == goods_id)
 				{
-					// var goods_sum = val.goods_qty + goods_qty;
-
-					// if ( goods_sum > val.goods_qty_sisa) {
-
-					// 	show_alert("Gagal","Maaf jumlah Barang melebihi sisa!","error");
-
-					// }else {
-						val.goods_qty+=goods_qty;	
-					// }
+					
+					val.goods_qty+=goods_qty;	
+					val.goods_price = goods_price;
 					same = true;
 					
 				}
@@ -194,8 +195,6 @@
 
 				chart_goods.push(save_input);
 			}
-
-		// }
 
 		
 		
@@ -227,14 +226,12 @@
 				goods_chart+="<tr id='"+id+"'>";
 				goods_chart+="<input type='hidden' name='po_detail_id[]' id='po_detail_id_"+id+"' value='"+val.po_detail_id+"'>";
 				goods_chart+="<input type='hidden' name='goods_id[]' id='goods_id_"+id+"' value='"+val.goods_id+"'>";
-				goods_chart+="<input type='hidden' name='goods_discount[]' id='goods_discount_"+id+"' value='"+val.goods_discount+"'>";
-				goods_chart+="<input type='hidden' name='goods_price[]' id='goods_price_"+id+"' value='"+val.goods_price+"'>";
 				goods_chart+="<td>"+(id+1)+"</td>";
 				goods_chart+="<td>"+val.goods_code+"</td>";
 				goods_chart+="<td>"+val.goods_name+"</td>";
-				goods_chart+="<td>"+numeral(val.goods_price).format('0,[.]00')+"</td>";
-				goods_chart+="<td><input type='number' name='goods_qty[]' value='"+val.goods_qty+"' min='1' class='form-control' style='width:30%' id='goods_qty_"+id+"' onchange='sum_total("+id+")'></td>";
-				goods_chart+="<td>"+val.goods_discount+"</td>";
+				goods_chart+="<td><input type='number' name='goods_price[]' id='goods_price_"+id+"' value='" +val.goods_price+"' class='form-control' onchange='sum_total("+id+")' style='width:50%'></td>";
+				goods_chart+="<td><input type='number' name='goods_qty[]' value='"+val.goods_qty+"' min='1' class='form-control' style='width:50%' id='goods_qty_"+id+"' onchange='sum_total("+id+")'></td>";
+				goods_chart+="<td><input type='number' name='goods_discount[]' id='goods_discount_"+id+"' class='form-control' value='"+val.goods_discount+"' style='width:50%' onchange='sum_total("+id+")'></td>";
 				goods_chart+="<td id='total_"+id+"'>"+numeral(total).format('0,[.]00')+"</td>";
 				goods_chart+="<td><button type='button' class='btn btn-light-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa la-trash'></span></button></td>";
 				goods_chart+="</tr>";
@@ -341,7 +338,7 @@
 					});
 					
 					$("#goods_list").append(goods_text);
-					$("#goods_list").selectpicker('referesh');
+					$("#goods_list").selectpicker('refresh');
 				}
 				$("#goods_list").selectpicker('refresh');
 

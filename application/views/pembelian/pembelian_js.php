@@ -6,6 +6,7 @@
 		show_supplier_detail();
 		get_chart_goods_from_db();
 		show_chart_goods();		
+		get_salesman();
 
 		$("#goods_id").keyup(function(){
 			var goods = this.value;
@@ -54,6 +55,16 @@
 		        confirmButtonText: "Proses"
 		    }).then(function(result) { 
 		        if (result.value) {
+
+		        	if ($("#partner_salesman").val() == "")
+		        	{
+		        		Swal.fire(
+				                "Error!",
+				                "Silahkan pilih salesman!",
+				                "error"
+				            )	
+		        		return;
+		        	}
 		            $("#form_purchase").submit();
 		        }
 		    });
@@ -79,9 +90,9 @@
 				$.get("<?=base_url()?>index.php/pembelian/get_goods_json/3",
 					{"id_supplier":supplier_id})
 				.done(function(data){
-
-					if (data.length > 0){
-						const goods_arr = JSON.parse(data);
+					const goods_arr = JSON.parse(data);
+					if (goods_arr.length > 0){
+						
 						
 						var goods_list = "";
 							$.each(goods_arr,function(id,val){
@@ -100,10 +111,12 @@
 						$("#branch_id").val(goods_arr[0].branch_id);
 						$("#branch_name").val(goods_arr[0].branch_name);
 						$("#partner_name").val(goods_arr[0].partner_name);
-						$("#salesman_name").val(goods_arr[0].salesman);
-						$("#partner_salesman").val(goods_arr[0].salesman);
-						$("#salesman_id").val(goods_arr[0].salesman_id);
+						// $("#salesman_name").val(goods_arr[0].salesman);
+						// $("#partner_salesman").val(goods_arr[0].salesman);
+						// $("#salesman_id").val(goods_arr[0].salesman_id);
 					}
+
+					get_salesman();
 				});
 			}
 	}
@@ -186,9 +199,9 @@
 				rows+="<input type='hidden' name='goods_code_chart[]' id='goods_code_chart' value='"+val.code+"'>"+val.code+"</td>";
 				rows+= "<td>"+val.name+"'</td>";
 				rows+="<td class='goods_price_chart'>";
-				rows+="<input type='hidden' name='goods_price_chart[]' class='form-control w-50' id='goods_price_chart_"+id+"' value='"+val.price+"'>"+val.price+"</td>";
-				rows+="<td><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' onchange='sum_total_goods("+id+")'></td>";
-				rows+="<td><input type='number' name='goods_discount_chart[]' class='form-control' id='goods_discount_chart_"+id+"' value='"+val.discount+"' onchange='sum_total_goods("+id+")'></td>";
+				rows+="<input type='number' name='goods_price_chart[]' class='form-control w-50' id='goods_price_chart_"+id+"' value='"+val.price+"' onchange='sum_total_goods("+id+")' style='width:100%' ></td>";
+				rows+="<td><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' onchange='sum_total_goods("+id+")' style='width:70%'></td>";
+				rows+="<td><input type='number' name='goods_discount_chart[]' class='form-control' id='goods_discount_chart_"+id+"' value='"+val.discount+"' onchange='sum_total_goods("+id+")' style='width:50%'></td>";
 				rows+="<td class='text-right'>"+total+"</td>";
 				rows+="<td><button type='button' class='btn btn-xs btn-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa fa-trash'></span></button></td>";
 				rows+="</tr>";	
@@ -334,6 +347,38 @@
 		    });
 	}
 
+	function get_salesman()
+	{
+		var supplier_id = $("#supplier_id").val();
+		var salesman_id = $("#salesman_id").val();
+		$.get("<?=base_url()?>index.php/pembelian/get_salesman/",
+			{"supplier_id":supplier_id})
+		.done(function(data){
+			const salesman_arr = JSON.parse(data);
+
+			$("#partner_salesman").html('<option value=""></option>');
+
+			if (salesman_arr.length > 0) {
+				var text = "";
+
+				$.each(salesman_arr, function(id, val) {
+					if (salesman_id && salesman_id == val.id) {
+						text+="<option value='"+val.id+"' selected>"+val.name+"</option>";
+					}else {
+						text+="<option value='"+val.id+"'>"+val.name+"</option>";	
+					}
+					
+				});
+
+				$("#partner_salesman").append(text);
+				
+			}
+
+			$("#partner_salesman").selectpicker('refresh');
+
+			
+		});
+	}
 
 
 </script>

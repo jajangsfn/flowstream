@@ -86,7 +86,7 @@
 										<tr>
 											<th width="200">Kode Barang</th>
 											<th width="350">Nama Barang</th>
-											<th width="150">Quantity</th>
+											<th width="150">Quantity(Pc)</th>
 											<th width="150">Harga</th>
 											<th></th>
 										</tr>
@@ -111,7 +111,7 @@
 												<input type="number" name="goods_qty" id="goods_qty" class="form-control" min="1" value="1">
 											</td>
 											<td>
-												<input type="text" name="goods_price" id="goods_price" class="form-control" readonly>
+												<input type="number" name="goods_price" id="goods_price" class="form-control" min="0">
 											</td>
 											<td>
 												<button type="button" id="btn_add" class="btn btn-primary" onclick="add_to_chart()">Tambah

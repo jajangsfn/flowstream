@@ -170,7 +170,7 @@
 										<th>Kode Barang/PLU</th>
 										<th>Nama Barang</th>
 										<th>Harga</th>
-										<th>Quantity Receive(PCS)</th>
+										<th>Quantity(Pc)</th>
 										<th>Discount</th>
 										<th>Jumlah</th>
 										<th>#</th>

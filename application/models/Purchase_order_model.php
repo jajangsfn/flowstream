@@ -64,7 +64,7 @@ class Purchase_order_model extends CI_Model
                                     )
                             ) sum_trx
                             ,tab2.goods_id,tab5.barcode,tab5.brand_description goods_name,tab2.price goods_price,sum( `tab2`.`quantity`) goods_qty,ifnull(tab2.discount,0) goods_discount,tab5.plu_code,tab5.sku_code,tab6.name branch_name,tab3.name salesman_name, tab2.id purchase_order_detail_id,
-                                ( sum(tab2.quantity) - ifnull(tab7.diterima, 0) )sisa
+                                ( sum(tab2.quantity) - ifnull(tab7.diterima, 0) )sisa,tab7.receiving_no
                             ");
         $this->db->from("t_purchase_order tab1");
         $this->db->join("t_purchase_order_detail tab2","tab2.purchase_order_id=tab1.id ");
@@ -72,7 +72,7 @@ class Purchase_order_model extends CI_Model
         $this->db->join("m_partner tab4","tab4.id=tab3.partner_id");
         $this->db->join("m_goods tab5","tab5.id=tab2.goods_id");
         $this->db->join("m_branch tab6","tab6.id=tab4.branch_id");
-        $this->db->join("(SELECT tab1.purchase_order_id,tab2.*,sum(quantity) diterima 
+        $this->db->join("(SELECT tab1.purchase_order_id,tab2.*,sum(quantity) diterima,tab1.receiving_no 
                             FROM t_receiving tab1 
                             JOIN t_receiving_detail tab2 ON tab2.receiving_id=tab1.id
                             WHERE tab1.flag=2
@@ -82,7 +82,7 @@ class Purchase_order_model extends CI_Model
             $this->db->where($where);
         }
         
-        #$this->db->having("sisa > 0");
+        
 
         if ($group_by) {
             $this->db->group_by($group_by);
@@ -101,5 +101,11 @@ class Purchase_order_model extends CI_Model
         $data['flag'] = 2;
         $this->db->where($where);
         return $this->db->update("t_purchase_order",$data);
+    }
+
+    function get_salesman($supplier_id)
+    {
+        $this->db->where("partner_id",$supplier_id);
+        return $this->db->get("m_partner_salesman");
     }
 }

@@ -80,7 +80,10 @@
 					<div class="row mb-5">
 						
 						<label class="col-form-label col-md-2">Salesman</label>
-						<input type="text" name="salesman" class="col-md-3 form-control" id="partner_salesman" readonly>
+						<!-- <input type="text" name="salesman" class="col-md-3 form-control" id="partner_salesman" readonly> -->
+						<select name="salesman" id="partner_salesman" class="col-md-3 form-control selectpicker" data-live-search="true" required="">
+							<option value=""></option>
+						</select>
 						<div class="col-md-1"></div>
 						<label class="col-form-label col-md-2 text-right">No Referensi</label>
 						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=$po_no?>">

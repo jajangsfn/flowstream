@@ -26,7 +26,7 @@ class Receiving_model extends CI_Model
     }
 
     function insert($data)
-    {
+    { 
         $this->db->insert("t_receiving", $data);
         return $this->get($data);
     }
@@ -142,14 +142,14 @@ class Receiving_model extends CI_Model
 
     function get_goods_receive($where,$group_by = null)
     {
-        return $this->db->query("SELECT tab1.*,tab4.id partner_id,tab6.goods_id,tab6.goods_name,tab6.sku_code,
+        return $this->db->query("SELECT tab1.*,tab4.id partner_id,tab6.goods_id,tab6.goods_name,tab6.barcode,tab6.plu_code,tab6.sku_code,
                                 tab6.goods_price,tab6.plu_code,tab6.goods_discount,(tab6.order_qty - ifnull(tab7.receive_qty,0) )sisa   
                                 FROM t_purchase_order tab1 
                                 JOIN t_purchase_order_detail tab2 ON tab2.purchase_order_id=tab1.id
                                 JOIN `m_partner_salesman` `tab3` ON `tab3`.`id`=`tab1`.`salesman_id` 
                                 JOIN `m_partner` `tab4` ON `tab4`.`id`=`tab3`.`partner_id` 
                                 LEFT JOIN
-                                     (SELECT tab2.purchase_order_id,tab2.goods_id,tab3.brand_description goods_name,tab3.sku_code,tab3.plu_code,sum(tab2.quantity) order_qty ,tab2.price goods_price,tab2.discount  goods_discount
+                                     (SELECT tab2.purchase_order_id,tab2.goods_id,tab3.brand_description goods_name,tab3.sku_code,tab3.plu_code,tab3.barcode,sum(tab2.quantity) order_qty ,tab2.price goods_price,tab2.discount  goods_discount
                                       FROM t_purchase_order tab1 
                                       JOIN t_purchase_order_detail tab2 ON tab2.purchase_order_id=tab1.id 
                                       LEFT JOIN m_goods tab3 ON tab3.id=tab2.goods_id
@@ -158,7 +158,7 @@ class Receiving_model extends CI_Model
                                 LEFT JOIN 
                                         (SELECT tab1.purchase_order_id,tab2.goods_id,sum(tab2.quantity) receive_qty 
                                         FROM t_receiving tab1 
-                                        JOIN t_receiving_detail tab2 ON tab2.receiving_id=tab1.id 
+                                        LEFT JOIN t_receiving_detail tab2 ON tab2.receiving_id=tab1.id 
                                         LEFT JOIN m_goods tab3 ON tab3.id=tab2.goods_id
                                         WHERE tab1.flag=2 and tab2.flag<>99
                                         GROUP BY tab1.purchase_order_id,tab2.goods_id)tab7 on tab7.purchase_order_id = tab6.purchase_order_id and tab7.goods_id=tab6.goods_id

@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Inventori extends CI_Controller
 {
 
-    public function __construct()
+    public function __construct() 
     {
         parent::__construct();
         // if already login, redirect to dashboard
@@ -202,7 +202,7 @@ class Inventori extends CI_Controller
             $data               = $this->rm->get_goods_receive($where,$group)->result();
 
         } else if ( $type == 3 ) {
-
+ 
            $where               = 'tab1.id='.$this->input->get('po_id').' and tab6.goods_id='.$this->input->get('goods_id');
            $group               = 'tab6.goods_id';
            $data               = $this->rm->get_goods_receive($where,$group)->result();

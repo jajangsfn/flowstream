@@ -1,6 +1,31 @@
  <?=$this->session->flashdata('msg');?>
+ <div class="row">
+   <div class="col-md-3">
+    <div class="card card-custom w-100" style="overflow: hidden;position: relative;">
+
+         <div class="card-body">
+          <!-- search input -->
+         <?= $this->load->view("component/input/flowstream_input", array(
+                      "name" => "goods",
+                      "type" => "text",
+                      "id"=>"goods_id_bar",
+                      "required" => true,
+                      "placeholder" => "Isi Nama Barang",
+                      "label" => "Search",
+                      "help" => "",
+                      "value" => false,
+                      "autocomplete"=>"off",
+                        ), true); ?>  
+                <hr>
+                <ul class="navi navi-hover navi-active" id="goods_list_bar" style="overflow: scroll;height: 400px">
+        </ul>
+         </div>
+     </div>
+  </div>
+  <!-- end search -->
+
  <!--begin::Card-->
-<div class="card card-custom">
+<div class="card card-custom col-md-9">
   <div class="card-header flex-wrap">
         <div class="w-100 d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
         <!--begin::Info-->
@@ -58,10 +83,13 @@
             </div>  
             <div class="col-md-3">
                 <div class="input-group mb-3">
-                      <input type="text" name="nro" id="nro" class="form-control" placeholder="No Receive Order. . ." aria-label="" aria-describedby="basic-addon1">
-                    <div class="input-group-prepend">
+                      <!-- <input type="text" name="nro" id="nro" class="form-control" placeholder="No Receive Order. . ." aria-label="" aria-describedby="basic-addon1"> -->
+                      <select name="nro" id="nro" class="form-control selectpicker" data-live-search="true" onchange="search_receive_order()">
+                        <option value="">Data No PO Kosong</option>
+                      </select>
+                   <!--  <div class="input-group-prepend">
                        <button class="btn btn-info" type="button" onclick="search_receive_order()">search</button>
-                     </div>
+                     </div> -->
                  </div>
             </div>
 
@@ -162,7 +190,7 @@
                     <th>Nama Barang</th>
                     <th>Gudang</th>
                     <th>Harga</th>
-                    <th>Quantity Order (PCS)</th>
+                    <th>Qty(PCS)</th>
                     <th>Total</th>
                     <th>#</th>
                   </tr>
@@ -187,4 +215,50 @@
           </form>
         </div>
         <!-- end card body -->
+</div>
+ </div>
+
+
+ <div class="modal fade" id="tambahBrgKeChart" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!-- <form class="form card" method="POST" action="<?= current_url() ?>"> -->
+                <div class="card-header">
+                    Tambah ke Troli
+                </div>
+                <div class="card-body">
+                  <input type="hidden" name="id_barang_bar" id="id_barang_bar">
+
+                  <div class="form-group row">
+                    <div class="col-form-label col-md-3">Kode Barang</div>
+                    <div class="col-form-label col-sm-1 mr-0">:</div>
+                    <div class="col-form-label col-md-8" id="kode_barang_bar"></div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-form-label col-md-3">Nama Barang</div>
+                    <div class="col-form-label col-sm-1 mr-0">:</div>
+                    <div class="col-form-label col-md-8" id="nama_barang_bar"></div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-form-label col-md-3">Harga</div>
+                    <div class="col-form-label col-sm-1">:</div>
+                    <div class="col-form-label col-md-8" id="harga_barang_bar"></div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-form-label col-md-3">Qty</div>
+                    <div class="col-form-label col-sm-1">:</div>
+                    <div class="col-form-label col-md-8">
+                      <input type="number" name="qty_chart" id="quantity_bar" class="form-control" placeholder="Isi Qty Barang" value="1">
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary mr-2" onclick="add_to_chart_bar()">Add to Chart</button>
+                    <?= $this->load->view("component/button/close", "", true); ?>
+                </div>
+            <!-- </form> -->
+        </div>
+    </div>
 </div>
