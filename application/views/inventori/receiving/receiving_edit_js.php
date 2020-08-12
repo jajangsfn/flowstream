@@ -84,56 +84,6 @@
 
 		clear_goods_chart();
 	}
-	// function get_po_list()
-	// {
-	// 	var supplier_id_temp= <?=isset($master[0]) ? $master[0]->partner_id : "";?>;
-		
-	// 	var supplier_id 	= $("#supplier_id").val();
-		
-	// 		$.get("<?=base_url()?>index.php/inventori/get_po_list/1",
-	// 			{"supplier_id":supplier_id})
-	// 		.done(function(data){
-				
-	// 			var po_list = jQuery.parseJSON(data);
-	// 			var po_text = ""; 
-				
-	// 			$("#po_no_list").html('<option value="">PO Kosong</option>');
-
-	// 			if (po_list.length > 0) {
-
-	// 				$("#po_no_list").html('<option value="">Pilih No PO</option>');
-
-	// 				$.each(po_list,function(id,val) {
-	// 					po_text+="<option value='"+val.id+"'>"+val.purchase_order_no+"</option>";
-	// 				});
-
-	// 				$("#po_no_list").append(po_text);
-	// 				$("#po_no_list").selectpicker('refresh');
-					
-	// 			}else {
-
-	// 				Swal.fire("Info", "Data No PO tidak ditemukan!", "error");
-					
-	// 			}
-
-	// 			$("#po_no_list").selectpicker('refresh');
-				
-	// 		});
-
-	// 		if (supplier_id_temp) {
-	// 			if(supplier_id_temp!=supplier_id) {
-	// 				$("#receive_list").html('');
-	// 				chart_goods = [];
-	// 				$("#supplier_id_temp").val(supplier_id);
-	// 			}
-	// 		}else {
-	// 			$("#supplier_id_temp").val(supplier_id);
-	// 		}
-		
-	// 	clear_goods_chart();
-	// 	get_goods_per_supplier();
-	// }
-
 	function get_goods_list()
 	{
 		var po_id_temp  = '<?=isset($master) ?  $master[0]->purchase_order_id : "";?>';
@@ -227,26 +177,14 @@
 		save_input.goods_price  	= goods_price;
 		save_input.goods_discount 	= goods_discount;
 
-		// if (goods_qty > goods_qty_sisa)
-		// {
-		// 	show_alert("Gagal","Maaf jumlah Barang melebihi jumlah sisa!","error");
-		// } else {
 			// check same product
 			var same = false;
 			$.each(chart_goods,function(id,val){;
 				if (val.goods_id == goods_id)
 				{
-					var goods_sum = val.goods_qty + goods_qty;
-
-					// if ( goods_qty_sisa < goods_sum ) {
-
-					// 	show_alert("Danger","Maaf Jumlah Receive lebih dari jumlah pesan!","error");
-
-					// }else {
-						val.goods_qty+=goods_qty;	
-					// }
-					same = true;
-					
+					val.goods_qty+=goods_qty;	
+					val.goods_price = goods_price;
+					same = true;	
 				}
 			});
 
@@ -285,14 +223,12 @@
 				goods_chart+="<tr id='"+id+"'>";
 				goods_chart+="<input type='hidden' name='po_detail_id[]' id='po_detail_id_"+id+"' value='"+val.po_detail_id+"'>";
 				goods_chart+="<input type='hidden' name='goods_id[]' id='goods_id_"+id+"' value='"+val.goods_id+"'>";
-				goods_chart+="<input type='hidden' name='goods_discount[]' id='goods_discount_"+id+"' value='"+val.goods_discount+"'>";
-				goods_chart+="<input type='hidden' name='goods_price[]' id='goods_price_"+id+"' value='"+val.goods_price+"'>";
 				goods_chart+="<td>"+(id+1)+"</td>";
 				goods_chart+="<td>"+val.goods_code+"</td>";
 				goods_chart+="<td>"+val.goods_name+"</td>";
-				goods_chart+="<td>"+numeral(val.goods_price).format('0,[.]00')+"</td>";
-				goods_chart+="<td><input type='number' name='goods_qty[]' id='goods_qty_"+id+"' value='"+val.goods_qty+"' min='1' class='form-control' style='width:30%' onchange='sum_total("+id+")'></td>";
-				goods_chart+="<td>"+val.goods_discount+"</td>";
+				goods_chart+="<td><input type='number' name='goods_price[]' id='goods_price_"+id+"' class='form-control' value='"+val.goods_price+"' style='width:50%' onchange='sum_total("+id+")' min='0'></td>";
+				goods_chart+="<td><input type='number' name='goods_qty[]' id='goods_qty_"+id+"' value='"+val.goods_qty+"' min='1' class='form-control' style='width:50%' onchange='sum_total("+id+")'  min='0'></td>";
+				goods_chart+="<td><input type='number' name='goods_discount[]' id='goods_discount_"+id+"' class='form-control' value='"+val.goods_discount+"' style='width:50%' onchange='sum_total("+id+")'  min='0'></td>";
 				goods_chart+="<td>"+numeral(total).format('0,[.]00')+"</td>";
 				goods_chart+="<td><button type='button' class='btn btn-light-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa la-trash'></span></button></td>";
 				goods_chart+="</tr>";

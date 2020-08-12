@@ -38,7 +38,7 @@ class Pembelian extends CI_Controller
 
                 $where_id['id']= $_POST['id'];
                 $entry_data    = array("branch_id" => $_POST['branch_id'],
-                                "salesman_id" => $_POST['salesman_id'],
+                                "salesman_id" => $_POST['salesman'],
                                 "purchase_order_no" => $_POST['purchase_order_no'],
                                 "reference_no" => $_POST['reference_no'],
                                 "description" => $_POST['description'],
@@ -74,7 +74,7 @@ class Pembelian extends CI_Controller
             }else { 
 
                $entry_data   = array("branch_id" => $_POST['branch_id'],
-                                "salesman_id" => $_POST['salesman_id'],
+                                "salesman_id" => $_POST['salesman'],
                                 "purchase_order_no" => $_POST['purchase_order_no'],
                                 "reference_no" => $_POST['reference_no'],
                                 "description" => $_POST['description'],
@@ -156,7 +156,7 @@ class Pembelian extends CI_Controller
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['page_content'] = $this->load->view("pembelian/return/add_return", $data, true);
 
-        $this->load->view('layout/head');
+        $this->load->view('layout/head'); 
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
         $this->load->view('pembelian/return/return_js'); 
@@ -171,13 +171,13 @@ class Pembelian extends CI_Controller
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['warehouse']    = $this->m_ws->get_all()->result();
         $data['master']       = $this->return->get_all("tab1.id=".$id,"tab2.id");
-        // echo json_encode($data['master']);exit;
+        //echo json_encode($data['master']);exit;
         $data['page_content'] = $this->load->view("pembelian/return/edit_return", $data, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
-        $this->load->view('pembelian/return/return_js'); 
+        $this->load->view('pembelian/return/return_js',$data); 
     }
  
 
@@ -186,7 +186,7 @@ class Pembelian extends CI_Controller
         $receiving_no = $this->input->get('receive_no'); 
         $supplier_id  = $this->input->get('supplier_id'); 
         $where        = "tab1.receiving_no='".$receiving_no."'";
-        $where_supplier = "tab4.id=".$supplier_id;
+        $where_supplier = "tab4.id=".$supplier_id; 
         $data       = $this->rm->get_all_receive($where,$where_supplier,"tab2.goods_id")->result();
 
         echo json_encode($data);
@@ -195,7 +195,7 @@ class Pembelian extends CI_Controller
     public function save_return()
     {
         $param = $this->input->post();
-       
+        // echo json_encode($param);exit;
         if ( count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
@@ -204,7 +204,7 @@ class Pembelian extends CI_Controller
                     $arr_return = array(
                             "branch_id" => $this->session->userdata('branch_id'),
                             "return_no" => $param['return_no'],
-                            "reference_no" => $param['no_ref'],
+                            "reference_no" => ($param['no_ref']) ? $param['no_ref'] : $param['nro'],
                             "description" => $param['deskripsi'],
                             "transaction_date" => $param['tgl_trx'],
                             "return_date" => $param['tgl_trx'],
@@ -237,7 +237,7 @@ class Pembelian extends CI_Controller
                 $arr_return = array(
                             "branch_id" => $this->session->userdata('branch_id'),
                             "return_no" => $param['return_no'],
-                            "reference_no" => $param['no_ref'],
+                            "reference_no" => ($param['no_ref']) ? $param['no_ref'] : $param['nro'],
                             "description" => $param['deskripsi'],
                             "transaction_date" => $param['tgl_trx'],
                             "return_date" => $param['tgl_trx'],
@@ -246,7 +246,7 @@ class Pembelian extends CI_Controller
                             "updated_date" => date('Y-m-d H:i:s'),
                             "updated_by" => $this->session->userdata('id'),
                             "flag" => 1);
-         
+                
                 $this->return->insert($arr_return, $param);
 
 
@@ -447,7 +447,7 @@ class Pembelian extends CI_Controller
             $where      = "tab1.id=".$supplier;
             $data       = $this->goods->get_goods_per_supplier($where)->result();
         }else if ( $type == 4)
-        {
+        { 
              $goods     = $this->input->get('goods_id');
              $supplier  = $this->input->get('id_supplier');             
              $where     = "tab1.id=".$supplier;
@@ -568,6 +568,26 @@ class Pembelian extends CI_Controller
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+
+
+    function get_salesman() 
+    {
+        $supplier_id = $this->input->get('supplier_id');
+
+        $data       = $this->po->get_salesman($supplier_id)->result();
+
+        echo json_encode($data);
+    }
+
+    function get_all_po()
+    {
+        $supplier_id = "tab4.id=".$this->input->get('supplier_id');
+        $group_by    = "tab1.id";
+ 
+        $data       = $this->po->get_all_trx($supplier_id, $group_by)->result();
+
+        echo json_encode($data);
     }
 
 
