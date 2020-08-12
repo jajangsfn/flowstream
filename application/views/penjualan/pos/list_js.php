@@ -1,4 +1,4 @@
-<script>
+<script> 
     $(document).ready(() => {
         $("#pos_table").DataTable({
             responsive: true,

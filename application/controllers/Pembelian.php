@@ -114,7 +114,7 @@ class Pembelian extends CI_Controller
         $data['master']       = array();
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js'); 
         $this->load->view('pembelian/pembelian_js'); 
     }
@@ -128,7 +128,7 @@ class Pembelian extends CI_Controller
         $data['page_content'] = $this->load->view("pembelian/po/purchase_order", $data, true); 
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
         $this->load->view('pembelian/pembelian_js'); 
     }
@@ -139,9 +139,9 @@ class Pembelian extends CI_Controller
         $data['return']       = $this->return->get_all();
         $data['page_title']   = "Retur Pembelian";
         $data['page_content'] = $this->load->view("pembelian/return/return", $data, true);
-        // echo json_encode($data['return']);exit;
+        
         $this->load->view('layout/head');
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
         $this->load->view('pembelian/return/return_js'); 
     }
@@ -157,7 +157,7 @@ class Pembelian extends CI_Controller
         $data['page_content'] = $this->load->view("pembelian/return/add_return", $data, true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
         $this->load->view('pembelian/return/return_js'); 
     }
@@ -175,7 +175,7 @@ class Pembelian extends CI_Controller
         $data['page_content'] = $this->load->view("pembelian/return/edit_return", $data, true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
         $this->load->view('pembelian/return/return_js'); 
     }
@@ -195,7 +195,7 @@ class Pembelian extends CI_Controller
     public function save_return()
     {
         $param = $this->input->post();
-        // echo json_encode($param);exit;
+       
         if ( count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
@@ -233,7 +233,7 @@ class Pembelian extends CI_Controller
                     redirect("pembelian/return"); 
 
             }else {
-                // echo json_encode($param);exit;
+               
                 $arr_return = array(
                             "branch_id" => $this->session->userdata('branch_id'),
                             "return_no" => $param['return_no'],
@@ -286,7 +286,7 @@ class Pembelian extends CI_Controller
         $where = "tab1.id=".$id;
         $group = "tab1.id,tab2.id";
         $data = $this->return->get_all($where, $group, 2);   
-        // echo json_encode($data);exit;
+        
         $this->pdf->dynamic_print(1,"return_in",$data);
     }
 
@@ -343,7 +343,7 @@ class Pembelian extends CI_Controller
 
         $this->load->view('layout/head');
         // $this->load->view('layout/base', $data);
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
 
@@ -354,7 +354,7 @@ class Pembelian extends CI_Controller
 
         $this->load->view('layout/head');
         // $this->load->view('layout/base', $data);
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
 
@@ -365,7 +365,7 @@ class Pembelian extends CI_Controller
 
         $this->load->view('layout/head');
         // $this->load->view('layout/base', $data);
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
 
@@ -376,7 +376,7 @@ class Pembelian extends CI_Controller
 
         $this->load->view('layout/head');
         // $this->load->view('layout/base', $data);
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
 
@@ -392,7 +392,7 @@ class Pembelian extends CI_Controller
         $data['page_content'] = $this->load->view("pembelian/po/add_purchase", $data ,true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
         $this->load->view("pembelian/pembelian_js");
     }
@@ -409,7 +409,7 @@ class Pembelian extends CI_Controller
         $data['page_content'] = $this->load->view("pembelian/po/edit_purchase", $data ,true);
 
         $this->load->view('layout/head');
-        $this->load->view('layout/base_maxwidth', $data);
+        $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
         $this->load->view("pembelian/pembelian_js");
     }
@@ -431,28 +431,28 @@ class Pembelian extends CI_Controller
     {
         if ( $type == 1)
         {
-             $goods = $this->input->get('goods');
-             $supplier = $this->input->get('id_supplier');             
-             $where = "tab1.id=".$supplier;
-             $where = ($goods) ? $where." AND tab4.brand_description like '".$goods."%' or tab4.sku_code like '".$goods."%' or tab4.plu_code like '".$goods."%' or tab4.barcode like '".$goods."%'" : $where;
-             $data  = $this->goods->get_goods_per_supplier($where)->result(); 
+             $goods     = $this->input->get('goods');
+             $supplier  = $this->input->get('id_supplier');             
+             $where     = "tab1.id=".$supplier;
+             $where     = ($goods) ? $where." AND tab4.brand_description like '".$goods."%' or tab4.sku_code like '".$goods."%' or tab4.plu_code like '".$goods."%' or tab4.barcode like '".$goods."%'" : $where;
+             $data      = $this->goods->get_goods_per_supplier($where)->result(); 
  
         }else if( $type == 2){
-            $goods  = $this->input->get('id_goods');
-            $where  = "goods_id=".$goods;
-            $data  = $this->goods->get_goods_price($where)->result();
+            $goods      = $this->input->get('id_goods');
+            $where      = "goods_id=".$goods;
+            $data       = $this->goods->get_goods_price($where)->result();
         }else if ( $type == 3){
 
-            $supplier = $this->input->get("id_supplier");   
-            $where = "tab1.id=".$supplier;
-            $data  = $this->goods->get_goods_per_supplier($where)->result();
+            $supplier   = $this->input->get("id_supplier");   
+            $where      = "tab1.id=".$supplier;
+            $data       = $this->goods->get_goods_per_supplier($where)->result();
         }else if ( $type == 4)
         {
-             $goods = $this->input->get('goods_id');
-             $supplier = $this->input->get('id_supplier');             
-             $where = "tab1.id=".$supplier;
-             $where = ($goods) ? $where." AND tab4.id='".$goods."'" : $where;
-             $data  = $this->goods->get_goods_per_supplier($where)->result(); 
+             $goods     = $this->input->get('goods_id');
+             $supplier  = $this->input->get('id_supplier');             
+             $where     = "tab1.id=".$supplier;
+             $where     = ($goods) ? $where." AND tab4.id='".$goods."'" : $where;
+             $data      = $this->goods->get_goods_per_supplier($where)->result(); 
 
         }
        
@@ -466,16 +466,16 @@ class Pembelian extends CI_Controller
     public function approve_po()
     {
         $data['id'] = $this->input->get("po_id");
-
-        $msg   = $this->po->approve_po($data);
+        $msg        = $this->po->approve_po($data);
 
         echo json_encode($msg);
     }
 
  
     public function print_po($id)
-    {
+    { 
         $data = $this->po->get_all_trx(array("tab1.id"=>$id),array("tab1.id","tab5.id"))->result_array();  
+        // echo json_encode($data);exit;
         $this->pdf->dynamic_print(1, "po_in", $data);
     } 
 

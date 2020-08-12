@@ -299,7 +299,7 @@
 			});
 
 			$("#receive_list").append(goods_chart);
-			$("#grant_total").val(grant_total);
+			$("#grant_total").text(numeral(grant_total).format('0,[.]00'));
 			$("#btn_save").prop('disabled',false);
 
 
@@ -331,8 +331,9 @@
 	function get_chart_goods_from_db()
 	{
 		var json = <?=isset($master) ? json_encode($master) : "";?>;
-		console.log(json);
 		var data = (json!="") ? json : [];
+		
+
 		if (data.length > 0){
 			$.each(data,function(id,val){
 				var code = (val.sku_code) ? val.sku_code : 'Kosong';

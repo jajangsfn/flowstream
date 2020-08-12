@@ -77,11 +77,11 @@
 		var goods_id      = $("#goods_list").val();
 		 
 		$.get("<?=base_url()?>index.php/penjualan/get_pos_goods/2",
-				{"invoice_no":invoice_no,"goods_id":goods_id})
+				{"invoice_no":invoice_no,"goods_id":goods_id}) 
 		.done( function (data) {
 			
 			var goods_detail = jQuery.parseJSON(data);			
-
+			console.log(goods_detail);
 			$("#kode_barang").val(goods_detail[0].plu_code);
 			$("#id_barang").val(goods_detail[0].goods_id);
 			$("#nama_barang").val(goods_detail[0].goods_name);

@@ -20,7 +20,7 @@
 </script> 
 <script> 
 	 
-	function get_po_list()
+	function get_po_list() 
 	{
 		var supplier_id_temp= $("#supplier_id_temp").val();
 		
@@ -258,8 +258,8 @@
 
 	function clear_goods_chart()
 	{
-		$("#goods_list").html('<option value="">Barang Kosong</option>');
-		$("#goods_list").selectpicker('refresh');
+		// $("#goods_list").html('<option value="">Barang Kosong</option>');
+		// $("#goods_list").selectpicker('refresh');
 		$("#goods_code").val('');
 		$("#goods_id").val('');
 		$("#goods_name").val('');
