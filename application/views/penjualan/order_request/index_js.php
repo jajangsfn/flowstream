@@ -73,24 +73,6 @@
                     }
                 })
 
-                // get daftar salesman
-                $.ajax({
-                    url: "<?= base_url("/index.php/api/usr_salesman/") ?>" + customer_id,
-                    success: function(result) {
-                        $("#pilih_salesman").append(
-                            result.data.map(function(datum) {
-                                return (
-                                    `<option value="${datum.id}">${datum.name}</option>`
-                                )
-                            })
-                        ).select2({
-                            placeholder: "Pilih Salesman",
-                            width: "100%"
-                        })
-                        $("#user_salesman_id_cell").fadeIn();
-                    }
-                })
-
                 // get list barang
                 $.ajax({
                     method: "get",
@@ -296,7 +278,7 @@
                             ),
 
                             // diskon (TODO)
-                            $(document.createElement("td")).attr("style", "width: 90px").append(
+                            $(document.createElement("td")).attr("style", "width: 90px").addClass("d-none").append(
                                 $(document.createElement("input"))
                                 .attr("type", "number")
                                 .addClass("form-control text-center")
@@ -310,7 +292,7 @@
                             ),
 
                             // subtotal
-                            $(document.createElement("td")).text($subtotal_baru).addClass("text-right rupiah").attr("id", "total_harga_" + data.id),
+                            $(document.createElement("td")).text($subtotal_baru).addClass("text-right rupiah d-none").attr("id", "total_harga_" + data.id),
 
                             // aksi hapus
                             $(document.createElement("td")).addClass("text-center").append(

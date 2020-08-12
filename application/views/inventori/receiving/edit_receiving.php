@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12">
-		<div class="card card-custom"> 
+		<div class="card card-custom">
 			<div class="card-header flex-wrap">
 				<div class="w-100 d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 				<!--begin::Info-->
@@ -20,8 +20,8 @@
 							<span class="font-weight-bold" id="kt_dashboard_daterangepicker_date"><?=$tgl_indo?></span>
 						</a>
 					<!--end::Daterange-->
-					
-					</div> 
+
+					</div>
 					<!--end::Toolbar-->
 				</div>
 		    </div>
@@ -41,11 +41,11 @@
 						<!-- <div class="col-md-1"></div> -->
 						<label class="col-form-label col-md-2 text-right">Supplier</label>
 						<div class="form-group col-md-3">
-		                    <div class="w-100"> 
+		                    <div class="w-100">
 			                   <select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" onchange="get_po_list()">
 			                      	<option value="" selected>Pilih Supplier</option>
 			                       	<?php
-			                      	foreach ($supplier as $key => $val) { 
+			                      	foreach ($supplier as $key => $val) {
 			                      		if ($master && $master[0]->partner_id == $val->id) {?>
 			                       		<option value="<?=$val->id?>" selected><?=$val->name?></option>
 			                       	<?php }else { ?>
@@ -67,10 +67,10 @@
 							</select>
 
 						</div>
-						
+
 						<label class="col-form-label col-md-3 text-right">Tanggal Receive</label>
 						<input type="text" name="tgl_receive" class="col-md-3 form-control" value="<?=($master) ? date("Y-m-d", strtotime($master[0]->created_date)) : date('Y-m-d')?>" readonly>
-						
+
 					</div>
 
 					<div class="row ml-30">
@@ -81,7 +81,7 @@
 			                   <select name="ws" id="ws_id" class="form-control selectpicker" data-live-search="true">
 			                      	<option value="" selected>Pilih Gudang</option>
 			                       	<?php
-			                      	foreach ($warehouse as $key => $val) { 
+			                      	foreach ($warehouse as $key => $val) {
 			                      		if ($master && $master[0]->warehouse_id == $val->id) {
 			                      		?>
 			                       		<option value="<?=$val->id?>" selected><?=$val->name?></option>
@@ -94,15 +94,15 @@
 
 						<label class="col-form-label col-md-2 text-right">Deskripsi</label>
 						<div class="col-md-3">
-							<textarea name="description" id="description" class="form-control"><?=$master[0]->description?></textarea>	
+							<textarea name="description" id="description" class="form-control"><?=$master[0]->description?></textarea>
 						</div>
 
 						<label class="col-form-label col-md-3 text-right">No Referensi</label>
 						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=($master) ? $master[0]->reference_no : $po_no?>">
-						
+
 					</div>
 
-					
+
 					<hr>
 
 					<div class="row mt-1">
@@ -191,7 +191,7 @@
 						</div>
 					</div>
 		        </form>
-		        
+
 		    </div>
 		</div>
 	</div>

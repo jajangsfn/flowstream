@@ -38,12 +38,6 @@
                                 <?php endforeach ?>
                             </select>
                         </div>
-                        <div class="form-group" id="user_salesman_id_cell" style="display: none;">
-                            <small>Pilih Salesman</small>
-                            <select id="pilih_salesman" name="user_salesman_id" required>
-                                <option label="Label"></option>
-                            </select>
-                        </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="d-flex align-items-center justify-content-end">
@@ -70,8 +64,8 @@
                                 <th nowrap>Jumlah</th>
                                 <th nowrap>Satuan</th>
                                 <th style="min-width: 100px">Harga</th>
-                                <th>Diskon</th>
-                                <th>Subtotal</th>
+                                <th class="d-none">Diskon</th>
+                                <th class="d-none">Subtotal</th>
                                 <th class="text-center"><span class="mr-3">Aksi</span>
                                 </th>
                             </tr>

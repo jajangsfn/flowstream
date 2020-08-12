@@ -192,8 +192,16 @@ class Api extends CI_Controller
             "ratio_flag" => $_POST['ratio_flag']
         );
         $this->goods->update($where_id, $entry_data);
-        $this->session->set_flashdata("success", "Barang berhasil tersimpan");
-        redirect($_SERVER['HTTP_REFERER']);
+        if (stripos($_SERVER['HTTP_REFERER'], base_url()) >= 0) {
+            $this->session->set_flashdata("success", "Barang berhasil diubah");
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            echo json_encode(
+                array(
+                    "message" => "Barang berhasil diubah"
+                )
+            );
+        }
     }
 
     public function delete_barang()
@@ -684,7 +692,6 @@ class Api extends CI_Controller
             "partner_name" => $_POST['partner_name'],
             "order_no" => $_POST['order_no'],
             "description" => $_POST['description'],
-            "user_salesman_id" => $_POST['user_salesman_id'],
             "order_date" => date('Y-m-d H:i:s'),
             "created_date" => date('Y-m-d H:i:s'),
             "updated_date" => date('Y-m-d H:i:s'),
@@ -785,7 +792,6 @@ class Api extends CI_Controller
             "branch_id" => $order_request->branch_id,
             "partner_id" => $order_request->partner_id,
             "partner_name" => $order_request->partner_name,
-            "user_salesman_id" => $order_request->user_salesman_id,
             "order_no" => $order_request->order_no,
             "invoice_no" => $_POST['invoice_no'],
             "tax_no" => null,
@@ -796,6 +802,7 @@ class Api extends CI_Controller
             "payment_description" => $_POST['payment_description'],
             "bank" => $_POST['bank'],
             "payment_paid" => $_POST['payment_paid'],
+            "pos_date" => date("Y-m-d H:i:s"),
 
             "created_by" => $this->session->id,
             "flag" => 1
@@ -805,20 +812,26 @@ class Api extends CI_Controller
         $pos_id = $this->db->insert_id();
 
         // get order_request_details
-        $order_request_details = $order_request->details;
-
-        foreach ($order_request_details as $or_det) {
+        foreach ($_POST["barang"] as $id_goods => $or_det) {
             // generate POS detail data
+            $total = $or_det['quantity'] * $or_det['price'] * (1 - $or_det['discount'] / 100);
+            $tax = 10 * $total / 100;
+            $total = 110 * $total / 100;
+
             $pos_det_data = array(
                 "pos_id" => $pos_id,
-                "goods_id" => $or_det->goods_id,
-                "warehouse_id" => $or_det->warehouse_id,
-                "goods_name" => $or_det->goods_name,
-                "quantity" => $or_det->quantity,
-                "discount" => $or_det->discount,
-                "discount_code" => $or_det->discount_code,
-                "tax" => $or_det->tax,
-                "total" => $or_det->total,
+                "goods_id" => $id_goods,
+
+                "goods_name" => $or_det['goods_name'],
+                "price" => $or_det['price'],
+                "quantity" => $or_det['quantity'],
+                "discount" => $or_det['discount'],
+
+                "warehouse" => 1,
+
+                "discount_code" => isset($or_det['discount_code']) ? $or_det['goods_name'] : null,
+                "tax" => $tax,
+                "total" => $total,
 
                 "flag" => 1
             );

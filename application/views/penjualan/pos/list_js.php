@@ -54,6 +54,9 @@
                         }
 
                         return `
+                        <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/pos/view/") ?>${data}" data-toggle="tooltip" title="view">
+                            <i class="flaticon-eye"></i>
+                        </a>
                         <a class="btn btn-icon btn-sm btn-light-info" onclick="confirm_cetak(${data})" data-toggle="tooltip" title="cetak ulang" target="_blank">
                             <i class="fa la-print"></i>
                         </a>

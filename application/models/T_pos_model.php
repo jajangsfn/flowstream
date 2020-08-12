@@ -95,6 +95,28 @@ class T_pos_model extends CI_Model
         return $this->db->get();
     }
 
+    function get_specific($id)
+    {
+        $toret = $this->db->get_where("t_pos", array("id" => $id))->row();
+
+        $this->db->select(
+            "t_pos_detail.*,
+            m_goods.barcode,
+            m_goods.brand_name,
+            m_goods.brand_description,
+            m_goods.ratio_flag,
+            m_goods.quantity as last_quantity,
+            m_unit.name as unit_name,
+            m_unit.quantity as converted_quantity"
+        );
+        $this->db->from("t_pos_detail");
+        $this->db->join("m_goods", "m_goods.id = t_pos_detail.goods_id", "left");
+        $this->db->join("m_unit", "m_unit.id = m_goods.unit", "left");
+        $this->db->where(array("t_pos_detail.pos_id" => $id));
+        $toret->details = $this->db->get()->result();
+        return $toret;
+    }
+
     function get_next_no($where)
     {
         $this->db->select("order_no");

@@ -167,14 +167,10 @@
                                     ), true); ?>
                                 </div>
                                 <div class="col-lg-6" id="jumlah_bayar_cell">
-                                    <?= $this->load->view("component/input/flowstream_input", array(
-                                        "name" => "payment_paid",
-                                        "placeholder" => "Masukan jumlah bayar",
-                                        "type" => "text",
-                                        "label" => "Jumlah Bayar",
-
-                                        "required" => true
-                                    ), true); ?>
+                                    <div class="form-group">
+                                        <label for="payment_paid">Total Pembayaran</label>
+                                        <input type="number" name="payment_paid" class="form-control" id="payment_paid" readonly value="0" />
+                                    </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <?= $this->load->view("component/input/flowstream_input", array(

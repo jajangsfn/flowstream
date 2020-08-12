@@ -55,25 +55,23 @@ class T_order_request_model extends CI_Model
 
         $this->db->select("
         m_branch.name as branch_name,
-        m_employee.name as user_salesman_name,
         or.*
         ");
 
         $this->db->from("t_order_request or");
         $this->db->join("m_branch", "m_branch.id = or.branch_id", "left");
-        $this->db->join("m_user_salesman", "m_user_salesman.id = or.user_salesman_id", "left");
-        $this->db->join("m_employee", "m_employee.id = m_user_salesman.employee_id", "left");
         $this->db->where($where);
         $this->db->order_by("or.id desc");
 
         $mainobj = $this->db->get()->row();
 
         $this->db->select("
-        ordet.*, 
+        ordet.*,
         m_goods.barcode,
         m_goods.brand_name,
         m_goods.brand_description,
         m_goods.ratio_flag,
+        m_goods.quantity as last_quantity,
         m_unit.name as unit_name,
         m_unit.quantity as converted_quantity
         ");
