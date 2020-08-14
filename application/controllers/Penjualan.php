@@ -197,6 +197,20 @@ class Penjualan extends CI_Controller
             $data['page_js'] = $this->load->view("penjualan/pos/view_js", "", true);
 
             $data['transactional'] = true;
+        } else if ($command == "edit") {
+            $data['page_title'] = "Edit - Point of Sales";
+            $data['back_url'] = base_url("/index.php/penjualan/pos");
+
+            $content['banks'] = $this->ref->get(array("group_data" => "BANK"))->result();
+            $content['payment_methods'] = $this->ref->get(array("group_data" => "PAYMENT_METHOD"))->result();
+            $content['data_branch'] = $this->branch->get(array("id" => $this->session->branch_id))->row();
+            $content['data_pos'] = $this->pos->get_specific($id_or);
+
+            $data['page_content'] = $this->load->view("penjualan/pos/edit", $content, true);
+            $data['page_js'] = $this->load->view("penjualan/pos/edit_js", "", true);
+            $data['page_modal'] = $this->load->view("penjualan/pos/add_modal", "", true);
+
+            $data['transactional'] = true;
         } else {
             // tampilkan list of Point of Sales
             $data['back_url'] = base_url("/index.php/penjualan/home");
@@ -213,8 +227,8 @@ class Penjualan extends CI_Controller
 
     public function print_pos($pos_id)
     {
-        $data = $this->pos_report->pos_report("tab1.id=".$pos_id, "tab3.id")->result_array();
-        $this->pdf->dynamic_print(2,"pos_out", $data);
+        $data = $this->pos_report->pos_report("tab1.id=" . $pos_id, "tab3.id")->result_array();
+        $this->pdf->dynamic_print(2, "pos_out", $data);
     }
 
     // return

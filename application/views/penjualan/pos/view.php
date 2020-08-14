@@ -58,7 +58,7 @@
         </div>
         <div class="text-right">
             <p class="text-right m-0">
-                Subtotal <span id="total_harga_order">
+                Subtotal <span id="total_harga_order" class="rupiah">
                     <?php
                     $i = 0;
                     foreach ($data_pos->details as $detail) {
@@ -69,12 +69,12 @@
                 </span>
             </p>
             <p class="text-right m-0">
-                Pajak <span id="tax_price">
+                Pajak <span id="tax_price" class="rupiah">
                     <?= 10 * $i / 100 ?>
                 </span>
             </p>
             <h5 class="text-right font-weight-bold">
-                Total <span id="total_harga_order_tax">
+                Total <span id="total_harga_order_tax" class="rupiah">
                     <?= 110 * $i / 100 ?>
                 </span>
             </h5>

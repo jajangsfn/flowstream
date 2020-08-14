@@ -20,7 +20,7 @@ class T_pos_model extends CI_Model
         $nomor_nota .= date("m");
 
         // 6 digit transaction incremental
- 
+
         $where['invoice_no like'] = "$nomor_nota%";
         $this->db->where($where);
         $this->db->order_by("invoice_no desc");
@@ -97,7 +97,15 @@ class T_pos_model extends CI_Model
 
     function get_specific($id)
     {
-        $toret = $this->db->get_where("t_pos", array("id" => $id))->row();
+        $this->db->select("t_pos.*, m_employee.name as salesman_name, m_partner.sales_price_level as index_harga");
+        $this->db->from("t_pos");
+        $this->db->join("m_user_salesman", "m_user_salesman.id = t_pos.user_salesman_id", "left");
+        $this->db->join("m_employee", "m_employee.id = m_user_salesman.employee_id", "left");
+        $this->db->join("m_partner", "m_partner.id = t_pos.partner_id", "left");
+        $this->db->where(array(
+            "t_pos.id" => $id
+        ));
+        $toret = $this->db->get()->row();
 
         $this->db->select(
             "t_pos_detail.*,
@@ -105,7 +113,6 @@ class T_pos_model extends CI_Model
             m_goods.brand_name,
             m_goods.brand_description,
             m_goods.ratio_flag,
-            m_goods.quantity as last_quantity,
             m_unit.name as unit_name,
             m_unit.quantity as converted_quantity"
         );

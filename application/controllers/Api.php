@@ -119,7 +119,7 @@ class Api extends CI_Controller
     {
         $where['m_goods.id'] = $id;
 
-       $data_query = $this->goods->get($where)->row();
+        $data_query = $this->goods->get($where)->row();
         $data['data'] = $data_query;
         echo json_encode($data);
     }
@@ -888,6 +888,7 @@ class Api extends CI_Controller
             "description" => $_POST['description'],
             "created_by" => $this->session->id,
             "updated_by" => $this->session->id,
+            "pos_date" => date('Y-m-d H:i:s'),
             "created_date" => date('Y-m-d H:i:s'),
             "updated_date" => date('Y-m-d H:i:s'),
             "payment_total" => $_POST['payment_total'],
@@ -918,6 +919,7 @@ class Api extends CI_Controller
                 "goods_id" => $good['goods_id'],
                 "warehouse_id" => 1, // default dulu buat test
                 "goods_name" => $good['goods_name'],
+                "price" => $good['price'],
                 "quantity" => $good['quantity'],
                 "discount" => $good['discount'],
                 "discount_code" => null,
@@ -967,6 +969,62 @@ class Api extends CI_Controller
 
         $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+
+    public function edit_pos()
+    {
+        // set POS data
+        $pos_data = array(
+            "description" => $_POST['description'],
+            "updated_by" => $this->session->id,
+            "updated_date" => date('Y-m-d H:i:s'),
+            "payment_total" => $_POST['payment_total'],
+            "payment_method" => $_POST['payment_method'],
+            "payment_description" => $_POST['payment_description'],
+            "bank" => $_POST['payment_method'] == "TRANSFER" ? $_POST['bank'] : "",
+            "payment_paid" => $_POST['payment_paid']
+        );
+
+        $where_pos = array(
+            "id" => $_POST['id']
+        );
+
+        $this->pos->update($where_pos, $pos_data);
+
+        // delete semua detailnya
+        $where_pos_detail = array(
+            "pos_id" => $_POST['id']
+        );
+
+        $this->pos->delete_detail($where_pos_detail);
+
+        // loop added goods
+        foreach ($_POST['barang'] as $good) {
+            $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
+            $good['tax'] = 10 * $good['total'] / 100;
+            $good['total'] = $good['total'] + $good['tax'];
+
+            // generate POS detail data
+            $pos_det_data = array(
+                "pos_id" => $_POST['id'],
+                "goods_id" => $good['goods_id'],
+                "warehouse_id" => 1, // default dulu buat test
+                "goods_name" => $good['goods_name'],
+                "quantity" => $good['quantity'],
+                "price" => $good['price'],
+                "discount" => $good['discount'],
+                "discount_code" => null,
+                "tax" => $good['tax'],
+                "total" => $good['total'],
+                "flag" => 1,
+            );
+
+            $this->pos->insert_detail($pos_det_data);
+        }
+
+        $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
+        redirect(base_url("/index.php/penjualan/pos/view/" . $_POST['id']));
     }
 
     function partner_type_branch($branch_id)
