@@ -1,5 +1,5 @@
 <script>
-	var chart_goods = [];
+	var chart_goods = []; 
 	$(document).ready( function() {
 
 		get_data_from_db();
@@ -16,14 +16,50 @@
 
 		        if (result.value) {
 
-		        	if ( $("#no_ref").val() ) {
-		        		$("#form_return").submit();   
-		        	}else {
+		        	if ( !$("#supplier_id").val() ) {
+		        		Swal.fire("Info", "Silahkan pilih supplier!","error");
+		        		
+		        	}else if (!$("#nro").val() && !$("#no_ref").val() ) {
 		        		Swal.fire("Info", "Silahkan isi nomor referensi!","error");
+		        	}else if ($("#nro").val() || $("#no_ref").val() ){
+		        		$("#form_return").submit();   
 		        	}
 		         	
 		        }
 		    });
+		});
+
+		$("#goods_id_bar").keyup(function(){
+			var goods = this.value;
+			var id_supplier = $("#supplier_id").val();
+			var goods_list = "";
+			// clear goods 
+			$("#goods_list_bar").html('');
+
+
+			if(id_supplier){ 
+
+				$.get("<?=base_url()?>index.php/pembelian/get_goods_json/",
+					{"goods":goods,"id_supplier":id_supplier})
+				.done(function(data){
+					const goods_arr = JSON.parse(data);
+					
+					
+					$.each(goods_arr,function(id,val){
+						goods_list+='<li class="navi-item nav-click" onclick="show_goods_detail('+val.id+')">';
+				        goods_list+='<span class="navi-link">';
+				        goods_list+='<div class="navi-text">';
+				        goods_list+='<span class="nav-val d-none">'+val.id+'</span>';
+				        goods_list+='<span class="d-block font-weight-bold">'+val.brand_description+'</span>';
+				        goods_list+='<span class="text-muted">'+val.sku_code+'</span>';
+				        goods_list+='</div>';
+				        goods_list+='<span class="navi-arrow fa-2x"></span>';
+				        goods_list+='</span></li>';
+					});
+
+					$("#goods_list_bar").html(goods_list);
+				});
+			}
 		});
 
 
@@ -48,9 +84,9 @@
 				.done( function(data) {
  
 					var parse = jQuery.parseJSON(data); 
-
 					$("#warehouse_id").val('');
-
+					// reset all goods
+					chart_goods = [];
 					if ( parse.length > 0 ) {
 						
 						$.each( parse, function(id, val) {
@@ -98,7 +134,7 @@
 
 	function get_goods_detail()
 	{
-		// var receive_no    = $("#nro").val();
+		
 		var supplier_id = $("#supplier_id").val();
 		var goods_id      = $("#goods_list").val();
 
@@ -106,7 +142,8 @@
 				{"id_supplier":supplier_id,"goods_id":goods_id})
 		.done( function (data) {
 			
-			var goods_detail = jQuery.parseJSON(data);			
+			var goods_detail = jQuery.parseJSON(data);	
+
 			$("#kode_barang").val(goods_detail[0].barcode);
 			$("#id_barang").val(goods_detail[0].id);
 			$("#nama_barang").val(goods_detail[0].brand_description);
@@ -116,20 +153,6 @@
 
 		});
 		 
-		// $.get("<?=base_url()?>index.php/inventori/get_ws_goods_detail",
-		// 		{"receive_no":receive_no,"goods_id":goods_id})
-		// .done( function (data) {
-			
-		// 	var goods_detail = jQuery.parseJSON(data);			
-
-		// 	$("#kode_barang").val(goods_detail[0].sku_code);
-		// 	$("#id_barang").val(goods_detail[0].goods_id);
-		// 	$("#nama_barang").val(goods_detail[0].goods_name);
-		// 	$("#quantity").val(goods_detail[0].receive_qty);
-		// 	$("#qty_receive").val(goods_detail[0].receive_qty);
-		// 	$("#harga_barang").val(goods_detail[0].price);
-
-		// });
 	}
 
 	function add_to_chart()
@@ -207,8 +230,8 @@
 				rows+= "<td>"+val.name+"'</td>";
 				rows+="<td><input type='hidden' name='goods_ws_id_chart[]' id='goods_ws_id_chart_"+id+"' value='"+val.ws_id+"'>"+val.ws_name+"</td>";
 				rows+="<td class='goods_price_chart'>";
-				rows+="<input type='hidden' name='goods_price_chart[]' class='form-control w-50' id='goods_price_chart_"+id+"' value='"+val.price+"'>"+price+"</td>";
-				rows+="<td style='width:10%'><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' onchange='sum_total_goods("+id+")'></td>";
+				rows+="<input type='number' name='goods_price_chart[]' class='form-control' id='goods_price_chart_"+id+"' value='"+val.price+"' min='0' style='width:50%' onchange='sum_total_goods("+id+")'></td>";
+				rows+="<td><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' min='0' style='width:50%' onchange='sum_total_goods("+id+")'></td>";
 				rows+="<td class='text-right'>"+total+"</td>";
 				rows+="<td><button type='button' class='btn btn-xs btn-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa fa-trash'></span></button></td>";
 				rows+="</tr>";	
@@ -395,7 +418,7 @@
 	}
 
 
-	function get_all_goods_supplier(e)
+	function get_all_goods_supplier()
 	{
 
 		var supplier_id = $("#supplier_id").val();
@@ -405,22 +428,133 @@
 		.done(function( result){
 
 			var parse = jQuery.parseJSON(result);
-			var goods = "";
+			var goods_list = "";
 			if (parse.length > 0) {
 				
 				$("#goods_list").html('<option value="">Pilih Kode Barang</option>');
 				
 				$.each(parse, function(id, val) {
 					
-					goods+="<option value='"+val.id+"'>"+val.sku_code+"</option>";
+					// goods+="<option value='"+val.id+"'>"+val.sku_code+"</option>";
+						goods_list+='<li class="navi-item nav-click" onclick="show_goods_detail('+val.id+')">';
+				        goods_list+='<span class="navi-link">';
+				        goods_list+='<div class="navi-text">';
+				        goods_list+='<span class="nav-val d-none">'+val.id+'</span>';
+				        goods_list+='<span class="d-block font-weight-bold">'+val.brand_description+'</span>';
+				        goods_list+='<span class="text-muted">'+val.sku_code+'</span>';
+				        goods_list+='</div>';
+				        goods_list+='<span class="navi-arrow fa-2x"></span>';
+				        goods_list+='</span></li>';
 				});
 
-				$("#goods_list").append(goods);
-				$("#goods_list").selectpicker('refresh');
-			}else {
-				$("#goods_list").html('<option value="">Barang Kosong</option>');
-				$("#goods_list").selectpicker('refresh');
+				$("#goods_list_bar").append(goods_list);
 			}
+				$("#goods_list_bar").selectpicker('refresh');
+			
+
+			
 		});
+
+	 	get_all_po();
+	}
+
+	function get_all_po()
+	{
+		var supplier_id = $("#supplier_id").val();
+		var receiving_no = "<?=isset($master) ? $master[0]->reference_no : ''?>";
+		$.get("<?=base_url()?>index.php/pembelian/get_all_po",
+				{"supplier_id": supplier_id})
+		.done(function( result){
+
+			var parse = jQuery.parseJSON(result);
+			var po = "";
+			$("#nro").html('<option value="">Data No PO Kosong</option>');
+			if (parse.length > 0) {
+
+				$("#nro").html('<option value="">Pilih No PO Kosong</option>');
+
+				$.each(parse, function(id, val) {
+					// mencegah null
+					if (val.receiving_no) {
+						if ( receiving_no  && receiving_no == val.receiving_no){
+							po+="<option value='"+val.receiving_no+"' selected>"+val.receiving_no+"</option>";
+						}else {
+							po+="<option value='"+val.receiving_no+"'>"+val.receiving_no+"</option>";	
+						}
+						
+					}
+				});
+			}
+
+			$("#nro").append(po);
+			$("#nro").selectpicker('refresh');
+		});	
+	}
+
+	function show_goods_detail(id_brg)
+	{		
+
+		$.get("<?=base_url()?>index.php/pembelian/get_goods_json/2",
+			{"id_goods":id_brg})
+		.done(function(data){
+			const goods_arr = JSON.parse(data);
+ 
+			$.each(goods_arr,function(id,val){
+				var code = (val.sku_code) ? val.sku_code : 'Kosong';
+				$("#id_barang_bar").val(val.id);
+				$("#kode_barang_bar").html(code);
+				$("#nama_barang_bar").html(val.brand_description);
+				$("#harga_barang_bar").html(val.hpp);
+			});
+		});
+		// show modal
+		$("#tambahBrgKeChart").modal('show');
+	}
+
+
+	function add_to_chart_bar()
+	{
+		var goods_id = $("#id_barang_bar").val();
+		var goods_name = $("#nama_barang_bar").html();
+		var goods_code = $("#kode_barang_bar").html();
+		var goods_price = parseInt( $("#harga_barang_bar").html() );
+		var goods_qty  = parseInt( $("#quantity_bar").val() );
+		var goods_qty_receive  = parseInt( $("#quantity_bar").val() );
+		var goods_warehouse_id = 1;
+		var goods_warehouse_name= "Receiving";
+		
+		if ( goods_id ) {
+			var save_goods = {};
+			save_goods.id = goods_id;
+			save_goods.code = goods_code;
+			save_goods.name = goods_name;
+			save_goods.price= goods_price;
+			save_goods.qty  = goods_qty;
+			save_goods.qty_receive = goods_qty_receive;
+			save_goods.discount  = 0;
+			save_goods.ws_id = goods_warehouse_id;
+			save_goods.ws_name= goods_warehouse_name;
+
+			var same = false;
+			
+			$.each(chart_goods,function(id,val){
+				if (val.id == goods_id && val.ws_id == goods_warehouse_id)
+				{				
+					val.qty+=goods_qty;
+					val.ws_id = goods_warehouse_id;
+					val.ws_name = goods_warehouse_name;
+					same = true;
+					
+				}
+			});
+				if (!same){
+					chart_goods.push(save_goods);
+				}
+
+			show_chart_goods();
+			$("#tambahBrgKeChart").modal('hide');
+		}else {
+			Swal.fire("Info", "Silahkan pilih barang!", "error");
+		}
 	}
 </script>
