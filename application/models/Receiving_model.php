@@ -16,7 +16,7 @@ class Receiving_model extends CI_Model
         return $this->db->get_where("t_receiving", $where);
     }
 
-	function get_receive_no()
+	function get_receive_no() 
     {
         $branch_id  = ($this->session->userdata('branch_id')) ? $this->session->userdata('branch_id')  : 1;
 
@@ -84,12 +84,14 @@ class Receiving_model extends CI_Model
         $this->db->update("t_receiving_detail",$data);
 
         // get reference no
-        $where_goods['ref_no']       = $this->get(array("id"=>$where['id']))->result()[0]->reference_no;
-        // update qty all goods
-        $where_goods['receiving_id'] = $where['id'];
-        return $this->update_qty_goods($where_goods);
+        // $where_goods['ref_no']       = $this->get(array("id"=>$where['id']))->result()[0]->reference_no;
+        // // update qty all goods
+        // $where_goods['receiving_id'] = $where['id']; 
+        // $this->update_qty_goods($where_goods);
+        return 1;
     }
 
+    // not used
     function update_qty_goods($where)
     {   
         $where_rd           = "receiving_id=".$where['receiving_id']." and flag<>99";
@@ -130,14 +132,7 @@ class Receiving_model extends CI_Model
 
     } 
 
-    function calculate_hpp()
-    {
-        // loop receiving detail
-        // calculate (qty * price) from receiving detail
-        // get m_goods (qty * price)
-        //  sum (summary m_goods + summary receiving detail) / (qty m goods + qty receiving detail)
-
-    }
+  
 
 
     function get_goods_receive($where,$group_by = null)
@@ -167,6 +162,12 @@ class Receiving_model extends CI_Model
                                 HAVING sisa >0 ");
 
 
+    }
+
+
+    public function get_price_method()
+    {
+        return $this->db->query("SELECT * FROM s_reference WHERE group_data ='PRICE_METHOD'");
     }
 }
 ?>

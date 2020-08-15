@@ -424,6 +424,7 @@ class Penjualan extends CI_Controller
         $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
         $data['master']       = $this->pos_report->pos_report($where, "tab1.id")->result();
         $data['key']          = $key;
+
         $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/harian", $data, true);
 
         $this->load->view('layout/head');
@@ -431,7 +432,7 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/js');
         $this->load->view('penjualan/laporan/penjualan/js');
     }
-
+ 
 
     public function detail_laporan_penjualan($type = 1, $id)
     {
@@ -456,10 +457,12 @@ class Penjualan extends CI_Controller
         $group                = ($_GET['group']) ? "tab3.id" : "tab1.id";
 
         $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
-        $data['master']       = $this->pos_report->pos_report($where, $group)->result();
+        $data['master']       = $this->pos_report->pos_report($where, $group)->result_array();
         $data['type']         = $_GET['type'];
+        $full                 = $_GET['type'] == 1 ? "" : "_full";
         
-        $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan', $data);
+        $this->pdf->dynamic_print(2,"daily_sales_out" . $full ,$data['master']);
+        // $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan', $data);
     }
 
 
@@ -513,14 +516,18 @@ class Penjualan extends CI_Controller
         }
 
 
+
         $data['total_trans']  = $this->pos_report->pos_report($where)->row()->total_trans;
         $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
-        $data['master']       = $this->pos_report->pos_report($where, $group)->result();
+        $data['master']       = $this->pos_report->pos_report($where, $group)->result_array();
         $data['type']         = 2;
         $data['from']         = $from;
         $data['to']           = $to;
 
-        $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan', $data);
+        $this->pdf->dynamic_print(2,"monthly_sales_out",$data['master']);
+        // echo json_encode($data['master']);exit;
+
+        // $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan', $data);
     }
 
     private function laporan_retur_harian()

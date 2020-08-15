@@ -90,3 +90,8 @@
             Swal.fire("Success!", "<?= $this->session->flashdata("success") ?>", "success");
         </script>
     <?php } ?>
+    <script>
+        $(function() {
+            $(".select2").select2();
+        });
+    </script>

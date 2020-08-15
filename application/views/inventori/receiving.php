@@ -59,7 +59,7 @@
                             ?>
                                 <button type="button" class="btn btn-light-success btn-sm" data-toggle="tooltip" data-placement="top" title="Approved" onclick="approve_receive(<?=$val->receiving_id?>)">
                                   <i class="fa la-check" title="Approve"></i>
-                                </button>
+                                </button> 
                               <?php }?>
                         </td>
                     </tr>

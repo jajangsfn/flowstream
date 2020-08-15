@@ -31,6 +31,7 @@
 		      	<form method="post" id="form_receiving" action="<?=base_url()?>index.php/inventori/receiving">
 		      		<input type="hidden" name="supplier_id_temp" id="supplier_id_temp">
 		      		<input type="hidden" name="po_id_temp" id="po_id_temp">
+		      		<input type="hidden" name="price_method" id="price_method">
 		      		<div class="row ml-30">
 						<div class="col-md-1"></div>
 						<label class="col-form-label col-md-1 text-right">Supplier</label>
@@ -168,4 +169,38 @@
 		    </div>
 		</div>
 	</div>
+</div>
+
+
+<!-- Modal-->
+<div class="modal fade" id="priceMethod" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Metode Harga</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row form-group">
+        			<label class="col-md-4 col-form-label">Metode Harga</label>
+        			<select class="col-md-8 select2 form-control w-100" id="price_method_dropdown" onchange="change_price_method()">
+        				<option value="">Pilih Jenis Metode Harga</option>
+        				<?php
+        				foreach ($price_method as $key => $val) { ?>
+        				<option value="<?=$val->id?>"><?=$val->detail_data?></option>
+        				<?php }
+        				?>
+        			</select>
+        		</div>    
+            </div>
+            <div class="modal-footer">                
+                <button type="button" id="btn_confirm_receiving" class="btn btn-light-success btn-md">
+                	<span class="fa la-save"></span> Save
+                </button>
+                <button type="button" class="btn btn-light-danger btn-md" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
