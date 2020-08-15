@@ -44,21 +44,21 @@
                         var ext_button = "";
                         if (row.flag == 1) {
                             ext_button = `
-                            <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/edit_order_request/") ?>${data}" data-toggle="tooltip" title="edit">
+                            <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/edit_order_request/") ?>${data}" data-toggle="tooltip" title="Edit">
                                 <i class="flaticon2-edit"></i>
                             </a>
-                            <a class="btn btn-icon btn-sm btn-light-primary" data-toggle="tooltip" data-placement="top" title="cetak faktur" href="<?= base_url("/index.php/penjualan/pos/cetak_faktur/") ?>${data}">
+                            <a class="btn btn-icon btn-sm btn-light-primary" data-toggle="tooltip" data-placement="top" title="Check Sheet" href="<?= base_url("/index.php/penjualan/pos/cetak_faktur/") ?>${data}">
                                 <i class="flaticon2-checkmark"></i>
                             </a>
                             <button type="button" class="btn btn-icon btn-sm btn-light-danger" onclick="delete_trigger(
                             '${row.id}',
-                            )" data-toggle="tooltip" title="hapus">
+                            )" data-toggle="tooltip" title="Hapus">
                                 <i class="flaticon2-trash"></i>
                             </button>
                         `;
                         } else {
                             ext_button = `
-                            <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/order_request/view/") ?>${data}" data-toggle="tooltip" title="view">
+                            <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/order_request/view/") ?>${data}" data-toggle="tooltip" title="View">
                                 <i class="flaticon-eye"></i>
                             </a>
                             `
@@ -68,7 +68,7 @@
                             $(document.createElement("div"))
                             .addClass("btn btn-icon btn-sm btn-light-info")
                             .attr("data-toggle", "tooltip")
-                            .attr("title", "cetak ulang")
+                            .attr("title", "Cetak Ulang")
                             .attr("onclick", `confirm_cetak(${data})`)
                             .append(
                                 $(document.createElement("i")).addClass("fa la-print")

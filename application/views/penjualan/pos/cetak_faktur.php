@@ -136,6 +136,7 @@
         </div>
     </div>
     <div class="card-footer text-right">
+        <button type="button" class="btn btn-danger" onclick="confirm_pembatalan()"> Batalkan </button>
         <button type="button" data-toggle="modal" data-target="#payment_modal" class="btn btn-primary"> Lanjutkan ke Pembayaran </button>
     </div>
 
