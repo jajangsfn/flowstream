@@ -37,7 +37,7 @@
                         <div class="d-flex align-items-center justify-content-end">
                             <!--begin::Daterange-->
                             <span class="p-2 rounded text-primary bg-light-primary font-weight-bold">
-                                <h6 class="font-weight-bold m-0"><?= longdate_indo(date('Y-m-d', strtotime($data_pos->pos_date))) ?></h6>
+                                <h6 class="font-weight-bold m-0"><?= longdate_indo(date('Y-m-d', strtotime($data_pos->pos_date ? $data_pos->pos_date : $data_pos->created_date))) ?></h6>
                             </span>
                             <!--end::Daterange-->
                         </div>
