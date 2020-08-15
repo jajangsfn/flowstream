@@ -42,10 +42,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <small>Salesman</small>
-                    <p class="lead"><?= $data_or->user_salesman_name ?></p>
-                </div>
-                <div class="form-group">
                     <label for="description_field">Deskripsi</label>
                     <textarea class="form-control" id="description_field" name="description" rows="3" placeholder="Masukan catatan order"><?= $data_or->description ?></textarea>
                 </div>
@@ -60,8 +56,8 @@
                                 <th nowrap>Jumlah</th>
                                 <th nowrap>Satuan</th>
                                 <th style="min-width: 100px">Harga</th>
-                                <th>Diskon</th>
-                                <th>Subtotal</th>
+                                <th class="d-none">Diskon</th>
+                                <th class="d-none">Subtotal</th>
                                 <th class="text-center"><span class="mr-3">Aksi</span>
                                 </th>
                             </tr>
@@ -87,10 +83,10 @@
                                     <td style="width: 130px;">
                                         <input type="number" name="barang[<?= $detail->goods_id ?>][price]" class="form-control text-center" id="harga_<?= $detail->goods_id ?>" value="<?= $detail->price ?>" min="1" onchange="hitung_ulang(<?= $detail->goods_id ?>)">
                                     </td>
-                                    <td style="width: 90px;">
+                                    <td style="width: 90px;" class="d-none">
                                         <input type="number" name="barang[<?= $detail->goods_id ?>][discount]" class="form-control text-center" id="diskon_<?= $detail->goods_id ?>" value="<?= $detail->discount ?>" min="0" onchange="hitung_ulang(<?= $detail->goods_id ?>)">
                                     </td>
-                                    <td id="total_harga_<?= $detail->goods_id ?>" class="text-right rupiah">
+                                    <td id="total_harga_<?= $detail->goods_id ?>" class="text-right rupiah d-none">
                                         <?= $detail->quantity * $detail->price * (1 - $detail->discount / 100) ?>
                                     </td>
                                     <td class="text-center">

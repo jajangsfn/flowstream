@@ -48,6 +48,7 @@
                         <td class="mr-3 w-25">Harga Barang</td>
                         <td class="w-75">
                             <span id="harga_barang_tambah"></span>
+                            <span id="unit_barang_tambah"></span>
                         </td>
                     </tr>
                     <tr class="py-2">

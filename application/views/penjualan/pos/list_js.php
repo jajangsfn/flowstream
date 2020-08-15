@@ -1,4 +1,4 @@
-<script> 
+<script>
     $(document).ready(() => {
         $("#pos_table").DataTable({
             responsive: true,
@@ -32,11 +32,11 @@
                     data: 'flag',
                     render: function(data, type, row, meta) {
                         if (data == 1) {
-                            return `<span class="text-info">Selesai</span>`
+                            return `<span class="text-info">Menunggu Cetak Faktur Pajak</span>`
                         } else if (data == 3) {
                             return `<span class="text-warning">Retur / Pembetulan</span>`
                         } else if (data == 10) {
-                            return `<span class="text-success">Faktur Pajak Telah Dicetak</span>`
+                            return `<span class="text-success">Selesai</span>`
                         }
                         return `-`;
                     },
@@ -45,15 +45,28 @@
                     data: 'id',
                     responsivePriority: -1,
                     render: function(data, type, row, meta) {
-                        var extbutton = `<a class="btn btn-icon btn-sm btn-light-success" onclick="confirm_cetak_pajak(${data})" data-toggle="tooltip" title="cetak faktur pajak">
+
+                        var edit_button = `
+                        <a class="btn btn-icon btn-sm btn-light-primary" href="<?= base_url("/index.php/penjualan/pos/edit/") ?>${data}" data-toggle="tooltip" title="Edit">
+                            <i class="fa la-pen"></i>
+                        </a>
+                        `
+                        var extbutton = `
+                        <a class="btn btn-icon btn-sm btn-light-success" onclick="confirm_cetak_pajak(${data})" data-toggle="tooltip" title="cetak faktur pajak">
                             <i class="fa la-print"></i>
-                        </a>`
+                        </a>
+                        `
 
                         if (row.flag == 10) {
-                            extbutton = ""
+                            extbutton = "";
+                            edit_button = "";
                         }
 
                         return `
+                        <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/pos/view/") ?>${data}" data-toggle="tooltip" title="view">
+                            <i class="flaticon-eye"></i>
+                        </a>
+                        ${edit_button}
                         <a class="btn btn-icon btn-sm btn-light-info" onclick="confirm_cetak(${data})" data-toggle="tooltip" title="cetak ulang" target="_blank">
                             <i class="fa la-print"></i>
                         </a>

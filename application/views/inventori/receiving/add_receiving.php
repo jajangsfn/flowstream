@@ -12,7 +12,7 @@
 							<h5 class="text-dark font-weight-bold my-2 mr-5">Add Receiving</h5>
 						</div>
 						<!--end::Page Heading-->
-					</div> 
+					</div>
 					<!--end::Info-->
 					<!--begin::Toolbar-->
 					<div class="d-flex align-items-center">
@@ -21,7 +21,7 @@
 							<span class="font-weight-bold" id="kt_dashboard_daterangepicker_date"><?=$tgl_indo?></span>
 						</a>
 					<!--end::Daterange-->
-					
+
 					</div>
 					<!--end::Toolbar-->
 				</div>
@@ -42,7 +42,7 @@
 			                       	<?php
 			                      	foreach ($supplier as $key => $val) { ?>
 			                       		<option value="<?=$val->id?>"><?=$val->name?></option>
-			                       	<?php } ?> 
+			                       	<?php } ?>
 			                    </select>
 			                </div>
 						</div>
@@ -59,21 +59,21 @@
 							</select>
 
 						</div>
-						
+
 						<label class="col-form-label col-md-3 text-right">Tanggal Receive</label>
 						<input type="text" name="tgl_receive" class="col-md-3 form-control" value="<?=date('Y-m-d')?>" readonly>
-						
+
 					</div>
 
-					<div class="row ml-30">	
+					<div class="row ml-30">
  						<label class="col-form-label col-md-2 text-right">Deskripsi</label>
 						<div class="col-md-3">
-							<textarea name="description" id="description" class="form-control"></textarea>	
+							<textarea name="description" id="description" class="form-control"></textarea>
 						</div>
 
 						<label class="col-form-label col-md-3 text-right">No Referensi</label>
 						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=$po_no?>">
-						
+
 					</div>
 
 					<hr>
@@ -165,7 +165,7 @@
 						</div>
 					</div>
 		        </form>
-		        
+
 		    </div>
 		</div>
 	</div>

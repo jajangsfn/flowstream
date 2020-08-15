@@ -76,7 +76,7 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
-  
+
     public function add_order_request()
     {
         $data['page_title']   = "Tambah Order Request";
@@ -119,44 +119,43 @@ class Penjualan extends CI_Controller
 
         foreach ($content->details as $key => $val) {
 
-        
+
             $data[] = array(
-                            "id" => $content->id,
-                            "branch_id" => $content->branch_id,
-                            "branch_name" => $content->branch_name,
-                            "partner_id" => $content->partner_id,
-                            "user_salesman_id" => $content->user_salesman_id,
-                            "order_no" => $content->order_no,
-                            "order_date" => $content->order_date,
-                            "partner_name" => $content->partner_name,
-                            "is_delivery" => $content->is_delivery,
-                            "description" => $content->description,
-                            "created_by" => $content->created_by,
-                            "created_date" => $content->created_date,
-                            "updated_date" => $content->updated_date,
-                            "updated_by" => $content->updated_by,
-                            "id"=> "4",
-                            "order_request_id"=> $val->order_request_id,
-                            "warehouse_id"=> $val->warehouse_id,
-                            "goods_id"=> $val->goods_id,
-                            "goods_name" => $val->goods_name,
-                            "quantity" => $val->quantity,
-                            "discount" => $val->discount,
-                            "discount_code" => $val->discount_code,
-                            "price" => $val->price,
-                            "tax" => $val->tax,
-                            "total"=> $val->total,
-                            "flag" => $val->flag,
-                            "barcode" => $val->barcode,
-                            "brand_name" => $val->brand_name,
-                            "brand_description" =>  $val->brand_description,
-                            "unit_name" => $val->unit_name
+                "id" => $content->id,
+                "branch_id" => $content->branch_id,
+                "branch_name" => $content->branch_name,
+                "partner_id" => $content->partner_id,
+                "user_salesman_id" => $content->user_salesman_id,
+                "order_no" => $content->order_no,
+                "order_date" => $content->order_date,
+                "partner_name" => $content->partner_name,
+                "is_delivery" => $content->is_delivery,
+                "description" => $content->description,
+                "created_by" => $content->created_by,
+                "created_date" => $content->created_date,
+                "updated_date" => $content->updated_date,
+                "updated_by" => $content->updated_by,
+                "id" => "4",
+                "order_request_id" => $val->order_request_id,
+                "warehouse_id" => $val->warehouse_id,
+                "goods_id" => $val->goods_id,
+                "goods_name" => $val->goods_name,
+                "quantity" => $val->quantity,
+                "discount" => $val->discount,
+                "discount_code" => $val->discount_code,
+                "price" => $val->price,
+                "tax" => $val->tax,
+                "total" => $val->total,
+                "flag" => $val->flag,
+                "barcode" => $val->barcode,
+                "brand_name" => $val->brand_name,
+                "brand_description" =>  $val->brand_description,
+                "unit_name" => $val->unit_name
 
-                        );
-
+            );
         }
 
-        $this->pdf->dynamic_print(2,"order_request_out", $data);
+        $this->pdf->dynamic_print(2, "order_request_out", $data);
     }
 
     // POS
@@ -186,12 +185,36 @@ class Penjualan extends CI_Controller
             $data['page_content'] = $this->load->view("penjualan/pos/add", $content, true);
             $data['page_js'] = $this->load->view("penjualan/pos/add_js", "", true);
             $data['page_modal'] = $this->load->view("penjualan/pos/add_modal", "", true);
- 
+
+            $data['transactional'] = true;
+        } else if ($command == "view") {
+            $data['page_title'] = "Preview - Point of Sales";
+            $data['back_url'] = base_url("/index.php/penjualan/pos");
+
+            $content['data_pos'] = $this->pos->get_specific($id_or);
+
+            $data['page_content'] = $this->load->view("penjualan/pos/view", $content, true);
+            $data['page_js'] = $this->load->view("penjualan/pos/view_js", "", true);
+
+            $data['transactional'] = true;
+        } else if ($command == "edit") {
+            $data['page_title'] = "Edit - Point of Sales";
+            $data['back_url'] = base_url("/index.php/penjualan/pos");
+
+            $content['banks'] = $this->ref->get(array("group_data" => "BANK"))->result();
+            $content['payment_methods'] = $this->ref->get(array("group_data" => "PAYMENT_METHOD"))->result();
+            $content['data_branch'] = $this->branch->get(array("id" => $this->session->branch_id))->row();
+            $content['data_pos'] = $this->pos->get_specific($id_or);
+
+            $data['page_content'] = $this->load->view("penjualan/pos/edit", $content, true);
+            $data['page_js'] = $this->load->view("penjualan/pos/edit_js", "", true);
+            $data['page_modal'] = $this->load->view("penjualan/pos/add_modal", "", true);
+
             $data['transactional'] = true;
         } else {
             // tampilkan list of Point of Sales
             $data['back_url'] = base_url("/index.php/penjualan/home");
-  
+
             $data['page_title'] = "Penjualan - Daftar Point of Sales";
             $data['page_content'] = $this->load->view("penjualan/pos/list", "", true);
             $data['page_js'] = $this->load->view("penjualan/pos/list_js", "", true);
@@ -204,9 +227,8 @@ class Penjualan extends CI_Controller
 
     public function print_pos($pos_id)
     {
-        
-        $data = $this->pos_report->pos_report("tab1.id=".$pos_id, "tab3.id")->result_array();
-        $this->pdf->dynamic_print(2,"pos_out", $data);
+        $data = $this->pos_report->pos_report("tab1.id=" . $pos_id, "tab3.id")->result_array();
+        $this->pdf->dynamic_print(2, "pos_out", $data);
     }
 
     // return
@@ -216,7 +238,7 @@ class Penjualan extends CI_Controller
         $data['page_title'] = "Retur Penjualan";
         $data['return']     = $this->pos_return->get_all();
         $data['page_content'] = $this->load->view("penjualan/return/return", $data, true);
-        
+
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
@@ -272,13 +294,13 @@ class Penjualan extends CI_Controller
         $data       = $this->pos_return->get_all_pos($where, "tab2.goods_id")->result();
 
         echo json_encode($data);
-    } 
+    }
 
 
     public function save_return()
     {
         $param = $this->input->post();
-        
+
         if (count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
@@ -296,7 +318,7 @@ class Penjualan extends CI_Controller
                     "updated_by" => $this->session->userdata('id'),
                     "flag" => 1
                 );
-                
+
                 $this->pos_return->delete($param['id']);
                 $this->pos_return->insert($arr_return, $param);
 
@@ -316,7 +338,7 @@ class Penjualan extends CI_Controller
 
                 redirect("penjualan/return");
             } else {
-                
+
                 $arr_return = array(
                     "branch_id" => $this->session->userdata('branch_id'),
                     "partner_id" => $param['supplier'],
@@ -332,7 +354,7 @@ class Penjualan extends CI_Controller
                     "flag" => 1
                 );
 
-                
+
                 $this->pos_return->insert($arr_return, $param);
 
 
@@ -418,7 +440,7 @@ class Penjualan extends CI_Controller
         } else {
             $key   = "";
         }
-     
+
         $data['page_title']   = "Laporan Penjualan Harian";
         $data['total_trans']  = count($this->pos_report->pos_report($where, "tab1.id")->result());
         $data['total_sum']    = $this->pos_report->pos_report($where)->row()->total;
@@ -452,7 +474,7 @@ class Penjualan extends CI_Controller
 
     public function print_laporan_penjualan_harian()
     {
-                    
+
         $where                = ($_GET['id']) ? "tab1.id=" . $_GET['id'] : "(tab4.brand_name LIKE '" . $_GET['key'] . "%' or tab1.invoice_no LIKE '" . $_GET['key'] . "' OR tab1.partner_name LIKE '" . $_GET['key'] . "%' ) AND DATE(tab1.updated_date) = '" . date('Y-m-d') . "'";
         $group                = ($_GET['group']) ? "tab3.id" : "tab1.id";
 
@@ -491,7 +513,7 @@ class Penjualan extends CI_Controller
         $data['from']         = $from;
         $data['to']           = $to;
         $data['page_content'] = $this->load->view("penjualan/laporan/penjualan/bulanan", $data, true);
-        
+
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');

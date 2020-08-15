@@ -1,24 +1,23 @@
 <div class="card card-custom gutter-b">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <div class="card-title">Order Request</div>
+        <div class="card-title">Point of Sales</div>
         <!--begin::Daterange-->
         <span class="p-2 rounded text-primary bg-light-primary font-weight-bold">
-            <h6 class="font-weight-bold m-0"><?= longdate_indo(date('Y-m-d', strtotime($data_or->order_date))) ?></h6>
+            <h6 class="font-weight-bold m-0"><?= longdate_indo(date('Y-m-d', strtotime($data_pos->pos_date))) ?></h6>
         </span>
         <!--end::Daterange-->
     </div>
     <div class="card-body">
         <small>Customer</small>
-        <p class="lead"><?= $data_or->partner_name ?></p>
+        <p class="lead"><?= $data_pos->partner_name ?></p>
         <small>Nomor Order</small>
-        <p class="lead"><?= $data_or->order_no ?></p>
+        <p class="lead"><?= $data_pos->order_no ?></p>
         <small>Nomor Faktur</small>
-        <p class="lead" id="nomor_faktur_text"></p>
-        <input type="hidden" name="invoice_no" id="nomor_faktur_input">
+        <p class="lead" id="nomor_faktur_text"><?= $data_pos->invoice_no ?></p>
         <hr>
-        <?php if ($data_or->description) : ?>
+        <?php if ($data_pos->description) : ?>
             <small>Deskripsi</small>
-            <p class="lead"><?= $data_or->description ?></p>
+            <p class="lead"><?= $data_pos->description ?></p>
             <hr>
         <?php endif ?>
         <div class="table-responsive">
@@ -34,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data_or->details as $key => $detail) : ?>
+                    <?php foreach ($data_pos->details as $key => $detail) : ?>
                         <tr id="<?= $detail->goods_id ?>">
                             <td class="text-center font-weight-bold"><?= $key + 1 ?></td>
                             <td>
@@ -59,10 +58,10 @@
         </div>
         <div class="text-right">
             <p class="text-right m-0">
-                Subtotal <span id="total_harga_order">
+                Subtotal <span id="total_harga_order" class="rupiah">
                     <?php
                     $i = 0;
-                    foreach ($data_or->details as $detail) {
+                    foreach ($data_pos->details as $detail) {
                         $i += $detail->total;
                     }
                     echo $i;
@@ -70,12 +69,12 @@
                 </span>
             </p>
             <p class="text-right m-0">
-                Pajak <span id="tax_price">
+                Pajak <span id="tax_price" class="rupiah">
                     <?= 10 * $i / 100 ?>
                 </span>
             </p>
             <h5 class="text-right font-weight-bold">
-                Total <span id="total_harga_order_tax">
+                Total <span id="total_harga_order_tax" class="rupiah">
                     <?= 110 * $i / 100 ?>
                 </span>
             </h5>

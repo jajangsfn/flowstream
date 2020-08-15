@@ -20,7 +20,7 @@
               <span class="font-weight-bold" id="kt_dashboard_daterangepicker_date"><?=$tgl_indo?></span>
             </div>
           <!--end::Daterange-->
-          
+
           </div>
           <!--end::Toolbar-->
     </div>
@@ -38,7 +38,7 @@
               <select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" required="">
                   <option value="" selected>Pilih Customer</option>
                   <?php
-                    foreach ($customer as $key => $val) { 
+                    foreach ($customer as $key => $val) {
                       if ($master && ($master[0]->partner_id == $val->id)) {
                       ?>
                       <option value="<?=$val->id?>" selected><?=$val->name?></option>
@@ -58,12 +58,12 @@
 
           </div>
 
-          
-          <div class="row mb-3"> 
+
+          <div class="row mb-3">
             <div class="col-md-1"></div>
             <div class="col-md-2 text-right col-form-label">
                 <label>Nomor Nota</label>
-            </div>  
+            </div>
             <div class="col-md-3">
                 <div class="input-group mb-3">
                       <input type="text" name="nro" id="nro" class="form-control" placeholder="No Invoice. . ." aria-label="" aria-describedby="basic-addon1" value="<?=($master) ? $master[0]->reference_no : ""?>">
@@ -168,7 +168,7 @@
                     <th>Nama Barang</th>
                     <th>Gudang</th>
                     <th>Harga</th>
-                    <th>Quantity Order (PCS)</th>
+                    <th>Quantity Order (PC)</th>
                     <th>Diskon</th>
                     <th>Total</th>
                     <th>#</th>
