@@ -4,8 +4,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Inventori extends CI_Controller
 {
 
+<<<<<<< Updated upstream
     public function __construct() 
     {
+=======
+    public function __construct()
+    { 
+>>>>>>> Stashed changes
         parent::__construct();
         // if already login, redirect to dashboard
         if ($this->session->userdata('login') == null) {
@@ -46,13 +51,13 @@ class Inventori extends CI_Controller
     public function receiving()
     {
 
-        
+        // echo json_encode($_POST);exit;
          if (count($_POST)) {
             
             $id_user           = $this->session->userdata('id');
             $name              = $this->session->userdata('name');
             $branch_id         = $this->session->userdata('branch_id');
-            $branch_name         = $this->session->userdata('branch_name');
+            $branch_name       = $this->session->userdata('branch_name');
 
             if (array_key_exists("id", $_POST)) {
                 
@@ -66,16 +71,22 @@ class Inventori extends CI_Controller
                                 "created_by" => $id_user,
                                 "updated_date" => date('Y-m-d H:i:s'),
                                 "updated_by" => $id_user,
+                                "price_method_id" => $_POST['price_method'],
                                 "flag" => 1);
                 
+                // update header receiving
                 $this->rm->update($where_id, $entry_data);
+
                 $where_id = array();
                 $where_id['receiving_id']   = $_POST['id'];
                 // delete all po detail
                 $this->rdm->delete($where_id);
- 
+                
+                 // get new price based on price method
+                $new_param     = $this->new_price($_POST);
+
                 // insert new all po detail
-                $this->rdm->insert($_POST['id'],$_POST);
+                $this->rdm->insert($_POST['id'],$new_param);
 
                 // insert history/activity
                 $history_data  = array("branch_id" => $branch_id,
@@ -88,7 +99,7 @@ class Inventori extends CI_Controller
 
                 $this->history->insert($history_data);
 
-                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Penerimaan Barang berhasil diperbaharui</div>');
+                $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Penerimaan Barang berhasil diperbaharui</div>');
 
             } else {
 
@@ -102,12 +113,16 @@ class Inventori extends CI_Controller
                                 "created_date" => date('Y-m-d H:i:s'),
                                 "updated_date" => date('Y-m-d H:i:s'),
                                 "updated_by" => $id_user,
+                                "price_method_id" => $_POST['price_method'],
                                 "flag" => 1);
-                
+
                 // insert receiving data
                 $rv_id         = $this->rm->insert($entry_data)->row()->id;
+
+                // get new price based on price method
+                $new_param     = $this->new_price($_POST);
                 // insert new all receiving detail
-                $this->rdm->insert($rv_id,$_POST);
+                $this->rdm->insert($rv_id,$new_param);
 
                 // insert hitory activity
                 $history_data  = array("branch_id" => $branch_id,
@@ -147,6 +162,9 @@ class Inventori extends CI_Controller
         $data['master']       = null;
         $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
+        $data['price_method'] = $this->rm->get_price_method()->result();
+
+
         $data['page_content'] = $this->load->view("inventori/receiving/add_receiving", $data ,true);
  
         $this->load->view('layout/head');
@@ -166,6 +184,8 @@ class Inventori extends CI_Controller
         
         $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
+        $data['price_method'] = $this->rm->get_price_method()->result();
+        // echo json_encode($data);exit;
         $data['page_content'] = $this->load->view("inventori/receiving/edit_receiving", $data ,true);
 
        
@@ -214,12 +234,35 @@ class Inventori extends CI_Controller
         }
 
         echo json_encode($data);
+    }
+
+    // get new price based on price method
+    public function new_price($param = array())
+    {
+        if ($param) {
+
+           for ($i=0; $i < count($param['goods_id']) ; $i++) { 
+               
+               $param_price_method = array(
+                                            "price_method" => $param['price_method'],
+                                            "goods_id" => $param['goods_id'][$i],
+                                            "quantity" => $param['goods_qty'][$i],
+                                            "price" => $param['goods_price'][$i],
+                                            "discount" => $param['goods_discount'][$i],
+                                        );
+
+               $param['goods_price'][$i] = $this->rdm->price_method($param_price_method);
+           }
+        }
+
+        // echo json_encode($param);
+        return $param;
     }    
 
     public function approve_receive()
     {
         $data['id'] = $this->input->get("rv_id");
-
+ 
         $msg   = $this->rm->approve_receive($data); 
 
         echo json_encode($msg);

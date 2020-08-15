@@ -8,20 +8,29 @@
 			
 		show_goods_to_chart();		
 		
-
 		$("#btn_save_receiving").click(function(){
 			
-			Swal.fire({
-		        title: "Anda Yakin ingin menyimpan transaksi ini?",
-		        text: "Data yg telah diproses tidak dapat diubah!",
-		        icon: "warning",
-		        showCancelButton: true,
-		        confirmButtonText: "Proses"
-		    }).then(function(result) { 
-		        if (result.value) {
-		            $("#form_receiving").submit();
-		        }
-		    });
+			$("#priceMethod").modal('show');
+
+		});
+
+		$("#btn_confirm_receiving").click(function() {
+
+			if ( $("#price_method").val()!= ""){
+				Swal.fire({
+			        title: "Anda Yakin ingin menyimpan transaksi ini?",
+			        text: "Data yg telah diproses tidak dapat diubah!",
+			        icon: "warning",
+			        showCancelButton: true,
+			        confirmButtonText: "Proses"
+			    }).then(function(result) { 
+			        if (result.value) {
+			            $("#form_receiving").submit();
+			        }
+			    });
+			}else {
+				Swal.fire("Info", "Silahkan pilih metode harga!", "error");
+			}
 		});
 		
 	});
@@ -412,5 +421,9 @@
 		});
 	}
 
+	function change_price_method()
+	{
+		$("#price_method").val( $("#price_method_dropdown").val());
+	}
 
 </script>
