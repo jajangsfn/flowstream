@@ -6,7 +6,7 @@ class M_goods_model extends CI_Model
     {
         $this->db->select("
             m_goods.*,
-            
+
             ref1.detail_data as division,
             ref1.id as division_id,
             ref2.detail_data as sub_division,
@@ -16,12 +16,12 @@ class M_goods_model extends CI_Model
             ref4.detail_data as sub_category,
             ref4.id as sub_category_id,
             ref5.detail_data as package,
-            ref5.id as package_id, 
+            ref5.id as package_id,
             ref6.detail_data as color,
             ref6.id as color_id,
             ref7.name as unit,
             ref7.id as unit_id,
-            
+
             ref8.price as default_price,
             ref9.price as price_1,
             ref10.price as price_2,
@@ -61,9 +61,9 @@ class M_goods_model extends CI_Model
     function get_complete()
     {
         return $this->db->query(
-            "SELECT 
+            "SELECT
         m_goods.*,
-        
+
         ref1.detail_data as division,
         ref1.id as division_id,
         ref2.detail_data as sub_division,
@@ -87,9 +87,9 @@ class M_goods_model extends CI_Model
         ref13.price as price_5,
 
         ref7.quantity as converted_quantity
-        
+
         FROM `m_goods`
-        
+
         left join s_reference ref1 on ref1.id = m_goods.division
         left join s_reference ref2 on ref2.id = m_goods.sub_division
         left join s_reference ref3 on ref3.id = m_goods.category
@@ -98,14 +98,14 @@ class M_goods_model extends CI_Model
         left join s_reference ref6 on ref6.id = m_goods.color
         left join m_unit ref7 on ref7.id = m_goods.unit
         left join m_price ref8 on ref8.goods_id = m_goods.id
-        left join m_price_alternate ref9 on ref9.price_index = '1' and ref9.price_id = ref8.id 
-        left join m_price_alternate ref10 on ref10.price_index = '2' and ref10.price_id = ref8.id 
-        left join m_price_alternate ref11 on ref11.price_index = '3' and ref11.price_id = ref8.id 
-        left join m_price_alternate ref12 on ref12.price_index = '4' and ref12.price_id = ref8.id 
-        left join m_price_alternate ref13 on ref13.price_index = '5' and ref13.price_id = ref8.id 
-        
+        left join m_price_alternate ref9 on ref9.price_index = '1' and ref9.price_id = ref8.id
+        left join m_price_alternate ref10 on ref10.price_index = '2' and ref10.price_id = ref8.id
+        left join m_price_alternate ref11 on ref11.price_index = '3' and ref11.price_id = ref8.id
+        left join m_price_alternate ref12 on ref12.price_index = '4' and ref12.price_id = ref8.id
+        left join m_price_alternate ref13 on ref13.price_index = '5' and ref13.price_id = ref8.id
+
         WHERE m_goods.flag <> 99
-        
+
         ORDER BY m_goods.id desc"
         );
     }
@@ -124,7 +124,7 @@ class M_goods_model extends CI_Model
             // 5 Digit Selanjutnya adalah unique_id_barang
             $barcode .= sprintf('%05d', $data['unique_id']);
 
-            // 1 Digit terakhit adalah Check Digit. 
+            // 1 Digit terakhit adalah Check Digit.
             $barcode .= $this->setup_checkdigit($barcode);
 
             $data['barcode'] = $barcode;
@@ -237,5 +237,23 @@ class M_goods_model extends CI_Model
         $this->db->order_by("tab4.brand_description");
 
         return $this->db->get();
+    }
+
+    function update_quantity_from_checksheet($id_barang, $new_quantity)
+    {
+        $where = array(
+            "m_goods.id" => $id_barang
+        );
+        $this->db->select("m_goods.*, m_unit.quantity as converted_quantity");
+        $this->db->from("m_goods");
+        $this->db->join("m_unit", "m_unit.id = m_goods.unit", "left");
+        $this->db->where($where);
+        $old = $this->db->get()->row();
+        $final_quantity = $old->ratio_flag == 1 ? $new_quantity / $old->converted_quantity : $new_quantity;
+
+        $set = array(
+            "quantity" => $final_quantity
+        );
+        $this->db->update("m_goods", $set, $where);
     }
 }

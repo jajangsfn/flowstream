@@ -3,7 +3,7 @@
         $("#pos_table").DataTable({
             responsive: true,
             paging_type: 'full_numbers',
-            ajax: "<?= base_url("/index.php/api/pos") ?>",
+            ajax: "<?= base_url("/index.php/api/pos/$data_branch->id") ?>",
             columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {
@@ -20,6 +20,13 @@
                     data: 'invoice_no',
                     createdCell: function(td, cellData, rowData, row, col) {
                         $(td).attr('nowrap', 'nowrap')
+                    },
+                    render: function(data, type, row) {
+                        return `
+                        <a href="<?= base_url("/index.php/penjualan/pos/view/") ?>${row.id}" data-toggle="tooltip" title="Lihat Faktur">
+                            ${data}
+                        </a>
+                        `;
                     }
                 },
                 {
@@ -32,6 +39,8 @@
                     data: 'flag',
                     render: function(data, type, row, meta) {
                         if (data == 1) {
+                            return `<span class="text-primary">Menunggu Pembayaran</span>`
+                        } else if (data == 2) {
                             return `<span class="text-info">Menunggu Cetak Faktur Pajak</span>`
                         } else if (data == 3) {
                             return `<span class="text-warning">Retur / Pembetulan</span>`
@@ -57,15 +66,23 @@
                         </a>
                         `
 
+                        var bayarbutton = `
+                        <a class="btn btn-icon btn-sm btn-light-success" onclick="bayar(${data})" data-toggle="tooltip" title="Pembayaran">
+                            <i class="flaticon-interface-9"></i>
+                        </a>
+                        `
+
+                        if (row.flag != 1) {
+                            bayarbutton = "";
+                        }
+
                         if (row.flag == 10) {
                             extbutton = "";
                             edit_button = "";
                         }
 
                         return `
-                        <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/pos/view/") ?>${data}" data-toggle="tooltip" title="view">
-                            <i class="flaticon-eye"></i>
-                        </a>
+                        ${bayarbutton}
                         ${edit_button}
                         <a class="btn btn-icon btn-sm btn-light-info" onclick="confirm_cetak(${data})" data-toggle="tooltip" title="cetak ulang" target="_blank">
                             <i class="fa la-print"></i>
@@ -82,15 +99,10 @@
             ],
 
             columnDefs: [{
-                    targets: -1,
-                    responsivePriority: 2,
-                    orderable: false,
-                },
-                {
-                    targets: 0,
-                    orderable: false,
-                },
-            ],
+                targets: -1,
+                responsivePriority: 2,
+                orderable: false,
+            }, ],
 
             "drawCallback": function(settings) {
                 $("*[data-toggle=tooltip]").tooltip()
@@ -128,5 +140,42 @@
                 Swal.fire("Belum Terimplementasi");
             }
         })
+    }
+
+    function bayar(id) {
+        $.ajax({
+            url: "<?= base_url("/index.php/api/fetch_pos/") ?>" + id,
+            success: function(response) {
+                const fokus = response.data;
+                $("#pos_id_bayar").val(fokus.id)
+                $("#nomor_transaksi").val(fokus.order_no)
+                if (fokus.salesman_name) {
+                    $("#salesman_input").val(fokus.salesman_name)
+                    $("#no_transaksi_cell").addClass("col-lg-4").removeClass("col-lg-6");
+                    $("#salesman_cell").fadeIn();
+                    $("#payment_total_cell").addClass("col-lg-4").removeClass("col-lg-6");
+                } else {
+                    $("#no_transaksi_cell").removeClass("col-lg-4").addClass("col-lg-6");
+                    $("#salesman_cell").fadeOut();
+                    $("#payment_total_cell").removeClass("col-lg-4").addClass("col-lg-6");
+                }
+                $("#total_pembayaran").val(fokus.payment_total)
+                $("#payment_modal").modal("show")
+            },
+            error: function(resp) {
+                console.log(resp.responseText)
+            }
+        })
+    }
+
+    function change_payment_method() {
+        if ($("#payment_method").val() == "TRANSFER") {
+            $("#nama_bank_cell").fadeIn();
+            $("#payment_method_cell").removeClass("col-lg-6").addClass("col-lg-4");
+            $("#jumlah_bayar_cell").removeClass("col-lg-6").addClass("col-lg-4");
+            $("#select_bank").attr('required', "required")
+        } else {
+            $("#select_bank").removeAttr('required')
+        }
     }
 </script>

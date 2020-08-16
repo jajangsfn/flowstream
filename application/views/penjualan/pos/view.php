@@ -46,7 +46,7 @@
                                 <?= $detail->quantity ?>
                             </td>
                             <td>
-                                <?= $detail->unit_name ?>
+                                <?= $detail->ratio_flag == 1 ? "PCS" : $detail->unit_name ?>
                             </td>
                             <td style="width: 100px;" class="text-right rupiah">
                                 <?= $detail->price ?>
@@ -62,7 +62,7 @@
                     <?php
                     $i = 0;
                     foreach ($data_pos->details as $detail) {
-                        $i += $detail->total;
+                        $i += ($detail->quantity * $detail->price * (100 - $detail->discount) / 100);
                     }
                     echo $i;
                     ?>

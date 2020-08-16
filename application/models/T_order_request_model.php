@@ -161,4 +161,20 @@ class T_order_request_model extends CI_Model
     {
         $this->db->update("t_order_request", $data, $where);
     }
+
+    function checksheet_update($or_id, $goods_id, $final_quantity)
+    {
+        $where = array(
+            "order_request_id" => $or_id,
+            "goods_id" => $goods_id
+        );
+        $old = $this->db->get_where("t_order_request_detail", $where)->row();
+        $new_total = $final_quantity * $old->price * (100 - $old->discount) / 100;
+        $set = array(
+            "total" => $new_total,
+            "quantity" => $final_quantity
+        );
+
+        $this->db->update("t_order_request_detail", $set, $where);
+    }
 }

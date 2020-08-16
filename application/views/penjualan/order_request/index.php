@@ -32,7 +32,7 @@
                             <input type="hidden" name="partner_name" id="partner_name_afterselect">
                             <input type="hidden" name="order_no" id="order_no_afterselect">
                             <select id="pilih_customer" class="select2" onchange="change_customer(this)" name="partner_id">
-                                <option label="Label"></option>
+                                <option value="" selected disabled>Pilih Customer</option>
                                 <?php foreach ($customers as $customer) : ?>
                                     <option value="<?= $customer->id ?>"><?= $customer->name ?> (<?= $customer->branch ?>)</option>
                                 <?php endforeach ?>
