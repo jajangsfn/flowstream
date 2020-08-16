@@ -4,13 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Inventori extends CI_Controller
 {
 
-<<<<<<< Updated upstream
-    public function __construct() 
-    {
-=======
     public function __construct()
-    { 
->>>>>>> Stashed changes
+    {
         parent::__construct();
         // if already login, redirect to dashboard
         if ($this->session->userdata('login') == null) {
@@ -23,8 +18,8 @@ class Inventori extends CI_Controller
                 "user_model" => "user_m",
                 "M_partner_model"=>"partner",
                 "M_warehouse_model"=>"m_ws",
-                "M_goods_model"=>"goods", 
-                "Purchase_order_model" => "po", 
+                "M_goods_model"=>"goods",
+                "Purchase_order_model" => "po",
                 "Receiving_model" => "rm",
                 "Receiving_detail_model" => "rdm",
                 "S_history_model" => "history",
@@ -53,14 +48,14 @@ class Inventori extends CI_Controller
 
         // echo json_encode($_POST);exit;
          if (count($_POST)) {
-            
+
             $id_user           = $this->session->userdata('id');
             $name              = $this->session->userdata('name');
             $branch_id         = $this->session->userdata('branch_id');
             $branch_name       = $this->session->userdata('branch_name');
 
             if (array_key_exists("id", $_POST)) {
-                
+
                 $where_id['id']= $_POST['id'];
                 $entry_data    = array("branch_id" => $branch_id,
                                 "receiving_no" => $_POST['purchase_receive_no'],
@@ -73,7 +68,7 @@ class Inventori extends CI_Controller
                                 "updated_by" => $id_user,
                                 "price_method_id" => $_POST['price_method'],
                                 "flag" => 1);
-                
+
                 // update header receiving
                 $this->rm->update($where_id, $entry_data);
 
@@ -81,7 +76,7 @@ class Inventori extends CI_Controller
                 $where_id['receiving_id']   = $_POST['id'];
                 // delete all po detail
                 $this->rdm->delete($where_id);
-                
+
                  // get new price based on price method
                 $new_param     = $this->new_price($_POST);
 
@@ -141,7 +136,7 @@ class Inventori extends CI_Controller
             }
         }
 
-        $data['receive']      = $this->rm->get_all_receive()->result();  
+        $data['receive']      = $this->rm->get_all_receive()->result();
         $data['page_title']   = "Receiving";
         $data['page_content'] = $this->load->view("inventori/receiving", $data, true);
         $data['master']       = null;
@@ -166,7 +161,7 @@ class Inventori extends CI_Controller
 
 
         $data['page_content'] = $this->load->view("inventori/receiving/add_receiving", $data ,true);
- 
+
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
@@ -180,15 +175,15 @@ class Inventori extends CI_Controller
         $data['page_title']   = "Receiving";
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_no(2);
-        $data['master']       = $this->rm->get_all_receive("tab1.id=".$rv_id,null,"tab2.id")->result(); 
-        
+        $data['master']       = $this->rm->get_all_receive("tab1.id=".$rv_id,null,"tab2.id")->result();
+
         $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['price_method'] = $this->rm->get_price_method()->result();
         // echo json_encode($data);exit;
         $data['page_content'] = $this->load->view("inventori/receiving/edit_receiving", $data ,true);
 
-       
+
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
@@ -205,15 +200,15 @@ class Inventori extends CI_Controller
             return json_encode($data);
         }
 
-        return $data->result(); 
-    } 
- 
+        return $data->result();
+    }
+
     public function get_po_list($type = 1)
     {
 
         if ( $type == 1 ) {
             $where              = "tab4.id=". $this->input->get('supplier_id');
-            $data               = $this->rm->get_goods_receive($where)->result(); 
+            $data               = $this->rm->get_goods_receive($where)->result();
 
         } else if ( $type == 2 ) {
 
@@ -222,7 +217,7 @@ class Inventori extends CI_Controller
             $data               = $this->rm->get_goods_receive($where,$group)->result();
 
         } else if ( $type == 3 ) {
- 
+
            $where               = 'tab1.id='.$this->input->get('po_id').' and tab6.goods_id='.$this->input->get('goods_id');
            $group               = 'tab6.goods_id';
            $data               = $this->rm->get_goods_receive($where,$group)->result();
@@ -230,7 +225,7 @@ class Inventori extends CI_Controller
         } else if ( $type == 4) {
             $where              = "tab4.id=". $this->input->get('supplier_id');
             $group              = "tab6.goods_id";
-            $data               = $this->rm->get_goods_receive($where, $group)->result(); 
+            $data               = $this->rm->get_goods_receive($where, $group)->result();
         }
 
         echo json_encode($data);
@@ -241,8 +236,8 @@ class Inventori extends CI_Controller
     {
         if ($param) {
 
-           for ($i=0; $i < count($param['goods_id']) ; $i++) { 
-               
+           for ($i=0; $i < count($param['goods_id']) ; $i++) {
+
                $param_price_method = array(
                                             "price_method" => $param['price_method'],
                                             "goods_id" => $param['goods_id'][$i],
@@ -257,13 +252,13 @@ class Inventori extends CI_Controller
 
         // echo json_encode($param);
         return $param;
-    }    
+    }
 
     public function approve_receive()
     {
         $data['id'] = $this->input->get("rv_id");
- 
-        $msg   = $this->rm->approve_receive($data); 
+
+        $msg   = $this->rm->approve_receive($data);
 
         echo json_encode($msg);
     }
@@ -271,8 +266,8 @@ class Inventori extends CI_Controller
 
     public function print_receive($id)
     {
-        
-        $data = $this->rm->get_all_receive("tab1.id=".$id,null,"tab3.id")->result_array();  
+
+        $data = $this->rm->get_all_receive("tab1.id=".$id,null,"tab3.id")->result_array();
 
         $this->pdf->dynamic_print(1, "receive_in", $data);
     }
@@ -338,7 +333,7 @@ class Inventori extends CI_Controller
                             );
 
                 // insert t_physical_warehouse
-                $ws_id  = $this->t_ws->insert($ws)->row()->id; 
+                $ws_id  = $this->t_ws->insert($ws)->row()->id;
                 // insert t_physical_warehouse_detail
                 $ws_detail = $this->t_ws->insert_detail($ws_id, $_POST);
 
@@ -359,7 +354,7 @@ class Inventori extends CI_Controller
             }
         }
 
-        $data['warehouse']  = $this->t_ws->get_all()->result(); 
+        $data['warehouse']  = $this->t_ws->get_all()->result();
         $data['page_title'] = "Gudang";
         $data['page_content'] = $this->load->view("inventori/gudang", $data, true);
 
@@ -370,12 +365,12 @@ class Inventori extends CI_Controller
     }
 
 
-    public function add_warehouse() 
+    public function add_warehouse()
     {
-       
+
         $data['page_title'] = "Gudang";
         $data['prev_ws']    = $this->m_ws->get_all()->result();
-       
+
         $data['act_ws']     = $this->m_ws->get("id<>1")->result();
         $data['ws_no']      = generate_po_no(3);
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
@@ -392,7 +387,7 @@ class Inventori extends CI_Controller
     {
         $branch_id = $this->session->userdata('branch_id');
         $search = trim( $this->input->get('kode_barang') );
-        
+
         $where  = "tab4.brand_description='" . $search . "' or tab4.sku_code='" . $search . "' or tab4.plu_code='" . $search . "' and tab5.id=".$branch_id;
         $data   = $this->goods->get_goods_per_supplier($where)->result();
 
@@ -405,24 +400,24 @@ class Inventori extends CI_Controller
         $id = $this->input->get("ws_id");
         $set['flag']= 2;
 
-        $msg   = $this->t_ws->update($id,$set); 
+        $msg   = $this->t_ws->update($id,$set);
 
         echo json_encode($msg);
     }
 
     public function get_ws_goods()
     {
-        $receiving_no = $this->input->get('receive_no');  
+        $receiving_no = $this->input->get('receive_no');
 
         $data       = $this->rm->get_all_receive("tab1.receiving_no='".$receiving_no."'",null,"tab2.goods_id")->result();
 
         echo json_encode($data);
     }
 
-    public function get_ws_goods_detail() 
+    public function get_ws_goods_detail()
     {
         $receiving_no   = $this->input->get('receive_no');
-        $goods_id       = $this->input->get('goods_id'); 
+        $goods_id       = $this->input->get('goods_id');
 
         $data       = $this->rm->get_all_receive("tab1.receiving_no=".$receiving_no." and tab2.goods_id=".$goods_id)->result();
 
@@ -431,23 +426,23 @@ class Inventori extends CI_Controller
 
     public function print_warehouse($id)
     {
-        
-        $data = $this->t_ws->get_all(array("tab1.id"=>$id),array("tab2.id"))->result_array();  
-        
+
+        $data = $this->t_ws->get_all(array("tab1.id"=>$id),array("tab2.id"))->result_array();
+
         $this->pdf->dynamic_print(1,"warehouse_in",$data);
     }
 
-    public function edit_warehouse($ws_id) 
+    public function edit_warehouse($ws_id)
     {
-       
+
         $data['page_title']     = "Gudang";
         $data['prev_ws']        = $this->m_ws->get_all()->result();
         $data['act_ws']         = $this->m_ws->get("id<>1")->result();
-        $data['ws_no']          =  generate_po_no(3); 
+        $data['ws_no']          =  generate_po_no(3);
         $data['warehouse']      = $this->t_ws->get_all(array("tab1.id"=>$ws_id), array("tab2.id"))->result();
         $data['tgl_indo']       = longdate_indo( date('Y-m-d') );
         $data['page_content']   = $this->load->view("inventori/warehouse/edit_warehouse", $data, true);
-        
+
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
