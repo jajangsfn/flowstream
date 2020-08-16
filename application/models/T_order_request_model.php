@@ -73,6 +73,7 @@ class T_order_request_model extends CI_Model
         m_goods.ratio_flag,
         m_goods.quantity as last_quantity,
         m_unit.name as unit_name,
+        m_unit.initial as unit_initial,
         m_unit.quantity as converted_quantity
         ");
         $this->db->from("t_order_request_detail ordet");

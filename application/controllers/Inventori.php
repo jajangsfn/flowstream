@@ -4,13 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Inventori extends CI_Controller
 {
 
-<<<<<<< Updated upstream
     public function __construct() 
     {
-=======
-    public function __construct()
-    { 
->>>>>>> Stashed changes
         parent::__construct();
         // if already login, redirect to dashboard
         if ($this->session->userdata('login') == null) {

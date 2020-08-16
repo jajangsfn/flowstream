@@ -13,7 +13,7 @@
                       "placeholder" => "Isi Nama Barang",
                       "label" => "Search",
                       "help" => "",
-                      "value" => false,
+                      "value" => false, 
                       "autocomplete"=>"off",
                         ), true); ?>  
                 <hr>
@@ -82,15 +82,11 @@
                 <label>Nomor Nota</label>
             </div>  
             <div class="col-md-3">
-                <div class="input-group mb-3">
-                      <!-- <input type="text" name="nro" id="nro" class="form-control" placeholder="No Receive Order. . ." aria-label="" aria-describedby="basic-addon1"> -->
-                      <select name="nro" id="nro" class="form-control selectpicker" data-live-search="true" onchange="search_receive_order()">
-                        <option value="">Data No PO Kosong</option>
-                      </select>
-                   <!--  <div class="input-group-prepend">
-                       <button class="btn btn-info" type="button" onclick="search_receive_order()">search</button>
-                     </div> -->
-                 </div>
+              <div class="input-group mb-3">
+                <select name="nro" id="nro" class="form-control selectpicker" data-live-search="true" onchange="search_receive_order()">
+                  <option value="">Data No PO Kosong</option>
+                </select>
+              </div>
             </div>
 
             <div class="col-md-2 text-right col-form-label">
