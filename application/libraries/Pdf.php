@@ -1203,23 +1203,13 @@ class pdf
 													   								"height"=>0.5,
 													   								"align"=>'C',
 													   							),
-													   					4 => array( "title"=> "Jumlah",
+													   					4 => array( "title"=> "Jumlah Order",
 													   								"width"=>2.5,
 													   								"height"=>0.5,
 													   								"align"=>'R',
 													   							),
-													   					5 => array( "title"=> "Harga",
+													   					5 => array( "title"=> "Jumlah Tersedia",
 													   								"width"=>1.8,
-													   								"height"=>0.5,
-													   								"align"=>'R',
-													   							),
-													   					6 => array( "title"=> "Disc",
-													   								"width"=>1.8,
-													   								"height"=>0.5,
-													   								"align"=>'R',
-													   							),
-													   					7 => array( "title"=> "Total",
-													   								"width"=>2.7,
 													   								"height"=>0.5,
 													   								"align"=>'R',
 													   							),
@@ -1299,13 +1289,13 @@ class pdf
 																		   				"align"=>'C',
 																		   			  ),
 																			1 => array( "title"=> "Kode Barang",
-																		   				"width"=>25,
+																		   				"width"=>40,
 																		   				"height"=>5,
 																		   				"align"=>'L',
 																		   			),
 
 																		   	2 => array( "title"=> "Nama Barang",
-																		   				"width"=> 60,
+																		   				"width"=> 80,
 																		   				"height"=>5,
 																		   				"align"=>'L',
 																		   			  ),																	   	
@@ -1314,23 +1304,13 @@ class pdf
 																		   				"height"=>5,
 																		   				"align"=>'C',
 																		   			),
-																		   4 => array( "title"=> "Jumlah",
-																		   				"width"=>28,
+																		   4 => array( "title"=> "Jumlah Order",
+																		   				"width"=>27,
 																		   				"height"=>5,
 																		   				"align"=>'R',
 																		   			),
-																		   	5 => array( "title"=> "Harga",
-																		   				"width"=>20,
-																		   				"height"=>5,
-																		   				"align"=>'R',
-																		   			),
-																		   	6 => array( "title"=> "Disc",
-																		   				"width"=>20,
-																		   				"height"=>5,
-																		   				"align"=>'R',
-																		   			),
-																		   	7 => array( "title"=> "Sub Total",
-																		   				"width"=>20,
+																		   	5 => array( "title"=> "Jumlah Tersedia",
+																		   				"width"=>26,
 																		   				"height"=>5,
 																		   				"align"=>'R',
 																		   			),
@@ -1437,26 +1417,26 @@ class pdf
 															   								"height"=>0.5,
 															   								"align"=>'C',
 															   							),
-															   					4 => array( "title"=> "Jumlah",
+															   					4 => array( "title"=> "Jumlah Order",
 															   								"width"=>2.5,
 															   								"height"=>0.5,
 															   								"align"=>'R',
 															   							),
-															   					5 => array( "title"=> "Harga",
-															   								"width"=>1.8,
+															   					5 => array( "title"=> "Jumlah Tersedia",
+															   								"width"=>2.5,
 															   								"height"=>0.5,
 															   								"align"=>'R',
 															   							),
-															   					6 => array( "title"=> "Disc",
-															   								"width"=>1.8,
-															   								"height"=>0.5,
-															   								"align"=>'R',
-															   							),
-															   					7 => array( "title"=> "Total",
-															   								"width"=>2.7,
-															   								"height"=>0.5,
-															   								"align"=>'R',
-															   							),
+															   					// 6 => array( "title"=> "Disc",
+															   					// 			"width"=>1.8,
+															   					// 			"height"=>0.5,
+															   					// 			"align"=>'R',
+															   					// 		),
+															   					// 7 => array( "title"=> "Total",
+															   					// 			"width"=>2.7,
+															   					// 			"height"=>0.5,
+															   					// 			"align"=>'R',
+															   					// 		),
 															   				),
 															   				
 															   "footer" => array("footer_ln" => 0.09,
@@ -1542,13 +1522,13 @@ class pdf
 																				   				"align"=>'C',
 																				   			  ),
 																					1 => array( "title"=> "Kode Barang",
-																				   				"width"=>25,
+																				   				"width"=>37,
 																				   				"height"=>5,
 																				   				"align"=>'L',
 																				   			),
 
 																				   	2 => array( "title"=> "Nama Barang",
-																				   				"width"=> 60,
+																				   				"width"=> 80,
 																				   				"height"=>5,
 																				   				"align"=>'L',
 																				   			  ),																	   	
@@ -1557,26 +1537,26 @@ class pdf
 																				   				"height"=>5,
 																				   				"align"=>'C',
 																				   			),
-																				    4 => array( "title"=> "Jumlah",
+																				    4 => array( "title"=> "Jumlah Order",
 																				   				"width"=>28,
 																				   				"height"=>5,
 																				   				"align"=>'R',
 																				   			),
-																				   	5 => array( "title"=> "Harga",
-																				   				"width"=>20,
+																				   	5 => array( "title"=> "Jumlah Tersedia",
+																				   				"width"=>28,
 																				   				"height"=>5,
 																				   				"align"=>'R',
 																				   			),
-																				   	6 => array( "title"=> "Disc",
-																				   				"width"=>20,
-																				   				"height"=>5,
-																				   				"align"=>'R',
-																				   			),
-																				   	7 => array( "title"=> "Sub Total",
-																				   				"width"=>20,
-																				   				"height"=>5,
-																				   				"align"=>'R',
-																				   			),
+																				   	// 6 => array( "title"=> "Disc",
+																				   	// 			"width"=>20,
+																				   	// 			"height"=>5,
+																				   	// 			"align"=>'R',
+																				   	// 		),
+																				   	// 7 => array( "title"=> "Sub Total",
+																				   	// 			"width"=>20,
+																				   	// 			"height"=>5,
+																				   	// 			"align"=>'R',
+																				   	// 		),
 
 																					),
 																	"footer" => array(
@@ -1588,7 +1568,7 @@ class pdf
 																										"position_x" => 3,
 																									),
 																				   	"total" => array("title" => "Grant Total",
-																					   				"width" => 185,
+																					   				"width" => 205,
 																					   				"height" => 4,
 																					   				"align"=>'R',
 																					   				"position_x" => 3
@@ -2267,7 +2247,7 @@ class pdf
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
-						   $val['unit_name'],$border,0,
+						   $val['unit_initial'],$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][3]['align']);
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
@@ -2276,19 +2256,9 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
-						   number_format($val['price']),$border,0,
+						   '',$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
-
-				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
-						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
-						   number_format($val['discount']),$border,0,
-						   $paper_reference[$type_print][$use_paper]['body'][6]['align']);
-
-				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][7]['width'], 
-						   $paper_reference[$type_print][$use_paper]['body'][7]['height'], 
-						   number_format($val['total']),$border,0,
-						   $paper_reference[$type_print][$use_paper]['body'][7]['align']);	
-
+				
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
 
 				// set margin bottom
@@ -2478,7 +2448,7 @@ class pdf
 			}
 		}
 
-		// ORDER REQUEST
+		// POS
 		if ($type_print == 'pos_out'){
 			foreach ($data as $key => $val) {
 
@@ -2490,7 +2460,7 @@ class pdf
 					$border = 'L,R,T';
 				} else if ( ($key+1) == $total_row) {
 					$border ='L,B,R';
-				}else {
+				} else {
 					$border = 'L,R';
 				}
 				
@@ -2512,7 +2482,7 @@ class pdf
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
-						   $val['unit_name'],$border,0,
+						   $val['unit_initial'],$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][3]['align']);
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
@@ -2521,18 +2491,18 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
-						   number_format($val['price']),$border,0,
+						   '',$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
 
-				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
-						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
-						   number_format($val['discount']),$border,0,
-						   $paper_reference[$type_print][$use_paper]['body'][6]['align']);
+				// $pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
+				// 		   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
+				// 		   number_format($val['discount']),$border,0,
+				// 		   $paper_reference[$type_print][$use_paper]['body'][6]['align']);
 
-				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][7]['width'], 
-						   $paper_reference[$type_print][$use_paper]['body'][7]['height'], 
-						   number_format($val['total']),$border,0,
-						   $paper_reference[$type_print][$use_paper]['body'][7]['align']);	
+				// $pdf->Cell($paper_reference[$type_print][$use_paper]['body'][7]['width'], 
+				// 		   $paper_reference[$type_print][$use_paper]['body'][7]['height'], 
+				// 		   number_format($val['total']),$border,0,
+				// 		   $paper_reference[$type_print][$use_paper]['body'][7]['align']);	
 
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
 
@@ -2673,20 +2643,28 @@ class pdf
 		$pdf->SetFont('Arial','',8);		
 		$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln']);
 		// total
-		$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total']['position_x']);
-		$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total']['width'], 
-				   $paper_reference[$type_print][$use_paper]['footer']['total']['height'], 
-				   $paper_reference[$type_print][$use_paper]['footer']['total']['title'],1,0,
-				   $paper_reference[$type_print][$use_paper]['footer']['total']['align']);
 
-		$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['summary']['position_x']);
-		$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['summary']['width'], 
-				   $paper_reference[$type_print][$use_paper]['footer']['summary']['height'], 
-				   number_format($grant_total),1,1,
-				   $paper_reference[$type_print][$use_paper]['footer']['summary']['align']);
+		if (!in_array($type_print, array("order_request_out", "pos_out"))) {
+			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total']['position_x']);
+			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total']['width'], 
+					   $paper_reference[$type_print][$use_paper]['footer']['total']['height'], 
+					   $paper_reference[$type_print][$use_paper]['footer']['total']['title'],1,0,
+					   $paper_reference[$type_print][$use_paper]['footer']['total']['align']);
 
+			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['summary']['position_x']);
+			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['summary']['width'], 
+					   $paper_reference[$type_print][$use_paper]['footer']['summary']['height'], 
+					   number_format($grant_total),1,1,
+					   $paper_reference[$type_print][$use_paper]['footer']['summary']['align']);
+		}else {
+			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total']['position_x']);
+			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total']['width'], 
+					   $paper_reference[$type_print][$use_paper]['footer']['total']['height'], 
+					   '','T',0,
+					   $paper_reference[$type_print][$use_paper]['footer']['total']['align']);
+		}
 		// terbilang
-		if (!in_array($type_print, array("warehouse_in"))) {
+		if (!in_array($type_print, array("warehouse_in", "order_request_out", "pos_out"))) {
 			$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln']* 3);
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['terbilang']['position_x']);
 			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['terbilang']['width'], 
