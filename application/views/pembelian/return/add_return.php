@@ -8,7 +8,7 @@
          <?= $this->load->view("component/input/flowstream_input", array(
                       "name" => "goods",
                       "type" => "text",
-                      "id"=>"goods_id_bar",
+                      "id"=>"goods_id_bar", 
                       "required" => true,
                       "placeholder" => "Isi Nama Barang",
                       "label" => "Search",
@@ -18,7 +18,7 @@
                         ), true); ?>  
                 <hr>
                 <ul class="navi navi-hover navi-active" id="goods_list_bar" style="overflow: scroll;height: 400px">
-        </ul>
+        </ul> 
          </div>
      </div>
   </div>

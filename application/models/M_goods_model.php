@@ -234,7 +234,7 @@ class M_goods_model extends CI_Model
         $this->db->join("m_goods tab4", "tab4.id=tab3.goods_id","left");
         $this->db->join("m_branch tab5", "tab5.id=tab1.branch_id", "left");
         $this->db->where($where);
-        $this->db->order_by("tab4.brand_descriptions");
+        $this->db->order_by("tab4.brand_description");
 
         return $this->db->get();
     }

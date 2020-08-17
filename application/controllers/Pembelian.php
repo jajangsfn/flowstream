@@ -443,7 +443,7 @@ class Pembelian extends CI_Controller
             $data       = $this->goods->get_goods_price($where)->result();
         }else if ( $type == 3){
 
-            $supplier   = $this->input->get("id_supplier");   
+            $supplier   = $this->input->get("id_supplier");    
             $where      = "tab1.id=".$supplier;
             $data       = $this->goods->get_goods_per_supplier($where)->result();
         }else if ( $type == 4)

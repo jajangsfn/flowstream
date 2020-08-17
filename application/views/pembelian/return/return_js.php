@@ -414,7 +414,7 @@
 		var supplier_id = $("#supplier_id").val();
 
 		$.get("<?=base_url()?>index.php/pembelian/get_goods_json/3",
-				{"id_supplier": supplier_id})
+				{"id_supplier": supplier_id}) 
 		.done(function( result){
 
 			var parse = jQuery.parseJSON(result);
@@ -455,12 +455,12 @@
 				{"supplier_id": supplier_id})
 		.done(function( result){
 
-			var parse = jQuery.parseJSON(result);
+			var parse = jQuery.parseJSON(result);console.log(parse);
 			var po = "";
 			$("#nro").html('<option value="">Data No PO Kosong</option>');
 			if (parse.length > 0) {
 
-				$("#nro").html('<option value="">Pilih No PO Kosong</option>');
+				$("#nro").html('<option value="">Pilih No PO</option>');
 
 				$.each(parse, function(id, val) {
 					// mencegah null
