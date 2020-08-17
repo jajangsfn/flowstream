@@ -56,12 +56,12 @@
                             <div class="navi-item mb-2">
                                 <a href="<?= current_url() ?>/kode_rekening" class="navi-link py-4">
                                     <span class="navi-icon mr-2">
-                                        <span class="flaticon2-"></span>
+                                        <span class="flaticon-price-tag"></span>
                                     </span>
                                     <span class="navi-text font-size-lg">Kode Rekening</span>
                                 </a>
                             </div>
-                            <div class="navi-item mb-2">
+                            <div class="navi-item mb-2 d-none">
                                 <a href="<?= current_url() ?>/tutup_buku" class="navi-link py-4">
                                     <span class="navi-icon mr-2">
                                         <span class="flaticon2-"></span>
@@ -69,7 +69,7 @@
                                     <span class="navi-text font-size-lg">Tutup Buku</span>
                                 </a>
                             </div>
-                            <div class="navi-item mb-2">
+                            <div class="navi-item mb-2 d-none">
                                 <a href="<?= current_url() ?>/mata_uang" class="navi-link py-4">
                                     <span class="navi-icon mr-2">
                                         <span class="flaticon2-"></span>
@@ -77,7 +77,7 @@
                                     <span class="navi-text font-size-lg">Mata Uang</span>
                                 </a>
                             </div>
-                            <div class="navi-item mb-2">
+                            <div class="navi-item mb-2 d-none">
                                 <a href="<?= current_url() ?>/tipe_jurnal" class="navi-link py-4">
                                     <span class="navi-icon mr-2">
                                         <span class="flaticon-"></span>
@@ -271,7 +271,7 @@
                                     <span class="navi-text font-size-lg">Delivery Receive Status</span>
                                 </a>
                             </div>
-                            <div class="navi-item mb-2">
+                            <div class="navi-item mb-2 d-none">
                                 <a href="<?= current_url() ?>/reference/activation_status" class="navi-link py-4">
                                     <span class="navi-icon mr-2">
                                         <span class="flaticon-refresh"></span>

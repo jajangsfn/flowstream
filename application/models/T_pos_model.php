@@ -113,7 +113,7 @@ class T_pos_model extends CI_Model
             m_goods.brand_name,
             m_goods.brand_description,
             m_goods.ratio_flag,
-            m_unit.name as unit_name,
+            m_unit.initial as unit_name,
             m_unit.quantity as converted_quantity"
         );
         $this->db->from("t_pos_detail");

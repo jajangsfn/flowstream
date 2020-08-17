@@ -793,15 +793,9 @@ class Api extends CI_Controller
             "partner_id" => $order_request->partner_id,
             "partner_name" => $order_request->partner_name,
             "order_no" => $order_request->order_no,
-            "invoice_no" => $_POST['invoice_no'],
+            "invoice_no" => $this->pos->get_next_invoice_no(array("branch_id" => $order_request->branch_id)),
             "tax_no" => null,
             "description" => $order_request->description,
-
-            "payment_total" => $_POST['payment_total'],
-            "payment_method" => $_POST['payment_method'],
-            "payment_description" => $_POST['payment_description'],
-            "bank" => $_POST['bank'],
-            "payment_paid" => $_POST['payment_paid'],
             "pos_date" => date("Y-m-d H:i:s"),
 
             "created_by" => $this->session->id,
@@ -811,25 +805,30 @@ class Api extends CI_Controller
         $this->pos->insert($pos_data);
         $pos_id = $this->db->insert_id();
 
+        $payment_total = 0;
+
         // get order_request_details
-        foreach ($_POST["barang"] as $id_goods => $or_det) {
+        $order_request_details = $order_request->details;
+
+        foreach ($order_request_details as $or_det) {
             // generate POS detail data
-            $total = $or_det['quantity'] * $or_det['price'] * (1 - $or_det['discount'] / 100);
+            $total = $or_det->quantity * $or_det->price * (100 - $or_det->discount) / 100;
             $tax = 10 * $total / 100;
             $total = 110 * $total / 100;
+            $payment_total += $total;
 
             $pos_det_data = array(
                 "pos_id" => $pos_id,
-                "goods_id" => $id_goods,
+                "goods_id" => $or_det->goods_id,
 
-                "goods_name" => $or_det['goods_name'],
-                "price" => $or_det['price'],
-                "quantity" => $or_det['quantity'],
-                "discount" => $or_det['discount'],
+                "goods_name" => $or_det->goods_name,
+                "price" => $or_det->price,
+                "quantity" => $or_det->quantity,
+                "discount" => $or_det->discount,
 
-                "warehouse" => 1,
+                "warehouse_id" => 1, // default dulu buat test
 
-                "discount_code" => isset($or_det['discount_code']) ? $or_det['goods_name'] : null,
+                "discount_code" => isset($or_det->discount_code) ? $or_det->discount_code : null,
                 "tax" => $tax,
                 "total" => $total,
 
@@ -839,11 +838,35 @@ class Api extends CI_Controller
             $this->pos->insert_detail($pos_det_data);
         }
 
+        // update payment total
+        $this->pos->update(array("id" => $pos_id), array("payment_total" => $payment_total));
+
         $this->session->set_flashdata("success", "Faktur Order Request berhasil dicetak");
         redirect(base_url("/index.php/penjualan/pos"));
     }
 
+    public function save_checksheet($order_request_id)
+    {
+        // update jumlah
+        foreach ($_POST['barang'] as $id_barang => $barang) {
+            $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity']);
+            $this->goods->update_quantity_from_checksheet($id_barang, $barang['available_quantity']);
+        }
+
+        $this->session->set_flashdata("success", "Checksheet berhasil disimpan");
+        redirect(base_url("/index.php/penjualan/order_request"));
+    }
+
     // Point of Sales
+    public function fetch_pos($pos_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->pos->get_specific($pos_id)
+            )
+        );
+    }
+
     public function pos($branch_id = '')
     {
         if ($branch_id) {
@@ -872,6 +895,26 @@ class Api extends CI_Controller
                 "data" => $this->pos->get_next_no(array("branch_id" => $id_branch))
             )
         );
+    }
+
+    public function bayar_pos()
+    {
+        $this->pos->update(
+            array(
+                "id" => $_POST['id']
+            ),
+            array(
+                "payment_total" => $_POST['payment_total'],
+                "payment_method" => $_POST['payment_method'],
+                "bank" => $_POST['payment_method'] == "TRANSFER" ? $_POST['bank'] : null,
+                "payment_paid" => $_POST['payment_paid'],
+                "payment_description" => $_POST['payment_description'],
+                "flag" => 2
+            )
+        );
+
+        $this->session->set_flashdata("success", "Pembayaran berhasil disimpan");
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function kirim_pos()
@@ -979,11 +1022,6 @@ class Api extends CI_Controller
             "description" => $_POST['description'],
             "updated_by" => $this->session->id,
             "updated_date" => date('Y-m-d H:i:s'),
-            "payment_total" => $_POST['payment_total'],
-            "payment_method" => $_POST['payment_method'],
-            "payment_description" => $_POST['payment_description'],
-            "bank" => $_POST['payment_method'] == "TRANSFER" ? $_POST['bank'] : "",
-            "payment_paid" => $_POST['payment_paid']
         );
 
         $where_pos = array(

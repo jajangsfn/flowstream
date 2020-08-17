@@ -1,6 +1,6 @@
 <div class="form-group w-100">
     <label class="<?= isset($required) && $required ? "required" : "" ?>"><?= $title ?></label>
-    <select class="form-control select2" name="<?= $name ?>" <?= isset($id) ? "id='$id'" : "" ?> <?= isset($required) && $required ? "required" : "" ?>>
+    <select class="form-control select2" name="<?= $name ?>" data-width="100%"  <?= isset($id) ? "id='$id'" : "" ?> <?= isset($required) && $required ? "required" : "" ?>>
         <?php if (isset($required) && $required) : ?>
         <?php else : ?>
             <option value="" selected>None</option>

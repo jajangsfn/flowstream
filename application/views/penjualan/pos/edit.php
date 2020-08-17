@@ -37,7 +37,7 @@
                         <div class="d-flex align-items-center justify-content-end">
                             <!--begin::Daterange-->
                             <span class="p-2 rounded text-primary bg-light-primary font-weight-bold">
-                                <h6 class="font-weight-bold m-0"><?= longdate_indo(date('Y-m-d', strtotime($data_pos->pos_date))) ?></h6>
+                                <h6 class="font-weight-bold m-0"><?= longdate_indo(date('Y-m-d', strtotime($data_pos->pos_date ? $data_pos->pos_date : $data_pos->created_date))) ?></h6>
                             </span>
                             <!--end::Daterange-->
                         </div>
@@ -152,94 +152,7 @@
                 </div>
             </div>
             <div class="card-footer text-right">
-                <button type="button" id="payment-button" data-toggle="modal" data-target="#payment_modal" class="btn btn-primary"> Lanjutkan ke Pembayaran </button>
-            </div>
-
-            <!-- Modal-->
-            <div class="modal fade" id="payment_modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Pembayaran</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <i aria-hidden="true" class="ki ki-close"></i>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="<?= $data_pos->salesman_name ? "col-lg-4" : "col-lg-6" ?>">
-                                    <div class="form-group">
-                                        <label for="nomor_transaksi">Nomor Transaksi</label>
-                                        <input type="text" class="form-control" value="<?= $data_pos->order_no ?>" id="nomor_transaksi" readonly />
-                                    </div>
-                                </div>
-                                <div class="<?= $data_pos->salesman_name ? "col-lg-4" : "d-none" ?>">
-                                    <div class="form-group">
-                                        <label for="salesman_input">Salesman</label>
-                                        <input type="text" class="form-control" id="salesman_input" value="<?= $data_pos->salesman_name ?>" readonly />
-                                    </div>
-                                </div>
-                                <div class="<?= $data_pos->salesman_name ? "col-lg-4" : "col-lg-6" ?>">
-                                    <div class="form-group">
-                                        <label for="total_pembayaran">Total Pembayaran</label>
-                                        <input type="text" name="payment_total" class="form-control" id="total_pembayaran" value="<?= $taxret + $toret ?>" readonly />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6" id="payment_method_cell">
-                                    <div class="form-group w-100">
-                                        <label class="required">Pilih metode pembayaran</label>
-                                        <select class="form-control select2" name="payment_method" id="payment_method" required onchange="change_payment_method()">
-                                            <?php foreach ($payment_methods as $option) { ?>
-                                                <?php if ($option->detail_data == $data_pos->payment_method) : ?>
-                                                    <option value="<?= $option->detail_data ?>" selected><?= $option->detail_data ?></option>
-                                                <?php else : ?>
-                                                    <option value="<?= $option->detail_data ?>"><?= $option->detail_data ?></option>
-                                                <?php endif ?>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4" id="nama_bank_cell" style="display: none;">
-                                    <?= $this->load->view("component/input/flowstream_select", array(
-                                        "name" => "bank",
-                                        "title" => "Pilih Bank",
-
-                                        "list" => $banks,
-                                        "identifier" => "detail_data",
-                                        "showable" => "detail_data",
-
-                                        "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/reference/bank"),
-                                        "object_name" => "bank",
-
-                                        "selected" => $data_pos->bank,
-                                    ), true); ?>
-                                </div>
-                                <div class="col-lg-6" id="jumlah_bayar_cell">
-                                    <div class="form-group">
-                                        <label for="payment_paid">Total Pembayaran</label>
-                                        <input type="number" name="payment_paid" class="form-control" id="payment_paid" readonly value="<?= $data_pos->payment_paid ?>" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <?= $this->load->view("component/input/flowstream_input", array(
-                                        "name" => "payment_description",
-                                        "placeholder" => "Masukan keterangan pembayaran",
-                                        "type" => "textarea",
-                                        "label" => "Keterangan Pembayaran",
-
-                                        "required" => false,
-
-                                        "value" => $data_pos->payment_description
-                                    ), true); ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary font-weight-bold">Simpan dan Cetak</button>
-                        </div>
-                    </div>
-                </div>
+                <button type="submit" id="payment-button" class="btn btn-primary"> Simpan Perubahan </button>
             </div>
         </form>
     </div>

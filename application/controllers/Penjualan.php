@@ -63,6 +63,13 @@ class Penjualan extends CI_Controller
             $content['data_or'] = $this->or->get_specific($id_or);
 
             $data['page_content'] = $this->load->view("penjualan/order_request/view/view", $content, true);
+        } else if ($command == "checksheet") {
+            $data['page_title'] = "Checksheet - Order Request";
+            $data['back_url'] = base_url("/index.php/penjualan/order_request");
+            $content['data_or'] = $this->or->get_specific($id_or);
+
+            $data['page_content'] = $this->load->view("penjualan/order_request/checksheet", $content, true);
+            $data['page_js'] = $this->load->view("penjualan/order_request/checksheet_js", $content, true);
         } else {
             // tampilkan list of order request
             $data['page_title'] = "Penjualan - Daftar Order Request";
@@ -164,23 +171,12 @@ class Penjualan extends CI_Controller
     public function pos($command = '', $id_or = '')
     {
         if ($command == "cetak_faktur") {
-            $data['page_title'] = "Point of Sales - Cetak Faktur";
-            $data['back_url'] = base_url("/index.php/penjualan/order_request");
-            $content['data_or'] = $this->or->get_specific($id_or);
 
-            $content['banks'] = $this->ref->get(array("group_data" => "BANK"))->result();
-            $content['payment_methods'] = $this->ref->get(array("group_data" => "PAYMENT_METHOD"))->result();
-            $content['data_branch'] = $this->branch->get(array("id" => $this->session->branch_id))->row();
-
-            $data['page_content'] = $this->load->view("penjualan/pos/cetak_faktur", $content, true);
-            $data['page_js'] = $this->load->view("penjualan/pos/cetak_faktur_js", $content, true);
         } else if ($command == "add") {
             $data['page_title'] = "Transaksi Baru - Point of Sales";
             $data['back_url'] = base_url("/index.php/penjualan/pos");
 
             $content["customers"] = $this->partner->get_customer()->result();
-            $content['banks'] = $this->ref->get(array("group_data" => "BANK"))->result();
-            $content['payment_methods'] = $this->ref->get(array("group_data" => "PAYMENT_METHOD"))->result();
             $content['data_branch'] = $this->branch->get(array("id" => $this->session->branch_id))->row();
 
             $data['page_content'] = $this->load->view("penjualan/pos/add", $content, true);
@@ -216,8 +212,12 @@ class Penjualan extends CI_Controller
             // tampilkan list of Point of Sales
             $data['back_url'] = base_url("/index.php/penjualan/home");
 
+            $content['banks'] = $this->ref->get(array("group_data" => "BANK"))->result();
+            $content['payment_methods'] = $this->ref->get(array("group_data" => "PAYMENT_METHOD"))->result();
+            $content['data_branch'] = $this->branch->get(array("id" => $this->session->branch_id))->row();
+
             $data['page_title'] = "Penjualan - Daftar Point of Sales";
-            $data['page_content'] = $this->load->view("penjualan/pos/list", "", true);
+            $data['page_content'] = $this->load->view("penjualan/pos/list", $content, true);
             $data['page_js'] = $this->load->view("penjualan/pos/list_js", "", true);
         }
 
@@ -495,7 +495,7 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/js');
         $this->load->view('penjualan/laporan/penjualan/js');
     }
- 
+
 
     public function detail_laporan_penjualan($type = 1, $id)
     {
@@ -523,8 +523,8 @@ class Penjualan extends CI_Controller
         $data['master']       = $this->pos_report->pos_report($where, $group)->result_array();
         $data['type']         = $_GET['type'];
         $full                 = $_GET['type'] == 1 ? "" : "_full";
-        
-        $this->pdf->dynamic_print(2,"daily_sales_out" . $full ,$data['master']);
+
+        $this->pdf->dynamic_print(2, "daily_sales_out" . $full, $data['master']);
         // $this->load->view('penjualan/laporan/penjualan/print_laporan_penjualan', $data);
     }
 
