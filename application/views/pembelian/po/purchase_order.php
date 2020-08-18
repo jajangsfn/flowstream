@@ -44,22 +44,24 @@
                     <td><?=$val->description?></td>
                     <td><?=number_format($val->sum_trx)?></td>
                     <td><?=$val->flag == 1 ? "<div class='badge badge-info'>Draft</div>" : "<div class='badge badge-success'>Approved</div>";?></td>
-                    <td style="text-align: center;">
+                    <td>
                       <?php
                         if ($val->flag == 1) {
                       ?>
-                        <a href="<?=base_url()?>index.php/Pembelian/edit_purchase/<?=$val->id?>" class="btn btn-light-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa la-edit" title="Edit"></i></a>
+                        <a href="<?=base_url()?>index.php/Pembelian/edit_purchase/<?=$val->id?>" class="btn btn-light-warning btn-sm" title="edit">
+                          <i class="fa la-edit"></i>
+                        </a>
                       <?php }?>
-                        <button type="button" class="btn btn-light-info btn-sm" data-toggle="tooltip" data-placement="top" title="Print" onclick="print_po(<?=$val->id?>)"> 
-                            <i class="fa la-print" title="Print"></i>
+                        <button type="button" class="btn btn-light-info btn-sm" title="Print" onclick="print_po(<?=$val->id?>)"> 
+                            <i class="fa la-print"></i>
                         </button>
                       <?php
                         if ($val->flag == 1) {
                       ?>
-                          <button type="button" class="btn btn-light-success btn-sm" data-toggle="tooltip" data-placement="top" title="Approved" onclick="approve_po(<?=$val->id?>)">
+                          <button type="button" class="btn btn-light-success btn-sm" title="Approved" onclick="approve_po(<?=$val->id?>)">
                             <i class="fa la-check" title="Approve"></i>
                           </button>
-                        <?php }?>
+                        <?php } ?>
                      </td>
                   </tr>
                 <?php }

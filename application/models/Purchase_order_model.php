@@ -108,4 +108,15 @@ class Purchase_order_model extends CI_Model
         $this->db->where("partner_id",$supplier_id);
         return $this->db->get("m_partner_salesman");
     }
+
+    function get_all_po($supplier_id)
+    {
+        $this->db->select("tab1.*");
+        $this->db->from("t_purchase_order tab1");
+        $this->db->join("m_salesman tab2", "tab2.id = tab1.salesman_id");
+
+        $this->db->where("tab2.partner_id", $supplier_id);
+
+        return $this->db->get();
+    }
 }
