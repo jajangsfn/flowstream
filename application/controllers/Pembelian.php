@@ -443,7 +443,7 @@ class Pembelian extends CI_Controller
             $data       = $this->goods->get_goods_price($where)->result();
         }else if ( $type == 3){
 
-            $supplier   = $this->input->get("id_supplier");   
+            $supplier   = $this->input->get("id_supplier");    
             $where      = "tab1.id=".$supplier;
             $data       = $this->goods->get_goods_per_supplier($where)->result();
         }else if ( $type == 4)
@@ -545,22 +545,22 @@ class Pembelian extends CI_Controller
             // $data[$index]['total']      =  $data[$index]['price'] * $data[$index]['quantity'];
             // $data[$index]['warehouse_name']    = $this->generateRandomString(10);
             // daily sales
-            $data[$index]['created_date'] = $this->generateRandomString(20);
-            $data[$index]['updated_date'] = $this->generateRandomString(20);
-            $data[$index]['partner_name'] = $this->generateRandomString(25);
-            $data[$index]['invoice_no']   = rand(000000,9999999);
-            $data[$index]['total']        = rand(10, 2390); 
-            $data[$index]['goods_name']    = $this->generateRandomString(20);
-            $data[$index]['sku_code']      = $this->generateRandomString(5);
-            $data[$index]['plu_code']      = rand(000000,9999999);
-            $data[$index]['quantity']      =  rand(10, 2390); 
-            $data[$index]['price']      =  rand(10, 2390); 
-            $data[$index]['total']      =  $data[$index]['price'] * $data[$index]['quantity'];
-            $data[$index]['discount']      =  rand(0, 10); 
-            $data[$index]['brand_name']    = $this->generateRandomString(20);
-            $data[$index]['brand_description']    = $this->generateRandomString(20);
-            $data[$index]['unit_name']    = $this->generateRandomString(10);
-            $data[$index]['unit_desc']    = $this->generateRandomString(10);
+            // $data[$index]['created_date'] = $this->generateRandomString(20);
+            // $data[$index]['updated_date'] = $this->generateRandomString(20);
+            // $data[$index]['partner_name'] = $this->generateRandomString(25);
+            // $data[$index]['invoice_no']   = rand(000000,9999999);
+            // $data[$index]['total']        = rand(10, 2390); 
+            // $data[$index]['goods_name']    = $this->generateRandomString(20);
+            // $data[$index]['sku_code']      = $this->generateRandomString(5);
+            // $data[$index]['plu_code']      = rand(000000,9999999);
+            // $data[$index]['quantity']      =  rand(10, 2390); 
+            // $data[$index]['price']      =  rand(10, 2390); 
+            // $data[$index]['total']      =  $data[$index]['price'] * $data[$index]['quantity'];
+            // $data[$index]['discount']      =  rand(0, 10); 
+            // $data[$index]['brand_name']    = $this->generateRandomString(20);
+            // $data[$index]['brand_description']    = $this->generateRandomString(20);
+            // $data[$index]['unit_name']    = $this->generateRandomString(10);
+            // $data[$index]['unit_desc']    = $this->generateRandomString(10);
             // monthly sales
             // $data[$index]['created_date'] = $this->generateRandomString(20);
             // $data[$index]['total_trans'] = rand(1,100);

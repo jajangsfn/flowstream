@@ -231,7 +231,7 @@ class M_goods_model extends CI_Model
         $this->db->from("m_partner tab1");
         $this->db->join("m_partner_salesman tab2", "tab2.partner_id=tab1.id", "left");
         $this->db->join("m_salesman_map tab3", "tab3.salesman_id=tab2.id", "left");
-        $this->db->join("m_goods tab4", "tab4.id=tab3.goods_id");
+        $this->db->join("m_goods tab4", "tab4.id=tab3.goods_id","left");
         $this->db->join("m_branch tab5", "tab5.id=tab1.branch_id", "left");
         $this->db->where($where);
         $this->db->order_by("tab4.brand_description");

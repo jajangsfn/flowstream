@@ -263,22 +263,12 @@
 			var goods_price_chart 			= ($(this).find('td #goods_price_chart_'+id).val()) ? 
 											  parseInt( $(this).find('td #goods_price_chart_'+id).val() ) : 0;
 
-           // check if qty more then qty receive
-     //       if (goods_qty_chart > goods_qty_receive_chart)
-     //       {
-     //       	 Swal.fire("Info", "Jumlah retur melebihi jumlah penerimaan!", "error");
-     //       	  new_input.id = goods_id_chart;
-			  // new_input.qty = goods_qty_receive_chart;
-			  // new_input.qty_receive = goods_qty_receive_chart;
-			  // new_input.price = goods_price_chart;
-     //       }else {
            		// set new value to chart_goods array
 				new_input.id = goods_id_chart;
 				new_input.qty = goods_qty_chart;
 				new_input.qty_receive = goods_qty_receive_chart;
 				new_input.price = goods_price_chart;
 
-           // }
 
 			set_new_value(id,new_input);
 
@@ -413,7 +403,7 @@
 				show_chart_goods();
 				
 			}
-		}
+		} 
 
 	}
 
@@ -424,7 +414,7 @@
 		var supplier_id = $("#supplier_id").val();
 
 		$.get("<?=base_url()?>index.php/pembelian/get_goods_json/3",
-				{"id_supplier": supplier_id})
+				{"id_supplier": supplier_id}) 
 		.done(function( result){
 
 			var parse = jQuery.parseJSON(result);
@@ -435,7 +425,6 @@
 				
 				$.each(parse, function(id, val) {
 					
-					// goods+="<option value='"+val.id+"'>"+val.sku_code+"</option>";
 						goods_list+='<li class="navi-item nav-click" onclick="show_goods_detail('+val.id+')">';
 				        goods_list+='<span class="navi-link">';
 				        goods_list+='<div class="navi-text">';
@@ -466,12 +455,12 @@
 				{"supplier_id": supplier_id})
 		.done(function( result){
 
-			var parse = jQuery.parseJSON(result);
+			var parse = jQuery.parseJSON(result);console.log(parse);
 			var po = "";
 			$("#nro").html('<option value="">Data No PO Kosong</option>');
 			if (parse.length > 0) {
 
-				$("#nro").html('<option value="">Pilih No PO Kosong</option>');
+				$("#nro").html('<option value="">Pilih No PO</option>');
 
 				$.each(parse, function(id, val) {
 					// mencegah null
