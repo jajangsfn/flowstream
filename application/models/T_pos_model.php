@@ -90,6 +90,9 @@ class T_pos_model extends CI_Model
         $this->db->order_by("pos.id desc");
         if (!array_key_exists("id", $where)) {
             $where['pos.flag <>'] = 99;
+        } else {
+            $where['pos.id'] = $where['id'];
+            unset($where['id']);
         }
         $this->db->where($where);
         return $this->db->get();
@@ -114,7 +117,8 @@ class T_pos_model extends CI_Model
             m_goods.brand_description,
             m_goods.ratio_flag,
             m_unit.initial as unit_name,
-            m_unit.quantity as converted_quantity"
+            m_unit.quantity as converted_quantity,
+            m_goods.rekening_no"
         );
         $this->db->from("t_pos_detail");
         $this->db->join("m_goods", "m_goods.id = t_pos_detail.goods_id", "left");

@@ -974,42 +974,6 @@ class Api extends CI_Controller
             $this->pos->insert_detail($pos_det_data);
         }
 
-        // // add to journal
-        // $this->jurnal->insert(
-        //     array(
-        //         "jurnal_no",
-        //         "branch_id" => $_POST['branch_id'],
-        //         "invoice_no" => $_POST['invoice_no'],
-        //         "jurnal_date" => date("Y-m-d H:i:s"),
-        //         "carry_over",
-        //         "kurs" => 1,
-        //         "description",
-        //         "flag" => 1,
-        //         "username" => $this->session->username,
-        //         "created_date" => date("Y-m-d H:i:s"),
-        //         "updated_date",
-        //         "printed_date",
-        //         "printed_flag",
-        //         "registered_date",
-        //         "registered_flag" => $_POST['payment_total'] == $fullend_price ? "1" : 0,
-        //         "registered_user",
-        //         "registered_id",
-        //         "print_count",
-        //         "print_registered_count",
-        //         "re_printed_date",
-        //         "re_registered_date",
-        //         "cara_penerimaan" => $_POST['payment_method'],
-        //         "no_seri_pajak_dipungut",
-        //         "no_seri_pajak_ditanggung",
-        //         "bukti_pendukung",
-        //         "tanggal_pendukung",
-        //         "dpp_dipungut" => $fullprice,
-        //         "dpp_ditanggung",
-        //         "tipe_jurnal_id",
-        //         "mata_uang_id"
-        //     )
-        // );
-
         $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -1408,6 +1372,165 @@ class Api extends CI_Controller
             $_POST['data']
         );
         $this->session->set_flashdata("success", "Akun berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function cetak_faktur_pajak($id_pos)
+    {
+        // cari informasi pos nya
+        $pos_target = $this->pos->get_specific($id_pos);
+
+        // update flag pos jadi 10 (faktur pajak tercetak)
+        $this->pos->update(
+            array(
+                "id" => $pos_target->id
+            ),
+            array(
+                "flag" => 10
+            )
+        );
+
+        // buat nomor jurnal
+        $jurnal_no = $this->jurnal->get_next_jurnal_no($pos_target->branch_id);
+
+        $dpp = 0;
+        foreach ($pos_target->details as $pos_detail) {
+            $dpp += ($pos_detail->price * $pos_detail->quantity * (100 - $pos_detail->discount) / 100);
+            // buat detail jurnal untuk tiap barang
+            $this->jurnal->insert_detail(
+                array(
+                    "jurnal_no" => $jurnal_no,
+                    "acc_code" => $pos_detail->rekening_no,
+                    // "master_id",
+                    "invoice_no" => $pos_target->invoice_no,
+                    "debit" => 0,
+                    "credit" => $pos_detail->total,
+                    // "cost_center"
+                )
+            );
+        }
+
+        // buat detail jurnal untuk piutang
+        $this->jurnal->insert_detail_piutang(
+            $pos_target->branch_id,
+            array(
+                "jurnal_no" => $jurnal_no,
+                // "acc_code" diisi dari dalam model,
+                // "master_id",
+                "invoice_no" => $pos_target->invoice_no,
+                "debit" => $pos_target->payment_total,
+                "credit" => 0,
+                // "cost_center"
+            )
+        );
+
+        // buat jurnal awal
+        $this->jurnal->insert(
+            array(
+                "jurnal_no" => $jurnal_no,
+                "branch_id" => $pos_target->branch_id,
+                "invoice_no" => $pos_target->invoice_no,
+                "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
+                // "carry_over",
+                "kurs" => 1,
+                // "description",
+                "flag" => 1,
+                "username" => $this->session->username,
+                "created_date" => date("Y-m-d H:i:s"),
+                // "updated_date",
+                // "printed_date",
+                // "printed_flag",
+                // "registered_date",
+                "registered_flag" => $pos_target->payment_total == $pos_target->payment_paid ? "1" : 0,
+                // "registered_user",
+                // "registered_id",
+                // "print_count" => 1,
+                // "print_registered_count",
+                // "re_printed_date",
+                // "re_registered_date",
+                "cara_penerimaan" => $pos_target->payment_method,
+                // "no_seri_pajak_dipungut",
+                // "no_seri_pajak_ditanggung",
+                // "bukti_pendukung",
+                // "tanggal_pendukung",
+                "dpp_dipungut" => $dpp,
+                // "dpp_ditanggung",
+                // "tipe_jurnal_id",
+                // "mata_uang_id"
+            )
+        );
+
+
+        // jika sudah ada pembayaran (payment_paid != 0 atau is not null), buat jurnal baru
+        if ($pos_target->payment_paid) {
+            // buat nomor jurnal
+            $jurnal_no = $this->jurnal->get_next_jurnal_no($pos_target->branch_id);
+
+            $this->jurnal->insert(
+                array(
+                    "jurnal_no" => $jurnal_no,
+                    "branch_id" => $pos_target->branch_id,
+                    "invoice_no" => $pos_target->invoice_no,
+                    "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
+                    // "carry_over",
+                    "kurs" => 1,
+                    // "description",
+                    "flag" => 1,
+                    "username" => $this->session->username,
+                    "created_date" => date("Y-m-d H:i:s"),
+                    // "updated_date",
+                    // "printed_date",
+                    // "printed_flag",
+                    // "registered_date",
+                    "registered_flag" => 1, // flag registered auto 1 untuk pembayaran langsung
+                    // "registered_user",
+                    // "registered_id",
+                    // "print_count" => 1,
+                    // "print_registered_count",
+                    // "re_printed_date",
+                    // "re_registered_date",
+                    "cara_penerimaan" => $pos_target->payment_method,
+                    // "no_seri_pajak_dipungut",
+                    // "no_seri_pajak_ditanggung",
+                    // "bukti_pendukung",
+                    // "tanggal_pendukung",
+                    "dpp_dipungut" => $dpp,
+                    // "dpp_ditanggung",
+                    // "tipe_jurnal_id",
+                    // "mata_uang_id"
+                )
+            );
+
+            // buat detail jurnal untuk pembayaran piutang
+            $this->jurnal->insert_detail_piutang(
+                $pos_target->branch_id,
+                array(
+                    "jurnal_no" => $jurnal_no,
+                    // "acc_code" diisi dari dalam model,
+                    // "master_id",
+                    "invoice_no" => $pos_target->invoice_no,
+                    "debit" => 0,
+                    "credit" => $pos_target->payment_paid,
+                    // "cost_center"
+                )
+            );
+
+            // TODO: sekarang masih semuanya KAS
+            $this->jurnal->insert_detail_kas(
+                $pos_target->branch_id,
+                array(
+                    "jurnal_no" => $jurnal_no,
+                    // "acc_code" diisi dari dalam model,
+                    // "master_id",
+                    "invoice_no" => $pos_target->invoice_no,
+                    "debit" => $pos_target->payment_paid,
+                    "credit" => 0,
+                    // "cost_center"
+                )
+            );
+        }
+
+        $this->session->set_flashdata("success", "Faktur pajak berhasil dicetak");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }
