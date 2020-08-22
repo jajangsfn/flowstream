@@ -311,6 +311,11 @@ class Setting extends CI_Controller
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/akuntansi/akuntansi_js.php", $content, true);
                             break;
                         case 'kode_rekening':
+                            $content['accounts'] = $this->account->get(array(
+                                "branch_id" => $id,
+                                "is_active" => 1
+                            ))->result();
+                            
                             $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/kode_rekening/kode_rekening.php", $content, true);
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/kode_rekening/kode_rekening_js.php", $content, true);
                             break;

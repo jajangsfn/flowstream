@@ -30,6 +30,7 @@ class Api extends CI_Controller
                 "m_branch_model" => "branch",
                 "m_warehouse_model" => "warehouse",
                 "m_employee_model" => "employee",
+                "m_journal_mapping_model" => "jurnal_mapping",
                 "s_reference_model" => "reference",
                 "t_order_request_model" => "or",
                 "t_pos_model" => "pos",
@@ -1531,6 +1532,34 @@ class Api extends CI_Controller
         }
 
         $this->session->set_flashdata("success", "Faktur pajak berhasil dicetak");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function get_parameter_kode_rekening($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->jurnal_mapping->get(
+                    array(
+                        "m_journal_mapping.BRANCH_ID" => $branch_id
+                    )
+                )->result()
+            )
+        );
+    }
+
+    public function edit_parameter_kode_rekening()
+    {
+        $this->jurnal_mapping->update(
+            array(
+                "ID" => $_POST['id']
+            ),
+            array(
+                "ACCOUNT_CODE" => $_POST['ACCOUNT_CODE']
+            )
+        );
+
+        $this->session->set_flashdata("success", "Parameter Tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }

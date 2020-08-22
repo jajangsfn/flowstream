@@ -1,5 +1,4 @@
 <script>
-    console.log("<?= base_url("/index.php/api/barang_cabang/$data_branch->id") ?>");
     $(document).ready(() => {
         $("#master_barang_table").DataTable({
             responsive: true,
