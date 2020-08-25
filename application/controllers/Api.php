@@ -1562,4 +1562,104 @@ class Api extends CI_Controller
         $this->session->set_flashdata("success", "Parameter Tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
     }
+
+    public function get_uncomplete_invoice($partner_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->pos->get_uncomplete_invoice($partner_id)->result()
+            )
+        );
+    }
+
+    public function get_invoice_data($pos_id)
+    {
+        $return_value = $this->pos->get_invoice_data($pos_id)->row();
+        $return_value->pos_date = longdate_indo(date($return_value->pos_date));
+        $return_value->payment_total = str_replace(',', '', $return_value->payment_total);
+        $return_value->payment_total_str = "Rp " . number_format($return_value->payment_total, 2, ',', '.');
+        $return_value->terbayar_str = "Rp " . number_format($return_value->terbayar, 2, ',', '.');
+        $return_value->tagihan = $return_value->payment_total - $return_value->terbayar;
+        $return_value->tagihan_str = "Rp " . number_format($return_value->tagihan, 2, ',', '.');
+
+        echo json_encode(
+            array(
+                "data" => $return_value
+            )
+        );
+    }
+
+    public function pembayaran_piutang()
+    {
+        $branch_id = $this->session->userdata("branch_id");
+
+        // buat nomor jurnal
+        $jurnal_no = $this->jurnal->get_next_jurnal_no($branch_id);
+
+        $this->jurnal->insert(
+            array(
+                "jurnal_no" => $jurnal_no,
+                "branch_id" => $branch_id,
+                "invoice_no" => $_POST['invoice_no'],
+                "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
+                // "carry_over",
+                "kurs" => 1,
+                // "description",
+                "flag" => 1,
+                "username" => $this->session->username,
+                "created_date" => date("Y-m-d H:i:s"),
+                // "updated_date",
+                // "printed_date",
+                // "printed_flag",
+                // "registered_date",
+                "registered_flag" => 0, // flag registered 0 untuk pembayaran di menu keuangan
+                // "registered_user",
+                // "registered_id",
+                // "print_count" => 1,
+                // "print_registered_count",
+                // "re_printed_date",
+                // "re_registered_date",
+                // "cara_penerimaan",
+                // "no_seri_pajak_dipungut",
+                // "no_seri_pajak_ditanggung",
+                // "bukti_pendukung",
+                // "tanggal_pendukung",
+                // "dpp_dipungut",
+                // "dpp_ditanggung",
+                // "tipe_jurnal_id",
+                // "mata_uang_id"
+            )
+        );
+
+        // buat detail jurnal untuk pembayaran piutang
+        $this->jurnal->insert_detail_piutang(
+            $branch_id,
+            array(
+                "jurnal_no" => $jurnal_no,
+                // "acc_code" diisi dari dalam model,
+                // "master_id",
+                "invoice_no" => $_POST['invoice_no'],
+                "debit" => 0,
+                "credit" => $_POST['new_payment'],
+                // "cost_center"
+            )
+        );
+
+        // TODO: sekarang masih semuanya KAS
+        $this->jurnal->insert_detail_kas(
+            $branch_id,
+            array(
+                "jurnal_no" => $jurnal_no,
+                // "acc_code" diisi dari dalam model,
+                // "master_id",
+                "invoice_no" => $_POST['invoice_no'],
+                "debit" => $_POST['new_payment'],
+                "credit" => 0,
+                // "cost_center"
+            )
+        );
+
+        $this->session->set_flashdata("success", "Pembayaran telah tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }

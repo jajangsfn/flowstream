@@ -102,14 +102,25 @@ class T_jurnal_model extends CI_Model
 
     function insert_detail_kas($branch_id, $data)
     {
-        $queried =  $this->db->get_where(
-            "m_journal_mapping",
-            array(
-                "JOURNAL_CD" => "KAS",
-                "SEQ_LINE" => 1,
-                "BRANCH_ID" => $branch_id
-            )
-        );
+        if ($data['credit'] == 0) {
+            $queried =  $this->db->get_where(
+                "m_journal_mapping",
+                array(
+                    "JOURNAL_CD" => "KAS",
+                    "SEQ_LINE" => 1,
+                    "BRANCH_ID" => $branch_id
+                )
+            );
+        } else {
+            $queried =  $this->db->get_where(
+                "m_journal_mapping",
+                array(
+                    "JOURNAL_CD" => "KAS",
+                    "SEQ_LINE" => 2,
+                    "BRANCH_ID" => $branch_id
+                )
+            );
+        }
         if ($queried->num_rows()) {
             $data['acc_code'] = $queried->row()->ACCOUNT_CODE;
         } else {
