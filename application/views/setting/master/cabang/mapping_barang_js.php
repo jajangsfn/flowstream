@@ -3,7 +3,7 @@
     $(document).ready(function() {
         $.ajax({
             method: "get",
-            url: "<?= base_url("/index.php/api/barang_cabang/$data_branch->id") ?>",
+            url: "<?= base_url("/index.php/api/barang_cabang_data_only/$data_branch->id") ?>",
             success: function(result) {
                 for (let i = 0; i < result.data.length; i++) {
                     const focus = result.data[i];

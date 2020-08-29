@@ -1,6 +1,6 @@
-<?php if (count($customers) > 0) : ?>
+<?php if (false) : ?>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="card gutter-b">
                 <div class="card-body d-flex justify-content-center align-items-center">
                     <select class="select2" data-width="3500px" onchange="change_customer(this)">
@@ -52,7 +52,7 @@
     <div class="card">
         <div class="card-body text-center">
             <h5 class="text-success m-0">
-                Belum Terdapat Piutang untuk Dibayar
+                Work in Progress
             </h5>
         </div>
     </div>

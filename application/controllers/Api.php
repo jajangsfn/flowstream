@@ -1145,13 +1145,11 @@ class Api extends CI_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    function m_map_branch($branch_id)
+    function m_map_branch()
     {
         echo json_encode(
             array(
-                "data" => $this->m_map->get(
-                    array("branch_id" => $branch_id)
-                )->result()
+                "data" => $this->m_map->get()->result()
             )
         );
     }
