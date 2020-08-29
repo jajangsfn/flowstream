@@ -1,13 +1,13 @@
 <script>
     $(document).ready(() => {
-        $("#harga_barang_table").DataTable({
+        $("#diskon_barang_table").DataTable({
             responsive: true,
             paging_type: 'full_numbers',
             columnDefs: [{
                 responsivePriority: 1,
                 targets: 0
             }, ],
-            ajax: "<?= base_url("/index.php/api/barang_cabang_harga_only/$data_branch->id") ?>",
+            ajax: "<?= base_url("/index.php/api/barang_cabang_diskon_only/$data_branch->id") ?>",
             columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {
@@ -31,14 +31,14 @@
                     }
                 },
                 {
-                    data: 'default_price',
+                    data: 'default_discount',
                     render: function(data, type, row, meta) {
                         var toreturn = $(document.createElement("div")).append(
                             $(document.createElement("input"))
                             .attr("type", "number")
                             .addClass("form-control text-right")
                             .attr("style", "min-width: 120px")
-                            .attr("value", data)
+                            .attr("value", data ? data : 0)
                             .attr("onchange", `ubah_data(0, ${row.id}, this)`)
                             .attr("min", "1"),
                         )[0].outerHTML;
@@ -46,11 +46,11 @@
                     }
                 },
                 <?php for ($i = 1; $i <= 5; $i++) { ?> {
-                        data: 'price_<?= $i ?>',
+                        data: 'discount_<?= $i ?>',
                         render: function(data, type, row, meta) {
                             return `
                             <div>
-                                <input type="number" class="form-control text-right" style="min-width: 120px" value="${data}" onchange="ubah_data(<?= $i ?>, ${row.id}, this)" min="1">
+                                <input type="number" class="form-control text-right" style="min-width: 120px" value="${data ? data : 0}" onchange="ubah_data(<?= $i ?>, ${row.id}, this)" min="0" max="100">
                             </div>
                             `;
                         }
@@ -74,12 +74,12 @@
 
     function ubah_data(index_harga, id, element) {
         $.ajax({
-            url: "<?= base_url("/index.php/api/ubah_harga_barang") ?>",
+            url: "<?= base_url("/index.php/api/ubah_diskon_barang") ?>",
             method: "POST",
             data: {
                 id: id,
                 price_index: index_harga,
-                price: element.value
+                discount: element.value
             },
             success: function(response) {
                 $info = $(document.createElement("div")).css("position", "absolute").text("Saved!").css("transform", "translate(5px, 5px)").css("display", "none");
