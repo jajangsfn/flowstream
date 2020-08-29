@@ -28,6 +28,12 @@ class M_goods_model extends CI_Model
             ref11.price as price_3,
             ref12.price as price_4,
             ref13.price as price_5,
+            
+            ref9.discount_percent as discount_percent_1,
+            ref10.discount_percent as discount_percent_2,
+            ref11.discount_percent as discount_percent_3,
+            ref12.discount_percent as discount_percent_4,
+            ref13.discount_percent as discount_percent_5,
 
             ref7.quantity as converted_quantity
         ");
@@ -56,6 +62,19 @@ class M_goods_model extends CI_Model
         $this->db->order_by("m_goods.id desc");
 
         return $this->db->get();
+    }
+
+    function get_simple($branch_id)
+    {
+        return $this->db->query(
+            "SELECT
+                id,
+                brand_name,
+                brand_description,
+                barcode
+            FROM m_goods
+            WHERE branch_id = $branch_id"
+        );
     }
 
     function get_complete()
@@ -231,7 +250,7 @@ class M_goods_model extends CI_Model
         $this->db->from("m_partner tab1");
         $this->db->join("m_partner_salesman tab2", "tab2.partner_id=tab1.id", "left");
         $this->db->join("m_salesman_map tab3", "tab3.salesman_id=tab2.id", "left");
-        $this->db->join("m_goods tab4", "tab4.id=tab3.goods_id","left");
+        $this->db->join("m_goods tab4", "tab4.id=tab3.goods_id", "left");
         $this->db->join("m_branch tab5", "tab5.id=tab1.branch_id", "left");
         $this->db->where($where);
         $this->db->order_by("tab4.brand_description");

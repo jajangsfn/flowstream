@@ -142,6 +142,16 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
+    // Update 29 Agustus: spesifik ambil barang untuk POS dan OR customer
+    public function barang_for_customer()
+    {
+        echo json_encode(
+            array(
+                "data" => $this->goods->get_simple($_POST['branch_id'])->result()
+            )
+        );
+    }
+
     public function add_barang()
     {
         $entry_data = array(

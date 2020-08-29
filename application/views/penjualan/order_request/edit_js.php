@@ -13,44 +13,45 @@
 
                 // get list barang
                 $.ajax({
-                    method: "get",
-                    url: "<?= base_url("/index.php/api/barang_cabang/") ?>" + branch_id,
+                    method: "post",
+                    // 29 Agustus: ganti API get supaya lebih spesifik
+                    data: {
+                        "branch_id": branch_id
+                    },
+                    url: "<?= base_url("/index.php/api/barang_for_customer") ?>",
                     success: function(result) {
                         $("#order_request_col").addClass("col-lg-9").removeClass("col-lg-12");
                         $("#daftar_barang_col_lg").addClass("d-lg-block");
                         $(".goods_placement").empty();
+                        $("#pilih_barang_modal_toggle").removeClass("d-none").addClass("d-unset d-lg-none");
+                        var target = "";
                         for (let i = 0; i < result.data.length; i++) {
-                            const focus = result.data[i];
 
-                            const keyword = (focus.brand_name + focus.brand_description + focus.barcode).replace(/ /g, '').toLowerCase();
-                            const target = $(document.createElement("div"))
-                                .addClass("d-flex align-items-center justify-content-between mb-5 text-dark-75 text-hover-primary")
-                                .click(() => add_modal(focus.id))
-                                .attr("style", "cursor: pointer")
-                                .attr("data-keyword", keyword)
-                                .attr("data-id-barang-passable", focus.id)
-                                .append(
-                                    $(document.createElement("div"))
-                                    .addClass("d-flex justify-content-center flex-column mr-2")
-                                    .append(
-                                        $(document.createElement("div"))
-                                        .append(
-                                            $(document.createElement("span"))
-                                            .addClass("font-size-h6 font-weight-bolder")
-                                            .text(focus.brand_name)
-                                        ),
-                                        $(document.createElement("span"))
-                                        .text(focus.brand_description)
-                                    ),
-                                    $(document.createElement("button"))
-                                    .attr("type", "button")
-                                    .addClass("btn btn-white text-primary")
-                                    .append(
-                                        $(document.createElement("i")).addClass("fa text-primary fa-angle-right p-0")
-                                    )
-                                );
-                            $(".goods_placement").append(target)
+                            target +=
+                                `
+                                    <div 
+                                        class="d-flex align-items-center justify-content-between mb-5 text-dark-75 text-hover-primary"
+                                        onclick="add_modal(${result.data[i].id})"
+                                        style="cursor: pointer"
+                                        data-keyword="${result.data[i].brand_name + result.data[i].brand_description + result.data[i].barcode}
+                                        data-id-barang-passable="${result.data[i].id}"
+                                    >
+                                        <div class="d-flex justify-content-center flex-column mr-2">
+                                            <div>
+                                                <span class="font-size-h6 font-weight-bolder">${result.data[i].brand_name}</span>
+                                            </div>
+                                            <span>${result.data[i].brand_description}</span>
+                                        </div>
+                                        <button type="button" class="btn btn-white text-primary">
+                                            <i class="fa text-primary fa-angle-right p-0"></i>
+                                        </button>
+                                    </div>
+                                `
                         }
+                        $(".goods_placement").append(target)
+                    },
+                    error: function(err) {
+                        console.log(err.responseText);
                     }
                 })
             }
@@ -184,14 +185,13 @@
             $.ajax({
                 url: "<?= base_url("/index.php/api/get_barang/") ?>" + id,
                 success: function(response) {
-                    let price;
+                    let price = parseInt(response.data["default_price"]);;
+                    let discount = 0;
                     if (response.data["price_" + index_harga]) {
-                        price = response.data["price_" + index_harga];
-                    } else {
-                        price = response.data["default_price"];
+                        price = parseInt(response.data["price_" + index_harga]);
+                        discount = parseInt(response.data["discount_percent_" + index_harga]);
                     }
 
-                    price = price ? parseInt(price) : 0;
                     $jumlah_baru = $("#jumlah_tambah_baru").val();
 
                     // cek ratio_flag
@@ -261,7 +261,7 @@
                                 .attr("style", "width: 100%")
                                 .attr("id", "diskon_" + data.id)
                                 .attr("name", `barang[${data.id}][discount]`)
-                                .val(0)
+                                .val(discount)
                                 .attr("min", "0")
                                 .attr("max", "100")
                                 .change(() => hitung_ulang(data.id)),

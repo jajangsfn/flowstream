@@ -6,10 +6,6 @@
         $('.select2').select2({
             width: "100%"
         });
-        $('#pilih_customer').select2({
-            placeholder: "Pilih Customer",
-            width: "100%"
-        });
 
         $(".late_numeral").each(function() {
             $(this).text(
@@ -17,53 +13,50 @@
             );
         })
 
-        change_payment_method();
-
         branch_id = <?= $data_branch->id ?>;
         index_harga = <?= $data_pos->index_harga ?>;
         customer_id = <?= $data_pos->partner_id ?>;
 
         // get list barang
         $.ajax({
-            method: "get",
-            url: "<?= base_url("/index.php/api/barang_cabang/") ?>" + branch_id,
+            method: "post",
+            data: {
+                "branch_id": branch_id
+            },
+            url: "<?= base_url("/index.php/api/barang_for_customer") ?>",
             success: function(result) {
                 $("#order_request_col").addClass("col-lg-9").removeClass("col-lg-12");
                 $("#daftar_barang_col_lg").addClass("d-lg-block");
                 $(".goods_placement").empty();
                 $("#pilih_barang_modal_toggle").removeClass("d-none").addClass("d-unset d-lg-none");
+                var target = "";
                 for (let i = 0; i < result.data.length; i++) {
-                    const focus = result.data[i];
 
-                    const keyword = (focus.brand_name + focus.brand_description + focus.barcode).replace(/ /g, '').toLowerCase();
-                    const target = $(document.createElement("div"))
-                        .addClass("d-flex align-items-center justify-content-between mb-5 text-dark-75 text-hover-primary")
-                        .click(() => add_modal(focus.id))
-                        .attr("style", "cursor: pointer")
-                        .attr("data-keyword", keyword)
-                        .attr("data-id-barang-passable", focus.id)
-                        .append(
-                            $(document.createElement("div"))
-                            .addClass("d-flex justify-content-center flex-column mr-2")
-                            .append(
-                                $(document.createElement("div"))
-                                .append(
-                                    $(document.createElement("span"))
-                                    .addClass("font-size-h6 font-weight-bolder")
-                                    .text(focus.brand_name)
-                                ),
-                                $(document.createElement("span"))
-                                .text(focus.brand_description)
-                            ),
-                            $(document.createElement("button"))
-                            .attr("type", "button")
-                            .addClass("btn btn-white text-primary")
-                            .append(
-                                $(document.createElement("i")).addClass("fa text-primary fa-angle-right p-0")
-                            )
-                        );
-                    $(".goods_placement").append(target)
+                    target +=
+                        `
+                                    <div 
+                                        class="d-flex align-items-center justify-content-between mb-5 text-dark-75 text-hover-primary"
+                                        onclick="add_modal(${result.data[i].id})"
+                                        style="cursor: pointer"
+                                        data-keyword="${result.data[i].brand_name + result.data[i].brand_description + result.data[i].barcode}
+                                        data-id-barang-passable="${result.data[i].id}"
+                                    >
+                                        <div class="d-flex justify-content-center flex-column mr-2">
+                                            <div>
+                                                <span class="font-size-h6 font-weight-bolder">${result.data[i].brand_name}</span>
+                                            </div>
+                                            <span>${result.data[i].brand_description}</span>
+                                        </div>
+                                        <button type="button" class="btn btn-white text-primary">
+                                            <i class="fa text-primary fa-angle-right p-0"></i>
+                                        </button>
+                                    </div>
+                                `
                 }
+                $(".goods_placement").append(target);
+            },
+            error: function(err) {
+                console.log(err.responseText);
             }
         })
     });
@@ -123,9 +116,9 @@
         render_table_number();
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
-            $("#payment-button").removeAttr("disabled");
+            $("#submitButton").removeAttr("disabled");
         } else {
-            $("#payment-button").attr("disabled", "disabled");
+            $("#submitButton").attr("disabled", "disabled");
         }
     }
 
@@ -134,9 +127,9 @@
             $(elem).text(index + 1);
         })
         if ($("table#daftar_barang_order tbody th:first-child").length === 0) {
-            $("#payment-button").attr("disabled", "disabled");
+            $("#submitButton").attr("disabled", "disabled");
         } else {
-            $("#payment-button").removeAttr("disabled");
+            $("#submitButton").removeAttr("disabled");
         }
     }
 
@@ -165,9 +158,9 @@
         $("#total_pembayaran").val(numeral(110 * ($total_bersih + $subtotal_baru) / 100).format('0,[.]00'));
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
-            $("#payment-button").removeAttr("disabled");
+            $("#submitButton").removeAttr("disabled");
         } else {
-            $("#payment-button").attr("disabled", "disabled");
+            $("#submitButton").attr("disabled", "disabled");
         }
     }
 
@@ -211,14 +204,13 @@
             $.ajax({
                 url: "<?= base_url("/index.php/api/get_barang/") ?>" + id,
                 success: function(response) {
-                    let price;
+                    let price = parseInt(response.data["default_price"]);;
+                    let discount = 0;
                     if (response.data["price_" + index_harga]) {
-                        price = response.data["price_" + index_harga];
-                    } else {
-                        price = response.data["default_price"];
+                        price = parseInt(response.data["price_" + index_harga]);
+                        discount = parseInt(response.data["discount_percent_" + index_harga]);
                     }
 
-                    price = price ? parseInt(price) : 0;
                     $jumlah_baru = $("#jumlah_tambah_baru").val();
 
                     // cek ratio_flag
@@ -249,7 +241,7 @@
                                 $(document.createElement("input"))
                                 .attr("type", "hidden")
                                 .attr("name", `barang[${data.id}][goods_name]`)
-                                .attr("value", data.brand_name + " - " + data.brand_description)
+                                .attr("value", data.brand_name + " " + data.brand_description)
                             ),
 
                             // jumlah barang
@@ -287,7 +279,7 @@
                                 .attr("style", "width: 100%")
                                 .attr("id", "diskon_" + data.id)
                                 .attr("name", `barang[${data.id}][discount]`)
-                                .val(0)
+                                .val(discount)
                                 .attr("min", "0")
                                 .attr("max", "100")
                                 .change(() => hitung_ulang(data.id)),
@@ -314,7 +306,7 @@
                     $("#total_pembayaran").val(numeral(110 * ($total_sebelumnya + $subtotal_baru) / 100).format('0,[.]00'));
 
                     // tombol submit
-                    $("#payment-button").removeAttr("disabled");
+                    $("#submitButton").removeAttr("disabled");
                 }
             })
         }
@@ -367,19 +359,18 @@
         )
     }
 
-    function change_payment_method() {
-        switch ($("#payment_method").val()) {
-            case "CASH":
-                $("#nama_bank_cell").fadeOut();
-                $("#jumlah_bayar_cell").removeClass("col-lg-4").addClass("col-lg-6");
-                $("#payment_method_cell").removeClass("col-lg-4").addClass("col-lg-6");
-                break;
-            default:
-                $("#nama_bank_cell").fadeIn();
-                $("#jumlah_bayar_cell").removeClass("col-lg-6").addClass("col-lg-4");
-                $("#payment_method_cell").removeClass("col-lg-6").addClass("col-lg-4");
-                break;
-        }
+    function confirm_pos_submit() {
+        Swal.fire({
+            title: "Konfirmasi simpan POS?",
+            text: "Anda akan menyimpan POS ini",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Simpan!"
+        }).then(function(result) {
+            if (result.value) {
+                $("#pos_form").submit()
+            }
+        })
     }
 </script>
 

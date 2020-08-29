@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="col-lg-9" id="order_request_col">
-        <form class="card card-custom gutter-b" action="<?= base_url("/index.php/api/edit_pos") ?>" method="POST">
+        <form id="pos_form" class="card card-custom gutter-b" action="<?= base_url("/index.php/api/edit_pos") ?>" method="POST">
             <input type="hidden" name="id" value="<?= $data_pos->id ?>">
             <div class="card-header">
                 <div class="card-title">Point of Sales - <span id="pos_no" class="ml-2">Order No #<?= $data_pos->order_no ?></span></div>
@@ -83,8 +83,8 @@
                                         <input type="hidden" name="barang[<?= $detail->goods_id ?>][goods_id]" value="<?= $detail->goods_id ?>">
                                     </td>
                                     <td>
-                                        <div class="font-weight-bold"><?= substr($detail->goods_name, 0, strpos($detail->goods_name, " - "))  ?></div>
-                                        <div class="brand_description_show"><?= substr($detail->goods_name, strpos($detail->goods_name, " - ") + 3)  ?></div>
+                                        <div class="font-weight-bold"><?= substr($detail->goods_name, 0, strpos($detail->goods_name, " "))  ?></div>
+                                        <div class="brand_description_show"><?= substr($detail->goods_name, strpos($detail->goods_name, " ") + 1)  ?></div>
                                         <input type="hidden" name="barang[<?= $detail->goods_id ?>][goods_name]" value="<?= $detail->goods_name ?>">
                                     </td>
                                     <td style="width: 90px;">
@@ -152,7 +152,7 @@
                 </div>
             </div>
             <div class="card-footer text-right">
-                <button type="submit" id="payment-button" class="btn btn-primary"> Simpan Perubahan </button>
+                <button type="button" id="submitButton" onclick="confirm_pos_submit()" class="btn btn-primary"> Simpan Perubahan </button>
             </div>
         </form>
     </div>
