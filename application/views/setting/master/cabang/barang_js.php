@@ -18,7 +18,7 @@
                     orderable: false,
                 },
             ],
-            ajax: "<?= base_url("/index.php/api/barang_cabang/$data_branch->id") ?>",
+            ajax: "<?= base_url("/index.php/api/barang_cabang_data_only/$data_branch->id") ?>",
             columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {

@@ -11,6 +11,9 @@
             <a href="<?= base_url("/index.php/setting/master/cabang/$data_branch->id/barang/harga") ?>" class="btn btn-warning mr-3 font-weight-bolder">
                 <i class="la la-money"></i>Atur Harga Barang
             </a>
+            <a href="<?= base_url("/index.php/setting/master/cabang/$data_branch->id/barang/diskon") ?>" class="btn btn-warning mr-3 font-weight-bolder">
+                <i class="la la-percent"></i>Atur Diskon Barang
+            </a>
             <button type="button" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#tambahMasterBarangModal">
                 <i class="la la-plus"></i>Tambah Barang
             </button>

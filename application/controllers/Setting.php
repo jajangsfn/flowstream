@@ -81,9 +81,15 @@ class Setting extends CI_Controller
                         $data['back_url'] = base_url("/index.php/setting/master/cabang/$id/barang");
 
                         $data['page_title'] = "Atur Harga Barang " . $content['data_branch']->id;
-                        $data['transactional'] = true;
                         $data['page_content'] = $this->load->view("setting/master/cabang/harga", $content, true);
                         $data['page_js'] = $this->load->view("setting/master/cabang/harga_js", $content, true);
+                    } else if ($second_path == "diskon") {
+                        // pengaturan harga
+                        $data['back_url'] = base_url("/index.php/setting/master/cabang/$id/barang");
+
+                        $data['page_title'] = "Atur Diskon Barang " . $content['data_branch']->id;
+                        $data['page_content'] = $this->load->view("setting/master/cabang/diskon", $content, true);
+                        $data['page_js'] = $this->load->view("setting/master/cabang/diskon_js", $content, true);
                     } else {
                         // pengaturan barang
                         // get division, subdivision, category, subcategory, package, color for goods
@@ -107,7 +113,6 @@ class Setting extends CI_Controller
                     }
                     break;
                 case 'supplier':
-
                     if ($fourth_path) {
                         // data supplier nya
                         $content['data_supplier'] = $this->partner->get(
@@ -311,6 +316,11 @@ class Setting extends CI_Controller
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/akuntansi/akuntansi_js.php", $content, true);
                             break;
                         case 'kode_rekening':
+                            $content['accounts'] = $this->account->get(array(
+                                "branch_id" => $id,
+                                "is_active" => 1
+                            ))->result();
+
                             $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/kode_rekening/kode_rekening.php", $content, true);
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/kode_rekening/kode_rekening_js.php", $content, true);
                             break;

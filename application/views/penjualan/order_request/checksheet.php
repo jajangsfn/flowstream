@@ -1,4 +1,4 @@
-<form class="card card-custom gutter-b" action="<?= base_url("/index.php/api/save_checksheet/$data_or->id") ?>" method="POST">
+<form id="checksheet_form" class="card card-custom gutter-b" action="<?= base_url("/index.php/api/save_checksheet/$data_or->id") ?>" method="POST">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div class="card-title">Order Request</div>
         <!--begin::Daterange-->
@@ -50,23 +50,18 @@
                                 <?= $detail->quantity ?>
                             </td>
                             <td style="width: 70px;" class="text-center">
-                                <input type="number" name="barang[<?= $detail->goods_id ?>][available_quantity]" class="form-control text-center" value="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity * $detail->last_quantity : $detail->quantity  ?>" step="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>">
+                                <input type="number" name="barang[<?= $detail->goods_id ?>][available_quantity]" class="form-control text-center" value="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity * $detail->last_quantity : $detail->last_quantity  ?>" step="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>">
                             </td>
                             <td style="width: 70px;" class="text-center">
                                 <input type="number" name="barang[<?= $detail->goods_id ?>][quantity]" class="form-control text-center" id="jumlah_<?= $detail->goods_id ?>" value="<?php if ($detail->ratio_flag == 1) {
-                                                                                                                                                                                        echo min($detail->quantity, $detail->converted_quantity * $detail->last_quantity);
+                                                                                                                                                                                        echo min($detail->checksheet_qty ? $detail->checksheet_qty : $detail->quantity, $detail->converted_quantity * $detail->last_quantity);
                                                                                                                                                                                     } else {
-                                                                                                                                                                                        echo min($detail->quantity, $detail->last_quantity);
+                                                                                                                                                                                        echo min($detail->checksheet_qty ? $detail->checksheet_qty : $detail->quantity, $detail->last_quantity);
                                                                                                                                                                                     }
-                                                                                                                                                                                    ?>" min="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>" max="<?php if ($detail->ratio_flag == 1) {
-                                                                                                                                                                                                                                                                            echo $detail->converted_quantity * $detail->last_quantity;
-                                                                                                                                                                                                                                                                        } else {
-                                                                                                                                                                                                                                                                            echo $detail->last_quantity;
-                                                                                                                                                                                                                                                                        }
-                                                                                                                                                                                                                                                                        ?>" onchange="hitung_ulang(<?= $detail->goods_id ?>)" step="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>">
+                                                                                                                                                                                    ?>" min="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 0 ?>" onchange="hitung_ulang(<?= $detail->goods_id ?>)" step="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>">
                             </td>
                             <td>
-                                <?= $detail->ratio_flag == 1 ? "PCS" : $detail->unit_name ?>
+                                <?= $detail->ratio_flag == 1 ? "PCS" : $detail->unit_initial ?>
                             </td>
                             <td class="text-center">
                                 <button class="btn btn-icon btn-light btn-hover-primary btn-sm" type="button" onclick="delete_baris(<?= $detail->goods_id ?>)">
