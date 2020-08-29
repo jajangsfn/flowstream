@@ -2436,7 +2436,6 @@ class pdf
 
 				// check checksheet qty
 				$checksheet_qty = $val['checksheet_qty']!= "" ? number_format($val['checksheet_qty']) : '';
-				
 
 				$total = $val['price'] * $val['quantity'] - ( ($val['price'] * $val['quantity'] * $val['discount']) / 100);
 				$grant_total+=$total;
