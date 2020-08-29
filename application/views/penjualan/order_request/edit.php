@@ -71,7 +71,8 @@
                                         <input type="hidden" name="barang[<?= $detail->goods_id ?>][goods_id]" value="<?= $detail->goods_id ?>">
                                     </td>
                                     <td>
-                                        <div><?= $detail->brand_description ?></div>
+                                        <div class="font-weight-bold"><?= substr($detail->goods_name, 0, strpos($detail->goods_name, " "))  ?></div>
+                                        <div class="brand_description_show"><?= substr($detail->goods_name, strpos($detail->goods_name, " ") + 1)  ?></div>
                                         <input type="hidden" name="barang[<?= $detail->goods_id ?>][goods_name]" value="<?= $detail->goods_name ?>">
                                     </td>
                                     <td style="width: 90px;">
@@ -109,28 +110,34 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="text-right">
-                    <p class="text-right m-0">
-                        Subtotal <span id="total_harga_order">
-                            <?php
-                            $subtotal = 0;
-                            foreach ($data_or->details as $detail) {
-                                $subtotal += ($detail->quantity * $detail->price * (1 - $detail->discount / 100));
-                            }
-                            echo $subtotal;
-                            ?>
-                        </span>
-                    </p>
-                    <p class="text-right m-0">
-                        Pajak <span id="tax_price">
-                            <?= 10 * $subtotal / 100 ?>
-                        </span>
-                    </p>
-                    <h5 class="text-right font-weight-bold">
-                        Total <span id="total_harga_order_tax">
-                            <?= 110 * $subtotal / 100 ?>
-                        </span>
-                    </h5>
+                <div class="d-flex justify-content-between">
+                    <label class="checkbox">
+                        <input type="checkbox" checked="checked" onchange="toggleshow()" /> Tampilkan Deskripsi Barang
+                        <span></span>
+                    </label>
+                    <div class="text-right">
+                        <p class="text-right m-0">
+                            Subtotal <span id="total_harga_order">
+                                <?php
+                                $subtotal = 0;
+                                foreach ($data_or->details as $detail) {
+                                    $subtotal += ($detail->quantity * $detail->price * (1 - $detail->discount / 100));
+                                }
+                                echo $subtotal;
+                                ?>
+                            </span>
+                        </p>
+                        <p class="text-right m-0">
+                            Pajak <span id="tax_price">
+                                <?= 10 * $subtotal / 100 ?>
+                            </span>
+                        </p>
+                        <h5 class="text-right font-weight-bold">
+                            Total <span id="total_harga_order_tax">
+                                <?= 110 * $subtotal / 100 ?>
+                            </span>
+                        </h5>
+                    </div>
                 </div>
             </div>
             <div class="card-footer text-right">

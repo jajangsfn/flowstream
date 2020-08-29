@@ -208,14 +208,13 @@
             $.ajax({
                 url: "<?= base_url("/index.php/api/get_barang/") ?>" + id,
                 success: function(response) {
-                    let price;
+                    let price = parseInt(response.data["default_price"]);;
+                    let discount = 0;
                     if (response.data["price_" + index_harga]) {
-                        price = response.data["price_" + index_harga];
-                    } else {
-                        price = response.data["default_price"];
+                        price = parseInt(response.data["price_" + index_harga]);
+                        discount = parseInt(response.data["discount_percent_" + index_harga]);
                     }
 
-                    price = price ? parseInt(price) : 0;
                     $jumlah_baru = $("#jumlah_tambah_baru").val();
 
                     // cek ratio_flag
@@ -285,7 +284,7 @@
                                 .attr("style", "width: 100%")
                                 .attr("id", "diskon_" + data.id)
                                 .attr("name", `barang[${data.id}][discount]`)
-                                .val(0)
+                                .val(discount)
                                 .attr("min", "0")
                                 .attr("max", "100")
                                 .change(() => hitung_ulang(data.id)),

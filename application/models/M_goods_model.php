@@ -28,6 +28,12 @@ class M_goods_model extends CI_Model
             ref11.price as price_3,
             ref12.price as price_4,
             ref13.price as price_5,
+            
+            ref9.discount_percent as discount_percent_1,
+            ref10.discount_percent as discount_percent_2,
+            ref11.discount_percent as discount_percent_3,
+            ref12.discount_percent as discount_percent_4,
+            ref13.discount_percent as discount_percent_5,
 
             ref7.quantity as converted_quantity
         ");
