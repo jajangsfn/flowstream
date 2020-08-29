@@ -1,4 +1,4 @@
-<?php if (false) : ?>
+<?php if (count($customers) > 0) : ?>
     <div class="row">
         <div class="col-md-12">
             <div class="card gutter-b">
@@ -12,15 +12,23 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6" id="invoice_cell" style="display: none;">
+        <div class="col-md-12" id="invoice_cell" style="display: none;">
             <div class="card">
                 <div class="card-body">
-                    <select id="invoices" class="select2" data-width="100%" onchange="select_invoice_number(this)">
-                        <option label="" value="" selected disabled>Pilih Customer</option>
-                        <?php foreach ($customers as $customer) : ?>
-                            <option value="<?= $customer->id ?>"><?= $customer->name ?></option>
-                        <?php endforeach ?>
-                    </select>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Invoice No</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoice_list">
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,8 +60,24 @@
     <div class="card">
         <div class="card-body text-center">
             <h5 class="text-success m-0">
-                Work in Progress
+                Belum Terdapat Piutang untuk Dibayar
             </h5>
         </div>
     </div>
 <?php endif ?>
+
+<div class="modal fade" id="tpp_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pembayaran Piutang</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+            
+            </div>
+        </div>
+    </div>
+</div>

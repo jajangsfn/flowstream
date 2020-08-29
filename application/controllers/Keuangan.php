@@ -14,8 +14,9 @@ class Keuangan extends CI_Controller
         }
         $this->load->model(
             array(
-                "user_model" => "user_m",
-                "m_partner_model" => "partner",
+                "User_model" => "user_m",
+                "M_partner_model" => "partner",
+                "Keuangan_model" => "keumod"
             )
         );
         $this->lang->load('menu_lang', 'indonesian');
@@ -100,7 +101,7 @@ class Keuangan extends CI_Controller
     private function piutang()
     {
         // Tampilkan seluruh client yang punya invoice
-        $content["customers"] = $this->partner->get_customer_with_invoice()->result();
+        $content["customers"] = $this->keumod->get_customer_with_invoice_piutang()->result();
 
         $data['page_title'] = "Pembayaran Piutang";
         $data['page_content'] = $this->load->view("keuangan/pembayaran/piutang", $content, true);

@@ -7,14 +7,25 @@
         $.ajax({
             url: "<?= base_url("/index.php/api/get_uncomplete_invoice/") ?>" + $(e).val(),
             success: function(result) {
-                console.log(result.data);
-                $("#invoices").empty();
-                $("#invoices").append(
-                    `<option label="" value="" selected disabled>Pilih Invoice</option>`
-                )
+                $("#invoice_list").empty();
+
                 for (let i = 0; i < result.data.length; i++) {
-                    $("#invoices").append(
-                        `<option value="${result.data[i].id}">${result.data[i].invoice_no}</option>`
+                    $("#invoice_list").append(
+                        `
+                            <tr>
+                                <td>${i + 1}</td>
+                                <td>
+                                    <a href="<?= base_url("/index.php/penjualan/order_request/view/") ?>${result.data[i].pos_id}">
+                                        ${result.data[i].invoice_no}
+                                    </a>
+                                </td>
+                                <td>
+                                    <button type="button" onclick="init_bayar(${result.data[i].id})" class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" data-placement="top" title="Pembayaran">
+                                        <i class="flaticon2-graph-1"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `
                     )
                 }
 
@@ -26,66 +37,8 @@
         })
     }
 
-    function select_invoice_number(e) {
-        $(".after_invoice_cell").fadeOut();
-
-        // tampilkan informasi transaksi
-        $.ajax({
-            url: "<?= base_url("/index.php/api/get_invoice_data/") ?>" + $(e).val(),
-            success: function(result) {
-                console.log(result.data);
-                $(".after_invoice_cell").fadeIn();
-                $("#detail_table").empty();
-                $("#detail_table").append(
-                    $(document.createElement("tr")).append(
-                        $(document.createElement("td")).addClass("font-weight-bold pr-20").text("Tanggal Transaksi"),
-                        $(document.createElement("td")).text(result.data.pos_date),
-                    )
-                )
-                $("#detail_table").append(
-                    $(document.createElement("tr")).append(
-                        $(document.createElement("td")).addClass("font-weight-bold pr-20").text("Metode Pembayaran"),
-                        $(document.createElement("td")).text(result.data.payment_method),
-                    )
-                )
-                if (result.data.payment_method == "TRANSFER") {
-                    $("#detail_table").append(
-                        $(document.createElement("tr")).append(
-                            $(document.createElement("td")).addClass("font-weight-bold pr-20").text("Bank"),
-                            $(document.createElement("td")).text(result.data.bank),
-                        )
-                    )
-                }
-                $("#detail_table").append(
-                    $(document.createElement("tr")).append(
-                        $(document.createElement("td")).addClass("font-weight-bold pr-20").text("Total Harga"),
-                        $(document.createElement("td")).text(result.data.payment_total_str),
-                    )
-                );
-
-                $("#detail_table").append(
-                    $(document.createElement("tr")).append(
-                        $(document.createElement("td")).addClass("font-weight-bold pr-20").text("Terbayar"),
-                        $(document.createElement("td")).text(result.data.terbayar_str),
-                    )
-                );
-
-                $("#detail_table").append(
-                    $(document.createElement("tr")).append(
-                        $(document.createElement("td")).addClass("font-weight-bold pr-20").text("Sisa Tagihan"),
-                        $(document.createElement("td")).text(result.data.tagihan_str),
-                    )
-                );
-
-                $("#new_payment").attr("max", result.data.tagihan)
-
-                $("#invoice_no_input").val(result.data.invoice_no);
-
-            },
-            error: function(err) {
-                console.log(err.responseText);
-            }
-        })
+    function init_bayar(tpp_id) {
+        $("#tpp_modal").modal("show");
     }
 
     function formatDate(date) {
