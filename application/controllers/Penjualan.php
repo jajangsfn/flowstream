@@ -165,6 +165,13 @@ class Penjualan extends CI_Controller
 
                 );
             } 
+<<<<<<< Updated upstream
+=======
+
+
+       // echo json_encode($data);exit;
+        $type_print = $type == 1 ?  "order_request_out" : "checksheet_out";
+>>>>>>> Stashed changes
 
             $type_print = $type == 1 ?  "order_request_out" : "checksheet_out";
 
