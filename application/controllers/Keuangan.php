@@ -14,7 +14,8 @@ class Keuangan extends CI_Controller
         }
         $this->load->model(
             array(
-                "user_model" => "user_m"
+                "user_model" => "user_m",
+                "m_partner_model" => "partner",
             )
         );
         $this->lang->load('menu_lang', 'indonesian');
@@ -81,25 +82,31 @@ class Keuangan extends CI_Controller
     {
         switch ($path) {
             case 'piutang':
-                $this->piutang();
+                $data = $this->piutang();
                 break;
             case 'hutang':
-                $this->hutang();
+                $data = $this->hutang();
                 break;
 
             default:
+                $data = array();
                 break;
         }
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
     }
 
     private function piutang()
     {
-        $data['page_title'] = "Pembayaran Piutang";
-        $data['page_content'] = $this->load->view("keuangan/pembayaran/piutang", "", true);
+        // Tampilkan seluruh client yang punya invoice
+        $content["customers"] = $this->partner->get_customer_with_invoice()->result();
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        $data['page_title'] = "Pembayaran Piutang";
+        $data['page_content'] = $this->load->view("keuangan/pembayaran/piutang", $content, true);
+        $data['page_js'] = $this->load->view("keuangan/pembayaran/piutang_js", "", true);
+
+        return $data;
     }
 
     private function hutang()
@@ -107,9 +114,7 @@ class Keuangan extends CI_Controller
         $data['page_title'] = "Pembayaran Hutang";
         $data['page_content'] = $this->load->view("keuangan/pembayaran/hutang", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     public function jurnal($path)

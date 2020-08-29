@@ -30,6 +30,7 @@ class Api extends CI_Controller
                 "m_branch_model" => "branch",
                 "m_warehouse_model" => "warehouse",
                 "m_employee_model" => "employee",
+                "m_journal_mapping_model" => "jurnal_mapping",
                 "s_reference_model" => "reference",
                 "t_order_request_model" => "or",
                 "t_pos_model" => "pos",
@@ -1042,42 +1043,6 @@ class Api extends CI_Controller
             $this->pos->insert_detail($pos_det_data);
         }
 
-        // // add to journal
-        // $this->jurnal->insert(
-        //     array(
-        //         "jurnal_no",
-        //         "branch_id" => $_POST['branch_id'],
-        //         "invoice_no" => $_POST['invoice_no'],
-        //         "jurnal_date" => date("Y-m-d H:i:s"),
-        //         "carry_over",
-        //         "kurs" => 1,
-        //         "description",
-        //         "flag" => 1,
-        //         "username" => $this->session->username,
-        //         "created_date" => date("Y-m-d H:i:s"),
-        //         "updated_date",
-        //         "printed_date",
-        //         "printed_flag",
-        //         "registered_date",
-        //         "registered_flag" => $_POST['payment_total'] == $fullend_price ? "1" : 0,
-        //         "registered_user",
-        //         "registered_id",
-        //         "print_count",
-        //         "print_registered_count",
-        //         "re_printed_date",
-        //         "re_registered_date",
-        //         "cara_penerimaan" => $_POST['payment_method'],
-        //         "no_seri_pajak_dipungut",
-        //         "no_seri_pajak_ditanggung",
-        //         "bukti_pendukung",
-        //         "tanggal_pendukung",
-        //         "dpp_dipungut" => $fullprice,
-        //         "dpp_ditanggung",
-        //         "tipe_jurnal_id",
-        //         "mata_uang_id"
-        //     )
-        // );
-
         $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -1476,6 +1441,293 @@ class Api extends CI_Controller
             $_POST['data']
         );
         $this->session->set_flashdata("success", "Akun berhasil diperbarui");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function cetak_faktur_pajak($id_pos)
+    {
+        // cari informasi pos nya
+        $pos_target = $this->pos->get_specific($id_pos);
+
+        // update flag pos jadi 10 (faktur pajak tercetak)
+        $this->pos->update(
+            array(
+                "id" => $pos_target->id
+            ),
+            array(
+                "flag" => 10
+            )
+        );
+
+        // buat nomor jurnal
+        $jurnal_no = $this->jurnal->get_next_jurnal_no($pos_target->branch_id);
+
+        $dpp = 0;
+        foreach ($pos_target->details as $pos_detail) {
+            $dpp += ($pos_detail->price * $pos_detail->quantity * (100 - $pos_detail->discount) / 100);
+            // buat detail jurnal untuk tiap barang
+            $this->jurnal->insert_detail(
+                array(
+                    "jurnal_no" => $jurnal_no,
+                    "acc_code" => $pos_detail->rekening_no,
+                    // "master_id",
+                    "invoice_no" => $pos_target->invoice_no,
+                    "debit" => 0,
+                    "credit" => $pos_detail->total,
+                    // "cost_center"
+                )
+            );
+        }
+
+        // buat detail jurnal untuk piutang
+        $this->jurnal->insert_detail_piutang(
+            $pos_target->branch_id,
+            array(
+                "jurnal_no" => $jurnal_no,
+                // "acc_code" diisi dari dalam model,
+                // "master_id",
+                "invoice_no" => $pos_target->invoice_no,
+                "debit" => $pos_target->payment_total,
+                "credit" => 0,
+                // "cost_center"
+            )
+        );
+
+        // buat jurnal awal
+        $this->jurnal->insert(
+            array(
+                "jurnal_no" => $jurnal_no,
+                "branch_id" => $pos_target->branch_id,
+                "invoice_no" => $pos_target->invoice_no,
+                "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
+                // "carry_over",
+                "kurs" => 1,
+                // "description",
+                "flag" => 1,
+                "username" => $this->session->username,
+                "created_date" => date("Y-m-d H:i:s"),
+                // "updated_date",
+                // "printed_date",
+                // "printed_flag",
+                // "registered_date",
+                "registered_flag" => $pos_target->payment_total == $pos_target->payment_paid ? "1" : 0,
+                // "registered_user",
+                // "registered_id",
+                // "print_count" => 1,
+                // "print_registered_count",
+                // "re_printed_date",
+                // "re_registered_date",
+                "cara_penerimaan" => $pos_target->payment_method,
+                // "no_seri_pajak_dipungut",
+                // "no_seri_pajak_ditanggung",
+                // "bukti_pendukung",
+                // "tanggal_pendukung",
+                "dpp_dipungut" => $dpp,
+                // "dpp_ditanggung",
+                // "tipe_jurnal_id",
+                // "mata_uang_id"
+            )
+        );
+
+
+        // jika sudah ada pembayaran (payment_paid != 0 atau is not null), buat jurnal baru
+        if ($pos_target->payment_paid) {
+            // buat nomor jurnal
+            $jurnal_no = $this->jurnal->get_next_jurnal_no($pos_target->branch_id);
+
+            $this->jurnal->insert(
+                array(
+                    "jurnal_no" => $jurnal_no,
+                    "branch_id" => $pos_target->branch_id,
+                    "invoice_no" => $pos_target->invoice_no,
+                    "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
+                    // "carry_over",
+                    "kurs" => 1,
+                    // "description",
+                    "flag" => 1,
+                    "username" => $this->session->username,
+                    "created_date" => date("Y-m-d H:i:s"),
+                    // "updated_date",
+                    // "printed_date",
+                    // "printed_flag",
+                    // "registered_date",
+                    "registered_flag" => 1, // flag registered auto 1 untuk pembayaran langsung
+                    // "registered_user",
+                    // "registered_id",
+                    // "print_count" => 1,
+                    // "print_registered_count",
+                    // "re_printed_date",
+                    // "re_registered_date",
+                    "cara_penerimaan" => $pos_target->payment_method,
+                    // "no_seri_pajak_dipungut",
+                    // "no_seri_pajak_ditanggung",
+                    // "bukti_pendukung",
+                    // "tanggal_pendukung",
+                    "dpp_dipungut" => $dpp,
+                    // "dpp_ditanggung",
+                    // "tipe_jurnal_id",
+                    // "mata_uang_id"
+                )
+            );
+
+            // buat detail jurnal untuk pembayaran piutang
+            $this->jurnal->insert_detail_piutang(
+                $pos_target->branch_id,
+                array(
+                    "jurnal_no" => $jurnal_no,
+                    // "acc_code" diisi dari dalam model,
+                    // "master_id",
+                    "invoice_no" => $pos_target->invoice_no,
+                    "debit" => 0,
+                    "credit" => $pos_target->payment_paid,
+                    // "cost_center"
+                )
+            );
+
+            // TODO: sekarang masih semuanya KAS
+            $this->jurnal->insert_detail_kas(
+                $pos_target->branch_id,
+                array(
+                    "jurnal_no" => $jurnal_no,
+                    // "acc_code" diisi dari dalam model,
+                    // "master_id",
+                    "invoice_no" => $pos_target->invoice_no,
+                    "debit" => $pos_target->payment_paid,
+                    "credit" => 0,
+                    // "cost_center"
+                )
+            );
+        }
+
+        $this->session->set_flashdata("success", "Faktur pajak berhasil dicetak");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function get_parameter_kode_rekening($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->jurnal_mapping->get(
+                    array(
+                        "m_journal_mapping.BRANCH_ID" => $branch_id
+                    )
+                )->result()
+            )
+        );
+    }
+
+    public function edit_parameter_kode_rekening()
+    {
+        $this->jurnal_mapping->update(
+            array(
+                "ID" => $_POST['id']
+            ),
+            array(
+                "ACCOUNT_CODE" => $_POST['ACCOUNT_CODE']
+            )
+        );
+
+        $this->session->set_flashdata("success", "Parameter Tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function get_uncomplete_invoice($partner_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->pos->get_uncomplete_invoice($partner_id)->result()
+            )
+        );
+    }
+
+    public function get_invoice_data($pos_id)
+    {
+        $return_value = $this->pos->get_invoice_data($pos_id)->row();
+        $return_value->pos_date = longdate_indo(date($return_value->pos_date));
+        $return_value->payment_total = str_replace(',', '', $return_value->payment_total);
+        $return_value->payment_total_str = "Rp " . number_format($return_value->payment_total, 2, ',', '.');
+        $return_value->terbayar_str = "Rp " . number_format($return_value->terbayar, 2, ',', '.');
+        $return_value->tagihan = $return_value->payment_total - $return_value->terbayar;
+        $return_value->tagihan_str = "Rp " . number_format($return_value->tagihan, 2, ',', '.');
+
+        echo json_encode(
+            array(
+                "data" => $return_value
+            )
+        );
+    }
+
+    public function pembayaran_piutang()
+    {
+        $branch_id = $this->session->userdata("branch_id");
+
+        // buat nomor jurnal
+        $jurnal_no = $this->jurnal->get_next_jurnal_no($branch_id);
+
+        $this->jurnal->insert(
+            array(
+                "jurnal_no" => $jurnal_no,
+                "branch_id" => $branch_id,
+                "invoice_no" => $_POST['invoice_no'],
+                "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
+                // "carry_over",
+                "kurs" => 1,
+                // "description",
+                "flag" => 1,
+                "username" => $this->session->username,
+                "created_date" => date("Y-m-d H:i:s"),
+                // "updated_date",
+                // "printed_date",
+                // "printed_flag",
+                // "registered_date",
+                "registered_flag" => 0, // flag registered 0 untuk pembayaran di menu keuangan
+                // "registered_user",
+                // "registered_id",
+                // "print_count" => 1,
+                // "print_registered_count",
+                // "re_printed_date",
+                // "re_registered_date",
+                // "cara_penerimaan",
+                // "no_seri_pajak_dipungut",
+                // "no_seri_pajak_ditanggung",
+                // "bukti_pendukung",
+                // "tanggal_pendukung",
+                // "dpp_dipungut",
+                // "dpp_ditanggung",
+                // "tipe_jurnal_id",
+                // "mata_uang_id"
+            )
+        );
+
+        // buat detail jurnal untuk pembayaran piutang
+        $this->jurnal->insert_detail_piutang(
+            $branch_id,
+            array(
+                "jurnal_no" => $jurnal_no,
+                // "acc_code" diisi dari dalam model,
+                // "master_id",
+                "invoice_no" => $_POST['invoice_no'],
+                "debit" => 0,
+                "credit" => $_POST['new_payment'],
+                // "cost_center"
+            )
+        );
+
+        // TODO: sekarang masih semuanya KAS
+        $this->jurnal->insert_detail_kas(
+            $branch_id,
+            array(
+                "jurnal_no" => $jurnal_no,
+                // "acc_code" diisi dari dalam model,
+                // "master_id",
+                "invoice_no" => $_POST['invoice_no'],
+                "debit" => $_POST['new_payment'],
+                "credit" => 0,
+                // "cost_center"
+            )
+        );
+
+        $this->session->set_flashdata("success", "Pembayaran telah tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }

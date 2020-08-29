@@ -137,7 +137,7 @@
             confirmButtonText: "Ya, Cetak!"
         }).then(function(result) {
             if (result.value) {
-                Swal.fire("Belum Terimplementasi");
+                window.location.href = "<?= base_url("/index.php/api/cetak_faktur_pajak/") ?>" + id;
             }
         })
     }

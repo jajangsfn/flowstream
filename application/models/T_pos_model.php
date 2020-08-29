@@ -90,6 +90,9 @@ class T_pos_model extends CI_Model
         $this->db->order_by("pos.id desc");
         if (!array_key_exists("id", $where)) {
             $where['pos.flag <>'] = 99;
+        } else {
+            $where['pos.id'] = $where['id'];
+            unset($where['id']);
         }
         $this->db->where($where);
         return $this->db->get();
@@ -114,7 +117,8 @@ class T_pos_model extends CI_Model
             m_goods.brand_description,
             m_goods.ratio_flag,
             m_unit.initial as unit_name,
-            m_unit.quantity as converted_quantity"
+            m_unit.quantity as converted_quantity,
+            m_goods.rekening_no"
         );
         $this->db->from("t_pos_detail");
         $this->db->join("m_goods", "m_goods.id = t_pos_detail.goods_id", "left");
@@ -178,5 +182,61 @@ class T_pos_model extends CI_Model
 
         $this->db->where($where);
         return $this->db->get();
+    }
+
+    // ambil semua invoice yang belum lunas untuk partner dengan id
+    function get_uncomplete_invoice($partner_id)
+    {
+        $branch_id = $this->session->userdata("branch_id");
+
+        return $this->db->query(
+            "SELECT
+                t_pos.id,
+                t_pos.invoice_no,
+                t_pos.payment_total,
+                SUM(innerdet.debit)
+            FROM t_pos
+            
+            LEFT JOIN (
+                SELECT innerdet.debit, innerdet.invoice_no
+                FROM t_jurnal_detail innerdet 
+                WHERE innerdet.acc_code = 
+                    (
+                        SELECT ACCOUNT_CODE FROM m_journal_mapping WHERE JOURNAL_CD = 'KAS' AND BRANCH_ID = $branch_id AND SEQ_LINE = 2
+                    )
+            ) innerdet on innerdet.invoice_no = t_pos.invoice_no
+                    
+            WHERE t_pos.partner_id = $partner_id 
+            GROUP BY t_pos.id
+            HAVING SUM(innerdet.debit) is null or SUM(innerdet.debit) < t_pos.payment_total"
+        );
+        return $this->db->get();
+    }
+
+    function get_invoice_data($pos_id)
+    {
+        $branch_id = $this->session->userdata("branch_id");
+        return $this->db->query(
+            "SELECT
+                t_pos.payment_method,
+                t_pos.bank,
+                DATE(t_pos.pos_date) as pos_date,
+                t_pos.payment_total,
+                SUM(t_jurnal_detail.debit) as terbayar,
+                t_pos.invoice_no
+
+            FROM t_pos
+            LEFT JOIN t_jurnal_detail on t_jurnal_detail.invoice_no = t_pos.invoice_no
+            WHERE t_pos.id = $pos_id AND 
+                (
+                    t_jurnal_detail.acc_code = 
+                    (
+                        SELECT ACCOUNT_CODE FROM m_journal_mapping WHERE JOURNAL_CD = 'KAS' AND BRANCH_ID = $branch_id AND SEQ_LINE = 2
+                    )
+                    OR t_jurnal_detail.id IS NULL
+                )
+            GROUP BY t_pos.id
+            "
+        );;
     }
 }

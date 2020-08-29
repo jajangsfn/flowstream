@@ -171,7 +171,6 @@ class M_goods_model extends CI_Model
         return $this->db->get();
     }
 
-
     function get_simple($branch_id)
     {
         return $this->db->query(

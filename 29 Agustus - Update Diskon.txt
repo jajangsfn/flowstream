@@ -1,7 +1,3 @@
-
-ALTER TABLE `m_price_alternate` ADD `discount_percent` INT(3) NULL DEFAULT '0' AFTER `price_index`;
-
 ALTER TABLE `m_price_alternate` ADD `discount_percent` INT(3) NULL DEFAULT '0' AFTER `price_index`;
 
 ALTER TABLE `t_checksheet` CHANGE `created_date` `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
-
