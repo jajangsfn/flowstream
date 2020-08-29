@@ -54,11 +54,11 @@
                             </td>
                             <td style="width: 70px;" class="text-center">
                                 <input type="number" name="barang[<?= $detail->goods_id ?>][quantity]" class="form-control text-center" id="jumlah_<?= $detail->goods_id ?>" value="<?php if ($detail->ratio_flag == 1) {
-                                                                                                                                                                                        echo min($detail->checksheet_qty ? $detail->checksheet_qty : $detail->quantity, $detail->converted_quantity * $detail->last_quantity);
+                                                                                                                                                                                        echo $detail->checksheet_qty ? $detail->checksheet_qty : min($detail->quantity, $detail->converted_quantity * $detail->last_quantity);
                                                                                                                                                                                     } else {
-                                                                                                                                                                                        echo min($detail->checksheet_qty ? $detail->checksheet_qty : $detail->quantity, $detail->last_quantity);
+                                                                                                                                                                                        echo $detail->checksheet_qty ? $detail->checksheet_qty : min($detail->quantity, $detail->last_quantity);
                                                                                                                                                                                     }
-                                                                                                                                                                                    ?>" min="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 0 ?>" onchange="hitung_ulang(<?= $detail->goods_id ?>)" step="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>">
+                                                                                                                                                                                    ?>" min="0" step="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>">
                             </td>
                             <td>
                                 <?= $detail->ratio_flag == 1 ? "PCS" : $detail->unit_initial ?>
