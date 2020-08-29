@@ -105,7 +105,7 @@
         let total_found = 0;
         let id_barang = 0;
         $('.goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
-            var targetkey = $(this).attr("data-keyword");
+            var targetkey = $(this).attr("data-keyword").replace(/ /g,'').toLowerCase();
             if (targetkey.indexOf(searchtarget) >= 0) {
                 $(this).removeClass("d-none")
                 $(this).addClass("d-flex")
@@ -137,7 +137,7 @@
     function suggester_my_map(element) {
         const searchtarget = $(element).val().replace(/ /g, '').toLowerCase();
         $('#my_goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
-            var targetkey = $(this).attr("data-keyword");
+            var targetkey = $(this).attr("data-keyword").replace(/ /g,'').toLowerCase();
             if (targetkey.indexOf(searchtarget) >= 0) {
                 $(this).removeClass("d-none")
                 $(this).addClass("d-flex")

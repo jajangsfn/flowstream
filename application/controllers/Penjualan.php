@@ -163,17 +163,19 @@ class Penjualan extends CI_Controller
 
                 );
             } 
-        }
-
+       
         $type_print = $type == 1 ?  "order_request_out" : "checksheet_out";
 
         $this->pdf->dynamic_print(2, $type_print, $data);
+        }
+
     }
 
     // POS
 
     public function pos($command = '', $id_or = '')
     {
+        $data['transactional'] = true;
         if ($command == "cetak_faktur") {
 
         } else if ($command == "add") {

@@ -143,6 +143,40 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
+    // Update 29 Agustus: spesifik ambil data saja
+    public function barang_cabang_data_only($id_cabang)
+    {
+        $data_query = $this->goods->get_data(array("m_goods.branch_id" => $id_cabang))->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
+    // Update 29 Agustus: spesifik ambil harga saja
+    public function barang_cabang_harga_only($id_cabang)
+    {
+        $data_query = $this->goods->get_harga(array("m_goods.branch_id" => $id_cabang))->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
+    // Update 29 Agustus: spesifik ambil diskon saja
+    public function barang_cabang_diskon_only($id_cabang)
+    {
+        $data_query = $this->goods->get_diskon(array("m_goods.branch_id" => $id_cabang))->result();
+        $data['data'] = $data_query;
+        echo json_encode($data);
+    }
+
+    // Update 29 Agustus: spesifik ambil barang untuk POS dan OR customer
+    public function barang_for_customer()
+    {
+        echo json_encode(
+            array(
+                "data" => $this->goods->get_simple($_POST['branch_id'])->result()
+            )
+        );
+    }
+
     public function add_barang()
     {
         $entry_data = array(
@@ -241,6 +275,36 @@ class Api extends CI_Controller
                 )
             );
         }
+    }
+
+    public function ubah_diskon_barang()
+    {
+        if ($_POST['price_index'] == 0) {
+            $this->goods->change_main_price(
+                array(
+                    "goods_id" => $_POST['id']
+                ),
+                array(
+                    "discount" => $_POST['discount'],
+                )
+            );
+        } else {
+            $price_id = $this->goods->get_price(array(
+                "goods_id" => $_POST['id']
+            ))->row()->id;
+            $this->goods->change_price_alternate(
+                array(
+                    "price_id" => $price_id,
+                    "price_index" => $_POST['price_index'],
+                ),
+                array(
+                    "discount_percent" => $_POST['discount'],
+                )
+            );
+        }
+        echo json_encode(array(
+            "message" => "success"
+        ));
     }
 
     // Suppliers
@@ -824,7 +888,7 @@ class Api extends CI_Controller
 
                 "goods_name" => $or_det->goods_name,
                 "price" => $or_det->price,
-                "quantity" => $or_det->quantity,
+                "quantity" => $or_det->checksheet_qty,
                 "discount" => $or_det->discount,
 
                 "warehouse_id" => 1, // default dulu buat test
@@ -850,8 +914,12 @@ class Api extends CI_Controller
     {
         // update jumlah
         foreach ($_POST['barang'] as $id_barang => $barang) {
-            $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity']);
-            $this->goods->update_quantity_from_checksheet($id_barang, $barang['available_quantity']);
+            if (isset($barang['deleted']) && $barang['deleted'] == 1) {
+                $this->or->delete_checksheet_entry($order_request_id, $id_barang);
+            } else {
+                $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity']);
+                $this->goods->update_quantity_from_checksheet($id_barang, $barang['available_quantity']);
+            }
         }
 
         $this->session->set_flashdata("success", "Checksheet berhasil disimpan");

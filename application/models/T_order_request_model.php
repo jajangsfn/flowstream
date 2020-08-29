@@ -65,6 +65,7 @@ class T_order_request_model extends CI_Model
 
         $mainobj = $this->db->get()->row();
 
+        $this->db->distinct();
         $this->db->select("
         ordet.*,
         m_goods.barcode,
@@ -175,9 +176,47 @@ class T_order_request_model extends CI_Model
         $new_total = $final_quantity * $old->price * (100 - $old->discount) / 100;
         $set = array(
             "total" => $new_total,
-            "quantity" => $final_quantity
         );
 
         $this->db->update("t_order_request_detail", $set, $where);
+
+        // UPDATE 29 Agustus, masukkan quantity baru ke tabel t_checksheet
+
+        // if exist, update
+        $data = array(
+            "order_request_detail_id" => $old->id,
+            "quantity" => $final_quantity,
+            "flag" => 1,
+            "created_by" => $this->session->userdata("id")
+        );
+        $find = $this->db->get_where("t_checksheet", array(
+            "order_request_detail_id" => $old->id
+        ));
+
+        if ($find->num_rows()) {
+            $data["updated_date"] = date("Y-m-d h:i:s");
+            $this->db->update("t_checksheet", $data, array(
+                "order_request_detail_id" => $old->id
+            ));
+        } else {
+            $this->db->insert("t_checksheet", $data);
+        }
+
+        // update t_order_request, set flag = 10
+        $this->db->update("t_order_request", array("flag" => 10), array("id" => $or_id));
+    }
+
+    public function delete_checksheet_entry($or_id, $goods_id) {
+        $where = array(
+            "order_request_id" => $or_id,
+            "goods_id" => $goods_id
+        );
+        $old = $this->db->get_where("t_order_request_detail", $where)->row();
+
+        $this->db->delete("t_checksheet", array(
+            "order_request_detail_id" => $old->id
+        ));
+        
+        $this->db->delete("t_order_request_detail", $where);
     }
 }
