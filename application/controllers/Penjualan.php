@@ -35,9 +35,21 @@ class Penjualan extends CI_Controller
     {
         if ($this->session->role_code != "ROLE_SUPER_ADMIN") {
             $content = array(
-                "belum_cetak_faktur" => $this->or->get_non_pos("branch_id = " . $this->session->branch_id)->num_rows(),
-                "pos_di_bulan_berjalan" => $this->pos->get_this_month("branch_id = " . $this->session->branch_id)->num_rows(),
-                "pos_di_bulan_berjalan" => $this->pos->get_this_month("branch_id = " . $this->session->branch_id)->num_rows(),
+                "belum_cetak_faktur" => $this->or->get_non_pos(
+                    array(
+                        "branch_id" => $this->session->branch_id
+                    )
+                )->num_rows(),
+                "pos_di_bulan_berjalan" => $this->pos->get_this_month(
+                    array(
+                        "branch_id" => $this->session->branch_id
+                    )
+                )->num_rows(),
+                "pos_di_bulan_berjalan" => $this->pos->get_this_month(
+                    array(
+                        "branch_id" => $this->session->branch_id
+                    )
+                )->num_rows(),
             );
         } else {
             $content = array(
@@ -121,9 +133,9 @@ class Penjualan extends CI_Controller
     {
 
         $content = $this->or->get_specific($id_or);
-         
+
         $data = array();
-        if ($content) { 
+        if ($content) {
             foreach ($content->details as $key => $val) {
 
 
@@ -148,7 +160,7 @@ class Penjualan extends CI_Controller
                     "goods_id" => $val->goods_id,
                     "goods_name" => $val->goods_name,
                     "quantity" => $val->quantity,
-                    "checksheet_qty" => isset($val->checksheet_qty) ? $val->checksheet_qty : '' ,
+                    "checksheet_qty" => isset($val->checksheet_qty) ? $val->checksheet_qty : '',
                     "discount" => $val->discount,
                     "discount_code" => $val->discount_code,
                     "price" => $val->price,
@@ -162,12 +174,11 @@ class Penjualan extends CI_Controller
                     "unit_initial" => $val->unit_initial,
 
                 );
-            } 
+            }
             $type_print = $type == 1 ?  "order_request_out" : "checksheet_out";
 
-        $this->pdf->dynamic_print(2, $type_print, $data);
+            $this->pdf->dynamic_print(2, $type_print, $data);
         }
-
     }
 
     // POS
@@ -176,7 +187,6 @@ class Penjualan extends CI_Controller
     {
         $data['transactional'] = true;
         if ($command == "cetak_faktur") {
-
         } else if ($command == "add") {
             $data['page_title'] = "Transaksi Baru - Point of Sales";
             $data['back_url'] = base_url("/index.php/penjualan/pos");
@@ -276,7 +286,7 @@ class Penjualan extends CI_Controller
         $data['customer']     = $this->get_partner(array("is_customer" => 1));
         $data['warehouse']    = $this->m_ws->get_all()->result();
         $data['master']       = $this->pos_return->get_all("tab1.id=" . $id, "tab2.id");
-        
+
         $data['page_content'] = $this->load->view("penjualan/return/edit_return", $data, true);
 
         $this->load->view('layout/head');
@@ -295,23 +305,23 @@ class Penjualan extends CI_Controller
         // get all invoice no
         if ($type == 1) {
             $group_type          = 1;
-        // get all goods
-        }else if ($type == 2) {
-           $group_type           = 2;
-        // get specific goods
-        }else if ($type == 3) {
-           $where['goods_id']    = $this->input->get('goods_id');
-           $group_type          = 1;
+            // get all goods
+        } else if ($type == 2) {
+            $group_type           = 2;
+            // get specific goods
+        } else if ($type == 3) {
+            $where['goods_id']    = $this->input->get('goods_id');
+            $group_type          = 1;
 
-        // get specific goods from search column 
-        }else if ($type == 4) {
+            // get specific goods from search column 
+        } else if ($type == 4) {
             $where = "partner_id = " . $this->input->get('customer_id');
             if ($this->input->get('goods') != "") {
-                $where.=  " and brand_description LIKE '" . $this->input->get('goods') . "%' OR sku_code like '" . $this->input->get('goods') . "%' OR plu_code like '" . $this->input->get('goods') . "%' or barcode like '" . $this->input->get('goods') . "%'";
+                $where .=  " and brand_description LIKE '" . $this->input->get('goods') . "%' OR sku_code like '" . $this->input->get('goods') . "%' OR plu_code like '" . $this->input->get('goods') . "%' or barcode like '" . $this->input->get('goods') . "%'";
             }
 
-             $group_type         = 1;
-        }else if ($type == 5) {
+            $group_type         = 1;
+        } else if ($type == 5) {
             $where['invoice_no'] = $this->input->get('invoice_no');
             $group_type          = 1;
         }
@@ -346,7 +356,7 @@ class Penjualan extends CI_Controller
     public function save_return()
     {
         $param = $this->input->post();
-        
+
         if (count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
@@ -592,7 +602,7 @@ class Penjualan extends CI_Controller
         $data['from']         = $from;
         $data['to']           = $to;
 
-        $this->pdf->dynamic_print(2,"monthly_sales_out",$data['master']);
+        $this->pdf->dynamic_print(2, "monthly_sales_out", $data['master']);
     }
 
     private function laporan_retur_harian()
