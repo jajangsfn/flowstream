@@ -43,7 +43,7 @@ class Penjualan extends CI_Controller
                         "branch_id" => $this->session->branch_id
                     )
                 )->num_rows(),
-                "pos_di_bulan_berjalan" => $this->pos->get_this_month(
+                "or_di_bulan_berjalan" => $this->or->get_this_month(
                     array(
                         "branch_id" => $this->session->branch_id
                     )
