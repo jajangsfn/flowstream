@@ -123,9 +123,10 @@ class T_order_request_model extends CI_Model
 
     function get_non_pos($where = '')
     {
-        $query = "SELECT id FROM t_order_request WHERE order_no not in (
-            SELECT order_no from t_pos
-            )";
+        $query = 
+            "SELECT id 
+            FROM t_order_request 
+            WHERE flag = 2 ";
         if ($where) {
             $query .= " AND $where";
         }
