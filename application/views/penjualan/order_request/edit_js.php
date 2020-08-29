@@ -1,4 +1,7 @@
 <script>
+    $(document).ready(function() {
+        hitung_ulang_all();
+    })
     var branch_id = 0;
     var index_harga = 0;
 
@@ -97,13 +100,8 @@
     }
 
     function delete_baris(id) {
-        $subtotal_sebelumnya = parseInt($("#total_harga_" + id).text());
-        $total_sebelumnya = parseInt($("#total_harga_order").text());
-        $("#total_harga_order").text($total_sebelumnya - $subtotal_sebelumnya);
-        $("#tax_price").text(10 * ($total_sebelumnya - $subtotal_sebelumnya) / 100);
-        $("#total_harga_order_tax").text(110 * ($total_sebelumnya - $subtotal_sebelumnya) / 100);
-
         $("#" + id).remove();
+        hitung_ulang_all();
         render_table_number();
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
@@ -124,28 +122,20 @@
         }
     }
 
-    function hitung_ulang(id) {
-        // kurangi total saat ini dengan subtotal sebelumnya
-        $subtotal_sebelumnya = parseInt($("#total_harga_" + id).text());
-        $total_sebelumnya = parseInt($("#total_harga_order").text());
-        $total_bersih = $total_sebelumnya - $subtotal_sebelumnya;
+    function hitung_ulang_all() {
+        var total_price = 0;
+        $("table#daftar_barang_order tbody tr").each(function(e) {
+            const row_id = $(this).attr("id");
+            const row_quantity = $("#jumlah_" + row_id).val();
+            const row_price = $("#harga_" + row_id).val();
+            total_price += (parseInt(row_quantity) * parseInt(row_price));
+        });
 
-        // hitung ulang baris ini
-        $harga = $("#harga_" + id).val();
-        $jumlah = $("#jumlah_" + id).val();
-        $diskon_harga = 1 - ($("#diskon_" + id).val() / 100);
-        $subtotal_baru = $harga * $jumlah * $diskon_harga;
-
-        // bulatkan ke 2 desimal
-        $subtotal_baru = Math.round($subtotal_baru * 1000) / 1000;
-
-        // Pasang sbg subtotal baru
-        $("#total_harga_" + id).text($subtotal_baru);
-
-        // Tambahkan ke total bersih
-        $("#total_harga_order").text($total_bersih + $subtotal_baru);
-        $("#tax_price").text(10 * ($total_bersih + $subtotal_baru) / 100);
-        $("#total_harga_order_tax").text(110 * ($total_bersih + $subtotal_baru) / 100);
+        const pajak = total_price / 10;
+        const finalPrice = total_price * 110 / 100;
+        $("#total_harga_order").text(numeral(total_price).format('0,[.]00'));
+        $("#tax_price").text(numeral(pajak).format('0,[.]00'));
+        $("#total_harga_order_tax").text(numeral(finalPrice).format('0,[.]00'))
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
             $("button[type=submit]").removeAttr("disabled");
@@ -179,7 +169,7 @@
             });
 
 
-            hitung_ulang(id)
+            hitung_ulang_all()
         } else {
             // ambil info barang dengan ajax
             $.ajax({
@@ -190,6 +180,14 @@
                     if (response.data["price_" + index_harga]) {
                         price = parseInt(response.data["price_" + index_harga]);
                         discount = parseInt(response.data["discount_percent_" + index_harga]);
+                    }
+
+                    if (isNaN(price)) {
+                        price = 0;
+                    }
+
+                    if (isNaN(discount)) {
+                        discount = 0;
                     }
 
                     $jumlah_baru = $("#jumlah_tambah_baru").val();
@@ -235,7 +233,7 @@
                                 .val($jumlah_baru)
                                 .attr("min", data.ratio_flag == 1 ? data.converted_quantity : 1)
                                 .attr("step", data.ratio_flag == 1 ? data.converted_quantity : 1)
-                                .change(() => hitung_ulang(data.id))
+                                .change(() => hitung_ulang_all())
                             ),
 
                             // unit barang
@@ -249,12 +247,12 @@
                                 .attr("id", "harga_" + data.id)
                                 .attr("name", `barang[${data.id}][price]`)
                                 .val(price)
-                                .attr("min", "1")
-                                .change(() => hitung_ulang(data.id))
+                                .attr("min", "0")
+                                .change(() => hitung_ulang_all())
                             ),
 
-                            // diskon (TODO)
-                            $(document.createElement("td")).attr("style", "width: 90px").append(
+                            // diskon
+                            $(document.createElement("td")).attr("style", "width: 90px").addClass("d-none").append(
                                 $(document.createElement("input"))
                                 .attr("type", "number")
                                 .addClass("form-control text-center")
@@ -264,11 +262,11 @@
                                 .val(discount)
                                 .attr("min", "0")
                                 .attr("max", "100")
-                                .change(() => hitung_ulang(data.id)),
+                                .change(() => hitung_ulang_all()),
                             ),
 
                             // subtotal
-                            $(document.createElement("td")).text($subtotal_baru).addClass("text-right rupiah").attr("id", "total_harga_" + data.id),
+                            $(document.createElement("td")).text($subtotal_baru).addClass("text-right rupiah d-none").attr("id", "total_harga_" + data.id),
 
                             // aksi hapus
                             $(document.createElement("td")).addClass("text-center").append(
@@ -281,10 +279,7 @@
                         )
                     );
                     render_table_number();
-                    $total_sebelumnya = parseInt($("#total_harga_order").text());
-                    $("#total_harga_order").text($total_sebelumnya + $subtotal_baru);
-                    $("#tax_price").text(10 * ($total_sebelumnya + $subtotal_baru) / 100);
-                    $("#total_harga_order_tax").text(110 * ($total_sebelumnya + $subtotal_baru) / 100);
+                    hitung_ulang_all();
 
                     // tombol submit
                     $("button[type=submit]").removeAttr("disabled");
@@ -298,7 +293,7 @@
         let total_found = 0;
         let id_barang = 0;
         $('.goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
-            var targetkey = $(this).attr("data-keyword");
+            var targetkey = $(this).attr("data-keyword").replace(/ /g,'').toLowerCase();
             if (targetkey.indexOf(searchtarget) >= 0) {
                 $(this).removeClass("d-none")
                 $(this).addClass("d-flex")

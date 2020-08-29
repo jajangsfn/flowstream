@@ -159,15 +159,9 @@
     }
 
     function delete_baris(id) {
-        $subtotal_sebelumnya = parseInt($("#total_harga_" + id).text());
-        $total_sebelumnya = parseInt($("#total_harga_order").text());
-        $("#total_harga_order").text(numeral($total_sebelumnya - $subtotal_sebelumnya).format('0,[.]00'));
-        $("#tax_price").text(numeral(10 * ($total_sebelumnya - $subtotal_sebelumnya) / 100).format('0,[.]00'));
-        $("#total_harga_order_tax").text(numeral(110 * ($total_sebelumnya - $subtotal_sebelumnya) / 100).format('0,[.]00'));
-        $("#total_pembayaran").val(110 * ($total_sebelumnya - $subtotal_sebelumnya) / 100);
-
         $("#" + id).remove();
         render_table_number();
+        hitung_ulang_all();
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
             $("#payment-button").removeAttr("disabled");
@@ -187,29 +181,24 @@
         }
     }
 
-    function hitung_ulang(id) {
-        // kurangi total saat ini dengan subtotal sebelumnya
-        $subtotal_sebelumnya = parseInt($("#total_harga_" + id).text());
-        $total_sebelumnya = parseInt($("#total_harga_order").text());
-        $total_bersih = $total_sebelumnya - $subtotal_sebelumnya;
+    function hitung_ulang_all() {
+        var total_price = 0;
+        $("table#daftar_barang_order tbody tr").each(function(e) {
+            const row_id = $(this).attr("id");
+            const row_quantity = $("#jumlah_" + row_id).val();
+            const row_price = $("#harga_" + row_id).val();
+            const row_discount = $("#diskon_" + row_id).val();
 
-        // hitung ulang baris ini
-        $harga = $("#harga_" + id).val();
-        $jumlah = $("#jumlah_" + id).val();
-        $diskon_harga = 1 - ($("#diskon_" + id).val() / 100);
-        $subtotal_baru = $harga * $jumlah * $diskon_harga;
+            const subtotal = (parseInt(row_quantity) * parseInt(row_price) * (100 - parseInt(row_discount)) / 100);
+            total_price += subtotal;
+            $("#total_harga_" + row_id).text(numeral(subtotal).format('0,[.]00'));
+        });
 
-        // bulatkan ke 2 desimal
-        $subtotal_baru = Math.round($subtotal_baru * 1000) / 1000;
-
-        // Pasang sbg subtotal baru
-        $("#total_harga_" + id).text(numeral($subtotal_baru).format('0,[.]00'));
-
-        // Tambahkan ke total bersih
-        $("#total_harga_order").text(numeral($total_bersih + $subtotal_baru).format('0,[.]00'));
-        $("#tax_price").text(numeral(10 * ($total_bersih + $subtotal_baru) / 100).format('0,[.]00'));
-        $("#total_harga_order_tax").text(numeral(110 * ($total_bersih + $subtotal_baru) / 100).format('0,[.]00'));
-        $("#total_pembayaran").val(numeral(110 * ($total_bersih + $subtotal_baru) / 100).format('0,[.]00'));
+        const pajak = total_price / 10;
+        const finalPrice = total_price * 110 / 100;
+        $("#total_harga_order").text(numeral(total_price).format('0,[.]00'));
+        $("#tax_price").text(numeral(pajak).format('0,[.]00'));
+        $("#total_harga_order_tax").text(numeral(finalPrice).format('0,[.]00'))
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
             $("#payment-button").removeAttr("disabled");
@@ -243,7 +232,7 @@
             });
 
 
-            hitung_ulang(id)
+            hitung_ulang_all()
         } else {
             // ambil info barang dengan ajax
             $.ajax({
@@ -254,6 +243,14 @@
                     if (response.data["price_" + index_harga]) {
                         price = parseInt(response.data["price_" + index_harga]);
                         discount = parseInt(response.data["discount_percent_" + index_harga]);
+                    }
+
+                    if (isNaN(price)) {
+                        price = 0;
+                    }
+
+                    if (isNaN(discount)) {
+                        discount = 0;
                     }
 
                     $jumlah_baru = $("#jumlah_tambah_baru").val();
@@ -299,7 +296,7 @@
                                 .val($jumlah_baru)
                                 .attr("min", data.ratio_flag == 1 ? data.converted_quantity : 1)
                                 .attr("step", data.ratio_flag == 1 ? data.converted_quantity : 1)
-                                .change(() => hitung_ulang(data.id))
+                                .change(() => hitung_ulang_all())
                             ),
 
                             // unit barang
@@ -313,7 +310,7 @@
                                 .attr("name", `barang[${data.id}][price]`)
                                 .val(price)
                                 .attr("min", "1")
-                                .change(() => hitung_ulang(data.id))
+                                .change(() => hitung_ulang_all())
                             ),
 
                             // diskon (TODO)
@@ -327,7 +324,7 @@
                                 .val(discount)
                                 .attr("min", "0")
                                 .attr("max", "100")
-                                .change(() => hitung_ulang(data.id)),
+                                .change(() => hitung_ulang_all()),
                             ),
 
                             // subtotal
@@ -344,11 +341,7 @@
                         )
                     );
                     render_table_number();
-                    $total_sebelumnya = parseInt($("#total_harga_order").text());
-                    $("#total_harga_order").text(numeral($total_sebelumnya + $subtotal_baru).format('0,[.]00'));
-                    $("#tax_price").text(numeral(10 * ($total_sebelumnya + $subtotal_baru) / 100).format('0,[.]00'));
-                    $("#total_harga_order_tax").text(numeral(110 * ($total_sebelumnya + $subtotal_baru) / 100).format('0,[.]00'));
-                    $("#total_pembayaran").val(numeral(110 * ($total_sebelumnya + $subtotal_baru) / 100).format('0,[.]00'));
+                    hitung_ulang_all();
 
                     // tombol submit
                     $("#payment-button").removeAttr("disabled");
