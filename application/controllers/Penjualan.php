@@ -36,9 +36,7 @@ class Penjualan extends CI_Controller
         if ($this->session->role_code != "ROLE_SUPER_ADMIN") {
             $content = array(
                 "belum_cetak_faktur" => $this->or->get_non_pos(
-                    array(
-                        "branch_id" => $this->session->branch_id
-                    )
+                    "branch_id = " . $this->session->branch_id
                 )->num_rows(),
                 "pos_di_bulan_berjalan" => $this->pos->get_this_month(
                     array(
