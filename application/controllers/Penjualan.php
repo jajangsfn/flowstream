@@ -117,53 +117,57 @@ class Penjualan extends CI_Controller
     }
 
 
-    public function print_order_request($id_or)
+    public function print_order_request($id_or, $type = 1)
     {
         $content = $this->or->get_specific($id_or);
-        
+         
 
         $data = array();
+        if ($content) { 
+            foreach ($content->details as $key => $val) {
 
-        foreach ($content->details as $key => $val) {
 
+                $data[] = array(
+                    "id" => $content->id,
+                    "branch_id" => $content->branch_id,
+                    "branch_name" => $content->branch_name,
+                    "partner_id" => $content->partner_id,
+                    "user_salesman_id" => $content->user_salesman_id,
+                    "order_no" => $content->order_no,
+                    "order_date" => $content->order_date,
+                    "partner_name" => $content->partner_name,
+                    "is_delivery" => $content->is_delivery,
+                    "description" => $content->description,
+                    "created_by" => $content->created_by,
+                    "created_date" => $content->created_date,
+                    "updated_date" => $content->updated_date,
+                    "updated_by" => $content->updated_by,
+                    "id" => "4",
+                    "order_request_id" => $val->order_request_id,
+                    "warehouse_id" => $val->warehouse_id,
+                    "goods_id" => $val->goods_id,
+                    "goods_name" => $val->goods_name,
+                    "quantity" => $val->quantity,
+                    "checksheet_qty" => isset($val->checksheet_qty) ? $val->checksheet_qty : '' ,
+                    "discount" => $val->discount,
+                    "discount_code" => $val->discount_code,
+                    "price" => $val->price,
+                    "tax" => $val->tax,
+                    "total" => $val->total,
+                    "flag" => $val->flag,
+                    "barcode" => $val->barcode,
+                    "brand_name" => $val->brand_name,
+                    "brand_description" =>  $val->brand_description,
+                    "unit_name" => $val->unit_name,
+                    "unit_initial" => $val->unit_initial,
 
-            $data[] = array(
-                "id" => $content->id,
-                "branch_id" => $content->branch_id,
-                "branch_name" => $content->branch_name,
-                "partner_id" => $content->partner_id,
-                "user_salesman_id" => $content->user_salesman_id,
-                "order_no" => $content->order_no,
-                "order_date" => $content->order_date,
-                "partner_name" => $content->partner_name,
-                "is_delivery" => $content->is_delivery,
-                "description" => $content->description,
-                "created_by" => $content->created_by,
-                "created_date" => $content->created_date,
-                "updated_date" => $content->updated_date,
-                "updated_by" => $content->updated_by,
-                "id" => "4",
-                "order_request_id" => $val->order_request_id,
-                "warehouse_id" => $val->warehouse_id,
-                "goods_id" => $val->goods_id,
-                "goods_name" => $val->goods_name,
-                "quantity" => $val->quantity,
-                "discount" => $val->discount,
-                "discount_code" => $val->discount_code,
-                "price" => $val->price,
-                "tax" => $val->tax,
-                "total" => $val->total,
-                "flag" => $val->flag,
-                "barcode" => $val->barcode,
-                "brand_name" => $val->brand_name,
-                "brand_description" =>  $val->brand_description,
-                "unit_name" => $val->unit_name,
-                "unit_initial" => $val->unit_initial,
+                );
+            } 
 
-            );
+            $type_print = $type == 1 ?  "order_request_out" : "checksheet_out";
+
+            $this->pdf->dynamic_print(2, $type_print, $data);
         }
-
-        $this->pdf->dynamic_print(2, "order_request_out", $data);
     }
 
     // POS
