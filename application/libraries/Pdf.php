@@ -1325,7 +1325,7 @@ class pdf
 																								"position_x" => 3,
 																							),
 																		   	"total" => array("title" => "Grant Total",
-																			   				"width" => 185,
+																			   				"width" => 205,
 																			   				"height" => 4,
 																			   				"align"=>'R',
 																			   				"position_x" => 3
@@ -1531,13 +1531,13 @@ class pdf
 																								"position_x" => 3,
 																							),
 																		   	"total" => array("title" => "Grant Total",
-																			   				"width" => 185,
+																			   				"width" => 205,
 																			   				"height" => 4,
 																			   				"align"=>'R',
 																			   				"position_x" => 3
 																			   				),
 																		   	"summary" => array("title" => "",
-																		   					   "width" => 20,
+																		   					   "width" => 23,
 																		   					   "height" => 4,
 																		   						"align"=>'R',
 																		   						"position_x" => 188),
@@ -2433,7 +2433,9 @@ class pdf
 				}else {
 					$border = 'L,R';
 				}
-				
+
+				// check checksheet qty
+				$checksheet_qty = $val['checksheet_qty']!= "" ? number_format($val['checksheet_qty']) : '';
 
 				$total = $val['price'] * $val['quantity'] - ( ($val['price'] * $val['quantity'] * $val['discount']) / 100);
 				$grant_total+=$total;
@@ -2461,7 +2463,7 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
-						   '',$border,0,
+						   $checksheet_qty,$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
 				
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
@@ -2698,16 +2700,6 @@ class pdf
 						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
 						   '',$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
-
-				// $pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
-				// 		   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
-				// 		   number_format($val['discount']),$border,0,
-				// 		   $paper_reference[$type_print][$use_paper]['body'][6]['align']);
-
-				// $pdf->Cell($paper_reference[$type_print][$use_paper]['body'][7]['width'], 
-				// 		   $paper_reference[$type_print][$use_paper]['body'][7]['height'], 
-				// 		   number_format($val['total']),$border,0,
-				// 		   $paper_reference[$type_print][$use_paper]['body'][7]['align']);	
 
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
 
