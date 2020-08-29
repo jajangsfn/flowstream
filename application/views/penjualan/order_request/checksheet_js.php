@@ -24,6 +24,9 @@
             })
         } else {
             $(`table#daftar_barang_order tbody tr#${goods_id}`).remove();
+            $("#checksheet_form").append(
+                `<input type="hidden" name="barang[${goods_id}][deleted]" value="1">`
+            )
             nomor_ulang();
             hitung_ulang();
         }

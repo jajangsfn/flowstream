@@ -834,7 +834,7 @@ class Api extends CI_Controller
 
                 "goods_name" => $or_det->goods_name,
                 "price" => $or_det->price,
-                "quantity" => $or_det->quantity,
+                "quantity" => $or_det->checksheet_qty,
                 "discount" => $or_det->discount,
 
                 "warehouse_id" => 1, // default dulu buat test
@@ -860,8 +860,12 @@ class Api extends CI_Controller
     {
         // update jumlah
         foreach ($_POST['barang'] as $id_barang => $barang) {
-            $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity']);
-            $this->goods->update_quantity_from_checksheet($id_barang, $barang['available_quantity']);
+            if (isset($barang['deleted']) && $barang['deleted'] == 1) {
+                $this->or->delete_checksheet_entry($order_request_id, $id_barang);
+            } else {
+                $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity']);
+                $this->goods->update_quantity_from_checksheet($id_barang, $barang['available_quantity']);
+            }
         }
 
         $this->session->set_flashdata("success", "Checksheet berhasil disimpan");

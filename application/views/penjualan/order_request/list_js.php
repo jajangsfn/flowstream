@@ -35,6 +35,8 @@
                     render: function(data, type, row, meta) {
                         if (data == 1) {
                             return "<span class='text-info'>New Order</span>";
+                        } else if (data == 10) {
+                            return "<span class='text-info'>Menunggu Cetak Faktur</span>";
                         } else if (data == 2) {
                             return "<span class='text-success'>Complete</span>";
                         }
@@ -47,38 +49,65 @@
                     data: 'id',
                     responsivePriority: -1,
                     render: function(data, type, row, meta) {
-                        var container = $(document.createElement("div"));
                         var ext_button = "";
-                        if (row.flag == 1) {
-                            ext_button = `
-                            <a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/edit_order_request/") ?>${data}" data-toggle="tooltip" title="Edit">
+
+                        const editOrderRequest = `<a class="btn btn-icon btn-sm btn-light-success" href="<?= base_url("/index.php/penjualan/edit_order_request/") ?>${data}" data-toggle="tooltip" title="Edit">
                                 <i class="flaticon2-edit"></i>
-                            </a>
+                            </a>`
+
+                        const checksheet = `
                             <a class="btn btn-icon btn-sm btn-light-primary" data-toggle="tooltip" data-placement="top" title="Check Sheet" href="<?= base_url("/index.php/penjualan/order_request/checksheet/") ?>${data}">
                                 <i class="flaticon2-checkmark"></i>
                             </a>
+                        `
+
+                        const cetakFaktur = `
                             <button onclick="confirm_cetak_faktur(${data})" class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" data-placement="top" title="Cetak Faktur">
                                 <i class="flaticon2-graph-1"></i>
                             </button>
+                        `
+
+                        const deleteTrigger = `
                             <button type="button" class="btn btn-icon btn-sm btn-light-danger" onclick="delete_trigger(
                             '${row.id}',
                             )" data-toggle="tooltip" title="Hapus">
                                 <i class="flaticon2-trash"></i>
                             </button>
-                        `;
+                        `
+
+                        const cetakChecksheet = 
+                        `
+                            <div 
+                                class="btn btn-icon btn-sm btn-light-success" 
+                                data-toggle="tooltip" 
+                                title="Cetak Checksheet"
+                                onclick="confirm_cetak_checksheet(${data})"
+                            >
+                                <i class="fa la-print"></i>
+                            </div>
+                        `
+
+                        const cetakUlang = 
+                        `
+                            <div 
+                                class="btn btn-icon btn-sm btn-light-info" 
+                                data-toggle="tooltip" 
+                                title="Cetak Ulang"
+                                onclick="confirm_cetak(${data})"
+                            >
+                                <i class="fa la-print"></i>
+                            </div>
+                        `
+
+                        if (row.flag == 1) {
+                            ext_button = editOrderRequest + checksheet + cetakUlang + deleteTrigger;
+                        } else if (row.flag == 10) {
+                            ext_button = checksheet + cetakChecksheet + cetakUlang + cetakFaktur + deleteTrigger;
+                        } else if (row.flag == 2) {
+                            ext_button = cetakChecksheet + cetakUlang;
                         }
-                        container.append(
-                            ext_button,
-                            $(document.createElement("div"))
-                            .addClass("btn btn-icon btn-sm btn-light-info")
-                            .attr("data-toggle", "tooltip")
-                            .attr("title", "Cetak Ulang")
-                            .attr("onclick", `confirm_cetak(${data})`)
-                            .append(
-                                $(document.createElement("i")).addClass("fa la-print")
-                            )
-                        )
-                        return container.html();
+
+                        return ext_button;
                     },
                     createdCell: function(td, cellData, rowData, row, col) {
                         $(td).attr('nowrap', 'nowrap').addClass("text-center")
@@ -89,15 +118,10 @@
             ],
 
             columnDefs: [{
-                    targets: -1,
-                    responsivePriority: 2,
-                    orderable: false,
-                },
-                {
-                    targets: 0,
-                    orderable: false,
-                },
-            ],
+                targets: -1,
+                responsivePriority: 2,
+                orderable: false,
+            }],
 
             "drawCallback": function(settings) {
                 $("*[data-toggle=tooltip]").tooltip()
@@ -120,6 +144,20 @@
         }).then(function(result) {
             if (result.value) {
                 window.open(`<?= base_url("/index.php/penjualan/print_order_request/") ?>${id}`, "_blank");
+            }
+        })
+    }
+
+    function confirm_cetak_checksheet(id) {
+        Swal.fire({
+            title: "Anda yakin?",
+            text: "Anda akan mencetak checksheet untuk order ini",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Cetak!"
+        }).then(function(result) {
+            if (result.value) {
+                window.open(`<?= base_url("/index.php/penjualan/print_order_request/") ?>${id}/2`, "_blank");
             }
         })
     }
