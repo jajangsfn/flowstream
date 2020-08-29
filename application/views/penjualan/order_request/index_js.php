@@ -243,7 +243,7 @@
                                 .attr("id", "harga_" + data.id)
                                 .attr("name", `barang[${data.id}][price]`)
                                 .val(price)
-                                .attr("min", "1")
+                                .attr("min", "0")
                                 .change(() => hitung_ulang_all())
                             ),
 
@@ -289,7 +289,7 @@
         let total_found = 0;
         let id_barang = 0;
         $('.goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
-            var targetkey = $(this).attr("data-keyword");
+            var targetkey = $(this).attr("data-keyword").replace(/ /g, '').toLowerCase();
             if (targetkey.indexOf(searchtarget) >= 0) {
                 $(this).removeClass("d-none")
                 $(this).addClass("d-flex")
