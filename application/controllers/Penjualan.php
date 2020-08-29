@@ -123,8 +123,7 @@ class Penjualan extends CI_Controller
          
 
         $data = array();
-        if ($content) { 
-
+        if ($content) {
             foreach ($content->details as $key => $val) {
 
 
@@ -164,10 +163,12 @@ class Penjualan extends CI_Controller
 
                 );
             } 
-            $type_print = $type == 1 ?  "order_request_out" : "checksheet_out";
+       
+        $type_print = $type == 1 ?  "order_request_out" : "checksheet_out";
 
-            $this->pdf->dynamic_print(2, $type_print, $data);
+        $this->pdf->dynamic_print(2, $type_print, $data);
         }
+
     }
 
     // POS
