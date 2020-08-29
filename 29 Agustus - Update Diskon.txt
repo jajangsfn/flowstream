@@ -1,0 +1,1 @@
+ALTER TABLE `m_price_alternate` ADD `discount_percent` INT(3) NULL DEFAULT '0' AFTER `price_index`;

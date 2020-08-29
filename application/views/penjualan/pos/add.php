@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="col-lg-12" id="order_request_col">
-        <form class="card card-custom gutter-b" action="<?= base_url("/index.php/api/kirim_pos") ?>" method="POST">
+        <form id="pos_form" class="card card-custom gutter-b" action="<?= base_url("/index.php/api/kirim_pos") ?>" method="POST">
             <div class="card-header">
                 <div class="card-title">Point of Sales <span id="pos_no" class="ml-2" style="display: none;">No #</span></div>
                 <div class="card-toolbar d-none" id="pilih_barang_modal_toggle">
@@ -104,9 +104,8 @@
                 </div>
             </div>
             <div class="card-footer text-right">
-                <button type="button" id="payment-button" data-toggle="modal" data-target="#payment_modal" class="btn btn-primary" disabled> Simpan </button>
+                <button type="button" id="payment-button" onclick="confirm_pos_submit()" class="btn btn-primary" disabled> Simpan </button>
             </div>
-
         </form>
     </div>
 </div>
