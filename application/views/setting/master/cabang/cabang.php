@@ -282,16 +282,13 @@
                             ), true); ?>
                         </div>
                         <div class="col">
-                            <?= $this->load->view("component/input/flowstream_input", array(
-                                "name" => "tax_status",
-                                "required" => true,
-                                "placeholder" => "Masukan Status Pajak",
-                                "type" => "number",
-                                "label" => "Status Pajak:",
-                                "id" => "tax_edit",
-
-                                "required" => true
-                            ), true); ?>
+                            <div class="form-group w-100">
+                                <label class="required">Status Pajak</label>
+                                <select class="form-control select2" name="tax_status" data-width="100%" id="tax_edit" required>
+                                    <option value="0">Tidak Kena Pajak</option>
+                                    <option value="1">Kena Pajak</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
