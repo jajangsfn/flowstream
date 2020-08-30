@@ -246,7 +246,7 @@ class pdf
 																				"align"=>'L',
 																				"position_x" => 3,
 																			),
-														  	"approved_by" => array("title" => "Disetujui Oleh :",
+														  	"approved_by" => array("title" => "Disahkan Oleh :",
 																				"width" => 4,
 																				"height" => 0.8,
 																				"align"=>'L',
@@ -1931,11 +1931,18 @@ class pdf
 															   				),
 															   				
 															   "footer" => array("footer_ln" => 0.09,
-															   					"signature" => array("title" => "Disahkan Oleh :",
+															   					"signature" => array("title" => "Disiapkan Oleh :",
 																									  "width" => 4,
 																									  "height" => 0.8,
 																									  "align"=>'L',
 																									  "position_x" => 0.3,
+
+																									), 
+															   					"approved_by" => array("title" => "Disahkan Oleh :",
+																									  "width" => 4,
+																									  "height" => 0.8,
+																									  "align"=>'L',
+																									  "position_x" => 5,
 
 																									), 
 															   					"total" => array("title" => "Grant Total Rp.",
@@ -2019,7 +2026,7 @@ class pdf
 																				   			),
 
 																				   	2 => array( "title"=> "Nama Barang",
-																				   				"width"=> 80,
+																				   				"width"=> 95,
 																				   				"height"=>5,
 																				   				"align"=>'L',
 																				   			  ),																	   	
@@ -2033,15 +2040,15 @@ class pdf
 																				   				"height"=>5,
 																				   				"align"=>'R',
 																				   			),
-																				   	5 => array( "title"=> "Jumlah Tersedia",
-																				   				"width"=>28,
-																				   				"height"=>5,
-																				   				"align"=>'R',
-																				   			),
+																				   	// 5 => array( "title"=> "Jumlah Tersedia",
+																				   	// 			"width"=>28,
+																				   	// 			"height"=>5,
+																				   	// 			"align"=>'R',
+																				   	// 		),
 																					),
 																	"footer" => array(
 																				  	"footer_ln" => 0.9,
-																				  	"signature" => array("title" => "Disetujui Oleh :",
+																				  	"signature" => array("title" => "Disiapkan Oleh :",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
@@ -2054,7 +2061,7 @@ class pdf
 																										"position_x" => 50,
 																									),
 																				   	"total" => array("title" => "Grant Total",
-																					   				"width" => 205,
+																					   				"width" => 190,
 																					   				"height" => 4,
 																					   				"align"=>'R',
 																					   				"position_x" => 3
@@ -3026,10 +3033,10 @@ class pdf
 						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
 						   number_format($val['quantity']),$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
 
-				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
-						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
-						   '',$border,0,
-						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
+				// $pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
+				// 		   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
+				// 		   '',$border,0,
+				// 		   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
 
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
 
