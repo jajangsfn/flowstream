@@ -1,0 +1,21 @@
+ALTER TABLE `m_price_alternate` ADD `discount_percent` INT(3) NULL DEFAULT '0' AFTER `price_index`;
+
+ALTER TABLE `t_checksheet` CHANGE `created_date` `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+DROP TABLE IF EXISTS `m_salesman_map`;
+CREATE TABLE `m_salesman_map` (
+  `id` int(11) NOT NULL,
+  `salesman_id` int(11) NOT NULL,
+  `goods_id` int(11) NOT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `flag` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+ALTER TABLE `m_salesman_map`
+  ADD PRIMARY KEY (`id`) USING BTREE,
+  ADD KEY `salesman_id` (`salesman_id`) USING BTREE,
+  ADD KEY `goods_id` (`goods_id`) USING BTREE;
+
+ALTER TABLE `m_salesman_map`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+COMMIT;

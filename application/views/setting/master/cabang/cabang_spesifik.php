@@ -4,8 +4,18 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title m-0">
+                        <div class="card-title m-0 d-flex justify-content-between align-items-center">
                             <h5 class="card-label font-weight-bolder text-dark m-0">Informasi Cabang</h5>
+                            <button class="btn btn-light-primary" onclick="edit(
+                                            '<?= $data_branch->id ?>',
+                                            '<?= $data_branch->logo ?>',
+                                            '<?= $data_branch->name ?>',
+                                            '<?= $data_branch->code ?>',
+                                            '<?= $data_branch->owner ?>',
+                                            '<?= $data_branch->address ?>',
+                                            '<?= $data_branch->npwp ?>',
+                                            '<?= $data_branch->tax_status ?>',
+                                        )"><i class="fa la-pen"></i> Edit</button>
                         </div>
                     </div>
                     <div class="card-body pt-4">
@@ -287,4 +297,111 @@
         </div>
     </div>
 
+</div>
+
+
+<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <form action="<?= base_url("/index.php/api/edit_cabang") ?>" method="POST" class="modal-content" enctype="multipart/form-data">
+            <input type="hidden" name="id" id="id_edit">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Cabang</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body row">
+                <div class="col-md-5">
+                    <div class="w-100 text-center">
+                        <div class="image-input image-input-empty image-input-outline" id="logo_edit" style="background-image: url(<?= base_url("assets/media/users/blank.png") ?>)">
+                            <div class="image-input-wrapper" id="logo_placement_edit"></div>
+
+                            <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+                                <i class="fa fa-pen icon-sm text-muted"></i>
+                                <input type="file" name="logo" accept=".png, .jpg, .jpeg" />
+                                <input type="hidden" name="profile_avatar_remove" />
+                            </label>
+
+                            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+                                <i class="ki ki-bold-close icon-xs text-muted"></i>
+                            </span>
+
+                            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="Remove avatar">
+                                <i class="ki ki-bold-close icon-xs text-muted"></i>
+                            </span>
+                        </div>
+                        <span class="form-text text-muted">Logo Cabang</span>
+                    </div>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "name",
+                        "required" => true,
+                        "placeholder" => "Masukan Nama Cabang",
+                        "type" => "text",
+                        "label" => "Nama:",
+                        "id" => "name_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "code",
+                        "required" => true,
+                        "placeholder" => "Masukan Kode Cabang",
+                        "type" => "text",
+                        "label" => "Kode Cabang:",
+                        "id" => "code_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                </div>
+                <div class="col-md-7">
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "owner",
+                        "required" => true,
+                        "placeholder" => "Masukan Pemilik Cabang",
+                        "type" => "text",
+                        "label" => "Pemilik:",
+                        "id" => "owner_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                    <?= $this->load->view("component/input/flowstream_input", array(
+                        "name" => "address",
+                        "required" => true,
+                        "placeholder" => "Masukan Alamat Cabang",
+                        "type" => "textarea",
+                        "label" => "Alamat:",
+                        "id" => "address_edit",
+
+                        "required" => true,
+                    ), true); ?>
+                    <div class="row">
+                        <div class="col">
+                            <?= $this->load->view("component/input/flowstream_input", array(
+                                "name" => "npwp",
+                                "required" => true,
+                                "placeholder" => "Masukan NPWP",
+                                "type" => "text",
+                                "label" => "NPWP:",
+                                "id" => "npwp_edit",
+
+                                "required" => true,
+                            ), true); ?>
+                        </div>
+                        <div class="col">
+                            <div class="form-group w-100">
+                                <label class="required">Status Pajak</label>
+                                <select class="form-control select2" name="tax_status" data-width="100%" id="tax_edit" required>
+                                    <option value="0">Tidak Kena Pajak</option>
+                                    <option value="1">Kena Pajak</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <?= $this->load->view("component/button/submit", "", true); ?>
+            </div>
+        </form>
+    </div>
 </div>

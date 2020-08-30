@@ -3,12 +3,12 @@
     $(document).ready(function() {
         $.ajax({
             method: "get",
-            url: "<?= base_url("/index.php/api/barang_cabang/$data_branch->id") ?>",
+            url: "<?= base_url("/index.php/api/barang_cabang_data_only/$data_branch->id") ?>",
             success: function(result) {
                 for (let i = 0; i < result.data.length; i++) {
                     const focus = result.data[i];
 
-                    const keyword = (focus.brand_name + focus.brand_description + focus.barcode).replace(/ /g, '').toLowerCase();
+                    const keyword = (focus.brand_name + focus.brand_description + focus.barcode + focus.sku_code + focus.plu_code).replace(/ /g, '').toLowerCase();
                     const target = $(document.createElement("div"))
                         .addClass("d-flex align-items-center justify-content-between mb-5 text-dark-75 text-hover-primary")
                         .attr("style", "cursor: pointer")
@@ -45,7 +45,7 @@
                         for (let i = 0; i < result.data.length; i++) {
                             const focus = result.data[i];
 
-                            const keyword = (focus.brand_name + focus.brand_description + focus.barcode).replace(/ /g, '').toLowerCase();
+                            const keyword = (focus.brand_name + focus.brand_description + focus.barcode + focus.sku_code + focus.plu_code).replace(/ /g, '').toLowerCase();
                             const target = $(document.createElement("div"))
                                 .addClass("d-flex align-items-center justify-content-between mb-5 text-dark-75 text-hover-primary")
                                 .attr("style", "cursor: pointer")
@@ -156,7 +156,7 @@
             success: function(result) {
                 const focus = result.data[0];
 
-                const keyword = (focus.brand_name + focus.brand_description + focus.barcode).replace(/ /g, '').toLowerCase();
+                const keyword = (focus.brand_name + focus.brand_description + focus.barcode + focus.sku_code + focus.plu_code).replace(/ /g, '').toLowerCase();
                 const target = $(document.createElement("div"))
                     .addClass("d-flex align-items-center justify-content-between mb-5 text-dark-75 text-hover-primary")
                     .attr("style", "cursor: pointer")

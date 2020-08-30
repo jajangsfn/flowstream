@@ -34,7 +34,8 @@ class Api extends CI_Controller
                 "s_reference_model" => "reference",
                 "t_order_request_model" => "or",
                 "t_pos_model" => "pos",
-                "T_jurnal_model" => "jurnal"
+                "T_jurnal_model" => "jurnal",
+                "Keuangan_model" => "keumod"
             )
         );
     }
@@ -888,7 +889,7 @@ class Api extends CI_Controller
 
                 "goods_name" => $or_det->goods_name,
                 "price" => $or_det->price,
-                "quantity" => $or_det->checksheet_qty,
+                "quantity" => $or_det->quantity,
                 "discount" => $or_det->discount,
 
                 "warehouse_id" => 1, // default dulu buat test
@@ -910,16 +911,13 @@ class Api extends CI_Controller
         redirect(base_url("/index.php/penjualan/pos"));
     }
 
+    // Update 30 Agustus: tidak update jumlah order request, hanya ubah jumlah stok
     public function save_checksheet($order_request_id)
     {
         // update jumlah
         foreach ($_POST['barang'] as $id_barang => $barang) {
-            if (isset($barang['deleted']) && $barang['deleted'] == 1) {
-                $this->or->delete_checksheet_entry($order_request_id, $id_barang);
-            } else {
-                $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity']);
-                $this->goods->update_quantity_from_checksheet($id_barang, $barang['available_quantity']);
-            }
+            $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity']);
+            $this->goods->update_quantity_from_checksheet($id_barang, $barang['quantity']);
         }
 
         $this->session->set_flashdata("success", "Checksheet berhasil disimpan");
@@ -1145,13 +1143,11 @@ class Api extends CI_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    function m_map_branch($branch_id)
+    function m_map_branch()
     {
         echo json_encode(
             array(
-                "data" => $this->m_map->get(
-                    array("branch_id" => $branch_id)
-                )->result()
+                "data" => $this->m_map->get()->result()
             )
         );
     }
@@ -1460,7 +1456,7 @@ class Api extends CI_Controller
         );
 
         // buat nomor jurnal
-        $jurnal_no = $this->jurnal->get_next_jurnal_no($pos_target->branch_id);
+        $jurnal_no_awal = $this->jurnal->get_next_jurnal_no($pos_target->branch_id);
 
         $dpp = 0;
         foreach ($pos_target->details as $pos_detail) {
@@ -1468,7 +1464,7 @@ class Api extends CI_Controller
             // buat detail jurnal untuk tiap barang
             $this->jurnal->insert_detail(
                 array(
-                    "jurnal_no" => $jurnal_no,
+                    "jurnal_no" => $jurnal_no_awal,
                     "acc_code" => $pos_detail->rekening_no,
                     // "master_id",
                     "invoice_no" => $pos_target->invoice_no,
@@ -1483,7 +1479,7 @@ class Api extends CI_Controller
         $this->jurnal->insert_detail_piutang(
             $pos_target->branch_id,
             array(
-                "jurnal_no" => $jurnal_no,
+                "jurnal_no" => $jurnal_no_awal,
                 // "acc_code" diisi dari dalam model,
                 // "master_id",
                 "invoice_no" => $pos_target->invoice_no,
@@ -1496,7 +1492,7 @@ class Api extends CI_Controller
         // buat jurnal awal
         $this->jurnal->insert(
             array(
-                "jurnal_no" => $jurnal_no,
+                "jurnal_no" => $jurnal_no_awal,
                 "branch_id" => $pos_target->branch_id,
                 "invoice_no" => $pos_target->invoice_no,
                 "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
@@ -1510,7 +1506,7 @@ class Api extends CI_Controller
                 // "printed_date",
                 // "printed_flag",
                 // "registered_date",
-                "registered_flag" => $pos_target->payment_total == $pos_target->payment_paid ? "1" : 0,
+                "registered_flag" => "Y",
                 // "registered_user",
                 // "registered_id",
                 // "print_count" => 1,
@@ -1551,7 +1547,7 @@ class Api extends CI_Controller
                     // "printed_date",
                     // "printed_flag",
                     // "registered_date",
-                    "registered_flag" => 1, // flag registered auto 1 untuk pembayaran langsung
+                    "registered_flag" => "Y", // flag registered auto Y untuk pembayaran langsung
                     // "registered_user",
                     // "registered_id",
                     // "print_count" => 1,
@@ -1599,6 +1595,11 @@ class Api extends CI_Controller
             );
         }
 
+        // jika pembayaran belum lunas (payment_paid != payment_total), buat entry di t_pembayaran_piutang
+        if ($pos_target->payment_total != $pos_target->payment_paid) {
+            $this->keumod->entry_tagihan_piutang_baru($pos_target->invoice_no, $pos_target->payment_total - $pos_target->payment_paid);
+        }
+
         $this->session->set_flashdata("success", "Faktur pajak berhasil dicetak");
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -1635,30 +1636,26 @@ class Api extends CI_Controller
     {
         echo json_encode(
             array(
-                "data" => $this->pos->get_uncomplete_invoice($partner_id)->result()
+                "data" => $this->keumod->get_invoice_customer_with_piutang($partner_id)->result()
             )
         );
     }
 
-    public function get_invoice_data($pos_id)
+    public function get_piutang_data($tpp_id)
     {
-        $return_value = $this->pos->get_invoice_data($pos_id)->row();
-        $return_value->pos_date = longdate_indo(date($return_value->pos_date));
-        $return_value->payment_total = str_replace(',', '', $return_value->payment_total);
-        $return_value->payment_total_str = "Rp " . number_format($return_value->payment_total, 2, ',', '.');
-        $return_value->terbayar_str = "Rp " . number_format($return_value->terbayar, 2, ',', '.');
-        $return_value->tagihan = $return_value->payment_total - $return_value->terbayar;
-        $return_value->tagihan_str = "Rp " . number_format($return_value->tagihan, 2, ',', '.');
-
         echo json_encode(
             array(
-                "data" => $return_value
+                "data" => $this->keumod->get_piutang_data($tpp_id)
             )
         );
     }
 
     public function pembayaran_piutang()
     {
+        // Get informasi piutang
+        $info_piutang = $this->keumod->get_piutang_data($_POST['id']);
+
+        // Informasi cabang
         $branch_id = $this->session->userdata("branch_id");
 
         // buat nomor jurnal
@@ -1668,7 +1665,7 @@ class Api extends CI_Controller
             array(
                 "jurnal_no" => $jurnal_no,
                 "branch_id" => $branch_id,
-                "invoice_no" => $_POST['invoice_no'],
+                "invoice_no" => $info_piutang->invoice_no,
                 "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
                 // "carry_over",
                 "kurs" => 1,
@@ -1680,7 +1677,7 @@ class Api extends CI_Controller
                 // "printed_date",
                 // "printed_flag",
                 // "registered_date",
-                "registered_flag" => 0, // flag registered 0 untuk pembayaran di menu keuangan
+                "registered_flag" => "N", // flag registered N untuk pembayaran di menu keuangan
                 // "registered_user",
                 // "registered_id",
                 // "print_count" => 1,
@@ -1706,9 +1703,9 @@ class Api extends CI_Controller
                 "jurnal_no" => $jurnal_no,
                 // "acc_code" diisi dari dalam model,
                 // "master_id",
-                "invoice_no" => $_POST['invoice_no'],
+                "invoice_no" => $info_piutang->invoice_no,
                 "debit" => 0,
-                "credit" => $_POST['new_payment'],
+                "credit" => $_POST['payment'],
                 // "cost_center"
             )
         );
@@ -1720,12 +1717,43 @@ class Api extends CI_Controller
                 "jurnal_no" => $jurnal_no,
                 // "acc_code" diisi dari dalam model,
                 // "master_id",
-                "invoice_no" => $_POST['invoice_no'],
-                "debit" => $_POST['new_payment'],
+                "invoice_no" => $info_piutang->invoice_no,
+                "debit" => $_POST['payment'],
                 "credit" => 0,
                 // "cost_center"
             )
         );
+
+
+        // Cek apakah sudah lunas atau belum
+        if ($_POST['payment'] == $info_piutang->sisa_tagihan) {
+            // Update entry t_pembayaran_piutang
+            $this->keumod->update_entry_piutang(
+                $_POST['id'],
+                array(
+                    "flag" => 1,
+                    "jurnal_no" => $jurnal_no,
+                    "payment_date" => date("Y m d"),
+                    "payment" => $_POST['payment']
+                )
+            );
+        } else {
+            // Update entry t_pembayaran_piutang
+            $this->keumod->update_entry_piutang(
+                $_POST['id'],
+                array(
+                    "jurnal_no" => $jurnal_no,
+                    "payment_date" => date("Y m d"),
+                    "payment" => $_POST['payment']
+                )
+            );
+
+            // jika belum lunas, buat entry baru
+            $this->keumod->entry_tagihan_piutang_baru(
+                $info_piutang->invoice_no,
+                $info_piutang->sisa_tagihan - $_POST['payment']
+            );
+        }
 
         $this->session->set_flashdata("success", "Pembayaran telah tersimpan");
         redirect($_SERVER['HTTP_REFERER']);

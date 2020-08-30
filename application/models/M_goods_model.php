@@ -21,6 +21,7 @@ class M_goods_model extends CI_Model
             ref6.id as color_id,
             ref7.name as unit,
             ref7.id as unit_id,
+            ref7.initial as unit_initial,
 
             ref8.price as default_price,
             ref9.price as price_1,
@@ -178,7 +179,10 @@ class M_goods_model extends CI_Model
                 id,
                 brand_name,
                 brand_description,
-                barcode
+                barcode,
+                sku_code,
+                plu_code
+                
             FROM m_goods
             WHERE branch_id = $branch_id"
         );
@@ -382,6 +386,7 @@ class M_goods_model extends CI_Model
         $this->db->join("m_unit", "m_unit.id = m_goods.unit", "left");
         $this->db->where($where);
         $old = $this->db->get()->row();
+        
         $final_quantity = $old->ratio_flag == 1 ? $new_quantity / $old->converted_quantity : $new_quantity;
 
         $set = array(

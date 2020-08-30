@@ -54,7 +54,7 @@
                                 <th nowrap style="min-width: 100px;">Kode Barang</th>
                                 <th nowrap>Nama Barang</th>
                                 <th nowrap>Jumlah</th>
-                                <th nowrap>Satuan</th>
+                                <th nowrap>Unit</th>
                                 <th style="min-width: 100px">Harga</th>
                                 <th class="d-none">Diskon</th>
                                 <th class="d-none">Subtotal</th>
@@ -73,6 +73,7 @@
                                     <td>
                                         <div class="font-weight-bold"><?= substr($detail->goods_name, 0, strpos($detail->goods_name, " "))  ?></div>
                                         <div class="brand_description_show"><?= substr($detail->goods_name, strpos($detail->goods_name, " ") + 1)  ?></div>
+                                        <div class="small"><?= $detail->sku_code ?></div>
                                         <input type="hidden" name="barang[<?= $detail->goods_id ?>][goods_name]" value="<?= $detail->goods_name ?>">
                                     </td>
                                     <td style="width: 90px;">

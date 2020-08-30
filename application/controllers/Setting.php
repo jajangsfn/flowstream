@@ -277,6 +277,7 @@ class Setting extends CI_Controller
                     $data['back_url'] = base_url("/index.php/setting/master/cabang");
 
                     $data['page_content'] = $this->load->view("setting/master/cabang/cabang_spesifik", $content, true);
+                    $data['page_js'] = $this->load->view("setting/master/cabang/cabang_spesifik_js", $content, true);
                     break;
             }
         } else if ($this->session->role_code != "ROLE_SUPER_ADMIN") {

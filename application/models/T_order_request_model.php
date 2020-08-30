@@ -78,7 +78,8 @@ class T_order_request_model extends CI_Model
         m_unit.name as unit_name,
         m_unit.initial as unit_initial,
         m_unit.quantity as converted_quantity,
-        checksheet.quantity checksheet_qty
+        checksheet.quantity checksheet_qty,
+        m_goods.sku_code
         ");
         $this->db->from("t_order_request_detail ordet");
         $this->db->join("m_goods", "m_goods.id = ordet.goods_id", "left");
@@ -125,9 +126,10 @@ class T_order_request_model extends CI_Model
 
     function get_non_pos($where = '')
     {
-        $query = "SELECT id FROM t_order_request WHERE order_no not in (
-            SELECT order_no from t_pos
-            )";
+        $query =
+            "SELECT id 
+            FROM t_order_request 
+            WHERE flag = 2 ";
         if ($where) {
             $query .= " AND $where";
         }
@@ -175,22 +177,32 @@ class T_order_request_model extends CI_Model
             "goods_id" => $goods_id
         );
         $old = $this->db->get_where("t_order_request_detail", $where)->row();
-        $new_total = $final_quantity * $old->price * (100 - $old->discount) / 100;
-        $set = array(
-            "total" => $new_total,
-        );
 
-        $this->db->update("t_order_request_detail", $set, $where);
+        // UPDATE 30 Agustus, masukan / update entry t_checksheet tanpa ubah informasi order request
 
-        // UPDATE 29 Agustus, masukkan quantity baru ke tabel t_checksheet
+        // ambil info stok saat ini
+        $stock = $this->db->query(
+            "SELECT
+                case
+                    when m_goods.ratio_flag = 0
+                    then m_goods.quantity
+                    else m_goods.quantity * m_unit.quantity
+                end as old_stock
+            FROM m_goods
+            LEFT JOIN m_unit on m_unit.id = m_goods.unit
+            WHERE m_goods.id = $goods_id"
+        )->row()->old_stock;
 
-        // if exist, update
+        // Entry t_checksheet
+        // update if exist, insert otherwise
         $data = array(
             "order_request_detail_id" => $old->id,
             "quantity" => $final_quantity,
+            "old_quantity" => $stock,
             "flag" => 1,
             "created_by" => $this->session->userdata("id")
         );
+
         $find = $this->db->get_where("t_checksheet", array(
             "order_request_detail_id" => $old->id
         ));
@@ -208,7 +220,8 @@ class T_order_request_model extends CI_Model
         $this->db->update("t_order_request", array("flag" => 10), array("id" => $or_id));
     }
 
-    public function delete_checksheet_entry($or_id, $goods_id) {
+    public function delete_checksheet_entry($or_id, $goods_id)
+    {
         $where = array(
             "order_request_id" => $or_id,
             "goods_id" => $goods_id
@@ -218,7 +231,7 @@ class T_order_request_model extends CI_Model
         $this->db->delete("t_checksheet", array(
             "order_request_detail_id" => $old->id
         ));
-        
+
         $this->db->delete("t_order_request_detail", $where);
     }
 }

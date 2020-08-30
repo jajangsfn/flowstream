@@ -23,12 +23,6 @@
         $("#edit_modal").modal("show");
     }
 
-    function delete_trigger(id) {
-        $("#id_delete").val(id);
-
-        $("#delete_modal").modal("show");
-    }
-
     var logo = new KTImageInput("logo_edit");
     logo.on('cancel', function(imageInput) {
         swal.fire({
@@ -51,38 +45,6 @@
     });
 
     logo.on('remove', function(imageInput) {
-        swal.fire({
-            title: 'Logo berhasil dihapus !',
-            type: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Ok!',
-            confirmButtonClass: 'btn btn-primary font-weight-bold'
-        });
-    });
-
-    var logo_tambah = new KTImageInput('logo');
-
-    logo_tambah.on('cancel', function(imageInput) {
-        swal.fire({
-            title: 'Logo berhasil diubah !',
-            type: 'success',
-            buttonsStyling: false,
-            confirmButtonText: 'Ok!',
-            confirmButtonClass: 'btn btn-primary font-weight-bold'
-        });
-    });
-
-    logo_tambah.on('change', function(imageInput) {
-        swal.fire({
-            title: 'Logo berhasil diubah !',
-            type: 'success',
-            buttonsStyling: false,
-            confirmButtonText: 'Ok!',
-            confirmButtonClass: 'btn btn-primary font-weight-bold'
-        });
-    });
-
-    logo_tambah.on('remove', function(imageInput) {
         swal.fire({
             title: 'Logo berhasil dihapus !',
             type: 'error',

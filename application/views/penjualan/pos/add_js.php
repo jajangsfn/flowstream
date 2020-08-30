@@ -133,7 +133,7 @@
                                         class="d-flex align-items-center justify-content-between mb-5 text-dark-75 text-hover-primary"
                                         onclick="add_modal(${result.data[i].id})"
                                         style="cursor: pointer"
-                                        data-keyword="${result.data[i].brand_name + result.data[i].brand_description + result.data[i].barcode}
+                                        data-keyword="${result.data[i].brand_name + result.data[i].brand_description + result.data[i].barcode + result.data[i].sku_code + result.data[i].plu_code}
                                         data-id-barang-passable="${result.data[i].id}"
                                     >
                                         <div class="d-flex justify-content-center flex-column mr-2">
@@ -141,6 +141,7 @@
                                                 <span class="font-size-h6 font-weight-bolder">${result.data[i].brand_name}</span>
                                             </div>
                                             <span>${result.data[i].brand_description}</span>
+                                            <div class="small">${result.data[i].sku_code}</div>
                                         </div>
                                         <button type="button" class="btn btn-white text-primary">
                                             <i class="fa text-primary fa-angle-right p-0"></i>
@@ -280,6 +281,7 @@
                             $(document.createElement("td")).append(
                                 $(document.createElement("div")).text(data.brand_name).addClass("font-weight-bold"),
                                 $(document.createElement("div")).text(data.brand_description).addClass(`brand_description_show ${show_desc ? "" : "d-none"}`),
+                                $(document.createElement("div")).text(data.sku_code).addClass("small"),
                                 $(document.createElement("input"))
                                 .attr("type", "hidden")
                                 .attr("name", `barang[${data.id}][goods_name]`)
@@ -300,7 +302,7 @@
                             ),
 
                             // unit barang
-                            $(document.createElement("td")).text(data.ratio_flag == 1 ? "Pieces" : data.unit),
+                            $(document.createElement("td")).text(data.ratio_flag == 1 ? "pcs" : data.unit_initial),
 
                             $(document.createElement("td")).append(
                                 $(document.createElement("input"))

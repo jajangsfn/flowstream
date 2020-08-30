@@ -28,7 +28,7 @@
                         <th nowrap style="min-width: 100px;">Kode Barang</th>
                         <th nowrap>Nama Barang</th>
                         <th nowrap>Jumlah</th>
-                        <th nowrap>Satuan</th>
+                        <th nowrap>Unit</th>
                         <th style="min-width: 100px">Harga</th>
                     </tr>
                 </thead>
@@ -40,13 +40,13 @@
                                 <div><?= $detail->barcode ?></div>
                             </td>
                             <td>
-                                <?= $detail->brand_name ?> - <?= $detail->brand_description ?>
+                                <?= $detail->brand_name ?> - <?= $detail->brand_description ?> (<?= $detail->sku_code ?>)
                             </td>
                             <td style="width: 70px;" class="text-center">
                                 <?= $detail->quantity ?>
                             </td>
                             <td>
-                                <?= $detail->ratio_flag == 1 ? "PCS" : $detail->unit_name ?>
+                                <?= $detail->ratio_flag == 1 ? "pcs" : $detail->unit_name ?>
                             </td>
                             <td style="width: 100px;" class="text-right rupiah">
                                 <?= $detail->price ?>

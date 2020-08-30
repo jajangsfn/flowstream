@@ -1,4 +1,5 @@
 <script>
+    const buttonspacer = `<a class="btn btn-sm btn-icon invisible"><a>`;
     $(document).ready(() => {
         $("#order_request_table").DataTable({
             responsive: true,
@@ -55,28 +56,53 @@
                                 <i class="flaticon2-edit"></i>
                             </a>`
 
+                        const deleteTrigger = `
+                            <button type="button" class="btn btn-icon btn-sm btn-light-danger" onclick="delete_trigger(
+                            '${row.id}',
+                            )" data-toggle="tooltip" title="Hapus Order">
+                                <i class="flaticon2-trash"></i>
+                            </button>
+                        `
+
+                        const cetakUlang =
+                            `
+                            <div 
+                                class="btn btn-icon btn-sm btn-light-info" 
+                                data-toggle="tooltip" 
+                                title="Cetak Order"
+                                onclick="confirm_cetak(${data})"
+                            >
+                                <i class="fa la-print"></i>
+                            </div>
+                        `
+
+                        if (row.flag == 1) {
+                            ext_button = editOrderRequest + cetakUlang + deleteTrigger;
+                        } else if (row.flag == 10) {
+                            ext_button = buttonspacer + cetakUlang + buttonspacer;
+                        }
+
+                        return ext_button;
+                    },
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        $(td).attr('nowrap', 'nowrap').addClass("text-center")
+                    },
+                    sortable: false
+                },
+                {
+                    data: 'id',
+                    responsivePriority: -1,
+                    render: function(data, type, row, meta) {
+                        var ext_button = "";
+
                         const checksheet = `
                             <a class="btn btn-icon btn-sm btn-light-primary" data-toggle="tooltip" data-placement="top" title="Check Sheet" href="<?= base_url("/index.php/penjualan/order_request/checksheet/") ?>${data}">
                                 <i class="flaticon2-checkmark"></i>
                             </a>
                         `
 
-                        const cetakFaktur = `
-                            <button onclick="confirm_cetak_faktur(${data})" class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" data-placement="top" title="Cetak Faktur">
-                                <i class="flaticon2-graph-1"></i>
-                            </button>
-                        `
-
-                        const deleteTrigger = `
-                            <button type="button" class="btn btn-icon btn-sm btn-light-danger" onclick="delete_trigger(
-                            '${row.id}',
-                            )" data-toggle="tooltip" title="Hapus">
-                                <i class="flaticon2-trash"></i>
-                            </button>
-                        `
-
-                        const cetakChecksheet = 
-                        `
+                        const cetakChecksheet =
+                            `
                             <div 
                                 class="btn btn-icon btn-sm btn-light-success" 
                                 data-toggle="tooltip" 
@@ -87,24 +113,35 @@
                             </div>
                         `
 
-                        const cetakUlang = 
-                        `
-                            <div 
-                                class="btn btn-icon btn-sm btn-light-info" 
-                                data-toggle="tooltip" 
-                                title="Cetak Ulang"
-                                onclick="confirm_cetak(${data})"
-                            >
-                                <i class="fa la-print"></i>
-                            </div>
+                        if (row.flag == 1) {
+                            ext_button = checksheet + buttonspacer;
+                        } else if (row.flag == 10) {
+                            ext_button = checksheet + cetakChecksheet;
+                        } else if (row.flag == 2) {
+                            ext_button = buttonspacer + cetakChecksheet;
+                        }
+
+                        return ext_button;
+                    },
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        $(td).attr('nowrap', 'nowrap').addClass("text-center")
+                    },
+                    sortable: false
+                },
+                {
+                    data: 'id',
+                    responsivePriority: -1,
+                    render: function(data, type, row, meta) {
+                        var ext_button = "";
+
+                        const cetakFaktur = `
+                            <button onclick="confirm_cetak_faktur(${data})" class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" data-placement="top" title="Cetak Faktur">
+                                <i class="flaticon2-graph-1"></i>
+                            </button>
                         `
 
-                        if (row.flag == 1) {
-                            ext_button = editOrderRequest + checksheet + cetakUlang + deleteTrigger;
-                        } else if (row.flag == 10) {
-                            ext_button = checksheet + cetakChecksheet + cetakUlang + cetakFaktur + deleteTrigger;
-                        } else if (row.flag == 2) {
-                            ext_button = cetakChecksheet + cetakUlang;
+                        if (row.flag == 10) {
+                            ext_button = cetakFaktur;
                         }
 
                         return ext_button;

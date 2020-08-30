@@ -30,7 +30,11 @@
                                             <div class="d-flex align-items-baseline mr-5">
                                                 <!--begin::Page Title-->
                                                 <?php if (isset($back_url)) : ?>
-                                                    <a class="fa la-angle-left mr-5 text-primary icon-md" href="<?= $back_url ?>"> </a>
+                                                    <a class="btn btn-light-primary mr-5" href="<?= $back_url ?>">
+                                                        <i class="fa la-angle-left icon-md"></i>
+                                                        kembali
+                                                    </a>
+                                                    <!-- <a class="fa la-angle-left mr-5 text-primary icon-md" href="<?= $back_url ?>"> </a> -->
                                                 <?php else : ?>
                                                     <a class="fa la-home mr-5 text-primary icon-md" href="<?= base_url() ?>"> </a>
                                                 <?php endif; ?>
@@ -66,12 +70,16 @@
                                             <div class="d-flex align-items-baseline mr-5">
                                                 <!--begin::Page Title-->
                                                 <?php if (isset($back_url)) : ?>
-                                                    <a class="fa la-angle-left mr-5 text-primary icon-md" href="<?= $back_url ?>"> </a>
+                                                    <a class="btn btn-light-primary mr-5" href="<?= $back_url ?>">
+                                                        <i class="fa la-angle-left icon-md"></i>
+                                                        kembali
+                                                    </a>
                                                 <?php else : ?>
                                                     <a class="fa la-home mr-5 text-primary icon-md" href="<?= base_url() ?>"> </a>
                                                 <?php endif; ?>
                                                 <h5 class="text-dark font-weight-bold my-2 mr-5">
-                                                    <?= $page_title ?></h5>
+                                                    <?= $page_title ?>
+                                                </h5>
                                                 <!--end::Page Title-->
                                             </div>
                                             <!--end::Page Heading-->
