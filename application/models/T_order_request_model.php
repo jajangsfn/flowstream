@@ -72,6 +72,8 @@ class T_order_request_model extends CI_Model
         m_goods.brand_name,
         m_goods.brand_description,
         m_goods.ratio_flag,
+        m_goods.sku_code,
+        m_goods.plu_code,
         m_goods.quantity as last_quantity,
         m_unit.name as unit_name,
         m_unit.initial as unit_initial,

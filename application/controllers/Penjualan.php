@@ -121,7 +121,6 @@ class Penjualan extends CI_Controller
     {
 
         $content = $this->or->get_specific($id_or);
-         
         $data = array();
         if ($content) { 
             foreach ($content->details as $key => $val) {
@@ -156,6 +155,8 @@ class Penjualan extends CI_Controller
                     "total" => $val->total,
                     "flag" => $val->flag,
                     "barcode" => $val->barcode,
+                    "sku_code" => $val->sku_code,
+                    "plu_code" => $val->plu_code,
                     "brand_name" => $val->brand_name,
                     "brand_description" =>  $val->brand_description,
                     "unit_name" => $val->unit_name,
@@ -242,7 +243,7 @@ class Penjualan extends CI_Controller
     {
 
         $data['page_title'] = "Retur Penjualan";
-        $data['return']     = $this->pos_return->get_all();
+        $data['return']     = $this->pos_return->get_all(); 
         $data['page_content'] = $this->load->view("penjualan/return/return", $data, true);
 
         $this->load->view('layout/head');
@@ -350,7 +351,7 @@ class Penjualan extends CI_Controller
         if (count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
-
+ 
 
                 $arr_return = array(
                     "branch_id" => $this->session->userdata('branch_id'),
@@ -364,7 +365,7 @@ class Penjualan extends CI_Controller
                     "updated_by" => $this->session->userdata('id'),
                     "flag" => 1
                 );
-
+                
                 $this->pos_return->delete($param['id']);
                 $this->pos_return->insert($arr_return, $param);
 
@@ -400,7 +401,7 @@ class Penjualan extends CI_Controller
                     "flag" => 1
                 );
 
-
+                // echo json_encode($param);exit;
                 $this->pos_return->insert($arr_return, $param);
 
 

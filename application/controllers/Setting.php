@@ -125,7 +125,7 @@ class Setting extends CI_Controller
                             array(
                                 "id" => $fourth_path,
                             )
-                        )->row();
+                        )->row(); 
 
                         $data['page_title'] = "Mapping barang untuk " . $content['data_salesman']->name;
                         $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id . "/supplier" . "/" . $content['data_supplier']->id . "/salesman");
@@ -146,7 +146,7 @@ class Setting extends CI_Controller
                                 "flag <> " => "99"
                             )
                         )->result();
-
+                        
                         $data['page_title'] = "Daftar Salesman untuk " . $content['data_supplier']->name;
                         $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id . "/supplier");
                         $data['page_content'] = $this->load->view("setting/master/cabang/salesman", $content, true);

@@ -20,7 +20,7 @@
                 <ul class="navi navi-hover navi-active" id="goods_list_bar" style="overflow: scroll;height: 400px">
         </ul>
          </div>
-     </div>
+     </div> 
   </div>
   <!-- end search -->
 
@@ -173,6 +173,15 @@
             </div>
           </div>
           <!-- end row -->
+
+           <div class="row">
+            <div class="col-md-10 text-right h3">
+              Total
+            </div>
+            <div class="col-md-2 h3" id="grant_total">
+              0
+            </div>
+          </div>
 
 
           <hr>

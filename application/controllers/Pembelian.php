@@ -170,7 +170,7 @@ class Pembelian extends CI_Controller
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['warehouse']    = $this->m_ws->get_all()->result();
-        $data['master']       = $this->return->get_all("tab1.id=".$id,"tab2.id");
+        $data['master']       = $this->return->get_all("tab1.id=".$id,"all_result.purchase_return_detail_id"); 
         //echo json_encode($data['master']);exit;
         $data['page_content'] = $this->load->view("pembelian/return/edit_return", $data, true);
 
@@ -284,9 +284,9 @@ class Pembelian extends CI_Controller
     public function print_return($id)
     {
         $where = "tab1.id=".$id;
-        $group = "tab1.id,tab2.id";
+        $group = "all_result.purchase_return_detail_id";
         $data = $this->return->get_all($where, $group, 2);   
-        
+         
         $this->pdf->dynamic_print(1,"return_in",$data);
     }
 
@@ -417,8 +417,8 @@ class Pembelian extends CI_Controller
 
     public function get_partner($where=array(),$return=false)
     {
-        $data = $this->partner->get($where);
-
+       $data = $this->partner->get($where);
+ 
         if($return) 
         {
             return json_encode($data);
@@ -429,32 +429,90 @@ class Pembelian extends CI_Controller
 
     public function get_goods_json($type = 1)
     {
-        if ( $type == 1)
-        {
-             $goods     = $this->input->get('goods');
-             $supplier  = $this->input->get('id_supplier');             
-             $where     = "tab1.id=".$supplier;
-             $where     = ($goods) ? $where." AND tab4.brand_description like '".$goods."%' or tab4.sku_code like '".$goods."%' or tab4.plu_code like '".$goods."%' or tab4.barcode like '".$goods."%'" : $where;
-             $data      = $this->goods->get_goods_per_supplier($where)->result(); 
- 
-        }else if( $type == 2){
-            $goods      = $this->input->get('id_goods');
-            $where      = "goods_id=".$goods;
-            $data       = $this->goods->get_goods_price($where)->result();
-        }else if ( $type == 3){
 
-            $supplier   = $this->input->get("id_supplier");    
-            $where      = "tab1.id=".$supplier;
-            $data       = $this->goods->get_goods_per_supplier($where)->result();
-        }else if ( $type == 4)
-        { 
-             $goods     = $this->input->get('goods_id');
-             $supplier  = $this->input->get('id_supplier');             
-             $where     = "tab1.id=".$supplier;
-             $where     = ($goods) ? $where." AND tab4.id='".$goods."'" : $where;
-             $data      = $this->goods->get_goods_per_supplier($where)->result(); 
+        $where         = "";
 
+        if (count($_GET) > 0) {
+
+            if ($type == 1 ){
+                if (array_key_exists("id_supplier", $_GET)) {
+                    $where.= "tab1.id = " . $_GET['id_supplier'];
+                }
+
+                if (array_key_exists("id_salesman", $_GET)) {
+                    if ($where) {
+                        $where.= " AND tab2.id = " . $_GET['id_salesman'];
+                    }else {
+                        $where.= "tab2.id = " . $_GET['id_salesman'];    
+                    }
+                    
+                }
+
+                if (array_key_exists("goods", $_GET)) {
+                    if ($where) {
+                        $where.= " AND tab4.brand_description like '" . $_GET['goods'] . "%' or tab4.sku_code like '" . $_GET['goods'] ."%' or tab4.plu_code like '" . $_GET['goods'] ."%' or tab4.barcode like '" . $_GET['goods'] ."%'";
+                    }else {
+                        $where.= "tab4.brand_description like '" . $_GET['goods'] . "%' or tab4.sku_code like '" . $_GET['goods'] ."%' or tab4.plu_code like '" . $_GET['goods'] ."%' or tab4.barcode like '" . $_GET['goods'] ."%'";
+                    }
+                }
+            }
+
+            if ($type == 2) {
+                if (array_key_exists("id_goods", $_GET)) {
+                    
+                    if ($where) {
+                        $where.= " AND tab4.id =".$_GET['id_goods'];  
+                    }else {
+                        $where.= " tab4.id =".$_GET['id_goods'];  
+                    }
+                }
+                
+            }
         }
+        
+        // exit;
+        if ($where) {
+            $data       = $this->goods->get_goods_per_supplier($where)->result();
+        }else {
+            $data = null;
+        }
+
+        // if (isset($_POST['goods']) ) {
+        //     $where     = $_POST['goods'];   
+        // }
+        // if ( $type == 1)
+        // {
+        //      $goods     = $this->input->get('goods');
+        //      $supplier  = $this->input->get('id_supplier');  
+        //      $salesman  = ($this->input->get("id_salesman")) ? $this->input->get("id_salesman");
+        //      $where     = "tab1.id=".$supplier;
+        //      $where     = ($goods) ? $where." AND tab4.brand_description like '".$goods."%' or tab4.sku_code like '".$goods."%' or tab4.plu_code like '".$goods."%' or tab4.barcode like '".$goods."%'" : $where;
+        //      $data      = $this->goods->get_goods_per_supplier($where)->result(); 
+ 
+        // }else if( $type == 2){
+        //     $goods      = $this->input->get('id_goods');
+        //     $where      = "goods_id=".$goods;
+        //     $data       = $this->goods->get_goods_price($where)->result();
+        // }else if ( $type == 3){
+
+        //     $supplier   = $this->input->get("id_supplier");    
+        //     $where      = "tab1.id=".$supplier;
+        //     $data       = $this->goods->get_goods_per_supplier($where)->result();
+        // }else if ( $type == 4)
+        // { 
+        //      $goods     = $this->input->get('goods_id');
+        //      $supplier  = $this->input->get('id_supplier');             
+        //      $where     = "tab1.id=".$supplier;
+        //      $where     = ($goods) ? $where." AND tab4.id='".$goods."'" : $where;
+        //      $data      = $this->goods->get_goods_per_supplier($where)->result(); 
+
+        // }else if ( $type == 5){
+
+        //     $supplier   = $this->input->get("id_supplier");    
+        //     $salesman   = $this->input->get("id_salesman");    
+        //     $where      = "tab1.id=".$supplier. " and tab2.id=".$salesman;
+        //     $data       = $this->goods->get_goods_per_supplier($where)->result();
+        // }
        
         
 
@@ -487,7 +545,7 @@ class Pembelian extends CI_Controller
         $index = 0;
         
 
-        for ($i=0; $i <15 ; $i++) { 
+        for ($i=0; $i <5 ; $i++) { 
             // $data[$index] = new \stdClass();
             $data[$index] = array();
             // PO
@@ -501,6 +559,8 @@ class Pembelian extends CI_Controller
             // $data[$index]['plu_code']      = rand(000000,9999999);
             // $data[$index]['goods_price']         =  rand(1000, 155000);
             // $data[$index]['goods_qty']      =  rand(10, 2390); 
+            // $data[$index]['goods_discount']      =  rand(1, 100); 
+            // $data[$index]['barcode']      =  rand(1, 1000); 
 
             // $data[$index] = array();
             // RECEIVING
@@ -508,7 +568,8 @@ class Pembelian extends CI_Controller
             // $data[$index]['salesman_name'] =  $this->generateRandomString(20);
             // $data[$index]['receiving_no']     = '00000131202007000001';
             // $data[$index]['created_date']   = date('Y-m-d');
-            // // $data[$index]['reference_no']  = '00000125202007000012';
+            // $data[$index]['barcode']      =  rand(1, 1000); 
+            // $data[$index]['reference_no']  = '00000125202007000012';
             // $data[$index]['goods_name']    = $this->generateRandomString(20);
             // $data[$index]['sku_code']      = $this->generateRandomString(5);
             // $data[$index]['plu_code']      = rand(1000, 155000);
@@ -521,15 +582,16 @@ class Pembelian extends CI_Controller
             // $data[$index]['salesman_name'] =  $this->generateRandomString(20);
             // $data[$index]['physical_warehouse_no']     = '00000131202007000001';
             // $data[$index]['created_date']   = date('Y-m-d');
-            // // $data[$index]['reference_no']  = '00000125202007000012';
+            // $data[$index]['reference_no']  = '00000125202007000012';
             // $data[$index]['brand_description']    = $this->generateRandomString(20);
             // $data[$index]['sku_code']      = $this->generateRandomString(5);
             // $data[$index]['plu_code']      = rand(000000,9999999);
             // $data[$index]['quantity']      =  rand(10, 2390); 
             // $data[$index]['total_item']      =  rand(10, 2390); 
             // $data[$index]['actual_warehouse_name']    = $this->generateRandomString(10);
+            // $data[$index]['barcode']      =  rand(1, 1000); 
             // retur
-            // $data[$index]['supplier_name'] = "PT. ABCD";
+            // $data[$index]['partner_name'] = "PT. ABCD";
             // $data[$index]['customer'] = "PT. ABCD";
             // $data[$index]['salesman_name'] =  $this->generateRandomString(20);
             // $data[$index]['return_no']     = '00000131202007000001';
@@ -539,28 +601,34 @@ class Pembelian extends CI_Controller
             // $data[$index]['goods_name']    = $this->generateRandomString(20);
             // $data[$index]['sku_code']      = $this->generateRandomString(5);
             // $data[$index]['plu_code']      = rand(000000,9999999);
+            // $data[$index]['barcode']      =  rand(1, 1000); 
             // $data[$index]['quantity']      =  rand(10, 2390); 
             // $data[$index]['price']      =  rand(10, 2390); 
             // $data[$index]['discount']      =  rand(0, 10); 
             // $data[$index]['total']      =  $data[$index]['price'] * $data[$index]['quantity'];
             // $data[$index]['warehouse_name']    = $this->generateRandomString(10);
-            // daily sales
+            // $data[$index]['invoice_no']   = rand(000000,9999999);
             // $data[$index]['created_date'] = $this->generateRandomString(20);
             // $data[$index]['updated_date'] = $this->generateRandomString(20);
-            // $data[$index]['partner_name'] = $this->generateRandomString(25);
-            // $data[$index]['invoice_no']   = rand(000000,9999999);
-            // $data[$index]['total']        = rand(10, 2390); 
-            // $data[$index]['goods_name']    = $this->generateRandomString(20);
-            // $data[$index]['sku_code']      = $this->generateRandomString(5);
-            // $data[$index]['plu_code']      = rand(000000,9999999);
-            // $data[$index]['quantity']      =  rand(10, 2390); 
-            // $data[$index]['price']      =  rand(10, 2390); 
-            // $data[$index]['total']      =  $data[$index]['price'] * $data[$index]['quantity'];
-            // $data[$index]['discount']      =  rand(0, 10); 
             // $data[$index]['brand_name']    = $this->generateRandomString(20);
             // $data[$index]['brand_description']    = $this->generateRandomString(20);
-            // $data[$index]['unit_name']    = $this->generateRandomString(10);
-            // $data[$index]['unit_desc']    = $this->generateRandomString(10);
+            // daily sales
+            $data[$index]['created_date'] = $this->generateRandomString(20);
+            $data[$index]['updated_date'] = $this->generateRandomString(20);
+            $data[$index]['partner_name'] = $this->generateRandomString(25);
+            $data[$index]['invoice_no']   = rand(000000,9999999);
+            $data[$index]['total']        = rand(10, 2390); 
+            $data[$index]['goods_name']    = $this->generateRandomString(20);
+            $data[$index]['sku_code']      = $this->generateRandomString(5);
+            $data[$index]['plu_code']      = rand(000000,9999999);
+            $data[$index]['quantity']      =  rand(10, 2390); 
+            $data[$index]['price']      =  rand(10, 2390); 
+            $data[$index]['total']      =  $data[$index]['price'] * $data[$index]['quantity'];
+            $data[$index]['discount']      =  rand(0, 10); 
+            $data[$index]['brand_name']    = $this->generateRandomString(20);
+            $data[$index]['brand_description']    = $this->generateRandomString(20);
+            $data[$index]['unit_name']    = $this->generateRandomString(10);
+            $data[$index]['unit_desc']    = $this->generateRandomString(10);
             // monthly sales
             // $data[$index]['created_date'] = $this->generateRandomString(20);
             // $data[$index]['total_trans'] = rand(1,100);
@@ -577,8 +645,9 @@ class Pembelian extends CI_Controller
         // $this->pdf->dynamic_print(1,"po_in",$data);
         // $this->pdf->dynamic_print(1,"receive_in",$data);
         // $this->pdf->dynamic_print(1,"warehouse_in",$data);
+        // $this->pdf->dynamic_print(1,"return_in",$data);
         // $this->pdf->dynamic_print(2,"return_out",$data);
-        $this->pdf->dynamic_print(2,"daily_sales_out_full",$data);
+        // $this->pdf->dynamic_print(2,"daily_sales_out_full",$data);
         // $this->pdf->dynamic_print(2,"monthly_sales_out",$data);
     }
 

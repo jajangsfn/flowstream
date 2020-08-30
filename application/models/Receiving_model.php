@@ -84,19 +84,19 @@ class Receiving_model extends CI_Model
         $this->db->update("t_receiving_detail",$data);
 
         // get reference no
-        // $where_goods['ref_no']       = $this->get(array("id"=>$where['id']))->result()[0]->reference_no;
-        // // update qty all goods
-        // $where_goods['receiving_id'] = $where['id']; 
-        // $this->update_qty_goods($where_goods);
+        $where_goods['ref_no']       = $this->get(array("id"=>$where['id']))->result()[0]->reference_no;
+        // update qty all goods
+        $where_goods['receiving_id'] = $where['id']; 
+        $this->update_qty_goods($where_goods);
         return 1;
     }
 
-    // not used
+    
     function update_qty_goods($where)
     {   
         $where_rd           = "receiving_id=".$where['receiving_id']." and flag<>99";
         $data = $this->db->get_where("t_receiving_detail",$where_rd)->result();
-        // echo json_encode($data);exit;
+        
         if ($data) {
             foreach ($data as $key => $val) {
 
