@@ -37,6 +37,15 @@
                     data: 'position_name'
                 },
                 {
+                    data: 'role_code',
+                    render: function(data) {
+                        var toret = data.split("_");
+                        toret.shift();
+                        toret = toret.join(' ');
+                        return toret;
+                    }
+                },
+                {
                     data: 'birth',
                 },
                 {

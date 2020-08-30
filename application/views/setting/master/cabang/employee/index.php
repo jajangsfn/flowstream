@@ -21,8 +21,9 @@
                     <th>Nomor Karyawan</th>
                     <th>Level</th>
                     <th>Posisi</th>
+                    <th>Role</th>
                     <th>Tanggal Lahir</th>
-                    <th>Alamat</th>
+                    <th class="none">Alamat</th>
                     <th>No Telepon</th>
                     <th>Tanggal Bergabung</th>
                     <th>Status</th>

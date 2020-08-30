@@ -8,11 +8,13 @@ class M_employee_model extends CI_Model
         m_employee.*,
         s1.detail_data as level_name,
         s2.detail_data as position_name,
+        usr.role_code
         ");
 
         $this->db->from("m_employee");
         $this->db->join("s_reference s1", "s1.id = m_employee.level_id", "left");
         $this->db->join("s_reference s2", "s2.id = m_employee.position_id", "left");
+        $this->db->join("m_user usr", "usr.id = m_employee.user_id", "left");
 
         $where['m_employee.flag <>'] = 99;
         $this->db->where($where);
