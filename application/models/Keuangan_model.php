@@ -5,7 +5,7 @@ class Keuangan_model extends CI_Model
     function entry_tagihan_piutang_baru($journal_no, $payment)
     {
         $this->db->insert("t_pembayaran_piutang", array(
-            "jurnal_no" => $journal_no,
+            "invoice_no" => $journal_no,
             "payment" => $payment,
             "created_by" => $this->session->userdata("id")
         ));
@@ -13,18 +13,16 @@ class Keuangan_model extends CI_Model
 
     function get_customer_with_invoice_piutang()
     {
-        if ($this->session->role_code == "ROLE_SUPER_ADMIN") {
-            $where = "1";
-        } else {
+        $where = "1";
+        if ($this->session->role_code != "ROLE_SUPER_ADMIN") {
             $where = "t_pos.branch_id = " . $this->session->branch_id;
         }
         return $this->db->query(
-            "SELECT 
+            "SELECT DISTINCT
                 m_partner.*
             FROM m_partner
             LEFT JOIN t_pos on t_pos.partner_id = m_partner.id
-            LEFT JOIN t_jurnal on t_jurnal.invoice_no = t_pos.invoice_no
-            LEFT JOIN t_pembayaran_piutang tpp on tpp.jurnal_no = t_jurnal.jurnal_no
+            LEFT JOIN t_pembayaran_piutang tpp on tpp.invoice_no = t_pos.invoice_no
             WHERE $where AND tpp.flag = 0
             "
         );
@@ -36,12 +34,12 @@ class Keuangan_model extends CI_Model
             "SELECT 
                 tpp.id,
                 t_pos.id as pos_id,
-                t_pos.invoice_no
+                tpp.invoice_no,
+                tpp.created_date
 
             FROM m_partner
             LEFT JOIN t_pos on t_pos.partner_id = m_partner.id
-            LEFT JOIN t_jurnal on t_jurnal.invoice_no = t_pos.invoice_no
-            LEFT JOIN t_pembayaran_piutang tpp on tpp.jurnal_no = t_jurnal.jurnal_no
+            LEFT JOIN t_pembayaran_piutang tpp on tpp.invoice_no = t_pos.invoice_no
             WHERE m_partner.id = $customer_id AND tpp.flag = 0"
         );
     }

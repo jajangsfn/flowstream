@@ -19,8 +19,9 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th width="1">No</th>
                                     <th>Invoice No</th>
+                                    <th>Invoice Date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

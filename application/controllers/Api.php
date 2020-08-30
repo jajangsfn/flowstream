@@ -1600,7 +1600,7 @@ class Api extends CI_Controller
 
         // jika pembayaran belum lunas (payment_paid != payment_total), buat entry di t_pembayaran_piutang
         if ($pos_target->payment_total != $pos_target->payment_paid) {
-            $this->keumod->entry_tagihan_piutang_baru($jurnal_no_awal, $pos_target->payment_total - $pos_target->payment_paid);
+            $this->keumod->entry_tagihan_piutang_baru($pos_target->invoice_no, $pos_target->payment_total - $pos_target->payment_paid);
         }
 
         $this->session->set_flashdata("success", "Faktur pajak berhasil dicetak");

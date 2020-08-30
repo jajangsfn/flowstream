@@ -20,6 +20,9 @@
                                     </a>
                                 </td>
                                 <td>
+                                    ${result.data[i].created_date}
+                                </td>
+                                <td>
                                     <button type="button" onclick="init_bayar(${result.data[i].id})" class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" data-placement="top" title="Pembayaran">
                                         <i class="flaticon2-graph-1"></i>
                                     </button>
