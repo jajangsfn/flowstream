@@ -1653,23 +1653,6 @@ class Api extends CI_Controller
         );
     }
 
-    public function get_invoice_data($pos_id)
-    {
-        $return_value = $this->pos->get_invoice_data($pos_id)->row();
-        $return_value->pos_date = longdate_indo(date($return_value->pos_date));
-        $return_value->payment_total = str_replace(',', '', $return_value->payment_total);
-        $return_value->payment_total_str = "Rp " . number_format($return_value->payment_total, 2, ',', '.');
-        $return_value->terbayar_str = "Rp " . number_format($return_value->terbayar, 2, ',', '.');
-        $return_value->tagihan = $return_value->payment_total - $return_value->terbayar;
-        $return_value->tagihan_str = "Rp " . number_format($return_value->tagihan, 2, ',', '.');
-
-        echo json_encode(
-            array(
-                "data" => $return_value
-            )
-        );
-    }
-
     public function pembayaran_piutang()
     {
         // Get informasi piutang
