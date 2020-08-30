@@ -32,7 +32,7 @@
                         <th nowrap>Jumlah Order</th>
                         <th nowrap>Jumlah Tersedia</th>
                         <th nowrap>Jumlah Akhir</th>
-                        <th nowrap>Satuan</th>
+                        <th nowrap>Unit</th>
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>

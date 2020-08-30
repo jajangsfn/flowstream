@@ -28,7 +28,7 @@
                         <th nowrap style="min-width: 100px;">Kode Barang</th>
                         <th nowrap>Nama Barang</th>
                         <th nowrap>Jumlah</th>
-                        <th nowrap>Satuan</th>
+                        <th nowrap>Unit</th>
                         <th style="min-width: 100px">Harga</th>
                     </tr>
                 </thead>
