@@ -21,6 +21,7 @@ class M_goods_model extends CI_Model
             ref6.id as color_id,
             ref7.name as unit,
             ref7.id as unit_id,
+            ref7.initial as unit_initial,
 
             ref8.price as default_price,
             ref9.price as price_1,

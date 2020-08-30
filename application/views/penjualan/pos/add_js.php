@@ -300,7 +300,7 @@
                             ),
 
                             // unit barang
-                            $(document.createElement("td")).text(data.ratio_flag == 1 ? "Pieces" : data.unit),
+                            $(document.createElement("td")).text(data.ratio_flag == 1 ? "pcs" : data.unit_initial),
 
                             $(document.createElement("td")).append(
                                 $(document.createElement("input"))

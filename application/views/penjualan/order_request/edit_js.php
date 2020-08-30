@@ -91,7 +91,7 @@
                 $("#nama_barang_tambah").text(focus.brand_name);
                 $("#desk_barang_tambah").text(focus.brand_description);
                 $("#barcode_barang_tambah").text(focus.barcode);
-                $("#harga_barang_tambah").text((price ? price : "0") + " / " + focus.unit);
+                $("#harga_barang_tambah").text((price ? price : "0") + " / " + focus.unit_initial);
                 $("#tombol_tambah_baru").attr("data-id-barang", focus.id)
 
                 $("#tambah_barang").modal("show");
@@ -237,7 +237,7 @@
                             ),
 
                             // unit barang
-                            $(document.createElement("td")).text(data.ratio_flag == 1 ? "Pieces" : data.unit),
+                            $(document.createElement("td")).text(data.ratio_flag == 1 ? "Pieces" : data.unit_initial),
 
                             // Harga barang
                             $(document.createElement("td")).append(

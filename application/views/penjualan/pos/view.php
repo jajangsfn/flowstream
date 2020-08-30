@@ -46,7 +46,7 @@
                                 <?= $detail->quantity ?>
                             </td>
                             <td>
-                                <?= $detail->ratio_flag == 1 ? "PCS" : $detail->unit_name ?>
+                                <?= $detail->ratio_flag == 1 ? "pcs" : $detail->unit_name ?>
                             </td>
                             <td style="width: 100px;" class="text-right rupiah">
                                 <?= $detail->price ?>
