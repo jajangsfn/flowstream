@@ -40,7 +40,7 @@
                                 <div><?= $detail->barcode ?></div>
                             </td>
                             <td>
-                                <?= $detail->brand_name ?> - <?= $detail->brand_description ?>
+                                <?= $detail->brand_name ?> - <?= $detail->brand_description ?> (<?= $detail->sku_code ?>)
                             </td>
                             <td style="width: 70px;" class="text-center">
                                 <?= $detail->quantity ?>
