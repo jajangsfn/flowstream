@@ -55,34 +55,29 @@
 	                    </div>
 	                </div>
 
-					<div class="row">
+					<div class="row mb-2">
 					<div class="col-md-1"></div>
 					<label class="col-form-label col-md-2">Supplier</label>
-					<div class="form-group col-md-3">
-                        <div class="w-100">
-	                        <select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" onchange="show_supplier_detail()">
-	                        	<option value="" selected>Pilih Supplier</option>
-	                        	<?php
-	                        	foreach ($supplier as $key => $val) {
-	                        		if ($master && $master[0]->partner_id == $val->id){
-	                        		 ?>
-	                        		<option value="<?=$val->id?>" selected><?=$val->name?></option>
-	                        	<?php }else { ?>
-	                        		<option value="<?=$val->id?>"><?=$val->name?></option>
-	                        	<?php }
-	                        	}
-	                        	?>
-	                        </select>
-	                    </div>
-					</div>
+	                <select name="supplier" id="supplier_id" class="col-md-3 form-control selectpicker" data-live-search="true" onchange="show_supplier_detail()">
+	                	<option value="" selected>Pilih Supplier</option>
+	                	<?php
+	                	foreach ($supplier as $key => $val) {
+	                		if ($master && $master[0]->partner_id == $val->id){
+	                			?>
+	                			<option value="<?=$val->id?>" selected><?=$val->name?></option>
+	                		<?php }else { ?>
+	                			<option value="<?=$val->id?>"><?=$val->name?></option>
+	                		<?php }
+	                	}
+	                	?>
+	                </select>
 					<label class="col-form-label col-md-2 text-right">No Purchase Order</label>
 					<input type="text" name="purchase_order_no" class="form-control col-md-3" readonly value="<?=($master) ? $master[0]->purchase_order_no : $po_no?>">
 				</div>
 				<div class="row mb-5">
 					<div class="col-md-1"></div>
 					<label class="col-form-label col-md-2">Salesman</label>
-					<!-- <input type="text" name="salesman" class="col-md-3 form-control" id="partner_salesman" readonly> -->
-					<select name="salesman" id="partner_salesman" class="col-md-3 form-control selectpicker" data-live-search="true">
+					<select name="salesman" id="partner_salesman" class="col-md-3 form-control selectpicker" data-live-search="true" onchange="show_goods_per_salesman()">
 							<option value=""></option>
 						</select>
 					<label class="col-form-label col-md-2 text-right">No Referensi</label>

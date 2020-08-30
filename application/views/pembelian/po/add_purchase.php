@@ -62,17 +62,15 @@
 					<div class="row mb-5">
 						<!-- <div class="col-md-1"></div> -->
 						<label class="col-form-label col-md-2">Supplier</label>
-						<div class="col-md-3">
-							<select name="supplier" id="supplier_id" class="form-control selectpicker" data-live-search="true" onchange="show_supplier_detail()">
-		                        	<option value="" selected>Pilih Supplier</option>
-		                        	<?php
-		                        	foreach ($supplier as $key => $val) { ?>
-		                        		<option value="<?=$val->id?>"><?=$val->name?></option>
-		                        	<?php }
-		                        	?>
-		                        </select>
-						</div>
-						
+						<select name="supplier" id="supplier_id" class="col-md-3 form-control selectpicker" data-live-search="true" onchange="show_supplier_detail()">
+							<option value="" selected>Pilih Supplier</option>
+		                    <?php
+		                      	foreach ($supplier as $key => $val) { ?>
+		                       		<option value="<?=$val->id?>"><?=$val->name?></option>
+		                       	<?php }
+		                       	?>
+		                </select>
+						 
 						<label class="col-form-label col-md-3 text-right">No Purchase Order</label>
 						<input type="text" name="purchase_order_no" class="form-control col-md-3" readonly value="<?=$po_no?>">
 					</div>
@@ -80,8 +78,7 @@
 					<div class="row mb-5">
 						
 						<label class="col-form-label col-md-2">Salesman</label>
-						<!-- <input type="text" name="salesman" class="col-md-3 form-control" id="partner_salesman" readonly> -->
-						<select name="salesman" id="partner_salesman" class="col-md-3 form-control selectpicker" data-live-search="true" required="">
+						<select name="salesman" id="partner_salesman" class="col-md-3 form-control selectpicker" data-live-search="true" required="" onchange="show_goods_per_salesman()">
 							<option value=""></option>
 						</select>
 						<div class="col-md-1"></div>

@@ -68,7 +68,7 @@ class Receiving_detail_model extends CI_Model
 
                 // get m goods qty and price
                 $goods = $this->db->get_where("m_goods", array("id" => $param['goods_id']))->row();
-                $new_qty = $goods->quantity + $param['quantity'];
+                $new_qty = $goods->quantity + intval($param['quantity']);
                 // jika metode harga yg dipilih adalah faktur terakhir
                 if ($param['price_method'] == 31) {
                     $new_hpp = $goods->hpp;
@@ -76,8 +76,10 @@ class Receiving_detail_model extends CI_Model
                     // calculate m goods qty * price
                     $sum_m_goods = ( $goods->quantity * $goods->hpp );
                     // calculate qty * price receiving
-                    $sum_r_detail= ( $param['quantity'] * $param['price'] ) - ( ($param['quantity'] * $param['price']) * $param['discount'] / 100);
+                    $discount    = intval($param['discount']) > 0 ? ($param['discount']/100) : 0;
+                    $sum_r_detail= ( $param['quantity'] * $param['price'] ) - ( ($param['quantity'] * $param['price']) * $discount);
                     //  sum (summary m_goods + summary receiving detail) / (qty m goods + qty receiving detail)
+                    $new_qty     = $new_qty > 0 ? $new_qty : 1;
                     $new_hpp     =  floor( ($sum_m_goods + $sum_r_detail) / ($new_qty) );
                 }
 

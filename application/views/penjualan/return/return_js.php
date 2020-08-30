@@ -259,6 +259,7 @@
 		}
 
 		$("#goods_return_table").append(rows);
+		$("#grant_total").html(numeral( grant_total ).format('0,0[.]00') );
 		
 	}
 
@@ -311,7 +312,7 @@
 	function delete_goods_from_chart(id)
 	{		
 		Swal.fire({
-		        title: "Anda yakin ingin memproses transaksi ini?",
+		        title: "Anda yakin ingin menghapus barang ini?",
 		        text: "",
 		        icon: "warning",
 		        showCancelButton: true,

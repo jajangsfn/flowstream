@@ -5,6 +5,7 @@ class M_partner_model extends CI_Model
     function get($where)
     {
         if (is_array($where)) {
+            $this->db->order_by("name");
             return $this->db->get_where("m_partner", $where);
         }
         return $this->db->query(
@@ -15,7 +16,8 @@ class M_partner_model extends CI_Model
             LEFT JOIN m_branch b on b.id = p.branch_id
             LEFT JOIN m_master m on m.code = p.master_code
             
-            WHERE p.flag <> 99 AND " . $where
+            WHERE p.flag <> 99 AND " . $where . "
+            ORDER BY p.name"
         );
     }
 

@@ -40,7 +40,7 @@
                     <td><?=$val->supplier_name?></td>
                     <td><?=date('Y-m-d', strtotime($val->return_date))?></td>
                     <td><?=$val->description?></td>
-                    <td><?=number_format($val->total)?></td>
+                    <td><?=number_format($val->grant_total)?></td>
                     <td><?= $val->flag == 1 ? "<div class='badge badge-info'>Draft</div>" : "<div class='badge badge-success'>Approved</div>";?></td>
                     <td>
                      <?php

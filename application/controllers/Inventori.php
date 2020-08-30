@@ -110,10 +110,8 @@ class Inventori extends CI_Controller
                                 "updated_by" => $id_user,
                                 "price_method_id" => $_POST['price_method'],
                                 "flag" => 1);
-
-                // insert receiving data
+                // insert receiving data 
                 $rv_id         = $this->rm->insert($entry_data)->row()->id;
-
                 // get new price based on price method
                 $new_param     = $this->new_price($_POST);
                 // insert new all receiving detail

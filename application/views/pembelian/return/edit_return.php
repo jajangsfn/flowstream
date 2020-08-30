@@ -131,10 +131,11 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th width="250">Kode Barang</th>
+                    <th width="200">Kode Barang</th>
                     <th width="250">Nama Barang</th>
-                    <th width="250">Gudang</th>
-                    <th>Quantity</th>
+                    <th width="200">Gudang</th>
+                    <th width="100">Quantity</th>
+                    <th width="100">Harga</th>
                     <th></th>
                   </tr>
                 </thead>

@@ -127,11 +127,17 @@ class pdf
 												   							),
 																	),
 												   "footer" => array("footer_ln" => 0,
-												   					"signature" => array("title" => "Disahkan Oleh :",
+												   					"signature" => array("title" => "Disiapkan Oleh :",
 																						  "width" => 4,
 																						  "height" => 0.8,
 																						  "align"=>'L',
 																						  "position_x" => 0.3,
+																						), 
+												   					"approved_by" => array("title" => "Disahkan Oleh :",
+																						  "width" => 3,
+																						  "height" => 0.8,
+																						  "align"=>'L',
+																						  "position_x" => 5,
 																						), 
 												   					"total" => array("title" => "Total Rp.",
 														   							"width" => 16.6,
@@ -234,11 +240,17 @@ class pdf
 																			),
 											"footer" => array(
 														  	"footer_ln" => 0.9,
-														  	"signature" => array("title" => "Disahkan Oleh :",
+														  	"signature" => array("title" => "Disiapkan Oleh :",
 																				"width" => 4,
 																				"height" => 0.8,
 																				"align"=>'L',
 																				"position_x" => 3,
+																			),
+														  	"approved_by" => array("title" => "Disetujui Oleh :",
+																				"width" => 4,
+																				"height" => 0.8,
+																				"align"=>'L',
+																				"position_x" => 50,
 																			),
 														   	"total" => array("title" => "Total Rp.",
 														   				"width" => 173.3,
@@ -340,11 +352,18 @@ class pdf
 																		),
 													   				
 													   "footer" => array("footer_ln" => 0.09,
-													   					"signature" => array("title" => "Disahkan Oleh :",
+													   					"signature" => array("title" => "Disiapkan Oleh :",
 																							  "width" => 4,
 																							  "height" => 0.2,
 																							  "align"=>'L',
 																							  "position_x" => 0.3,
+
+																							), 
+													   					"approved_by" => array("title" => "Disahkan Oleh :",
+																							  "width" => 4,
+																							  "height" => 0.2,
+																							  "align"=>'L',
+																							  "position_x" => 5,
 
 																							), 
 													   					"total" => array("title" => "Total Rp.",
@@ -450,11 +469,17 @@ class pdf
 																),
 												"footer" => array(
 															  	"footer_ln" => 0.9,
-															  	"signature" => array("title" => "Disahkan Oleh :",
+															  	"signature" => array("title" => "Disiapkan Oleh :",
 																					"width" => 4,
 																					"height" => 0.8,
 																					"align"=>'L',
 																					"position_x" => 3,
+																				),
+															  	"approved_by" => array("title" => "Disahkan Oleh :",
+																					"width" => 4,
+																					"height" => 0.8,
+																					"align"=>'L',
+																					"position_x" => 50,
 																				),
 															   	"total" => array("title" => "Jumlah Rp.",
 																   				"width" => 172,
@@ -542,11 +567,18 @@ class pdf
 													   				),
 													   				
 													   "footer" => array("footer_ln" => 0.09,
-													   					"signature" => array("title" => "Diterima Oleh :",
+													   					"signature" => array("title" => "Disiapkan Oleh :",
 																							  "width" => 4,
 																							  "height" => 0.8,
 																							  "align"=>'L',
 																							  "position_x" => 0.3,
+
+																							), 
+													   					"approved_by" => array("title" => "Disahkan Oleh :",
+																							  "width" => 4,
+																							  "height" => 0.8,
+																							  "align"=>'L',
+																							  "position_x" => 5,
 
 																							), 
 													   					"total" => array("title" => "Jumlah (Pcs)",
@@ -634,11 +666,17 @@ class pdf
 																),
 												"footer" => array(
 															  	"footer_ln" => 0.9,
-															  	"signature" => array("title" => "Diterima Oleh :",
+															  	"signature" => array("title" => "Disiapkan Oleh :",
 																					"width" => 4,
 																					"height" => 0.8,
 																					"align"=>'L',
 																					"position_x" => 3,
+																				),
+															  	"approved_by" => array("title" => "Disahkan Oleh :",
+																					"width" => 4,
+																					"height" => 0.8,
+																					"align"=>'L',
+																					"position_x" => 50,
 																				),
 															   	"total" => array("title" => "Jumlah (Pcs)",
 																   				"width" => 172,
@@ -756,7 +794,12 @@ class pdf
 																							  "height" => 0.8,
 																							  "align"=>'L',
 																							  "position_x" => 0.3,
-
+																							),
+																		"approved_by" => array("title" => "Disahkan Oleh :",
+																							  "width" => 4,
+																							  "height" => 0.8,
+																							  "align"=>'L',
+																							  "position_x" => 5,
 																							), 
 													   					"total" => array("title" => "Grant Total Rp.",
 															   							"width" => 18,
@@ -867,11 +910,17 @@ class pdf
 																		),
 														"footer" => array(
 																	  	"footer_ln" => 0.9,
-																	  	"signature" => array("title" => "Disahkan Oleh :",
+																	  	"signature" => array("title" => "Disiapkan Oleh :",
 																							"width" => 4,
 																							"height" => 0.8,
 																							"align"=>'L',
 																							"position_x" => 3,
+																						),
+																	  	"approved_by" => array("title" => "Disahkan Oleh :",
+																							"width" => 4,
+																							"height" => 0.8,
+																							"align"=>'L',
+																							"position_x" => 50,
 																						),
 																	   	"total" => array("title" => "Grant Total",
 																		   				"width" => 180,
@@ -991,13 +1040,18 @@ class pdf
 													   				),
 													   				
 													   "footer" => array("footer_ln" => 0.09,
-													   					"signature" => array("title" => "Diterima Oleh :",
-																							  "width" => 4,
-																							  "height" => 0.8,
-																							  "align"=>'L',
-																							  "position_x" => 0.3,
-
-																							), 
+													   					"signature" => array("title" => "Disiapkan Oleh :",
+																				"width" => 4,
+																				"height" => 0.8,
+																				"align"=>'L',
+																				"position_x" => 0.3,
+																			),
+														  				"approved_by" => array("title" => "Disetujui Oleh :",
+																				"width" => 4,
+																				"height" => 0.8,
+																				"align"=>'L',
+																				"position_x" => 5,
+																			),
 													   					"total" => array("title" => "Grant Total Rp.",
 															   							"width" => 17.8,
 															   							"height" => 0.4,
@@ -1112,11 +1166,17 @@ class pdf
 																			),
 															"footer" => array(
 																		  	"footer_ln" => 0.9,
-																		  	"signature" => array("title" => "Disahkan Oleh :",
+																		  	"signature" => array("title" => "Disiapkan Oleh :",
 																								"width" => 4,
 																								"height" => 0.8,
 																								"align"=>'L',
 																								"position_x" => 3,
+																							),
+																		  	"approved_by" => array("title" => "Disahkan Oleh :",
+																								"width" => 4,
+																								"height" => 0.8,
+																								"align"=>'L',
+																								"position_x" => 50,
 																							),
 																		   	"total" => array("title" => "Grant Total",
 																			   				"width" => 185,
@@ -1208,21 +1268,28 @@ class pdf
 													   								"height"=>0.5,
 													   								"align"=>'R',
 													   							),
-													   					5 => array( "title"=> "Jumlah Tersedia",
-													   								"width"=>1.8,
-													   								"height"=>0.5,
-													   								"align"=>'R',
-													   							),
+													   					// 5 => array( "title"=> "Jumlah Tersedia",
+													   					// 			"width"=>1.8,
+													   					// 			"height"=>0.5,
+													   					// 			"align"=>'R',
+													   					// 		),
 													   				),
 													   				
 													   "footer" => array("footer_ln" => 0.09,
-													   					"signature" => array("title" => "Disahkan Oleh :",
+													   					"signature" => array("title" => "Disetujui Oleh :",
 																							  "width" => 4,
 																							  "height" => 0.8,
 																							  "align"=>'L',
 																							  "position_x" => 0.3,
 
-																							), 
+																							),
+																		"approved_by" => array("title" => "Disahkan Oleh :",
+																							  "width" => 4,
+																							  "height" => 0.8,
+																							  "align"=>'L',
+																							  "position_x" => 50,
+
+																							),  
 													   					"total" => array("title" => "Grant Total Rp.",
 															   							"width" => 17.8,
 															   							"height" => 0.4,
@@ -1289,13 +1356,13 @@ class pdf
 																		   				"align"=>'C',
 																		   			  ),
 																			1 => array( "title"=> "Kode Barang",
-																		   				"width"=>40,
+																		   				"width"=>45,
 																		   				"height"=>5,
 																		   				"align"=>'L',
 																		   			),
 
 																		   	2 => array( "title"=> "Nama Barang",
-																		   				"width"=> 80,
+																		   				"width"=> 90,
 																		   				"height"=>5,
 																		   				"align"=>'L',
 																		   			  ),																	   	
@@ -1305,12 +1372,7 @@ class pdf
 																		   				"align"=>'C',
 																		   			),
 																		   4 => array( "title"=> "Jumlah Order",
-																		   				"width"=>27,
-																		   				"height"=>5,
-																		   				"align"=>'R',
-																		   			),
-																		   	5 => array( "title"=> "Jumlah Tersedia",
-																		   				"width"=>26,
+																		   				"width"=>30,
 																		   				"height"=>5,
 																		   				"align"=>'R',
 																		   			),
@@ -1318,14 +1380,20 @@ class pdf
 																			),
 															"footer" => array(
 																		  	"footer_ln" => 0.9,
-																		  	"signature" => array("title" => "Disahkan Oleh :",
+																		  	"signature" => array("title" => "Disiapkan Oleh :",
 																								"width" => 4,
 																								"height" => 0.8,
 																								"align"=>'L',
 																								"position_x" => 3,
 																							),
+																		  	"approved_by" => array("title" => "Disahkan Oleh :",
+																								"width" => 4,
+																								"height" => 0.8,
+																								"align"=>'L',
+																								"position_x" => 50,
+																							),
 																		   	"total" => array("title" => "Grant Total",
-																			   				"width" => 205,
+																			   				"width" => 195,
 																			   				"height" => 4,
 																			   				"align"=>'R',
 																			   				"position_x" => 3
@@ -1422,11 +1490,18 @@ class pdf
 													   				),
 													   				
 													   "footer" => array("footer_ln" => 0.09,
-													   					"signature" => array("title" => "Disahkan Oleh :",
+													   					"signature" => array("title" => "Disiapkan Oleh :",
 																							  "width" => 4,
 																							  "height" => 0.8,
 																							  "align"=>'L',
 																							  "position_x" => 0.3,
+
+																							), 
+													   					"approved_by" => array("title" => "Disahkan Oleh :",
+																							  "width" => 4,
+																							  "height" => 0.8,
+																							  "align"=>'L',
+																							  "position_x" => 50,
 
 																							), 
 													   					"total" => array("title" => "Grant Total Rp.",
@@ -1524,11 +1599,17 @@ class pdf
 																			),
 															"footer" => array(
 																		  	"footer_ln" => 0.9,
-																		  	"signature" => array("title" => "Disahkan Oleh :",
+																		  	"signature" => array("title" => "Disiapkan Oleh :",
 																								"width" => 4,
 																								"height" => 0.8,
 																								"align"=>'L',
 																								"position_x" => 3,
+																							),
+																		  	"approved_by" => array("title" => "Disahkan Oleh :",
+																								"width" => 4,
+																								"height" => 0.8,
+																								"align"=>'L',
+																								"position_x" => 50,
 																							),
 																		   	"total" => array("title" => "Grant Total",
 																			   				"width" => 205,
@@ -1633,16 +1714,7 @@ class pdf
 															   								"height"=>0.5,
 															   								"align"=>'R',
 															   							),
-															   					// 6 => array( "title"=> "Disc",
-															   					// 			"width"=>1.8,
-															   					// 			"height"=>0.5,
-															   					// 			"align"=>'R',
-															   					// 		),
-															   					// 7 => array( "title"=> "Total",
-															   					// 			"width"=>2.7,
-															   					// 			"height"=>0.5,
-															   					// 			"align"=>'R',
-															   					// 		),
+
 															   				),
 															   				
 															   "footer" => array("footer_ln" => 0.09,
@@ -1753,25 +1825,20 @@ class pdf
 																				   				"height"=>5,
 																				   				"align"=>'R',
 																				   			),
-																				   	// 6 => array( "title"=> "Disc",
-																				   	// 			"width"=>20,
-																				   	// 			"height"=>5,
-																				   	// 			"align"=>'R',
-																				   	// 		),
-																				   	// 7 => array( "title"=> "Sub Total",
-																				   	// 			"width"=>20,
-																				   	// 			"height"=>5,
-																				   	// 			"align"=>'R',
-																				   	// 		),
-
 																					),
 																	"footer" => array(
 																				  	"footer_ln" => 0.9,
-																				  	"signature" => array("title" => "Disahkan Oleh :",
+																				  	"signature" => array("title" => "Disetujui Oleh :",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
 																										"position_x" => 3,
+																									),
+																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																										"width" => 4,
+																										"height" => 0.8,
+																										"align"=>'L',
+																										"position_x" => 50,
 																									),
 																				   	"total" => array("title" => "Grant Total",
 																					   				"width" => 205,
@@ -1835,11 +1902,17 @@ class pdf
 																				),
 																	"footer" => array(
 																				  	"footer_ln" => 0.01,
-																				  	"signature" => array("title" => "Disahkan Oleh :",
+																				  	"signature" => array("title" => "Disiapkan Oleh :",
 																										"width" => 4,
 																										"height" => 0.3,
 																										"align"=>'L',
-																										"position_x" => 0.5,
+																										"position_x" => 0.3,
+																									),
+																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																										"width" => 4,
+																										"height" => 0.3,
+																										"align"=>'L',
+																										"position_x" => 5,
 																									),
 																				   	"total" => array("title" => "Grant Total",
 																					   				"width" => 16,
@@ -1899,11 +1972,17 @@ class pdf
 																					),
 																	"footer" => array(
 																				  	"footer_ln" => 0.9,
-																				  	"signature" => array("title" => "Disahkan Oleh :",
+																				  	"signature" => array("title" => "Disiapkan Oleh :",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
 																										"position_x" => 7,
+																									),
+																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																										"width" => 4,
+																										"height" => 0.8,
+																										"align"=>'L',
+																										"position_x" => 50,
 																									),
 																				   	"total" => array("title" => "Grant Total",
 																					   				"width" => 160,
@@ -2004,11 +2083,17 @@ class pdf
 																				),
 																	"footer" => array(
 																				  	"footer_ln" => 0.1,
-																				  	"signature" => array("title" => "Disahkan Oleh :",
+																				  	"signature" => array("title" => "Disiapkan Oleh :",
 																										"width" => 4,
 																										"height" => 0.3,
 																										"align"=>'L',
 																										"position_x" => 0.5,
+																									),
+																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																										"width" => 4,
+																										"height" => 0.3,
+																										"align"=>'L',
+																										"position_x" => 5,
 																									),
 																				   	"total" => array("title" => "Grant Total",
 																					   				"width" => 17,
@@ -2103,11 +2188,17 @@ class pdf
 																				),
 																	"footer" => array(
 																				  	"footer_ln" => 0.9,
-																				  	"signature" => array("title" => "Disahkan Oleh :",
+																				  	"signature" => array("title" => "Disiapkan Oleh :",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
-																										"position_x" => 7,
+																										"position_x" => 10,
+																									),
+																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																										"width" => 4,
+																										"height" => 0.8,
+																										"align"=>'L',
+																										"position_x" => 50,
 																									),
 																				   	"total" => array("title" => "Grant Total",
 																					   				"width" => 172.1,
@@ -2166,11 +2257,17 @@ class pdf
 																				),
 																	"footer" => array(
 																				  	"footer_ln" => 0.3,
-																				  	"signature" => array("title" => "Disahkan Oleh :",
+																				  	"signature" => array("title" => "Disiapkan Oleh :",
 																										"width" => 4,
 																										"height" => 0.3,
 																										"align"=>'L',
-																										"position_x" => 2,
+																										"position_x" => 3,
+																									),
+																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																										"width" => 4,
+																										"height" => 0.3,
+																										"align"=>'L',
+																										"position_x" => 50,
 																									),
 																				   	"total" => array("title" => "Grant Total",
 																					   				"width" => 10,
@@ -2225,11 +2322,17 @@ class pdf
 																					),
 																	"footer" => array(
 																				  	"footer_ln" => 0.9,
-																				  	"signature" => array("title" => "Disahkan Oleh :",
+																				  	"signature" => array("title" => "Disetujui Oleh :",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
 																										"position_x" => 10,
+																									),
+																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																										"width" => 4,
+																										"height" => 0.8,
+																										"align"=>'L',
+																										"position_x" => 50,
 																									),
 																				   	"total" => array("title" => "Grant Total",
 																					   				"width" => 120,
@@ -2279,8 +2382,7 @@ class pdf
 		if ( $count_data <= 10 ) {
 			$use_paper = 2;
 		}
-		// echo json_encode($header_reference[$use_paper]);exit;
-		// echo json_encode($header_reference[$use_paper]);exit;
+		
 		// initilization paper
 		$pdf = new FPDF($paper_reference[$type_print][$use_paper]['view'], 
 						$paper_reference[$type_print][$use_paper]['type_size'], 
@@ -2391,7 +2493,7 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
-						   $val['goods_name'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+						   $val['goods_name']. " (".$val['sku_code'] . ")",$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
@@ -2420,6 +2522,7 @@ class pdf
 
 		// ORDER REQUEST
 		if ($type_print == 'order_request_out' || $type_print == 'checksheet_out'){
+			$show_tersedia = ($type_print )== 'checksheet_out'  ? true : false;
 			foreach ($data as $key => $val) {
 
 				// if first row then set border top left and right
@@ -2450,7 +2553,7 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
-						   $val['brand_description'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+						   $val['brand_description'] . " (".$val['sku_code'] . ")",$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
@@ -2461,11 +2564,13 @@ class pdf
 						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
 						   number_format($val['quantity']),$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
 
-				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
-						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
-						   $checksheet_qty,$border,0,
-						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
-				
+				if ($show_tersedia) {
+					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
+							   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
+							   $checksheet_qty,$border,0,
+							   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
+				}
+
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
 
 				// set margin bottom
@@ -2504,7 +2609,7 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
-						   $val['goods_name'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+						   $val['goods_name'] . " (".$val['sku_code'] . ")",$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
@@ -2561,7 +2666,7 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
-						   $val['brand_description'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+						   $val['brand_description'] . " (".$val['sku_code'] . ")",$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
@@ -2610,7 +2715,7 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
-						   $val['goods_name'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+						   $val['goods_name'] . " (".$val['sku_code'] . ")",$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
@@ -2685,7 +2790,7 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
-						   $val['brand_description'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
+						   $val['brand_description'] . " (".$val['sku_code'] . ")",$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);	
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
@@ -2760,7 +2865,7 @@ class pdf
 					
 					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
 							   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
-							   $val['brand_description'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
+							   $val['brand_description'] . " (".$val['sku_code'] . ")",$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
 
 					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 							   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
@@ -2876,7 +2981,15 @@ class pdf
 		$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['signature']['width'], 
 				   $paper_reference[$type_print][$use_paper]['footer']['signature']['height'], 
 				   $paper_reference[$type_print][$use_paper]['footer']['signature']['title'],0,0,
-				   $paper_reference[$type_print][$use_paper]['footer']['signature']['align']);	
+				   $paper_reference[$type_print][$use_paper]['footer']['signature']['align']);
+
+		// disetujui
+		// $pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln'] * 10);
+		$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['approved_by']['position_x']);
+		$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['approved_by']['width'], 
+				   $paper_reference[$type_print][$use_paper]['footer']['approved_by']['height'], 
+				   $paper_reference[$type_print][$use_paper]['footer']['approved_by']['title'],0,0,
+				   $paper_reference[$type_print][$use_paper]['footer']['approved_by']['align']);		
 
 
 		$pdf->output('i',$type_print.'-'.date('Y-m-d'));
