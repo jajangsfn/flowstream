@@ -1744,17 +1744,30 @@ class Api extends CI_Controller
             )
         );
 
-        // Update entry t_pembayaran_piutang
-        $this->keumod->update_entry_piutang(
-            $_POST['id'],
-            array(
-                "flag" => 1,
-                "jurnal_no" => $jurnal_no
-            )
-        );
 
         // Cek apakah sudah lunas atau belum
-        if ($_POST['payment'] < $info_piutang->sisa_tagihan) {
+        if ($_POST['payment'] == $info_piutang->sisa_tagihan) {
+            // Update entry t_pembayaran_piutang
+            $this->keumod->update_entry_piutang(
+                $_POST['id'],
+                array(
+                    "flag" => 1,
+                    "jurnal_no" => $jurnal_no,
+                    "payment_date" => date("Y m d"),
+                    "payment" => $_POST['payment']
+                )
+            );
+        } else {
+            // Update entry t_pembayaran_piutang
+            $this->keumod->update_entry_piutang(
+                $_POST['id'],
+                array(
+                    "jurnal_no" => $jurnal_no,
+                    "payment_date" => date("Y m d"),
+                    "payment" => $_POST['payment']
+                )
+            );
+
             // jika belum lunas, buat entry baru
             $this->keumod->entry_tagihan_piutang_baru(
                 $info_piutang->invoice_no,
