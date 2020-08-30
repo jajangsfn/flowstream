@@ -179,7 +179,10 @@ class M_goods_model extends CI_Model
                 id,
                 brand_name,
                 brand_description,
-                barcode
+                barcode,
+                sku_code,
+                plu_code
+                
             FROM m_goods
             WHERE branch_id = $branch_id"
         );
