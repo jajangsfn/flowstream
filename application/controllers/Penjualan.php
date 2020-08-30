@@ -131,8 +131,7 @@ class Penjualan extends CI_Controller
     public function print_order_request($id_or, $type = 1)
     {
 
-        $content = $this->or->get_specific($id_or);
-
+        $content = $this->or->get_specific($id_or);#echo json_encode($content);exit;
         $data = array();
         if ($content) {
             foreach ($content->details as $key => $val) {
@@ -155,6 +154,7 @@ class Penjualan extends CI_Controller
                     "updated_by" => $content->updated_by,
                     "id" => "4",
                     "order_request_id" => $val->order_request_id,
+                    "checksheet_id" => $val->checksheet_id,
                     "warehouse_id" => $val->warehouse_id,
                     "goods_id" => $val->goods_id,
                     "goods_name" => $val->goods_name,
@@ -176,8 +176,19 @@ class Penjualan extends CI_Controller
 
                 );
             }
-            $type_print = $type == 1 ?  "order_request_out" : "checksheet_out";
 
+            if ($type == 1 ) {
+
+                if ($data[0]['checksheet_id']) {
+                    $type_print = "order_request_out_fix";
+                }else {
+                    $type_print = "order_request_out";
+                }
+            }else {
+                $type_print = "checksheet_out";
+            }
+                    
+            
             $this->pdf->dynamic_print(2, $type_print, $data);
         }
     }
