@@ -45,6 +45,17 @@ class Api extends CI_Controller
         echo json_encode($this->session->userdata);
     }
 
+    public function check_username($username)
+    {
+        echo json_encode(
+            array(
+                "data" => array(
+                    "message" => $this->user_m->check_username($username)
+                )
+            )
+        );
+    }
+
     public function register()
     {
         $signup_data = array(
@@ -1345,8 +1356,8 @@ class Api extends CI_Controller
         // created by
         $_POST['usr']['created_by'] = $this->session->id;
 
-        // encrypt password
-        $_POST['usr']['password'] = md5($_POST['usr']['password']);
+        // get encrypted default password
+        $_POST['usr']['password'] = $this->reference->get_default_password();
 
         // create user
         $this->user_m->insert($_POST['usr']);
@@ -1756,6 +1767,13 @@ class Api extends CI_Controller
         }
 
         $this->session->set_flashdata("success", "Pembayaran telah tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function trigger_reset_password($employee_id)
+    {
+        $this->user_m->reset_password($employee_id);
+        $this->session->set_flashdata("success", "Reset password employee berhasil");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }

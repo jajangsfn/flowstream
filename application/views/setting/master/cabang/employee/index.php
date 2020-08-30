@@ -38,7 +38,7 @@
 
 <div class="modal fade" id="tambah_employee" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <form action="<?= base_url("/index.php/api/add_employee") ?>" method="POST" class="modal-content">
+        <form action="<?= base_url("/index.php/api/add_employee") ?>" method="POST" class="modal-content" id="create_modal_form">
             <div class="modal-header">
                 <h5 class="modal-title">Tambah Employee</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -157,29 +157,18 @@
                         "required" => false,
                     ), true); ?>
                 </div>
-                <div class="col-md-6">
-                    <?= $this->load->view("component/input/flowstream_input", array(
-                        "name" => "usr[user_id]",
-                        "placeholder" => "Username Employee (Untuk Masuk Flowstream)",
-                        "type" => "text",
-                        "label" => "Username:",
-
-                        "required" => true,
-                    ), true); ?>
-                </div>
-                <div class="col-md-6">
-                    <?= $this->load->view("component/input/flowstream_input", array(
-                        "name" => "usr[password]",
-                        "placeholder" => "Password Awal (Untuk Masuk Flowstream)",
-                        "type" => "password",
-                        "label" => "Password:",
-
-                        "required" => true,
-                    ), true); ?>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="required">Username:</label>
+                        <input type="text" name="usr[user_id]" class="form-control" placeholder='Username Employee (Untuk Masuk Flowstream)' required autocomplete="new-password" onkeyup="check_username(this)" />
+                        <small class="text-danger d-none" id="username_not_available">This username is not available</small>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <?= $this->load->view("component/button/submit", "", true); ?>
+                <button type="submit" class="btn btn-primary mr-2" id="add_modal_simpan_button">
+                    Simpan
+                </button>
             </div>
         </form>
     </div>

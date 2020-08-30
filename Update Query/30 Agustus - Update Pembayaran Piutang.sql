@@ -19,3 +19,5 @@ ALTER TABLE `t_pembayaran_piutang`
 COMMIT;
 
 ALTER TABLE `t_checksheet` ADD `old_quantity` INT NOT NULL AFTER `order_request_detail_id`;
+
+INSERT INTO `s_reference` (`id`, `branch_id`, `group_data`, `detail_data`, `flag`, `updated_by`, `created_date`, `updated_date`) VALUES (NULL, '1', 'DEFAULT_PASSWORD', 'parahyangan', '1', NULL, current_timestamp(), current_timestamp());

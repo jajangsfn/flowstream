@@ -1,5 +1,13 @@
 <script>
     $(document).ready(() => {
+        $('#create_modal_form').on('keyup keypress', function(e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
         $("#employee_table").DataTable({
             responsive: true,
             paging_type: 'full_numbers',
@@ -87,7 +95,12 @@
                         `;
                         }
                         return `
-                        <button type="button" class="btn btn-icon btn-sm btn-light-success" onclick="edit(
+                        <button type="button" class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" data-title="Reset Password" onclick="confirm_reset(
+                            '${row.id}'
+                        )">
+                            <i class="flaticon2-time"></i>
+                        </button>
+                        <button type="button" class="btn btn-icon btn-sm btn-light-success" data-toggle="tooltip" data-title="Edit" onclick="edit(
                             '${row.id}',
                             '${row.name}',
                             '${row.employee_number}',
@@ -122,7 +135,11 @@
                     targets: 0,
                     orderable: false,
                 },
-            ]
+            ],
+
+            "drawCallback": function(settings) {
+                $("*[data-toggle=tooltip]").tooltip()
+            },
         })
 
         $('.select2').select2({
@@ -169,5 +186,42 @@
         $("#id_active").val(id);
 
         $("#active_modal").modal("show");
+    }
+
+    function check_username(e) {
+        if ($(e).val()) {
+            $.ajax({
+                url: "<?= base_url("/index.php/api/check_username/") ?>" + $(e).val(),
+                success: function(response) {
+                    if (response.data.message == "available") {
+                        $("#add_modal_simpan_button").removeAttr("disabled")
+                        $("#username_not_available").addClass("d-none");
+                    } else {
+                        $("#add_modal_simpan_button").attr("disabled", "disabled")
+                        $("#username_not_available").removeClass("d-none");
+                    }
+                },
+                error: function(err) {
+                    alert("terjadi kesalahan, cek console");
+                    console.log(err.responseText);
+                }
+            })
+        } else {
+            $("#add_modal_simpan_button").attr("disabled", "disabled");
+        }
+    }
+
+    function confirm_reset(employee_id) {
+        Swal.fire({
+            title: "Anda yakin?",
+            text: "Anda akan mengatur ulang password untuk karyawan ini",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Reset!"
+        }).then(function(result) {
+            if (result.value) {
+                window.location.href = `<?= base_url("/index.php/api/trigger_reset_password/") ?>${employee_id}`;
+            }
+        })
     }
 </script>
