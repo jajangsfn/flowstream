@@ -67,6 +67,7 @@ class Penjualan extends CI_Controller
 
     public function order_request($command = '', $id_or = '')
     {
+        $data['transactional'] = true;
         if ($command == "view") {
             $data['page_title'] = "Penjualan - Order Request";
             $data['back_url'] = base_url("/index.php/penjualan/order_request");

@@ -21,7 +21,9 @@
                     <th>Customer</th>
                     <th>Tanggal</th>
                     <th>Status</th>
-                    <th class="text-center">Aksi</th>
+                    <th class="text-center">OR</th>
+                    <th class="text-center">CS</th>
+                    <th class="text-center">Faktur</th>
                 </tr>
             </thead>
         </table>
