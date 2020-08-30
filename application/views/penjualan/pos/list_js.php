@@ -84,7 +84,7 @@
                         return `
                         ${bayarbutton}
                         ${edit_button}
-                        <a class="btn btn-icon btn-sm btn-light-info" onclick="confirm_cetak(${data})" data-toggle="tooltip" title="cetak ulang" target="_blank">
+                        <a class="btn btn-icon btn-sm btn-light-info" onclick="confirm_cetak(${data})" data-toggle="tooltip" title="Cetak POS" target="_blank">
                             <i class="fa la-print"></i>
                         </a>
                         ${extbutton}

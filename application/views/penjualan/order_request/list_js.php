@@ -92,7 +92,7 @@
                             <div 
                                 class="btn btn-icon btn-sm btn-light-info" 
                                 data-toggle="tooltip" 
-                                title="Cetak Ulang"
+                                title="Cetak Order"
                                 onclick="confirm_cetak(${data})"
                             >
                                 <i class="fa la-print"></i>
