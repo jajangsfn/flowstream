@@ -11,6 +11,7 @@
 		$("#goods_id").keyup(function(){
 			var goods = this.value;
 			var id_supplier = $("#supplier_id").val().split("_")[0];
+			var id_salesman = $("#partner_salesman").val();
 			var goods_list = "";
 			// clear goods 
 			$("#goods_list").html('');
@@ -19,7 +20,7 @@
 			if(id_supplier){ 
 
 				$.get("<?=base_url()?>index.php/pembelian/get_goods_json/",
-					{"goods":goods,"id_supplier":id_supplier})
+					{"goods":goods,"id_supplier":id_supplier, "id_salesman" : id_salesman})
 				.done(function(data){
 					const goods_arr = JSON.parse(data);
 					
@@ -87,10 +88,11 @@
 			
 			$("#goods_list").html('');
 			if (supplier_id){
-				$.get("<?=base_url()?>index.php/pembelian/get_goods_json/3",
+				$.get("<?=base_url()?>index.php/pembelian/get_goods_json/",
 					{"id_supplier":supplier_id})
 				.done(function(data){
-					const goods_arr = JSON.parse(data);
+
+					var goods_arr = JSON.parse(data);
 					if (goods_arr.length > 0){
 						
 						
@@ -111,9 +113,6 @@
 						$("#branch_id").val(goods_arr[0].branch_id);
 						$("#branch_name").val(goods_arr[0].branch_name);
 						$("#partner_name").val(goods_arr[0].partner_name);
-						// $("#salesman_name").val(goods_arr[0].salesman);
-						// $("#partner_salesman").val(goods_arr[0].salesman);
-						// $("#salesman_id").val(goods_arr[0].salesman_id);
 					}
 
 					get_salesman();
@@ -121,9 +120,48 @@
 			}
 	}
 
+
+	function show_goods_per_salesman()
+	{
+			var supplier_id = $("#supplier_id").val();
+			var salesman_id = $("#partner_salesman").val();
+			$("#goods_list").html('');
+			if (supplier_id){
+				$.get("<?=base_url()?>index.php/pembelian/get_goods_json",
+					{"id_supplier":supplier_id, "id_salesman": salesman_id})
+				.done(function(data){
+
+					var goods_arr = JSON.parse(data);
+					if (goods_arr.length > 0){
+						
+						
+						var goods_list = "";
+							$.each(goods_arr,function(id,val){
+								goods_list+='<li class="navi-item nav-click" onclick="show_goods_detail('+val.id+')">';
+						        goods_list+='<span class="navi-link">';
+						        goods_list+='<div class="navi-text">';
+						        goods_list+='<span class="nav-val d-none">'+val.id+'</span>';
+						        goods_list+='<span class="d-block font-weight-bold">'+val.brand_description+'</span>';
+						        goods_list+='<span class="text-muted">'+val.sku_code+'</span>';
+						        goods_list+='</div>';
+						        goods_list+='<span class="navi-arrow"></span>';
+						        goods_list+='</span></li>';
+							});
+
+						$("#goods_list").html(goods_list);
+						$("#branch_id").val(goods_arr[0].branch_id);
+						$("#branch_name").val(goods_arr[0].branch_name);
+						$("#partner_name").val(goods_arr[0].partner_name);
+					}
+
+					// get_salesman();
+				});
+			}
+	}
+
 	function show_goods_detail(id_brg)
 	{		
-
+		
 		$.get("<?=base_url()?>index.php/pembelian/get_goods_json/2",
 			{"id_goods":id_brg})
 		.done(function(data){

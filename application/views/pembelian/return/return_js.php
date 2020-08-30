@@ -50,8 +50,8 @@
 				        goods_list+='<span class="navi-link">';
 				        goods_list+='<div class="navi-text">';
 				        goods_list+='<span class="nav-val d-none">'+val.id+'</span>';
-				        goods_list+='<span class="d-block font-weight-bold">'+val.brand_description+'</span>';
-				        goods_list+='<span class="text-muted">'+val.sku_code+'</span>';
+				        goods_list+='<span class="d-block font-weight-bold">'+val.brand_name+ ' ' + val.sku_code +'</span>';
+				        goods_list+='<span class="text-muted">'+val.brand_description+'</span>';
 				        goods_list+='</div>';
 				        goods_list+='<span class="navi-arrow fa-2x"></span>';
 				        goods_list+='</span></li>';
@@ -138,13 +138,13 @@
 		var supplier_id = $("#supplier_id").val();
 		var goods_id      = $("#goods_list").val();
 
-		$.get("<?=base_url()?>index.php/pembelian/get_goods_json/4",
-				{"id_supplier":supplier_id,"goods_id":goods_id})
+		$.get("<?=base_url()?>index.php/pembelian/get_goods_json/2",
+				{"id_supplier":supplier_id,"id_goods":goods_id})
 		.done( function (data) {
 			
 			var goods_detail = jQuery.parseJSON(data);	
 
-			$("#kode_barang").val(goods_detail[0].barcode);
+			$("#kode_barang").val(goods_detail[0].plu_code);
 			$("#id_barang").val(goods_detail[0].id);
 			$("#nama_barang").val(goods_detail[0].brand_description);
 			$("#quantity").val(1);
@@ -230,7 +230,7 @@
 				rows+= "<td>"+val.name+"'</td>";
 				rows+="<td><input type='hidden' name='goods_ws_id_chart[]' id='goods_ws_id_chart_"+id+"' value='"+val.ws_id+"'>"+val.ws_name+"</td>";
 				rows+="<td class='goods_price_chart'>";
-				rows+="<input type='number' name='goods_price_chart[]' class='form-control' id='goods_price_chart_"+id+"' value='"+val.price+"' min='0' style='width:50%' onchange='sum_total_goods("+id+")'></td>";
+				rows+="<input type='number' name='goods_price_chart[]' class='form-control' id='goods_price_chart_"+id+"' value='"+val.price+"' min='0' style='width:50%' onchange='sum_total_goods("+id+")' readonly></td>";
 				rows+="<td><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' min='0' style='width:50%' onchange='sum_total_goods("+id+")'></td>";
 				rows+="<td class='text-right'>"+total+"</td>";
 				rows+="<td><button type='button' class='btn btn-xs btn-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa fa-trash'></span></button></td>";
@@ -300,7 +300,7 @@
 	function delete_goods_from_chart(id)
 	{		
 		Swal.fire({
-		        title: "Anda yakin ingin memproses transaksi ini?",
+		        title: "Anda yakin ingin menghapus barang ini?",
 		        text: "",
 		        icon: "warning",
 		        showCancelButton: true,
@@ -390,7 +390,7 @@
 
 					var save_goods = {};
 					save_goods.id = val.goods_id;
-					save_goods.code = val.sku_code;
+					save_goods.code = val.plu_code;
 					save_goods.name = val.goods_name;
 					save_goods.price= val.price;
 					save_goods.qty  = parseInt(val.quantity);
@@ -413,12 +413,13 @@
 
 		var supplier_id = $("#supplier_id").val();
 
-		$.get("<?=base_url()?>index.php/pembelian/get_goods_json/3",
+		$.get("<?=base_url()?>index.php/pembelian/get_goods_json/",
 				{"id_supplier": supplier_id}) 
 		.done(function( result){
 
 			var parse = jQuery.parseJSON(result);
 			var goods_list = "";
+			var text  = "";
 			if (parse.length > 0) {
 				
 				$("#goods_list").html('<option value="">Pilih Kode Barang</option>');
@@ -429,15 +430,23 @@
 				        goods_list+='<span class="navi-link">';
 				        goods_list+='<div class="navi-text">';
 				        goods_list+='<span class="nav-val d-none">'+val.id+'</span>';
-				        goods_list+='<span class="d-block font-weight-bold">'+val.brand_description+'</span>';
-				        goods_list+='<span class="text-muted">'+val.sku_code+'</span>';
+				        goods_list+='<span class="d-block font-weight-bold">'+val.brand_name+ ' ' + val.sku_code +'</span>';
+				        goods_list+='<span class="text-muted">'+val.brand_description+'</span>';
 				        goods_list+='</div>';
 				        goods_list+='<span class="navi-arrow fa-2x"></span>';
 				        goods_list+='</span></li>';
+
+				        // add all goods to text variable
+						text+="<option value='"+val.id+"'>"+val.sku_code+"</option>";
 				});
 
+				// add all goods to select
 				$("#goods_list_bar").append(goods_list);
+				$("#goods_list").append(text);
+
 			}
+				
+				$("#goods_list").selectpicker('refresh');
 				$("#goods_list_bar").selectpicker('refresh');
 			
 
