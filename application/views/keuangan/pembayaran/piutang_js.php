@@ -41,7 +41,24 @@
     }
 
     function init_bayar(tpp_id) {
-        $("#tpp_modal").modal("show");
+        $.ajax({
+            url: "<?= base_url("/index.php/api/get_piutang_data/") ?>" + tpp_id,
+            success: function(result) {
+                console.log(result.data);
+                $("#invoice_date").text(": " + result.data.invoice_date)
+                $("#invoice_no").text(": " + result.data.invoice_no)
+                $("#total_tagihan_str").text(": " + result.data.total_tagihan_str)
+                $("#sisa_tagihan_str").text(": " + result.data.sisa_tagihan_str)
+                $("#new_payment").attr("max", result.data.sisa_tagihan);
+                $("#new_payment").val(result.data.sisa_tagihan);
+                $("#tpp_id").val(result.data.id);
+                $("#tpp_modal").modal("show");
+            },
+            error: function(err) {
+                console.log(err.responseText);
+                alert("terjadi kesalahan");
+            }
+        });
     }
 
     function formatDate(date) {

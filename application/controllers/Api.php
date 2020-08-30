@@ -1644,6 +1644,15 @@ class Api extends CI_Controller
         );
     }
 
+    public function get_piutang_data($tpp_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->keumod->get_piutang_data($tpp_id)
+            )
+        );
+    }
+
     public function get_invoice_data($pos_id)
     {
         $return_value = $this->pos->get_invoice_data($pos_id)->row();
@@ -1663,6 +1672,10 @@ class Api extends CI_Controller
 
     public function pembayaran_piutang()
     {
+        // Get informasi piutang
+        $info_piutang = $this->keumod->get_piutang_data($_POST['id']);
+
+        // Informasi cabang
         $branch_id = $this->session->userdata("branch_id");
 
         // buat nomor jurnal
@@ -1672,7 +1685,7 @@ class Api extends CI_Controller
             array(
                 "jurnal_no" => $jurnal_no,
                 "branch_id" => $branch_id,
-                "invoice_no" => $_POST['invoice_no'],
+                "invoice_no" => $info_piutang->invoice_no,
                 "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
                 // "carry_over",
                 "kurs" => 1,
@@ -1684,7 +1697,7 @@ class Api extends CI_Controller
                 // "printed_date",
                 // "printed_flag",
                 // "registered_date",
-                "registered_flag" => 0, // flag registered 0 untuk pembayaran di menu keuangan
+                "registered_flag" => "N", // flag registered N untuk pembayaran di menu keuangan
                 // "registered_user",
                 // "registered_id",
                 // "print_count" => 1,
@@ -1710,9 +1723,9 @@ class Api extends CI_Controller
                 "jurnal_no" => $jurnal_no,
                 // "acc_code" diisi dari dalam model,
                 // "master_id",
-                "invoice_no" => $_POST['invoice_no'],
+                "invoice_no" => $info_piutang->invoice_no,
                 "debit" => 0,
-                "credit" => $_POST['new_payment'],
+                "credit" => $_POST['payment'],
                 // "cost_center"
             )
         );
@@ -1724,12 +1737,30 @@ class Api extends CI_Controller
                 "jurnal_no" => $jurnal_no,
                 // "acc_code" diisi dari dalam model,
                 // "master_id",
-                "invoice_no" => $_POST['invoice_no'],
-                "debit" => $_POST['new_payment'],
+                "invoice_no" => $info_piutang->invoice_no,
+                "debit" => $_POST['payment'],
                 "credit" => 0,
                 // "cost_center"
             )
         );
+
+        // Update entry t_pembayaran_piutang
+        $this->keumod->update_entry_piutang(
+            $_POST['id'],
+            array(
+                "flag" => 1,
+                "jurnal_no" => $jurnal_no
+            )
+        );
+
+        // Cek apakah sudah lunas atau belum
+        if ($_POST['payment'] < $info_piutang->sisa_tagihan) {
+            // jika belum lunas, buat entry baru
+            $this->keumod->entry_tagihan_piutang_baru(
+                $info_piutang->invoice_no,
+                $info_piutang->sisa_tagihan - $_POST['payment']
+            );
+        }
 
         $this->session->set_flashdata("success", "Pembayaran telah tersimpan");
         redirect($_SERVER['HTTP_REFERER']);

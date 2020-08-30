@@ -33,29 +33,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 after_invoice_cell" style="display: none;">
-            <div class="card" style="min-height: 175px">
-                <div class="card-body d-flex justify-content-center align-items-center">
-                    <table id="detail_table">
-
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 after_invoice_cell" style="display: none;">
-            <div class="card" style="min-height: 175px">
-                <form class="card-body d-flex justify-content-center align-items-center flex-column" action="<?= base_url("/index.php/api/pembayaran_piutang") ?>" method="POST">
-                    <input type="hidden" name="invoice_no" id="invoice_no_input">
-                    <div class="form-group w-100">
-                        <label for="new_payment" class="required">Tambahkan Pembayaran</label>
-                        <input type="number" name="new_payment" id="new_payment" class="form-control" min="0" step="0.01" required />
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-1">
-                        Bayar
-                    </button>
-                </form>
-            </div>
-        </div>
     </div>
 <?php else : ?>
     <div class="card">
@@ -69,7 +46,7 @@
 
 <div class="modal fade" id="tpp_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <form class="modal-content" action="<?= base_url("/index.php/api/pembayaran_piutang") ?>" method="POST">
             <div class="modal-header">
                 <h5 class="modal-title">Pembayaran Piutang</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -77,8 +54,36 @@
                 </button>
             </div>
             <div class="modal-body">
-            
+                <table>
+                    <tr>
+                        <td>Tanggal Invoice</td>
+                        <td id="invoice_date" class="pl-5"></td>
+                    </tr>
+                    <tr>
+                        <td>Nomor Invoice</td>
+                        <td id="invoice_no" class="pl-5"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Tagihan</td>
+                        <td id="total_tagihan_str" class="pl-5"></td>
+                    </tr>
+                    <tr>
+                        <td>Sisa Tagihan</td>
+                        <td id="sisa_tagihan_str" class="pl-5"></td>
+                    </tr>
+                </table>
+                <hr>
+                <input type="hidden" name="id" id="tpp_id">
+                <div class="form-group w-100">
+                    <label for="new_payment">Tambahkan Pembayaran</label>
+                    <input type="number" name="payment" id="new_payment" class="form-control" min="0" step="0.01" required />
+                </div>
             </div>
-        </div>
+            <div class="modal-footer p-2 d-flex justify-content-center align-items-center">
+                <button type="submit" class="btn btn-primary mt-1">
+                    Bayar
+                </button>
+            </div>
+        </form>
     </div>
 </div>
