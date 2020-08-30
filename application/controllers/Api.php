@@ -889,7 +889,7 @@ class Api extends CI_Controller
 
                 "goods_name" => $or_det->goods_name,
                 "price" => $or_det->price,
-                "quantity" => $or_det->checksheet_qty,
+                "quantity" => $or_det->quantity,
                 "discount" => $or_det->discount,
 
                 "warehouse_id" => 1, // default dulu buat test
@@ -911,16 +911,13 @@ class Api extends CI_Controller
         redirect(base_url("/index.php/penjualan/pos"));
     }
 
+    // Update 30 Agustus: tidak update jumlah order request, hanya ubah jumlah stok
     public function save_checksheet($order_request_id)
     {
         // update jumlah
         foreach ($_POST['barang'] as $id_barang => $barang) {
-            if (isset($barang['deleted']) && $barang['deleted'] == 1) {
-                $this->or->delete_checksheet_entry($order_request_id, $id_barang);
-            } else {
-                $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity']);
-                $this->goods->update_quantity_from_checksheet($id_barang, $barang['available_quantity']);
-            }
+            $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity']);
+            $this->goods->update_quantity_from_checksheet($id_barang, $barang['quantity']);
         }
 
         $this->session->set_flashdata("success", "Checksheet berhasil disimpan");

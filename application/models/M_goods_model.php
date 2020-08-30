@@ -379,6 +379,7 @@ class M_goods_model extends CI_Model
         $this->db->join("m_unit", "m_unit.id = m_goods.unit", "left");
         $this->db->where($where);
         $old = $this->db->get()->row();
+        
         $final_quantity = $old->ratio_flag == 1 ? $new_quantity / $old->converted_quantity : $new_quantity;
 
         $set = array(
