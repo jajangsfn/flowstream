@@ -118,7 +118,8 @@ class T_pos_model extends CI_Model
             m_goods.ratio_flag,
             m_unit.initial as unit_name,
             m_unit.quantity as converted_quantity,
-            m_goods.rekening_no"
+            m_goods.rekening_no,
+            m_goods.sku_code"
         );
         $this->db->from("t_pos_detail");
         $this->db->join("m_goods", "m_goods.id = t_pos_detail.goods_id", "left");

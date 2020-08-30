@@ -76,7 +76,8 @@ class T_order_request_model extends CI_Model
         m_unit.name as unit_name,
         m_unit.initial as unit_initial,
         m_unit.quantity as converted_quantity,
-        checksheet.quantity checksheet_qty
+        checksheet.quantity checksheet_qty,
+        m_goods.sku_code
         ");
         $this->db->from("t_order_request_detail ordet");
         $this->db->join("m_goods", "m_goods.id = ordet.goods_id", "left");
