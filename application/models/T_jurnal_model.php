@@ -189,6 +189,19 @@ class T_jurnal_model extends CI_Model
 
     public function preview_tutup_buku($branch_id, $periode)
     {
+        // Periode = YYYY-MM
+        $periode_array = explode("-", $periode);
+
+        // periode array 0 = tahun
+        // periode array 1 = bulan
+
+        // Jika bulan januari, periode sebelumnya adalah tahun sebelumnya, bulan akhir
+        if (intval($periode_array[1]) == 1) {
+            $periode_data_bulan_lalu = "12-" . (intval($periode_array[0]) - 1);
+        } else {
+            $periode_data_bulan_lalu = (intval($periode_array[1]) - 1) . "-" . $periode_array[0];
+        }
+
         // TODO: cek t_neraca_saldo_akhir
         // TODO: cek t_ikhtisar_saldo
         // TODO: cek t_kode_rekenin_saldo
@@ -201,19 +214,24 @@ class T_jurnal_model extends CI_Model
             "SELECT 
                 t_jurnal_detail.acc_code,
                 m_account_code.acc_name,
+                t_kode_rekening_saldo.saldo_akhir as saldo_bulan_lalu,
                 SUM(t_jurnal_detail.debit) as debit,
-                SUM(t_jurnal_detail.credit) as credit
+                SUM(t_jurnal_detail.credit) as credit,
+                m_account_code.position as sum_position
 
             FROM t_jurnal_detail
 
             LEFT JOIN t_jurnal on t_jurnal.jurnal_no = t_jurnal_detail.jurnal_no
             LEFT JOIN m_account_code on m_account_code.acc_code = t_jurnal_detail.acc_code
+            LEFT JOIN t_kode_rekening_saldo on t_kode_rekening_saldo.acc_code = t_jurnal_detail.acc_code
 
             WHERE 
                 t_jurnal.jurnal_date like '$periode-%'
                 AND t_jurnal.branch_id = $branch_id
                 AND t_jurnal.registered_flag = 'Y'
                 AND t_jurnal.flag <> 10
+                AND (t_kode_rekening_saldo.periode = '$periode_data_bulan_lalu' OR t_kode_rekening_saldo.periode is null)
+                AND (t_kode_rekening_saldo.branch_id = '$branch_id' OR t_kode_rekening_saldo.branch_id is null)
 
             GROUP BY t_jurnal_detail.acc_code
             ORDER BY t_jurnal_detail.acc_code asc
@@ -227,19 +245,24 @@ class T_jurnal_model extends CI_Model
             "SELECT 
                 LEFT(t_jurnal_detail.acc_code, 6) as acc_code_ikhtisar,
                 m_account_code.acc_name,
+                t_ikhtisar_saldo.saldo_akhir as saldo_bulan_lalu,
                 SUM(t_jurnal_detail.debit) as debit,
-                SUM(t_jurnal_detail.credit) as credit
+                SUM(t_jurnal_detail.credit) as credit,
+                m_account_code.position as sum_position
 
             FROM t_jurnal_detail
 
             LEFT JOIN t_jurnal on t_jurnal.jurnal_no = t_jurnal_detail.jurnal_no
             LEFT JOIN m_account_code on m_account_code.acc_code = LEFT(t_jurnal_detail.acc_code, 6)
+            LEFT JOIN t_ikhtisar_saldo on t_ikhtisar_saldo.acc_code = LEFT(t_jurnal_detail.acc_code, 6)
 
             WHERE 
                 t_jurnal.jurnal_date like '$periode-%'
                 AND t_jurnal.branch_id = $branch_id
                 AND t_jurnal.registered_flag = 'Y'
                 AND t_jurnal.flag <> 10
+                AND (t_ikhtisar_saldo.periode = '$periode_data_bulan_lalu' OR t_ikhtisar_saldo.periode is null)
+                AND (t_ikhtisar_saldo.branch_id = '$branch_id' OR t_ikhtisar_saldo.branch_id is null)
 
             GROUP BY acc_code_ikhtisar
             ORDER BY acc_code_ikhtisar asc
@@ -253,19 +276,24 @@ class T_jurnal_model extends CI_Model
             "SELECT 
                 LEFT(t_jurnal_detail.acc_code, 3) as acc_code_neraca,
                 m_account_code.acc_name,
+                t_neraca_saldo_akhir.saldo_akhir as saldo_bulan_lalu,
                 SUM(t_jurnal_detail.debit) as debit,
-                SUM(t_jurnal_detail.credit) as credit
+                SUM(t_jurnal_detail.credit) as credit,
+                m_account_code.position as sum_position
 
             FROM t_jurnal_detail
 
             LEFT JOIN t_jurnal on t_jurnal.jurnal_no = t_jurnal_detail.jurnal_no
             LEFT JOIN m_account_code on m_account_code.acc_code = LEFT(t_jurnal_detail.acc_code, 3)
+            LEFT JOIN t_neraca_saldo_akhir on t_neraca_saldo_akhir.acc_code = LEFT(t_jurnal_detail.acc_code, 3)
 
             WHERE 
                 t_jurnal.jurnal_date like '$periode-%'
                 AND t_jurnal.branch_id = $branch_id
                 AND t_jurnal.registered_flag = 'Y'
                 AND t_jurnal.flag <> 10
+                AND ( t_neraca_saldo_akhir.periode = '$periode_data_bulan_lalu' OR t_neraca_saldo_akhir.periode is null ) 
+                AND ( t_neraca_saldo_akhir.branch_id = '$branch_id' OR t_neraca_saldo_akhir.branch_id is null ) 
 
             GROUP BY acc_code_neraca
             ORDER BY acc_code_neraca asc

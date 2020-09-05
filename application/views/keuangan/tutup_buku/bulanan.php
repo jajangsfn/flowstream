@@ -22,7 +22,7 @@
                 <select class="select2 py-5" id="tahun" data-width="100%">
                     <option label="" value="" selected disabled>Pilih Tahun</option>
                     <?php for ($i = $earliest_year; $i <= date("Y"); $i++) : ?>
-                        <option value="<?= $i ?>"><?= $i ?></option>
+                        <option value="<?= $i ?>" <?= $earliest_year == date("Y") ? "selected" : "" ?>><?= $i ?></option>
                     <?php endfor; ?>
                 </select>
             </div>
@@ -46,8 +46,10 @@
                     <tr>
                         <th>Kode Akun</th>
                         <th>Nama Akun</th>
+                        <th>Saldo Periode Sebelumnya</th>
                         <th>Debit</th>
                         <th>Kredit</th>
+                        <th>Saldo Akhir</th>
                     </tr>
                 </thead>
                 <tbody id="neraca_saldo_list">
@@ -69,8 +71,10 @@
                     <tr>
                         <th>Kode Akun</th>
                         <th>Nama Akun</th>
+                        <th>Saldo Periode Sebelumnya</th>
                         <th>Debit</th>
                         <th>Kredit</th>
+                        <th>Saldo Akhir</th>
                     </tr>
                 </thead>
                 <tbody id="ikhtisar_saldo_list">
@@ -92,8 +96,10 @@
                     <tr>
                         <th>Kode Akun</th>
                         <th>Nama Akun</th>
+                        <th>Saldo Periode Sebelumnya</th>
                         <th>Debit</th>
                         <th>Kredit</th>
+                        <th>Saldo Akhir</th>
                     </tr>
                 </thead>
                 <tbody id="kode_rekening_saldo_list">
