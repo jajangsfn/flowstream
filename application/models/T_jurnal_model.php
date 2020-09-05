@@ -135,4 +135,5 @@ class T_jurnal_model extends CI_Model
 
         $this->insert_detail($data);
     }
+
 }
