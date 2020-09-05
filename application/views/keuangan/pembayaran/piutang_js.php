@@ -15,7 +15,7 @@
                             <tr>
                                 <td>${i + 1}</td>
                                 <td>
-                                    <a href="<?= base_url("/index.php/penjualan/order_request/view/") ?>${result.data[i].pos_id}">
+                                    <a href="<?= base_url("/index.php/penjualan/pos/view/") ?>${result.data[i].pos_id}">
                                         ${result.data[i].invoice_no}
                                     </a>
                                 </td>

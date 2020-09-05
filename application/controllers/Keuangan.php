@@ -53,6 +53,7 @@ class Keuangan extends CI_Controller
     {
         $data['page_title'] = "Register Jurnal";
         $data['page_content'] = $this->load->view("keuangan/registrasi/register_jurnal", "", true);
+        $data['page_js'] = $this->load->view("keuangan/registrasi/register_jurnal_js", "", true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

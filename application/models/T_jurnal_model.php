@@ -135,4 +135,38 @@ class T_jurnal_model extends CI_Model
 
         $this->insert_detail($data);
     }
+
+    public function get_unregistered_jurnal($where)
+    {
+        return $this->db->query(
+            "SELECT 
+                t_jurnal.jurnal_no, 
+                t_jurnal.invoice_no, 
+                t_jurnal.jurnal_date, 
+                tpp.payment,
+                case
+                    when tpp.id = null
+                    then 'Pembayaran Hutang'
+                    else 'Pembayaran Piutang'
+                end as tipe,
+                t_pos.id as pos_id
+            
+            FROM 
+                t_jurnal
+
+            LEFT JOIN t_pos ON t_pos.invoice_no = t_jurnal.invoice_no
+            LEFT JOIN t_pembayaran_piutang tpp ON tpp.jurnal_no = t_jurnal.jurnal_no AND tpp.flag = 1
+
+            WHERE
+                t_jurnal.registered_flag = 'N'
+            "
+        );
+    }
+
+    public function register($jurnal_no)
+    {
+        $this->db->query(
+            "UPDATE t_jurnal SET registered_flag = 'Y' WHERE jurnal_no = $jurnal_no"
+        );
+    }
 }

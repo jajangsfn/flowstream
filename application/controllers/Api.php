@@ -1013,11 +1013,6 @@ class Api extends CI_Controller
             "created_date" => date('Y-m-d H:i:s'),
             "updated_date" => date('Y-m-d H:i:s'),
             "payment_total" => $_POST['payment_total'],
-            "payment_method" => $_POST['payment_method'],
-            "payment_description" => $_POST['payment_description'],
-            "bank" => $_POST['payment_method'] == "CASH" ? "" : $_POST['bank'],
-            "payment_paid" => $_POST['payment_paid'],
-            #"warehouse_id"=>1, // di default dulu
             "flag" => 1,
         );
 
@@ -1744,7 +1739,7 @@ class Api extends CI_Controller
                 array(
                     "flag" => 1,
                     "jurnal_no" => $jurnal_no,
-                    "payment_date" => date("Y m d"),
+                    "payment_date" => date("Y-m-d"),
                     "payment" => $_POST['payment']
                 )
             );
@@ -1753,8 +1748,9 @@ class Api extends CI_Controller
             $this->keumod->update_entry_piutang(
                 $_POST['id'],
                 array(
+                    "flag" => 1,
                     "jurnal_no" => $jurnal_no,
-                    "payment_date" => date("Y m d"),
+                    "payment_date" => date("Y-m-d"),
                     "payment" => $_POST['payment']
                 )
             );
@@ -1774,6 +1770,26 @@ class Api extends CI_Controller
     {
         $this->user_m->reset_password($employee_id);
         $this->session->set_flashdata("success", "Reset password employee berhasil");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function get_unregistered_jurnal($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->jurnal->get_unregistered_jurnal(
+                    array(
+                        "branch_id" => $branch_id
+                    )
+                )->result()
+            )
+        );
+    }
+
+    public function register_jurnal($jurnal_no)
+    {
+        $this->jurnal->register($jurnal_no);
+        $this->session->set_flashdata("success", "Registrasi jurnal berhasil");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }
