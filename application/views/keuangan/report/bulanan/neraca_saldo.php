@@ -70,6 +70,12 @@
                       <?php
                         if (count($neraca)) {
                             foreach($neraca as $key => $row) { 
+                                $acc_code    = str_replace(".","",
+                                                            substr( 
+                                                                    str_replace("-","",$row->acc_code)
+                                                                    , 3
+                                                                )
+                                                          );
                                 $position    = (is_null($row->position) || $row->position == 'D') ? 'D' : 'K';
                                 $saldo_akhir = $position == 'D' ? 
                                                 ($row->saldo_bln_lalu + $row->total_debit - $row->total_credit)
@@ -77,7 +83,7 @@
                                 ?>
                                 <tr>
                                     <td class="text-center"><?=$key+1?></td>
-                                    <td><?=$row->acc_code?></td>
+                                    <td><?=$acc_code?></td>
                                     <td><?=$row->acc_name?></td>
                                     <td class="text-right"><?=number_format($row->saldo_bln_lalu)?></td>
                                     <td><?=$position?></td>
