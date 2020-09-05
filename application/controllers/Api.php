@@ -1809,4 +1809,50 @@ class Api extends CI_Controller
         $this->session->set_flashdata("success", "Tutup buku bulanan telah berhasil");
         redirect($_SERVER['HTTP_REFERER']);
     }
+
+    public function parameter_neraca_saldo_akhir_cabang($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->keumod->get_parameter_neraca_saldo_akhir($branch_id)->result()
+            )
+        );
+    }
+
+    public function add_parameter_neraca_saldo_akhir()
+    {
+        $this->keumod->add_parameter_neraca_saldo_akhir($_POST['branch_id'], $_POST['acc_code']);
+        $this->session->set_flashdata("success", "Parameter neraca saldo akhir berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_parameter_neraca_saldo($id)
+    {
+        $this->keumod->delete_parameter_neraca_saldo_akhir($id);
+        $this->session->set_flashdata("success", "Parameter neraca saldo akhir berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function parameter_ikhtisar_saldo_cabang($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->keumod->get_parameter_ikhtisar_saldo($branch_id)->result()
+            )
+        );
+    }
+
+    public function add_parameter_ikhtisar_saldo()
+    {
+        $this->keumod->add_parameter_ikhtisar_saldo($_POST['branch_id'], $_POST['acc_code']);
+        $this->session->set_flashdata("success", "Parameter ikhtisar saldo berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_parameter_ikhtisar_saldo($id)
+    {
+        $this->keumod->delete_parameter_ikhtisar_saldo($id);
+        $this->session->set_flashdata("success", "Parameter ikhtisar saldo berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }

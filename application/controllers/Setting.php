@@ -125,7 +125,7 @@ class Setting extends CI_Controller
                             array(
                                 "id" => $fourth_path,
                             )
-                        )->row(); 
+                        )->row();
 
                         $data['page_title'] = "Mapping barang untuk " . $content['data_salesman']->name;
                         $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id . "/supplier" . "/" . $content['data_supplier']->id . "/salesman");
@@ -146,7 +146,7 @@ class Setting extends CI_Controller
                                 "flag <> " => "99"
                             )
                         )->result();
-                        
+
                         $data['page_title'] = "Daftar Salesman untuk " . $content['data_supplier']->name;
                         $data['back_url'] = base_url("/index.php/setting/master/cabang/" . $content['data_branch']->id . "/supplier");
                         $data['page_content'] = $this->load->view("setting/master/cabang/salesman", $content, true);
@@ -325,6 +325,25 @@ class Setting extends CI_Controller
                             $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/kode_rekening/kode_rekening.php", $content, true);
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/kode_rekening/kode_rekening_js.php", $content, true);
                             break;
+                        case 'master':
+                            $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/master/master.php", $content, true);
+                            $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/master/master_js.php", $content, true);
+                            break;
+
+                        case 'neraca_saldo_akhir':
+                            $content['accounts'] = $this->account->get_non_parameter_neraca_saldo_akhir($id)->result();
+
+                            $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/neraca_saldo/neraca_saldo_akhir.php", $content, true);
+                            $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/neraca_saldo/neraca_saldo_akhir_js.php", $content, true);
+                            break;
+
+                        case 'ikhtisar_saldo':
+                            $content['accounts'] = $this->account->get_non_ikhtisar_saldo($id)->result();
+
+                            $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/ikhtisar_saldo/ikhtisar_saldo.php", $content, true);
+                            $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/ikhtisar_saldo/ikhtisar_saldo_js.php", $content, true);
+                            break;
+
                         default:
                             $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/master/master.php", $content, true);
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/master/master_js.php", $content, true);

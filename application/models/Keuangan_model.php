@@ -73,4 +73,70 @@ class Keuangan_model extends CI_Model
             "id" => $tpp_id
         ));
     }
+
+    function get_parameter_neraca_saldo_akhir($branch_id)
+    {
+        return $this->db->query(
+            "SELECT 
+                m_parameter_neraca_saldo.*,
+                m_account_code.acc_name
+                
+            FROM m_parameter_neraca_saldo
+            LEFT JOIN m_account_code on m_account_code.acc_code = m_parameter_neraca_saldo.acc_code
+            WHERE m_parameter_neraca_saldo.branch_id = $branch_id AND m_account_code.branch_id = $branch_id
+            "
+        );
+    }
+
+    function add_parameter_neraca_saldo_akhir($branch_id, $acc_code)
+    {
+        $user = $this->session->userdata("id");
+
+        $this->db->query(
+            "INSERT INTO `m_parameter_neraca_saldo`
+                (`id`, `branch_id`, `acc_code`, `created_date`, `created_by`, `flag`) 
+            VALUES 
+                (null, '$branch_id', '$acc_code', current_timestamp(), '$user', '1')"
+        );
+    }
+
+    function delete_parameter_neraca_saldo_akhir($id)
+    {
+        $this->db->query(
+            "DELETE FROM `m_parameter_neraca_saldo` WHERE id = $id"
+        );
+    }
+
+    function get_parameter_ikhtisar_saldo($branch_id)
+    {
+        return $this->db->query(
+            "SELECT 
+                m_parameter_ikhtisar_saldo.*,
+                m_account_code.acc_name
+                
+            FROM m_parameter_ikhtisar_saldo
+            LEFT JOIN m_account_code on m_account_code.acc_code = m_parameter_ikhtisar_saldo.acc_code
+            WHERE m_parameter_ikhtisar_saldo.branch_id = $branch_id AND m_account_code.branch_id = $branch_id
+            "
+        );
+    }
+
+    function add_parameter_ikhtisar_saldo($branch_id, $acc_code)
+    {
+        $user = $this->session->userdata("id");
+
+        $this->db->query(
+            "INSERT INTO `m_parameter_ikhtisar_saldo`
+                (`id`, `branch_id`, `acc_code`, `created_date`, `created_by`, `flag`) 
+            VALUES 
+                (null, '$branch_id', '$acc_code', current_timestamp(), '$user', '1')"
+        );
+    }
+
+    function delete_parameter_ikhtisar_saldo($id)
+    {
+        $this->db->query(
+            "DELETE FROM `m_parameter_ikhtisar_saldo` WHERE id = $id"
+        );
+    }
 }
