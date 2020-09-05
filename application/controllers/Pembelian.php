@@ -439,7 +439,7 @@ class Pembelian extends CI_Controller
                     $where.= "tab1.id = " . $_GET['id_supplier'];
                 }
 
-                if (array_key_exists("id_salesman", $_GET)) {
+                if (array_key_exists("id_salesman", $_GET) && ($_GET['id_salesman']!= "")) {
                     if ($where) {
                         $where.= " AND tab2.id = " . $_GET['id_salesman'];
                     }else {
@@ -447,12 +447,13 @@ class Pembelian extends CI_Controller
                     }
                     
                 }
+                
 
                 if (array_key_exists("goods", $_GET)) {
                     if ($where) {
-                        $where.= " AND tab4.brand_description like '" . $_GET['goods'] . "%' or tab4.sku_code like '" . $_GET['goods'] ."%' or tab4.plu_code like '" . $_GET['goods'] ."%' or tab4.barcode like '" . $_GET['goods'] ."%'";
+                        $where.= " AND (tab4.brand_description like '%" . $_GET['goods'] . "%' or tab4.sku_code like '%" . $_GET['goods'] ."%' or tab4.plu_code like '%" . $_GET['goods'] ."%' or tab4.barcode like '%" . $_GET['goods'] ."%')";
                     }else {
-                        $where.= "tab4.brand_description like '" . $_GET['goods'] . "%' or tab4.sku_code like '" . $_GET['goods'] ."%' or tab4.plu_code like '" . $_GET['goods'] ."%' or tab4.barcode like '" . $_GET['goods'] ."%'";
+                        $where.= " (tab4.brand_description like '%" . $_GET['goods'] . "%' or tab4.sku_code like '%" . $_GET['goods'] ."%' or tab4.plu_code like '%" . $_GET['goods'] ."%' or tab4.barcode like '%" . $_GET['goods'] ."%')";
                     }
                 }
             }
