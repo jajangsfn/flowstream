@@ -889,7 +889,7 @@ class Api extends CI_Controller
 
         foreach ($order_request_details as $or_det) {
             // generate POS detail data
-            $total = $or_det->quantity * $or_det->price * (100 - $or_det->discount) / 100;
+            $total = $or_det->checksheet_qty * $or_det->price * (100 - $or_det->discount) / 100;
             $tax = 10 * $total / 100;
             $total = 110 * $total / 100;
             $payment_total += $total;
@@ -900,7 +900,7 @@ class Api extends CI_Controller
 
                 "goods_name" => $or_det->goods_name,
                 "price" => $or_det->price,
-                "quantity" => $or_det->quantity,
+                "quantity" => $or_det->checksheet_qty,
                 "discount" => $or_det->discount,
 
                 "warehouse_id" => 1, // default dulu buat test
