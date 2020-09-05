@@ -1792,4 +1792,21 @@ class Api extends CI_Controller
         $this->session->set_flashdata("success", "Registrasi jurnal berhasil");
         redirect($_SERVER['HTTP_REFERER']);
     }
+
+    public function preview_tutup_buku($branch_id)
+    {
+        $date = $_GET['periode'];
+        echo json_encode(
+            array(
+                "data" => $this->jurnal->preview_tutup_buku($branch_id, $date)
+            )
+        );
+    }
+
+    public function tutup_buku($branch_id, $periode)
+    {
+        $this->jurnal->tutup_buku($branch_id, $periode);
+        $this->session->set_flashdata("success", "Tutup buku bulanan telah berhasil");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }

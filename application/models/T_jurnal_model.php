@@ -165,8 +165,173 @@ class T_jurnal_model extends CI_Model
 
     public function register($jurnal_no)
     {
+        $user = $this->session->userdata("id");
         $this->db->query(
-            "UPDATE t_jurnal SET registered_flag = 'Y' WHERE jurnal_no = $jurnal_no"
+            "UPDATE t_jurnal 
+            SET registered_flag = 'Y', 
+                registered_date = NOW(),
+                registered_user = $user
+            WHERE jurnal_no = $jurnal_no"
         );
+    }
+
+    public function get_earliest_year_for_branch_id($branch_id)
+    {
+        return $this->db->query(
+            "SELECT
+                YEAR(jurnal_date) as earliest_year
+            FROM t_jurnal
+            WHERE branch_id = $branch_id
+            ORDER BY jurnal_date asc
+            LIMIT 1"
+        );
+    }
+
+    public function preview_tutup_buku($branch_id, $periode)
+    {
+        // TODO: cek t_neraca_saldo_akhir
+        // TODO: cek t_ikhtisar_saldo
+        // TODO: cek t_kode_rekenin_saldo
+        // TODO: cek m_parameter_neraca_saldo
+        // TODO: cek m_parameter_ikhtisar_saldo
+        // TODO: cek m_parameter_kode_rekenin_saldo
+
+        // Get semua jurnal detail, kelompokan berdasarkan kode rekening, sum debit dan kredit, where periode dan branch
+        $kode_rekening_saldo_bulan = $this->db->query(
+            "SELECT 
+                t_jurnal_detail.acc_code,
+                m_account_code.acc_name,
+                SUM(t_jurnal_detail.debit) as debit,
+                SUM(t_jurnal_detail.credit) as credit
+
+            FROM t_jurnal_detail
+
+            LEFT JOIN t_jurnal on t_jurnal.jurnal_no = t_jurnal_detail.jurnal_no
+            LEFT JOIN m_account_code on m_account_code.acc_code = t_jurnal_detail.acc_code
+
+            WHERE 
+                t_jurnal.jurnal_date like '$periode-%'
+                AND t_jurnal.branch_id = $branch_id
+                AND t_jurnal.registered_flag = 'Y'
+                AND t_jurnal.flag <> 10
+
+            GROUP BY t_jurnal_detail.acc_code
+            ORDER BY t_jurnal_detail.acc_code asc
+            "
+        );
+
+        $toreturn["kode_rekening_saldo"] = $kode_rekening_saldo_bulan->result();
+
+        // Get semua jurnal detail, kelompokan berdasarkan 6 digit awal kode rekening, sum debit dan kredit, where periode dan branch
+        $ikhtisar_saldo_bulan = $this->db->query(
+            "SELECT 
+                LEFT(t_jurnal_detail.acc_code, 6) as acc_code_ikhtisar,
+                m_account_code.acc_name,
+                SUM(t_jurnal_detail.debit) as debit,
+                SUM(t_jurnal_detail.credit) as credit
+
+            FROM t_jurnal_detail
+
+            LEFT JOIN t_jurnal on t_jurnal.jurnal_no = t_jurnal_detail.jurnal_no
+            LEFT JOIN m_account_code on m_account_code.acc_code = LEFT(t_jurnal_detail.acc_code, 6)
+
+            WHERE 
+                t_jurnal.jurnal_date like '$periode-%'
+                AND t_jurnal.branch_id = $branch_id
+                AND t_jurnal.registered_flag = 'Y'
+                AND t_jurnal.flag <> 10
+
+            GROUP BY acc_code_ikhtisar
+            ORDER BY acc_code_ikhtisar asc
+            "
+        );
+
+        $toreturn["ikhtisar_saldo"] = $ikhtisar_saldo_bulan->result();
+
+        // Get semua jurnal detail, kelompokan berdasarkan 3 digit awal kode rekening, sum debit dan kredit, where periode dan branch
+        $neraca_saldo_bulan = $this->db->query(
+            "SELECT 
+                LEFT(t_jurnal_detail.acc_code, 3) as acc_code_neraca,
+                m_account_code.acc_name,
+                SUM(t_jurnal_detail.debit) as debit,
+                SUM(t_jurnal_detail.credit) as credit
+
+            FROM t_jurnal_detail
+
+            LEFT JOIN t_jurnal on t_jurnal.jurnal_no = t_jurnal_detail.jurnal_no
+            LEFT JOIN m_account_code on m_account_code.acc_code = LEFT(t_jurnal_detail.acc_code, 3)
+
+            WHERE 
+                t_jurnal.jurnal_date like '$periode-%'
+                AND t_jurnal.branch_id = $branch_id
+                AND t_jurnal.registered_flag = 'Y'
+                AND t_jurnal.flag <> 10
+
+            GROUP BY acc_code_neraca
+            ORDER BY acc_code_neraca asc
+            "
+        );
+
+        $toreturn["neraca_saldo"] = $neraca_saldo_bulan->result();
+
+
+        $unregistered_jurnal = $this->db->query(
+            "SELECT 
+                t_jurnal.jurnal_no, 
+                t_jurnal.invoice_no, 
+                t_jurnal.jurnal_date, 
+                tpp.payment,
+                case
+                    when tpp.id = null
+                    then 'Pembayaran Hutang'
+                    else 'Pembayaran Piutang'
+                end as tipe,
+                t_pos.id as pos_id
+            
+            FROM 
+                t_jurnal
+
+            LEFT JOIN t_pos ON t_pos.invoice_no = t_jurnal.invoice_no
+            LEFT JOIN t_pembayaran_piutang tpp ON tpp.jurnal_no = t_jurnal.jurnal_no AND tpp.flag = 1
+
+            WHERE
+                t_jurnal.registered_flag = 'N'
+                AND t_jurnal.jurnal_date like '$periode-%'
+                AND t_jurnal.branch_id = $branch_id
+                AND t_jurnal.flag <> 10
+            "
+        );
+
+        $toreturn["unregistered_jurnal"] = $unregistered_jurnal->result();
+
+        return $toreturn;
+    }
+
+    public function tutup_buku($branch_id, $periode)
+    {
+        // Update semua jurnal statusnya jadi sudah ditutup (flag = 10)
+        $this->db->query(
+            "UPDATE t_jurnal
+            SET flag = 10 
+            WHERE
+                t_jurnal.registered_flag = 'Y'
+                AND t_jurnal.jurnal_date like '$periode-%'
+                AND t_jurnal.branch_id = $branch_id
+            "
+        );
+
+        // Entry untuk t_monthly_report_status
+        $user = $this->session->userdata("id");
+        $this->db->query(
+            "INSERT INTO `t_monthly_report_status` 
+            (`id`, `branch_id`, `periode`, `ready_to_generate`, `created_date`, `created_by`) 
+            VALUES 
+            (NULL, '$branch_id', LAST_DAY('$periode-01'), NULL, current_timestamp(), '$user')
+            "
+        );
+
+        // TODO: Masukkan ke t_neraca_saldo_akhir
+        // TODO: Masukkan ke t_ikhtisar_saldo
+        // TODO: Masukkan ke t_kode_rekenin_saldo
     }
 }
