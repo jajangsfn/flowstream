@@ -15,7 +15,8 @@ class pdf
 	function param_paper($type = 1)
 	{
 
-		$param_header = array(1 => array(
+		$param_header = array(
+							1 => array(
 										"title" => array(
 							 				"width" => 30,
 								 			"height" => 2.5,
@@ -45,7 +46,8 @@ class pdf
 							);
 		// 1 pembelian
 		// 2 penjualan tes
-		$param_paper = array(1 => array(
+		$param_paper = array(
+						1 => array(
 										"po_in"=> array(
 													1 => array("paper"=>"A4",
 															   "view" => "P",
@@ -944,7 +946,8 @@ class pdf
 												), //end return
 
 							),
-						2 => array("return_out"=> array(
+						2 => array("return_out"=> 
+											array(
 												1 => array("paper"=>"A4",
 													   "view" => "P",
 													   "type_size" => "cm",
@@ -2575,7 +2578,13 @@ class pdf
 														), //end size B5
 													),
 								),
-				);
+						3 =>array("neraca_saldo" => array()
+						
+						
+					
+						),
+				
+					);
 
 
 		return array( 	'setting_header' => $param_header,
@@ -3457,6 +3466,86 @@ class pdf
 			$hasil = trim($this->penyebut($nilai))." rupiah";
 		}     		
 		return $hasil;
+	}
+
+
+	function print_neraca_saldo($type,$type_print,$data)
+	{
+		// get paper 
+		$setting_paper   = $this->param_paper($type=2);
+		$paper_reference = $setting_paper['setting_paper'];
+		$header_reference= $setting_paper['setting_header']; 
+		
+		
+		// count data
+		$count_data = count($data);
+
+		// if data > 10 then use A4 paper
+		// else use B4 paper
+		$use_paper = 1;
+		if ( $count_data <= 10 ) {
+			$use_paper = 2;
+		}
+		
+		// initilization paper
+		$pdf = new FPDF($paper_reference[$type_print][$use_paper]['view'], 
+						$paper_reference[$type_print][$use_paper]['type_size'], 
+						$paper_reference[$type_print][$use_paper]['paper']);
+
+		$pdf->AliasNbPages();
+		$pdf->AddPage();
+		$pdf->SetFont('Arial','B',13);
+
+		// set position to top
+		$pdf->SetY($paper_reference[$type_print][$use_paper]['title_position_y']+3);
+
+		// set tile header
+		$pdf->Cell($paper_reference[$type_print][$use_paper]['title_paper']['width'], 
+					$paper_reference[$type_print][$use_paper]['title_paper']['height'], 
+					'NERACA SALDO',0,1,
+					$paper_reference[$type_print][$use_paper]['title_paper']['align']);
+		
+		
+		$pdf->SetFont('Arial','B',10);
+		$pdf->Cell($paper_reference[$type_print][$use_paper]['title_paper']['width'], 
+					$paper_reference[$type_print][$use_paper]['title_paper']['height']+10, 
+					'PERIODE '. $data[0]->jurnal_date,0,1,
+					$paper_reference[$type_print][$use_paper]['title_paper']['align']);
+
+		$pdf->SetFont('Arial','B',8);
+		$pdf->SetX(80);
+		$pdf->Cell(10, 
+					$paper_reference[$type_print][$use_paper]['title_paper']['height']+10, 
+					'Hal ',0,1,
+					$paper_reference[$type_print][$use_paper]['title_paper']['align']);
+		$pdf->SetX(90);
+		$pdf->Cell($paper_reference[$type_print][$use_paper]['title_paper']['width'], 
+					$paper_reference[$type_print][$use_paper]['title_paper']['height']+10, 
+					':',0,1,
+					$paper_reference[$type_print][$use_paper]['title_paper']['align']);
+		// set branch name
+		$pdf->SetFont('Arial','B',13);
+		// get userdata
+		$CI =& get_instance();
+		
+		$pdf->SetY($header_reference[$use_paper]['title']['position_y']);
+		$pdf->SetX($header_reference[$use_paper]['title']['position_x']);
+		$pdf->Cell($header_reference[$use_paper]['title']['width'], 
+					$header_reference[$use_paper]['title']['height'], 
+					$CI->session->userdata('branch_name'),0,1,'L');
+
+		// set branch address
+		$pdf->SetFont('Arial','',10);
+		$pdf->SetY($header_reference[$use_paper]['address']['position_y']);
+		$pdf->SetX($header_reference[$use_paper]['address']['position_x']);
+		$pdf->Cell($header_reference[$use_paper]['address']['width'], 
+					$header_reference[$use_paper]['address']['height'], 
+					$CI->session->userdata('branch_address'),0,1,'L');
+
+		//set title
+		$pdf->Cell(10, 2,'No',1,0,'C');	
+
+		$pdf->output('i',$type_print.'-'.date('Y-m-d'));
 	}
 
 }

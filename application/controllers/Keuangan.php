@@ -447,4 +447,16 @@ class Keuangan extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
+
+
+    public function print_neraca_saldo($periode = '2020-08')
+    {
+        $data['neraca'] = $this->keumod->get_neraca_saldo($periode)->result();
+        $data['periode']= $periode;
+        $this->load->view('layout/head');
+        $this->load->view('keuangan/report/bulanan/print_neraca_saldo', $data);
+        // $this->load->view('layout/js');
+        // $this->load->view('keuangan/report/bulanan/ex');
+
+    }
 }
