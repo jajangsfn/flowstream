@@ -46,4 +46,16 @@ class S_reference_model extends CI_Model
         $this->db->update("s_reference", array("flag" => 99));
         return $this->get($where);
     }
+
+    function get_default_password()
+    {
+        $query = $this->db->get_where(
+            "s_reference",
+            array(
+                "branch_id" => $this->session->userdata("branch_id"),
+                "group_data" => "DEFAULT_PASSWORD"
+            )
+        );
+        return md5($query->num_rows() > 0 ? $query->row()->detail_data : "flowstream");
+    }
 }

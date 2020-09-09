@@ -200,6 +200,7 @@
         $("#total_harga_order").text(numeral(total_price).format('0,[.]00'));
         $("#tax_price").text(numeral(pajak).format('0,[.]00'));
         $("#total_harga_order_tax").text(numeral(finalPrice).format('0,[.]00'))
+        $("#total_harga_field").val(finalPrice);
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
             $("#payment-button").removeAttr("disabled");

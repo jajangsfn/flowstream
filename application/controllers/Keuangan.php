@@ -16,7 +16,8 @@ class Keuangan extends CI_Controller
             array(
                 "User_model" => "user_m",
                 "M_partner_model" => "partner",
-                "Keuangan_model" => "keumod"
+                "Keuangan_model" => "keumod",
+                "T_jurnal_model" => "jurnal"
             )
         );
         $this->lang->load('menu_lang', 'indonesian');
@@ -53,6 +54,7 @@ class Keuangan extends CI_Controller
     {
         $data['page_title'] = "Register Jurnal";
         $data['page_content'] = $this->load->view("keuangan/registrasi/register_jurnal", "", true);
+        $data['page_js'] = $this->load->view("keuangan/registrasi/register_jurnal_js", "", true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
@@ -244,7 +246,12 @@ class Keuangan extends CI_Controller
     private function tutup_buku_bulanan()
     {
         $data['page_title'] = "Tutup Buku Bulanan";
-        $data['page_content'] = $this->load->view("keuangan/tutup_buku/bulanan", "", true);
+
+        $content = array(
+            "earliest_year" => $this->jurnal->get_earliest_year_for_branch_id($this->session->userdata("branch_id"))->row()->earliest_year
+        );
+        $data['page_content'] = $this->load->view("keuangan/tutup_buku/bulanan", $content, true);
+        $data['page_js'] = $this->load->view("keuangan/tutup_buku/bulanan_js", "", true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

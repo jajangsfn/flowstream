@@ -283,7 +283,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
 } else if (stripos(current_url(), "/index.php/keuangan") && !stripos(current_url(), "/index.php/setting")) {
     $nav = array(
         new NavItem(
-            null,
+            "/index.php/keuangan/pembayaran",
             null,
             null,
             "Pembayaran",
@@ -308,7 +308,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             )
         ),
         new NavItem(
-            null,
+            "/index.php/keuangan/registrasi",
             null,
             null,
             "Registrasi",
@@ -341,7 +341,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             )
         ),
         new NavItem(
-            null,
+            "/index.php/keuangan/tutup_buku",
             null,
             null,
             "Tutup Buku",

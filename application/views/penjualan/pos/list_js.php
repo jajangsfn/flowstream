@@ -72,23 +72,19 @@
                         </a>
                         `
 
-                        if (row.flag != 1) {
-                            bayarbutton = "";
-                        }
-
-                        if (row.flag == 10) {
-                            extbutton = "";
-                            edit_button = "";
-                        }
-
-                        return `
-                        ${bayarbutton}
-                        ${edit_button}
+                        var cetakPosButton = `
                         <a class="btn btn-icon btn-sm btn-light-info" onclick="confirm_cetak(${data})" data-toggle="tooltip" title="Cetak POS" target="_blank">
                             <i class="fa la-print"></i>
                         </a>
-                        ${extbutton}
-                        `;
+                        `
+
+                        if (row.flag == 1) {
+                            return bayarbutton + edit_button + cetakPosButton + extbutton;
+                        } else if (row.flag == 10) {
+                            return cetakPosButton;
+                        } else {
+                            return cetakPosButton + extbutton;
+                        }
                     },
                     createdCell: function(td, cellData, rowData, row, col) {
                         $(td).attr('nowrap', 'nowrap').addClass("text-center")

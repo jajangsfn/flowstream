@@ -103,6 +103,7 @@
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="payment_total" id="total_harga_field">
             <div class="card-footer text-right">
                 <button type="button" id="payment-button" onclick="confirm_pos_submit()" class="btn btn-primary" disabled> Simpan </button>
             </div>

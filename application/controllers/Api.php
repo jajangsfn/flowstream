@@ -45,6 +45,17 @@ class Api extends CI_Controller
         echo json_encode($this->session->userdata);
     }
 
+    public function check_username($username)
+    {
+        echo json_encode(
+            array(
+                "data" => array(
+                    "message" => $this->user_m->check_username($username)
+                )
+            )
+        );
+    }
+
     public function register()
     {
         $signup_data = array(
@@ -878,7 +889,7 @@ class Api extends CI_Controller
 
         foreach ($order_request_details as $or_det) {
             // generate POS detail data
-            $total = $or_det->quantity * $or_det->price * (100 - $or_det->discount) / 100;
+            $total = $or_det->checksheet_qty * $or_det->price * (100 - $or_det->discount) / 100;
             $tax = 10 * $total / 100;
             $total = 110 * $total / 100;
             $payment_total += $total;
@@ -889,7 +900,7 @@ class Api extends CI_Controller
 
                 "goods_name" => $or_det->goods_name,
                 "price" => $or_det->price,
-                "quantity" => $or_det->quantity,
+                "quantity" => $or_det->checksheet_qty,
                 "discount" => $or_det->discount,
 
                 "warehouse_id" => 1, // default dulu buat test
@@ -1002,11 +1013,6 @@ class Api extends CI_Controller
             "created_date" => date('Y-m-d H:i:s'),
             "updated_date" => date('Y-m-d H:i:s'),
             "payment_total" => $_POST['payment_total'],
-            "payment_method" => $_POST['payment_method'],
-            "payment_description" => $_POST['payment_description'],
-            "bank" => $_POST['payment_method'] == "CASH" ? "" : $_POST['bank'],
-            "payment_paid" => $_POST['payment_paid'],
-            #"warehouse_id"=>1, // di default dulu
             "flag" => 1,
         );
 
@@ -1345,8 +1351,8 @@ class Api extends CI_Controller
         // created by
         $_POST['usr']['created_by'] = $this->session->id;
 
-        // encrypt password
-        $_POST['usr']['password'] = md5($_POST['usr']['password']);
+        // get encrypted default password
+        $_POST['usr']['password'] = $this->reference->get_default_password();
 
         // create user
         $this->user_m->insert($_POST['usr']);
@@ -1733,7 +1739,7 @@ class Api extends CI_Controller
                 array(
                     "flag" => 1,
                     "jurnal_no" => $jurnal_no,
-                    "payment_date" => date("Y m d"),
+                    "payment_date" => date("Y-m-d"),
                     "payment" => $_POST['payment']
                 )
             );
@@ -1742,8 +1748,9 @@ class Api extends CI_Controller
             $this->keumod->update_entry_piutang(
                 $_POST['id'],
                 array(
+                    "flag" => 1,
                     "jurnal_no" => $jurnal_no,
-                    "payment_date" => date("Y m d"),
+                    "payment_date" => date("Y-m-d"),
                     "payment" => $_POST['payment']
                 )
             );
@@ -1756,6 +1763,96 @@ class Api extends CI_Controller
         }
 
         $this->session->set_flashdata("success", "Pembayaran telah tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function trigger_reset_password($employee_id)
+    {
+        $this->user_m->reset_password($employee_id);
+        $this->session->set_flashdata("success", "Reset password employee berhasil");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function get_unregistered_jurnal($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->jurnal->get_unregistered_jurnal(
+                    array(
+                        "branch_id" => $branch_id
+                    )
+                )->result()
+            )
+        );
+    }
+
+    public function register_jurnal($jurnal_no)
+    {
+        $this->jurnal->register($jurnal_no);
+        $this->session->set_flashdata("success", "Registrasi jurnal berhasil");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function preview_tutup_buku($branch_id)
+    {
+        $date = $_GET['periode'];
+        echo json_encode(
+            array(
+                "data" => $this->jurnal->preview_tutup_buku($branch_id, $date)
+            )
+        );
+    }
+
+    public function tutup_buku($branch_id, $periode)
+    {
+        $this->jurnal->tutup_buku($branch_id, $periode);
+        $this->session->set_flashdata("success", "Tutup buku bulanan telah berhasil");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function parameter_neraca_saldo_akhir_cabang($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->keumod->get_parameter_neraca_saldo_akhir($branch_id)->result()
+            )
+        );
+    }
+
+    public function add_parameter_neraca_saldo_akhir()
+    {
+        $this->keumod->add_parameter_neraca_saldo_akhir($_POST['branch_id'], $_POST['acc_code']);
+        $this->session->set_flashdata("success", "Parameter neraca saldo akhir berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_parameter_neraca_saldo($id)
+    {
+        $this->keumod->delete_parameter_neraca_saldo_akhir($id);
+        $this->session->set_flashdata("success", "Parameter neraca saldo akhir berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function parameter_ikhtisar_saldo_cabang($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->keumod->get_parameter_ikhtisar_saldo($branch_id)->result()
+            )
+        );
+    }
+
+    public function add_parameter_ikhtisar_saldo()
+    {
+        $this->keumod->add_parameter_ikhtisar_saldo($_POST['branch_id'], $_POST['acc_code']);
+        $this->session->set_flashdata("success", "Parameter ikhtisar saldo berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_parameter_ikhtisar_saldo($id)
+    {
+        $this->keumod->delete_parameter_ikhtisar_saldo($id);
+        $this->session->set_flashdata("success", "Parameter ikhtisar saldo berhasil dihapus");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }
