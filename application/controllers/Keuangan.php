@@ -360,7 +360,15 @@ class Keuangan extends CI_Controller
     private function neraca_saldo()
     {
         $data['page_title'] = "Neraca Saldo";
-        $data['page_content'] = $this->load->view("keuangan/report/bulanan/neraca_saldo", "", true);
+        $data['neraca']     = array();
+
+        if (isset($_GET['submit'])) {
+            
+            $data['neraca'] = $this->keumod->get_neraca_saldo($_GET['year'].'-'.$_GET['periode'])->result();
+        }
+
+        
+        $data['page_content'] = $this->load->view("keuangan/report/bulanan/neraca_saldo", $data, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
@@ -445,5 +453,17 @@ class Keuangan extends CI_Controller
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
+    }
+
+
+    public function print_neraca_saldo($periode = '2020-08')
+    {
+        $data['neraca'] = $this->keumod->get_neraca_saldo($periode)->result();
+        $data['periode']= $periode;
+        $this->load->view('layout/head');
+        $this->load->view('keuangan/report/bulanan/print_neraca_saldo', $data);
+        // $this->load->view('layout/js');
+        // $this->load->view('keuangan/report/bulanan/ex');
+
     }
 }
