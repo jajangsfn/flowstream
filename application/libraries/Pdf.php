@@ -18,30 +18,43 @@ class pdf
 		$param_header = array(
 							1 => array(
 										"title" => array(
-							 				"width" => 30,
-								 			"height" => 2.5,
-								 			"position_x" => 0.2,
-											"position_y" => 0.01
+							 				"width" => 2,
+								 			"height" => 1,
+								 			"position_x" => 2.5,
+											"position_y" => 0.8
 										),
 										 "address" => array(
-										 	 "width" => 60,
-										 	 "height" =>2,
-										 	 "position_x" => 0.2,
-									     	 "position_y" => 0.8),
-										), 
+										 	 "width" => 3,
+										 	 "height" =>1,
+										 	 "position_x" => 2.5,
+											 "position_y" => 1.4
+										),
+										"image" => array(
+											"x"=>0.3,
+											"y"=>0.5,
+											"w"=>2,
+											"h"=>2
+											),
+								),
 							 2 => array(
 							 			"title" => array(
 							 				"width" => 30,
 								 			"height" => 3.5,
-								 			"position_x" => 0.8,
-											"position_y" => 8
+								 			"position_x" => 25,
+											"position_y" => 10
 										),
 										"address" => array(
 											"width" => 30,
 							 				"height" => 3.5,
-							 				"position_x" => 0.8,
-											"position_y" => 13,
-										), 										
+							 				"position_x" => 25,
+											"position_y" => 15,
+										),
+										"image" => array(
+											"x"=>3,
+											"y"=>4,
+											"w"=>20,
+											"h"=>20
+											), 										
 									  ),
 							);
 		// 1 pembelian
@@ -60,7 +73,7 @@ class pdf
 															   "space" => 1.7,
 															   "header"=> array(
 														   					0 => array("position_x" => 0.2,
-														  								"position_y" => 1.8,
+														  								"position_y" => 2.3,
 														   								"name" => 0.2,
 														   								"pad" => 0.2,
 														   								"val" => 3,
@@ -68,7 +81,7 @@ class pdf
 														   								"align" => 'L',
 														   								"index" => "partner_name"),
 																			1 => array("position_x" => 0.2,
-														  								"position_y" => 2.2,
+														  								"position_y" => 2.7,
 														   								"name" => 2,
 														   								"pad" => 0.2,
 														   								"val" => 11.8,
@@ -76,7 +89,7 @@ class pdf
 														   								"align" => 'L',
 														   								"index" => 'salesman_name'),
 														   					2 => array("position_x" => 0.2,
-														   								"position_y" => 2.6,
+														   								"position_y" => 3.2,
 														   								"name" => 2,
 														   								"pad" => 0.2,
 														   								"val" => 11.8,
@@ -84,7 +97,7 @@ class pdf
 														   								"align" => 'L',
 														   								"index" => "purchase_order_no"),
 														   					3 => array("position_x" => 0.2,
-														   								"position_y" => 3,
+														   								"position_y" => 3.6,
 														   								"name" => 2,
 														   								"pad" => 0.2,
 														   								"val" => 11.8,
@@ -92,7 +105,7 @@ class pdf
 														   								"align" => 'L',
 														   								"index" => "purchase_order_date"),
 																		),
-														   "body_position_y" => 3.8,
+														   "body_position_y" => 4.5,
 														   "body_position_x" => 0.3,
 														   "body_ln" => 0.4,
 														   "body_start_y" => 0.4,
@@ -172,7 +185,7 @@ class pdf
 										   "space" => 16,
 										   "header"=> array(
 										   					0 => array("position_x" => 0.8,
-														   				"position_y" => 20,
+														   				"position_y" => 26,
 														   				"name" => 15,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
@@ -180,7 +193,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => "partner_name"),
 														   	1 => array("position_x" => 0.8,
-														   				"position_y" => 24,
+														   				"position_y" => 30,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
@@ -188,7 +201,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => 'salesman_name'),
 														   	2 => array("position_x" => 0.8,
-														   				"position_y" => 28,
+														   				"position_y" => 34,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
@@ -196,7 +209,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => "purchase_order_no"),
 														   	3 => array("position_x" => 0.8,
-														   				"position_y" => 32,
+														   				"position_y" => 38,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
@@ -204,7 +217,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => "purchase_order_date"),
 																		),
-											"body_position_y" => 36,
+											"body_position_y" => 43,
 											"body_position_x" => 3,
 											"body_ln" => 4,
 											"body_start_y" => 5,
@@ -286,7 +299,7 @@ class pdf
 													   "space" => 1.8,
 													   "header"=> array(
 													   					0 => array("position_x" => 0.2,
-													  								"position_y" => 1.7,
+													  								"position_y" => 2.3,
 													   								"name" => 0.2,
 													   								"pad" => 0.2,
 													   								"val" => 3,
@@ -294,7 +307,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "partner_name"),
 													   					2 => array("position_x" => 0.2,
-													   								"position_y" => 2.1,
+													   								"position_y" => 2.9,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -302,7 +315,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "receiving_no"),
 													   					3 => array("position_x" => 0.2,
-													   								"position_y" => 2.5,
+													   								"position_y" => 3.4,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -310,7 +323,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "created_date"),
 																	),
-													   "body_position_y" => 3.2,
+													   "body_position_y" => 4.1,
 													   "body_position_x" => 0.3,
 													   "body_ln" => 0.4,
 													   "body_start_y" => 0.5,
@@ -389,7 +402,6 @@ class pdf
 															), //end size a4
 												2 => array(
 												"paper"=> "a5",
-											   // "paper"=> array(215,139),
 											   "view" => "L",
 											   "type_size" => "mm",
 											   "title_paper" => array( "title" => 'Bukti Terima Barang',
@@ -400,7 +412,7 @@ class pdf
 											   "space" => 22,
 											   "header"=> array(
 											   					0 => array("position_x" => 1.5,
-															   				"position_y" => 19,
+															   				"position_y" => 27,
 															   				"name" => 15,
 															   				"pad" => 1.7,
 															   				"val" => 11.8,
@@ -409,7 +421,7 @@ class pdf
 															   				"index" => "partner_name"
 															   			),
 															   	1 => array("position_x" => 1.5,
-															   				"position_y" => 23,
+															   				"position_y" => 32,
 															   				"name" => 18,
 															   				"pad" => 1.6,
 															   				"val" => 11.8,
@@ -418,7 +430,7 @@ class pdf
 															   				"index" => "receiving_no"
 															   			),
 															   	3 => array("position_x" => 1.5,
-															   				"position_y" => 27,
+															   				"position_y" => 37,
 															   				"name" => 18,
 															   				"pad" => 1.6,
 															   				"val" => 11.8,
@@ -426,7 +438,7 @@ class pdf
 															   				"align" => 'L',
 															   				"index" => "created_date"),
 																			),
-												"body_position_y" => 30,
+												"body_position_y" => 40,
 												"body_position_x" => 3,
 												"body_ln" => 4,
 												"body_start_y" => 5,
@@ -516,7 +528,7 @@ class pdf
 													   "space" => 2.5,
 													   "header"=> array(
 													   					0 => array("position_x" => 0.2,
-													   								"position_y" => 1.7,
+													   								"position_y" => 2.3,
 													   								"name" => 10,
 													   								"pad" => 0.3,
 													   								"val" => 11.8,
@@ -524,7 +536,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "physical_warehouse_no"),
 													   					1 => array("position_x" => 0.2,
-													   								"position_y" => 2.1,
+													   								"position_y" => 2.7,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -532,7 +544,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "created_date"),
 													   					2 => array("position_x" => 0.2,
-													   								"position_y" => 2.5,
+													   								"position_y" => 3.1,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -540,7 +552,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "actual_warehouse_name"),
 																	),
-													   "body_position_y" => 3.2,
+													   "body_position_y" => 3.9,
 													   "body_position_x" => 0.3,
 													   "body_ln" => 0.4,
 													   "body_start_y" => 0.5,
@@ -601,7 +613,7 @@ class pdf
 																		),
 
 															), //end size a4
-									2 => array("paper"=> "a5",
+											2 => array("paper"=> "a5",
 											   "view" => "L",
 											   "type_size" => "mm",
 											   "title_paper" => array( "title" => 'Bukti Penempatan Barang',
@@ -612,7 +624,7 @@ class pdf
 											   "space" => 22,
 											   "header"=> array(
 											   					0 => array("position_x" => 1.5,
-															   				"position_y" => 18,
+															   				"position_y" => 26,
 															   				"name" => 15,
 															   				"pad" => 1.7,
 															   				"val" => 11.8,
@@ -621,7 +633,7 @@ class pdf
 															   				"index" => "physical_warehouse_no"
 															   			),
 															   	1 => array("position_x" => 1.5,
-															   				"position_y" => 22,
+															   				"position_y" => 30,
 															   				"name" => 18,
 															   				"pad" => 1.6,
 															   				"val" => 11.8,
@@ -630,7 +642,7 @@ class pdf
 															   				"index" => "created_date"
 															   			),
 															   	2 => array("position_x" => 1.5,
-															   				"position_y" => 26,
+															   				"position_y" => 34,
 															   				"name" => 18,
 															   				"pad" => 1.6,
 															   				"val" => 11.8,
@@ -638,7 +650,7 @@ class pdf
 															   				"align" => 'L',
 															   				"index" => "actual_warehouse_name"),
 																			),
-												"body_position_y" => 30,
+												"body_position_y" => 38,
 												"body_position_x" => 3,
 												"body_ln" => 4,
 												"body_start_y" => 5,
@@ -700,7 +712,7 @@ class pdf
 
 											), //end size B5
 										), //end warehouse
-								"return_in"=> array(
+							"return_in"=> array(
 											1 => array("paper"=>"A4",
 													   "view" => "P",
 													   "type_size" => "cm",
@@ -713,7 +725,7 @@ class pdf
 													   "space" => 2.5,
 													   "header"=> array(
 													   					0 => array("position_x" => 0.2,
-													   								"position_y" => 1.7,
+													   								"position_y" => 2.3,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -722,7 +734,7 @@ class pdf
 													   								"index" => "return_no"),
 
 													   					1 => array("position_x" => 0.2,
-													   								"position_y" => 2.1,
+													   								"position_y" => 2.7,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -730,7 +742,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "reference_no"),
 													   					2 => array("position_x" => 0.2,
-													   								"position_y" => 2.5,
+													   								"position_y" => 3.1,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -739,7 +751,7 @@ class pdf
 													   								"index" => "supplier_name"),
 
 													   					3 => array("position_x" => 0.2,
-													   								"position_y" => 2.9,
+													   								"position_y" => 3.5,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -747,7 +759,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "return_date_convert"),
 													   				),
-													   "body_position_y" => 3.7,
+													   "body_position_y" => 4.3,
 													   "body_position_x" => 0.3,
 													   "body_ln" => 0.4,
 													   "body_start_y" => 0.5,
@@ -832,7 +844,7 @@ class pdf
 													   "space" => 22,
 													   "header"=> array(
 													   					0 => array("position_x" => 1.5,
-																	   				"position_y" => 18,
+																	   				"position_y" => 26,
 																	   				"name" => 15,
 																	   				"pad" => 1.7,
 																	   				"val" => 11.8,
@@ -841,7 +853,7 @@ class pdf
 																	   				"index" => "return_no"
 																	   			),
 																	   	1 => array("position_x" => 1.5,
-																	   				"position_y" => 22,
+																	   				"position_y" => 30,
 																	   				"name" => 18,
 																	   				"pad" => 1.6,
 																	   				"val" => 11.8,
@@ -850,7 +862,7 @@ class pdf
 																	   				"index" => "reference_no"
 																	   			),
 																	   	2 => array("position_x" => 1.5,
-																	   				"position_y" => 25.5,
+																	   				"position_y" => 34,
 																	   				"name" => 18,
 																	   				"pad" => 1.6,
 																	   				"val" => 11.8,
@@ -858,7 +870,7 @@ class pdf
 																	   				"align" => 'L',
 																	   				"index" => "supplier_name"),
 													   					3 => array("position_x" => 1.5,
-																	   				"position_y" => 29,
+																	   				"position_y" => 38,
 																	   				"name" => 18,
 																	   				"pad" => 1.6,
 																	   				"val" => 11.8,
@@ -867,7 +879,7 @@ class pdf
 																	   				"index" => "return_date_convert"
 																	   			),
 																		),
-														"body_position_y" => 33,
+														"body_position_y" => 42,
 														"body_position_x" => 3,
 														"body_ln" => 4,
 														"body_start_y" => 5,
@@ -960,7 +972,7 @@ class pdf
 													   "space" => 2.5,
 													   "header"=> array(
 													   					0 => array("position_x" => 0.2,
-													   								"position_y" => 1.7,
+													   								"position_y" => 2.3,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -969,7 +981,7 @@ class pdf
 													   								"index" => "return_no"),
 
 													   					1 => array("position_x" => 0.2,
-													   								"position_y" => 2.1,
+													   								"position_y" => 2.7,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -977,7 +989,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "reference_no"),
 													   					2 => array("position_x" => 0.2,
-													   								"position_y" => 2.5,
+													   								"position_y" => 3.1,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -986,7 +998,7 @@ class pdf
 													   								"index" => "customer"),
 
 													   					3 => array("position_x" => 0.2,
-													   								"position_y" => 2.9,
+													   								"position_y" => 3.6,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -994,7 +1006,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "return_date_convert"),
 													   				),
-													   "body_position_y" => 3.7,
+													   "body_position_y" => 4.5,
 													   "body_position_x" => 0.3,
 													   "body_ln" => 0.4,
 													   "body_start_y" => 0.5,
@@ -1084,7 +1096,7 @@ class pdf
 														   "space" => 22,
 														   "header"=> array(
 														   					0 => array("position_x" => 1.5,
-																		   				"position_y" => 18,
+																		   				"position_y" => 26,
 																		   				"name" => 15,
 																		   				"pad" => 1.7,
 																		   				"val" => 11.8,
@@ -1093,7 +1105,7 @@ class pdf
 																		   				"index" => "return_no"
 																		   			),
 																		   	1 => array("position_x" => 1.5,
-																		   				"position_y" => 22,
+																		   				"position_y" => 30,
 																		   				"name" => 18,
 																		   				"pad" => 1.6,
 																		   				"val" => 11.8,
@@ -1102,7 +1114,7 @@ class pdf
 																		   				"index" => "reference_no"
 																		   			),
 																		   	2 => array("position_x" => 1.5,
-																		   				"position_y" => 25.5,
+																		   				"position_y" => 34,
 																		   				"name" => 18,
 																		   				"pad" => 1.6,
 																		   				"val" => 11.8,
@@ -1110,7 +1122,7 @@ class pdf
 																		   				"align" => 'L',
 																		   				"index" => "customer"),
 														   					3 => array("position_x" => 1.5,
-																		   				"position_y" => 29,
+																		   				"position_y" => 38,
 																		   				"name" => 18,
 																		   				"pad" => 1.6,
 																		   				"val" => 11.8,
@@ -1119,7 +1131,7 @@ class pdf
 																		   				"index" => "return_date_convert"
 																		   			),
 																			),
-															"body_position_y" => 33,
+															"body_position_y" => 42,
 															"body_position_x" => 3,
 															"body_ln" => 4,
 															"body_start_y" => 5,
@@ -1214,7 +1226,7 @@ class pdf
 													   "space" => 2.5,
 													   "header"=> array(
 													   					0 => array("position_x" => 0.2,
-													   								"position_y" => 1.9,
+													   								"position_y" => 2.3,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -1223,7 +1235,7 @@ class pdf
 													   								"index" => "order_no"),
 
 													   					1 => array("position_x" => 0.2,
-													   								"position_y" => 2.3,
+													   								"position_y" => 2.7,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -1232,7 +1244,7 @@ class pdf
 													   								"index" => "partner_name"),
 
 													   					2 => array("position_x" => 0.2,
-													   								"position_y" => 2.7,
+													   								"position_y" => 3.1,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -1240,7 +1252,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "order_date"),
 													   				),
-													   "body_position_y" => 3.7,
+													   "body_position_y" => 4.1,
 													   "body_position_x" => 0.3,
 													   "body_ln" => 0.4,
 													   "body_start_y" => 0.5,
@@ -1252,30 +1264,30 @@ class pdf
 													   								"align"=>'C',
 													   							),
 													   					1 => array( "title"=> "Kode Barang",
-													   								"width"=>3.3,
+													   								"width"=>4.3,
 													   								"height"=>0.5,
 													   								"align"=>'L',
 													   							),
 													   					2 => array( "title"=> "Nama Barang",
-													   								"width"=>8,
+													   								"width"=>10,
 													   								"height"=>0.5,
 													   								"align"=>'L',
 													   							),
 													   					3 => array( "title"=> "Satuan",
-													   								"width"=>1.8,
+													   								"width"=>2,
 													   								"height"=>0.5,
 													   								"align"=>'C',
 													   							),
 													   					4 => array( "title"=> "Jumlah Order",
-													   								"width"=>2.5,
+													   								"width"=>3,
 													   								"height"=>0.5,
 													   								"align"=>'R',
 													   							),
-													   					5 => array( "title"=> "Jumlah Tersedia",
-													   								"width"=>2.8,
-													   								"height"=>0.5,
-													   								"align"=>'R',
-													   							),
+													   					// 5 => array( "title"=> "Jumlah Tersedia",
+													   					// 			"width"=>2.8,
+													   					// 			"height"=>0.5,
+													   					// 			"align"=>'R',
+													   					// 		),
 													   				),
 													   				
 													   "footer" => array("footer_ln" => 0.09,
@@ -1322,7 +1334,7 @@ class pdf
 														   "space" => 22,
 														   "header"=> array(
 														   					0 => array("position_x" => 1.5,
-																		   				"position_y" => 20,
+																		   				"position_y" => 27,
 																		   				"name" => 15,
 																		   				"pad" => 1.7,
 																		   				"val" => 11.8,
@@ -1331,7 +1343,7 @@ class pdf
 																		   				"index" => "order_no"
 																		   			),
 																		   	1 => array("position_x" => 1.5,
-																		   				"position_y" => 24.5,
+																		   				"position_y" => 31,
 																		   				"name" => 18,
 																		   				"pad" => 1.6,
 																		   				"val" => 11.8,
@@ -1339,7 +1351,7 @@ class pdf
 																		   				"align" => 'L',
 																		   				"index" => "partner_name"),
 														   					2 => array("position_x" => 1.5,
-																		   				"position_y" => 29,
+																		   				"position_y" => 36,
 																		   				"name" => 18,
 																		   				"pad" => 1.6,
 																		   				"val" => 11.8,
@@ -1348,7 +1360,7 @@ class pdf
 																		   				"index" => "order_date"
 																		   			),
 																			),
-															"body_position_y" => 33,
+															"body_position_y" => 41,
 															"body_position_x" => 3,
 															"body_ln" => 4,
 															"body_start_y" => 5,
@@ -1359,13 +1371,13 @@ class pdf
 																		   				"align"=>'C',
 																		   			  ),
 																			1 => array( "title"=> "Kode Barang",
-																		   				"width"=>40,
+																		   				"width"=>50,
 																		   				"height"=>5,
 																		   				"align"=>'L',
 																		   			),
 
 																		   	2 => array( "title"=> "Nama Barang",
-																		   				"width"=> 80,
+																		   				"width"=>100,
 																		   				"height"=>5,
 																		   				"align"=>'L',
 																		   			  ),																	   	
@@ -1379,11 +1391,11 @@ class pdf
 																		   				"height"=>5,
 																		   				"align"=>'R',
 																		   			),
-																		   5 => array( "title"=> "Jumlah Tersedia",
-																		   				"width"=>25,
-																		   				"height"=>5,
-																		   				"align"=>'R',
-																		   			),
+																		//    5 => array( "title"=> "Jumlah Tersedia",
+																		//    				"width"=>25,
+																		//    				"height"=>5,
+																		//    				"align"=>'R',
+																		//    			),
 
 																			),
 															"footer" => array(
@@ -1641,7 +1653,7 @@ class pdf
 													   "space" => 2.5,
 													   "header"=> array(
 													   					0 => array("position_x" => 0.2,
-													   								"position_y" => 1.9,
+													   								"position_y" => 2.3,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -1650,7 +1662,7 @@ class pdf
 													   								"index" => "order_no"),
 
 													   					1 => array("position_x" => 0.2,
-													   								"position_y" => 2.3,
+													   								"position_y" => 2.7,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -1659,7 +1671,7 @@ class pdf
 													   								"index" => "partner_name"),
 
 													   					2 => array("position_x" => 0.2,
-													   								"position_y" => 2.7,
+													   								"position_y" => 3.1,
 													   								"name" => 2,
 													   								"pad" => 0.2,
 													   								"val" => 11.8,
@@ -1667,7 +1679,7 @@ class pdf
 													   								"align" => 'L',
 													   								"index" => "order_date"),
 													   				),
-													   "body_position_y" => 3.7,
+													   "body_position_y" => 4,
 													   "body_position_x" => 0.3,
 													   "body_ln" => 0.4,
 													   "body_start_y" => 0.5,
@@ -1679,12 +1691,12 @@ class pdf
 													   								"align"=>'C',
 													   							),
 													   					1 => array( "title"=> "Kode Barang",
-													   								"width"=>3.3,
+													   								"width"=>3.6,
 													   								"height"=>0.5,
 													   								"align"=>'L',
 													   							),
 													   					2 => array( "title"=> "Nama Barang",
-													   								"width"=>6,
+													   								"width"=>9,
 													   								"height"=>0.5,
 													   								"align"=>'L',
 													   							),
@@ -1699,7 +1711,7 @@ class pdf
 													   								"align"=>'R',
 													   							),
 													   					5 => array( "title"=> "Jumlah Tersedia",
-													   								"width"=>1.8,
+													   								"width"=>2.6,
 													   								"height"=>0.5,
 													   								"align"=>'R',
 													   							),
@@ -1717,7 +1729,7 @@ class pdf
 																							  "width" => 4,
 																							  "height" => 0.8,
 																							  "align"=>'L',
-																							  "position_x" => 50,
+																							  "position_x" => 4.5,
 
 																							), 
 													   					"total" => array("title" => "Grant Total Rp.",
@@ -1749,7 +1761,7 @@ class pdf
 														   "space" => 22,
 														   "header"=> array(
 														   					0 => array("position_x" => 1.5,
-																		   				"position_y" => 20,
+																		   				"position_y" => 26,
 																		   				"name" => 15,
 																		   				"pad" => 1.7,
 																		   				"val" => 11.8,
@@ -1758,7 +1770,7 @@ class pdf
 																		   				"index" => "order_no"
 																		   			),
 																		   	1 => array("position_x" => 1.5,
-																		   				"position_y" => 24.5,
+																		   				"position_y" => 30,
 																		   				"name" => 18,
 																		   				"pad" => 1.6,
 																		   				"val" => 11.8,
@@ -1766,7 +1778,7 @@ class pdf
 																		   				"align" => 'L',
 																		   				"index" => "partner_name"),
 														   					2 => array("position_x" => 1.5,
-																		   				"position_y" => 29,
+																		   				"position_y" => 34,
 																		   				"name" => 18,
 																		   				"pad" => 1.6,
 																		   				"val" => 11.8,
@@ -1775,7 +1787,7 @@ class pdf
 																		   				"index" => "order_date"
 																		   			),
 																			),
-															"body_position_y" => 33,
+															"body_position_y" => 38,
 															"body_position_x" => 3,
 															"body_ln" => 4,
 															"body_start_y" => 5,
@@ -1860,7 +1872,7 @@ class pdf
 															   "space" => 2.5,
 															   "header"=> array(
 															   					0 => array("position_x" => 0.2,
-															   								"position_y" => 1.9,
+															   								"position_y" => 2.3,
 															   								"name" => 2,
 															   								"pad" => 0.2,
 															   								"val" => 11.8,
@@ -1868,7 +1880,7 @@ class pdf
 															   								"align" => 'L',
 															   								"index" => "invoice_no"),
 															   					1 => array("position_x" => 0.2,
-															   								"position_y" => 2.3,
+															   								"position_y" => 2.7,
 															   								"name" => 2,
 															   								"pad" => 0.2,
 															   								"val" => 11.8,
@@ -1877,7 +1889,7 @@ class pdf
 															   								"index" => "order_no"),
 
 															   					2 => array("position_x" => 0.2,
-															   								"position_y" => 2.7,
+															   								"position_y" => 3.1,
 															   								"name" => 2,
 															   								"pad" => 0.2,
 															   								"val" => 11.8,
@@ -1886,7 +1898,7 @@ class pdf
 															   								"index" => "partner_name"),
 
 															   					3 => array("position_x" => 0.2,
-															   								"position_y" => 3.1,
+															   								"position_y" => 3.5,
 															   								"name" => 2,
 															   								"pad" => 0.2,
 															   								"val" => 11.8,
@@ -1894,7 +1906,7 @@ class pdf
 															   								"align" => 'L',
 															   								"index" => "updated_date"),
 															   				),
-															   "body_position_y" => 4.0,
+															   "body_position_y" => 4.3,
 															   "body_position_x" => 0.3,
 															   "body_ln" => 0.4,
 															   "body_start_y" => 0.5,
@@ -1940,11 +1952,7 @@ class pdf
 																						   "height"=>0.5,
 																						   "align"=>'R',
 																					   ),
-															   					// 8 => array( "title"=> "Jumlah Tersedia",
-															   					// 			"width"=>2.5,
-															   					// 			"height"=>0.5,
-															   					// 			"align"=>'R',
-															   					// 		),
+
 
 															   				),
 															   				
@@ -1992,7 +2000,7 @@ class pdf
 																   "space" => 22,
 																   "header"=> array(
 																   					0 => array("position_x" => 1.5,
-																				   				"position_y" => 20,
+																				   				"position_y" => 27,
 																				   				"name" => 15,
 																				   				"pad" => 1.7,
 																				   				"val" => 11.8,
@@ -2001,7 +2009,7 @@ class pdf
 																				   				"index" => "invoice_no"
 																				   			),
 																   					1 => array("position_x" => 1.5,
-																				   				"position_y" => 23.8,
+																				   				"position_y" => 31,
 																				   				"name" => 15,
 																				   				"pad" => 1.7,
 																				   				"val" => 11.8,
@@ -2010,7 +2018,7 @@ class pdf
 																				   				"index" => "order_no"
 																				   			),
 																				   	2 => array("position_x" => 1.5,
-																				   				"position_y" => 27.6,
+																				   				"position_y" => 35,
 																				   				"name" => 18,
 																				   				"pad" => 1.6,
 																				   				"val" => 11.8,
@@ -2018,7 +2026,7 @@ class pdf
 																				   				"align" => 'L',
 																				   				"index" => "partner_name"),
 																   					3 => array("position_x" => 1.5,
-																				   				"position_y" => 31.6,
+																				   				"position_y" => 39,
 																				   				"name" => 18,
 																				   				"pad" => 1.6,
 																				   				"val" => 11.8,
@@ -2027,7 +2035,7 @@ class pdf
 																				   				"index" => "updated_date"
 																				   			),
 																					),
-																	"body_position_y" => 35,
+																	"body_position_y" => 43,
 																	"body_position_x" => 3,
 																	"body_ln" => 4,
 																	"body_start_y" => 5,
@@ -2127,7 +2135,7 @@ class pdf
 															    "title_position_y" => 0.5,
 															    "space" => 0.2,
 															    "header"=> array(),
-																"body_position_y" => 2,
+																"body_position_y" => 3,
 																"body_position_x" => 0.5,
 																"body_ln" => 0.5,
 																"body_start_y" => 0.5,
@@ -2155,13 +2163,13 @@ class pdf
 																				),
 																	"footer" => array(
 																				  	"footer_ln" => 0.01,
-																				  	"signature" => array("title" => "Disiapkan Oleh :",
+																				  	"signature" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.3,
 																										"align"=>'L',
 																										"position_x" => 0.3,
 																									),
-																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																				  	"approved_by" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.3,
 																										"align"=>'L',
@@ -2178,7 +2186,7 @@ class pdf
 																				   					   "height" => 0.5,
 																				   						"align"=>'R',
 																				   						"position_x" => 16.5),
-																				   	"terbilang" => array("title" => "Terbilang",
+																				   	"terbilang" => array("title" => "",
 																				   						"width" => 16.6,
 																				   						"height" => 0.7,
 																				   						"align"=>'L',
@@ -2192,10 +2200,10 @@ class pdf
 																							"width" => 200,
 																							"height" => 1,
 																							"align" => 'C'),
-																   "title_position_y" => 5,
+																   "title_position_y" => 6,
 																   "space" => 22,
 																   "header"=> array(),
-																	"body_position_y" => 13,
+																	"body_position_y" => 27,
 																	"body_position_x" => 7,
 																	"body_ln" => 4,
 																	"body_start_y" => 5,
@@ -2225,13 +2233,13 @@ class pdf
 																					),
 																	"footer" => array(
 																				  	"footer_ln" => 0.9,
-																				  	"signature" => array("title" => "Disiapkan Oleh :",
+																				  	"signature" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
 																										"position_x" => 7,
 																									),
-																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																				  	"approved_by" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
@@ -2258,7 +2266,8 @@ class pdf
 														), //end size B5
 													),
 									"daily_sales_out_full" => 
-												array( 1 => array("paper"=>"A4",
+												array( 
+													1 => array("paper"=>"A4",
 															   "view" => "P",
 															   "type_size" => "cm",
 															   "title_paper" => 
@@ -2272,7 +2281,7 @@ class pdf
 															   "space" => 2,
 															   "header"=> array(
 															   					0 => array("position_x" => 0.3,
-															   								"position_y" => 0.9,
+															   								"position_y" => 2.3,
 															   								"name" => 6,
 															   								"pad" => 0.2,
 															   								"val" => 1.8,
@@ -2280,7 +2289,7 @@ class pdf
 															   								"align" => 'L',
 															   								"index" => "invoice_no"),
 															   					1 => array("position_x" => 0.3,
-															   								"position_y" => 1.3,
+															   								"position_y" => 2.7,
 															   								"name" => 10,
 															   								"pad" => 0.2,
 															   								"val" => 1.8,
@@ -2289,7 +2298,7 @@ class pdf
 															   								"index" => "updated_date"),
 
 															   					2 => array("position_x" => 0.3,
-															   								"position_y" => 1.7,
+															   								"position_y" => 3.1,
 															   								"name" => 2,
 															   								"pad" => 0.2,
 															   								"val" => 11.8,
@@ -2297,7 +2306,7 @@ class pdf
 															   								"align" => 'L',
 															   								"index" => "partner_name"),
 															   				),
-																"body_position_y" => 2.5,
+																"body_position_y" => 3.9,
 																"body_position_x" => 0.5,
 																"body_ln" => 0.4,
 																"body_start_y" => 0.5,
@@ -2336,13 +2345,13 @@ class pdf
 																				),
 																	"footer" => array(
 																				  	"footer_ln" => 0.1,
-																				  	"signature" => array("title" => "Disiapkan Oleh :",
+																				  	"signature" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.3,
 																										"align"=>'L',
 																										"position_x" => 0.5,
 																									),
-																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																				  	"approved_by" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.3,
 																										"align"=>'L',
@@ -2377,7 +2386,7 @@ class pdf
 																   "space" => 22,
 																   "header"=> array(
 															   					0 => array("position_x" => 5.4,
-															   								"position_y" => 10.9,
+															   								"position_y" => 27,
 															   								"name" => 6,
 															   								"pad" => 2,
 															   								"val" => 1.8,
@@ -2385,7 +2394,7 @@ class pdf
 															   								"align" => 'L',
 															   								"index" => "invoice_no"),
 															   					1 => array("position_x" => 5.4,
-															   								"position_y" => 15.3,
+															   								"position_y" => 31,
 															   								"name" => 10,
 															   								"pad" => 2,
 															   								"val" => 1.8,
@@ -2394,7 +2403,7 @@ class pdf
 															   								"index" => "updated_date"),
 
 															   					2 => array("position_x" => 5.4,
-															   								"position_y" => 19.7,
+															   								"position_y" => 35,
 															   								"name" => 2,
 															   								"pad" => 2,
 															   								"val" => 11.8,
@@ -2402,7 +2411,7 @@ class pdf
 															   								"align" => 'L',
 															   								"index" => "partner_name"),
 															   				),
-																	"body_position_y" => 25,
+																	"body_position_y" => 39,
 																	"body_position_x" => 7,
 																	"body_ln" => 4.5,
 																	"body_start_y" => 5.5,
@@ -2441,13 +2450,13 @@ class pdf
 																				),
 																	"footer" => array(
 																				  	"footer_ln" => 0.9,
-																				  	"signature" => array("title" => "Disiapkan Oleh :",
+																				  	"signature" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
 																										"position_x" => 10,
 																									),
-																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																				  	"approved_by" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
@@ -2473,8 +2482,8 @@ class pdf
 
 														), //end size B5
 													),
-									"monthly_sales_out" => 
-												array( 1 => array("paper"=>"A4",
+									"monthly_sales_out" => array( 
+													1 => array("paper"=>"A4",
 															   "view" => "P",
 															   "type_size" => "cm",
 															   "title_paper" => 
@@ -2487,7 +2496,7 @@ class pdf
 															    "title_position_y" => 0.5,
 															    "space" => 0.3,
 															    "header"=> array(),
-																"body_position_y" => 2,
+																"body_position_y" => 3,
 																"body_position_x" => 2,
 																"body_ln" => 0.4,
 																"body_start_y" => 0.7,
@@ -2510,13 +2519,13 @@ class pdf
 																				),
 																	"footer" => array(
 																				  	"footer_ln" => 0.3,
-																				  	"signature" => array("title" => "Disiapkan Oleh :",
+																				  	"signature" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.3,
 																										"align"=>'L',
 																										"position_x" => 3,
 																									),
-																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																				  	"approved_by" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.3,
 																										"align"=>'L',
@@ -2550,7 +2559,7 @@ class pdf
 																   "title_position_y" => 5,
 																   "space" => 22,
 																   "header"=> array(),
-																	"body_position_y" => 13,
+																	"body_position_y" => 27,
 																	"body_position_x" => 10,
 																	"body_ln" => 4,
 																	"body_start_y" => 5,
@@ -2575,13 +2584,13 @@ class pdf
 																					),
 																	"footer" => array(
 																				  	"footer_ln" => 0.9,
-																				  	"signature" => array("title" => "Disetujui Oleh :",
+																				  	"signature" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
 																										"position_x" => 10,
 																									),
-																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																				  	"approved_by" => array("title" => "",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
@@ -2651,25 +2660,34 @@ class pdf
 		$pdf->AddPage();
 		$pdf->SetFont('Arial','B',13);
 
+
+		
 		// set position to top
 		$pdf->SetY($paper_reference[$type_print][$use_paper]['title_position_y']);
-
+		// image
+		$pdf->Image(base_url()."assets/img/logoBW.png",
+					$header_reference[$use_paper]['image']['x'],
+					$header_reference[$use_paper]['image']['y'],
+					$header_reference[$use_paper]['image']['w'],
+					$header_reference[$use_paper]['image']['h']);
 		// set tile header
 		$pdf->Cell($paper_reference[$type_print][$use_paper]['title_paper']['width'], 
 					$paper_reference[$type_print][$use_paper]['title_paper']['height'], 
 					$paper_reference[$type_print][$use_paper]['title_paper']['title'],0,1,
 					$paper_reference[$type_print][$use_paper]['title_paper']['align']);
-
+		
 		// set branch name
 		$pdf->SetFont('Arial','B',13);
 		// get userdata
 		$CI =& get_instance();
+		$branch_name 	= ($CI->session->userdata('branch_name')) ? $CI->session->userdata('branch_name') : "PD. Parahyangan Djaya";
+		$branch_address = ($CI->session->userdata('branch_address')) ? $CI->session->userdata('branch_address') : "Jl. Kiara condong";
 		
 		$pdf->SetY($header_reference[$use_paper]['title']['position_y']);
 		$pdf->SetX($header_reference[$use_paper]['title']['position_x']);
 		$pdf->Cell($header_reference[$use_paper]['title']['width'], 
 					$header_reference[$use_paper]['title']['height'], 
-					$CI->session->userdata('branch_name'),0,1,'L');
+					$branch_name,0,1,'L');
 
 		// set branch address
 		$pdf->SetFont('Arial','',10);
@@ -2677,7 +2695,7 @@ class pdf
 		$pdf->SetX($header_reference[$use_paper]['address']['position_x']);
 		$pdf->Cell($header_reference[$use_paper]['address']['width'], 
 					$header_reference[$use_paper]['address']['height'], 
-					$CI->session->userdata('branch_address'),0,1,'L');
+					$branch_address,0,1,'L');
 
 		// $pdf->ln();
 		
@@ -2697,7 +2715,7 @@ class pdf
 				$pdf->Cell($value['pad'], 1,
 				 		   ':',0,0,
 				 		   $value['align']);
-
+ 
 				$pdf->Cell($value['val'], 1,
 				 		   $data[0][$value['index']],0,0,
 				 		   $value['align']);

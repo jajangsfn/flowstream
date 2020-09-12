@@ -95,14 +95,14 @@ class Api extends CI_Controller
 
         // check if login data match in database
         $user_query = $this->user_m->get($login_data);
-
+        
         if ($user_query->num_rows()) {
 
             if ($user_query->row()->role_code != "ROLE_SUPER_ADMIN") {
                 // look for branch info
                 $branch_query = $this->branch->get(array("m_branch.id" => $user_query->row()->branch_id))->row();
             }
-
+            
             // do login
             $this->session->set_userdata(
                 array(
