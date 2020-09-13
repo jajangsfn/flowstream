@@ -73,7 +73,7 @@
             confirmButtonText: "Ya, Register!"
         }).then(function(result) {
             if (result.value) {
-                window.location.href = `<?= base_url("/index.php/api/register_jurnal/") ?>${jurnal_no}`;
+                window.location.href = `<?= base_url("/index.php/flowstream_api/v1/users/register_jurnal/") ?>${jurnal_no}`;
             }
         })
     }

@@ -45,6 +45,7 @@ class Api extends CI_Controller
         echo json_encode($this->session->userdata);
     }
 
+    // Moved
     public function check_username($username)
     {
         echo json_encode(
@@ -56,6 +57,7 @@ class Api extends CI_Controller
         );
     }
 
+    // Moved
     public function register()
     {
         $signup_data = array(
@@ -86,6 +88,7 @@ class Api extends CI_Controller
         redirect(base_url());
     }
 
+    // Moved
     public function login()
     {
         $login_data = array(
@@ -128,6 +131,7 @@ class Api extends CI_Controller
         redirect(base_url());
     }
 
+    // Moved
     public function get_barang($id)
     {
         $where['m_goods.id'] = $id;
@@ -137,6 +141,7 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
+    // Moved
     public function barang($id = '')
     {
         if ($id) {
@@ -148,6 +153,7 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
+    // Unused
     public function barang_cabang($id_cabang)
     {
         $data_query = $this->goods->get(array("m_goods.branch_id" => $id_cabang))->result();
@@ -155,7 +161,7 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
-    // Update 29 Agustus: spesifik ambil data saja
+    // Moved
     public function barang_cabang_data_only($id_cabang)
     {
         $data_query = $this->goods->get_data(array("m_goods.branch_id" => $id_cabang))->result();
@@ -163,7 +169,7 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
-    // Update 29 Agustus: spesifik ambil harga saja
+    // Moved
     public function barang_cabang_harga_only($id_cabang)
     {
         $data_query = $this->goods->get_harga(array("m_goods.branch_id" => $id_cabang))->result();
@@ -171,7 +177,7 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
-    // Update 29 Agustus: spesifik ambil diskon saja
+    // Moved
     public function barang_cabang_diskon_only($id_cabang)
     {
         $data_query = $this->goods->get_diskon(array("m_goods.branch_id" => $id_cabang))->result();
@@ -179,7 +185,7 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
-    // Update 29 Agustus: spesifik ambil barang untuk POS dan OR customer
+    // Moved
     public function barang_for_customer()
     {
         echo json_encode(
@@ -189,6 +195,7 @@ class Api extends CI_Controller
         );
     }
 
+    // Moved
     public function add_barang()
     {
         $entry_data = array(
@@ -217,6 +224,7 @@ class Api extends CI_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    // Moved
     public function edit_barang()
     {
         $where_id['id'] = $_POST['id'];
@@ -251,6 +259,7 @@ class Api extends CI_Controller
         }
     }
 
+    // Moved
     public function delete_barang()
     {
         $where_id['id'] = $_POST['id'];
@@ -259,6 +268,7 @@ class Api extends CI_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    // Moved
     public function ubah_harga_barang()
     {
         if ($_POST['price_index'] == 0) {
@@ -289,6 +299,7 @@ class Api extends CI_Controller
         }
     }
 
+    // Moved
     public function ubah_diskon_barang()
     {
         if ($_POST['price_index'] == 0) {

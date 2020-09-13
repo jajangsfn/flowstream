@@ -45,6 +45,89 @@ class Users extends CI_Controller
         echo json_encode($this->session->userdata);
     }
 
+    public function check_username($username)
+    {
+        echo json_encode(
+            array(
+                "data" => array(
+                    "message" => $this->user_m->check_username($username)
+                )
+            )
+        );
+    }
+
+    public function register()
+    {
+        $signup_data = array(
+            "email" => $_POST['email'],
+            "user_id" => $_POST['username'],
+            "password" => md5($_POST['password'])
+        );
+
+        // insert to database
+        $user_query = $this->user_m->insert($signup_data);
+
+        // do login
+        $this->session->set_userdata(
+            array(
+                "login" => true,
+                "username" => $_POST['username'],
+                "name" => $user_query->row()->name,
+                "email" => $user_query->row()->email,
+                "id" => $user_query->row()->id,
+                "branch_id" => $user_query->row()->branch_id,
+                "branch_name" => $user_query->row()->branch_name,
+                "role_code" => $user_query->row()->role_code
+            )
+        );
+
+        // report last login
+        $this->user_m->login(array("id" => $user_query->row()->id));
+        redirect(base_url());
+    }
+
+    public function login()
+    {
+        $login_data = array(
+            "m_user.user_id" => $_POST['username'],
+            "password" => md5($_POST['password'])
+        );
+
+        // check if login data match in database
+        $user_query = $this->user_m->get($login_data);
+
+        if ($user_query->num_rows()) {
+
+            if ($user_query->row()->role_code != "ROLE_SUPER_ADMIN") {
+                // look for branch info
+                $branch_query = $this->branch->get(array("m_branch.id" => $user_query->row()->branch_id))->row();
+            }
+
+            // do login
+            $this->session->set_userdata(
+                array(
+                    "login" => true,
+                    "username" => $_POST['username'],
+                    "name" => $user_query->row()->name,
+                    "email" => $user_query->row()->email,
+                    "id" => $user_query->row()->id,
+                    "branch_id" => $user_query->row()->branch_id,
+                    "branch_name" => $user_query->row()->branch_name,
+                    "level" => $user_query->row()->level_name,
+                    "position" => $user_query->row()->position_name,
+                    "role_code" => $user_query->row()->role_code,
+                    "branch_obj" => $branch_query,
+                    "branch_address" => $user_query->row()->address,
+                )
+            );
+            // report last login
+            $this->user_m->login(array("id" => $user_query->row()->id));
+        } else {
+            $this->session->set_flashdata('error', 'Username and password did not match');
+        }
+        redirect(base_url());
+    }
+
     public function get_all_users()
     {
         // TODO: Require super admin login
@@ -73,7 +156,7 @@ class Users extends CI_Controller
                 "role_code" => "ROLE_SUPER_ADMIN"
             )
         );
-        
+
         $this->session->set_flashdata("success", "Super Admin berhasil didaftarkan");
         redirect($_SERVER['HTTP_REFERER']);
     }
