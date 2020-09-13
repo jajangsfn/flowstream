@@ -1855,4 +1855,27 @@ class Api extends CI_Controller
         $this->session->set_flashdata("success", "Parameter ikhtisar saldo berhasil dihapus");
         redirect($_SERVER['HTTP_REFERER']);
     }
+
+    public function parameter_kode_rekening_saldo_cabang($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->keumod->get_parameter_kode_rekening_saldo($branch_id)->result()
+            )
+        );
+    }
+
+    public function add_parameter_kode_rekening_saldo()
+    {
+        $this->keumod->add_parameter_kode_rekening_saldo($_POST['branch_id'], $_POST['acc_code']);
+        $this->session->set_flashdata("success", "Parameter kode rekening saldo berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_parameter_kode_rekening_saldo($id)
+    {
+        $this->keumod->delete_parameter_kode_rekening_saldo($id);
+        $this->session->set_flashdata("success", "Parameter kode rekening saldo berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }

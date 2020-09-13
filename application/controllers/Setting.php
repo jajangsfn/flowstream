@@ -344,6 +344,13 @@ class Setting extends CI_Controller
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/ikhtisar_saldo/ikhtisar_saldo_js.php", $content, true);
                             break;
 
+                        case 'saldo_kode_rekening':
+                            $content['accounts'] = $this->account->get_non_saldo_kode_rekening($id)->result();
+
+                            $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/saldo_kode_rekening/saldo_kode_rekening.php", $content, true);
+                            $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/saldo_kode_rekening/saldo_kode_rekening_js.php", $content, true);
+                            break;
+
                         default:
                             $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/master/master.php", $content, true);
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/master/master_js.php", $content, true);
