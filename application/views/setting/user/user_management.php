@@ -33,7 +33,7 @@
 
 <div class="modal fade" id="tambah_sa" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-        <form action="<?= base_url("/index.php/flowstream_api/users/tambah_super_admin") ?>" method="POST" class="modal-content">
+        <form action="<?= base_url("/index.php/flowstream_api/v1/users/tambah_super_admin") ?>" method="POST" class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Tambah Super Admin</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">

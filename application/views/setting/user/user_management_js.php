@@ -3,7 +3,7 @@
         $("#full_users_list").DataTable({
             responsive: true,
             paging_type: 'full_numbers',
-            ajax: "<?= base_url("/index.php/flowstream_api/users/get_all_users") ?>",
+            ajax: "<?= base_url("/index.php/flowstream_api/v1/users/get_all_users") ?>",
             columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {
