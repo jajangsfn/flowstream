@@ -11,16 +11,23 @@
                     periode: date
                 },
                 success: function(response) {
-                    console.log(response.data);
-                    var focus = response.data.kode_rekening_saldo;
+                    if (response.data.message) {
+                        Swal.fire({
+                            title: "Telah Ditutup",
+                            text: "Tutup buku untuk periode ini telah selesai pada tanggal " + response.data.message.created_date,
+                            icon: "info",
+                        });
+                    } else {
 
-                    if (focus.length) {
-                        var kode_rekening_entries = "";
-                        focus.forEach(element => {
-                            element.saldo_bulan_lalu = element.saldo_bulan_lalu ? parseInt(element.saldo_bulan_lalu) : 0;
-                            element.debit = parseInt(element.debit);
-                            element.credit = parseInt(element.credit);
-                            kode_rekening_entries += `
+                        var focus = response.data.kode_rekening_saldo;
+
+                        if (focus.length) {
+                            var kode_rekening_entries = "";
+                            focus.forEach(element => {
+                                element.saldo_bulan_lalu = element.saldo_bulan_lalu ? parseInt(element.saldo_bulan_lalu) : 0;
+                                element.debit = parseInt(element.debit);
+                                element.credit = parseInt(element.credit);
+                                kode_rekening_entries += `
                         <tr>
                             <td>${element.acc_code}</td>
                             <td>${element.acc_name == null ? "" : element.acc_name}</td>
@@ -30,15 +37,15 @@
                             <td>${element.sum_position == "K" ? element.saldo_bulan_lalu + element.debit - element.credit : element.saldo_bulan_lalu - element.debit + element.credit}</td>
                         </tr>
                         `
-                        });
+                            });
 
-                        focus = response.data.ikhtisar_saldo;
-                        var ikhtisar_entries = "";
-                        focus.forEach(element => {
-                            element.saldo_bulan_lalu = element.saldo_bulan_lalu ? parseInt(element.saldo_bulan_lalu) : 0;
-                            element.debit = parseInt(element.debit);
-                            element.credit = parseInt(element.credit);
-                            ikhtisar_entries += `
+                            focus = response.data.ikhtisar_saldo;
+                            var ikhtisar_entries = "";
+                            focus.forEach(element => {
+                                element.saldo_bulan_lalu = element.saldo_bulan_lalu ? parseInt(element.saldo_bulan_lalu) : 0;
+                                element.debit = parseInt(element.debit);
+                                element.credit = parseInt(element.credit);
+                                ikhtisar_entries += `
                         <tr>
                             <td>${element.acc_code_ikhtisar}</td>
                             <td>${element.acc_name == null ? "" : element.acc_name}</td>
@@ -48,15 +55,15 @@
                             <td>${element.sum_position == "K" ? element.saldo_bulan_lalu + element.debit - element.credit : element.saldo_bulan_lalu - element.debit + element.credit}</td>
                         </tr>
                         `
-                        });
+                            });
 
-                        focus = response.data.neraca_saldo;
-                        var neraca_entries = "";
-                        focus.forEach(element => {
-                            element.saldo_bulan_lalu = element.saldo_bulan_lalu ? parseInt(element.saldo_bulan_lalu) : 0;
-                            element.debit = parseInt(element.debit);
-                            element.credit = parseInt(element.credit);
-                            neraca_entries += `
+                            focus = response.data.neraca_saldo;
+                            var neraca_entries = "";
+                            focus.forEach(element => {
+                                element.saldo_bulan_lalu = element.saldo_bulan_lalu ? parseInt(element.saldo_bulan_lalu) : 0;
+                                element.debit = parseInt(element.debit);
+                                element.credit = parseInt(element.credit);
+                                neraca_entries += `
                         <tr>
                             <td>${element.acc_code_neraca}</td>
                             <td>${element.acc_name == null ? "" : element.acc_name}</td>
@@ -66,43 +73,44 @@
                             <td>${element.sum_position == "K" ? element.saldo_bulan_lalu + element.debit - element.credit : element.saldo_bulan_lalu - element.debit + element.credit}</td>
                         </tr>
                         `
-                        });
+                            });
 
-                        $("#neraca_saldo_cell").fadeIn();
-                        $("#ikhtisar_saldo_cell").fadeIn();
-                        $("#kode_rekening_saldo_cell").fadeIn();
-                        $("#konfirmasi_cell").fadeIn();
+                            $("#neraca_saldo_cell").fadeIn();
+                            $("#ikhtisar_saldo_cell").fadeIn();
+                            $("#kode_rekening_saldo_cell").fadeIn();
+                            $("#konfirmasi_cell").fadeIn();
 
-                        $("#konfirmasi_button").attr("href", `<?= base_url("/index.php/api/tutup_buku/") . $this->session->userdata("branch_id") ?>/${date}`)
+                            $("#konfirmasi_button").attr("href", `<?= base_url("/index.php/api/tutup_buku/") . $this->session->userdata("branch_id") ?>/${date}`)
 
-                        $("#neraca_saldo_list").empty();
-                        $("#ikhtisar_saldo_list").empty();
-                        $("#kode_rekening_saldo_list").empty();
+                            $("#neraca_saldo_list").empty();
+                            $("#ikhtisar_saldo_list").empty();
+                            $("#kode_rekening_saldo_list").empty();
 
-                        $("#neraca_saldo_list").append(neraca_entries)
-                        $("#ikhtisar_saldo_list").append(ikhtisar_entries)
-                        $("#kode_rekening_saldo_list").append(kode_rekening_entries)
+                            $("#neraca_saldo_list").append(neraca_entries)
+                            $("#ikhtisar_saldo_list").append(ikhtisar_entries)
+                            $("#kode_rekening_saldo_list").append(kode_rekening_entries)
 
-                        if (response.data.unregistered_jurnal.length) {
+                            if (response.data.unregistered_jurnal.length) {
+                                Swal.fire({
+                                    title: "Warning",
+                                    text: "Terdapat jurnal pada periode ini yang belum diregistrasi",
+                                    icon: "info",
+                                });
+                            }
+                        } else {
+                            if (response.data.unregistered_jurnal.length) {
+                                Swal.fire({
+                                    title: "Warning",
+                                    text: "Terdapat jurnal pada periode ini yang belum diregistrasi",
+                                    icon: "info",
+                                });
+                            }
                             Swal.fire({
-                                title: "Warning",
-                                text: "Terdapat jurnal pada periode ini yang belum diregistrasi",
+                                title: "Data tidak ditemukan",
+                                text: "Tidak terdapat jurnal periode ini yang dapat dimasukan kedalam tutup buku",
                                 icon: "info",
                             });
                         }
-                    } else {
-                        if (response.data.unregistered_jurnal.length) {
-                            Swal.fire({
-                                title: "Warning",
-                                text: "Terdapat jurnal pada periode ini yang belum diregistrasi",
-                                icon: "info",
-                            });
-                        }
-                        Swal.fire({
-                            title: "Data tidak ditemukan",
-                            text: "Tidak terdapat jurnal periode ini yang dapat dimasukan kedalam tutup buku",
-                            icon: "info",
-                        });
                     }
                 },
                 failed: function(err) {
