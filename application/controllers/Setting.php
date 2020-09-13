@@ -378,24 +378,27 @@ class Setting extends CI_Controller
     {
         switch ($category) {
             case 'user_management':
-                $this->user_management();
+                $data = $this->user_management();
                 break;
             case 'role_management':
-                $this->role_management();
+                $data = $this->role_management();
                 break;
             default:
                 break;
         }
+        
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
     }
 
     private function user_management()
     {
         $data['page_title'] = "User Management";
         $data['page_content'] = $this->load->view("setting/user/user_management", "", true);
+        $data['page_js'] = $this->load->view("setting/user/user_management_js", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function role_management()
@@ -403,8 +406,6 @@ class Setting extends CI_Controller
         $data['page_title'] = "Role Management";
         $data['page_content'] = $this->load->view("setting/user/role_management", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 }
