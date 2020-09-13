@@ -100,6 +100,33 @@ class T_jurnal_model extends CI_Model
         $this->insert_detail($data);
     }
 
+    // TODO: Konfirmasi JOURNAL_CD = P untuk Purchase
+    function insert_detail_hutang($branch_id, $data)
+    {
+        // lihat account code untuk credit hutang
+        if ($data['credit'] == 0) {
+            $data['acc_code'] = $this->db->get_where(
+                "m_journal_mapping",
+                array(
+                    "JOURNAL_CD" => "P",
+                    "SEQ_LINE" => 1,
+                    "BRANCH_ID" => $branch_id
+                )
+            )->row()->ACCOUNT_CODE;
+        } else {
+            $data['acc_code'] = $this->db->get_where(
+                "m_journal_mapping",
+                array(
+                    "JOURNAL_CD" => "P",
+                    "SEQ_LINE" => 2,
+                    "BRANCH_ID" => $branch_id
+                )
+            )->row()->ACCOUNT_CODE;
+        }
+
+        $this->insert_detail($data);
+    }
+
     function insert_detail_kas($branch_id, $data)
     {
         if ($data['credit'] == 0) {

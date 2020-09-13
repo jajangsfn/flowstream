@@ -23,7 +23,6 @@ class M_partner_model extends CI_Model
 
     function get_customer($order = "p.id desc")
     {
-        // TODO: require login
         if ($this->session->userdata("role_code") == "ROLE_SUPER_ADMIN") {
             return $this->db->query(
                 "SELECT p.*, 
@@ -56,7 +55,6 @@ class M_partner_model extends CI_Model
 
     function get_customer_with_invoice($order = "p.id desc")
     {
-        // TODO: require login
         if ($this->session->userdata("role_code") == "ROLE_SUPER_ADMIN") {
             return $this->db->query(
                 "SELECT DISTINCT p.*, 

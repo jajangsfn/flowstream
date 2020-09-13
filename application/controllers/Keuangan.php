@@ -114,8 +114,12 @@ class Keuangan extends CI_Controller
 
     private function hutang()
     {
+        // Tampilkan seluruh supplier yang kita hutang
+        $content["suppliers"] = $this->keumod->get_supplier_with_hutang()->result();
+
         $data['page_title'] = "Pembayaran Hutang";
-        $data['page_content'] = $this->load->view("keuangan/pembayaran/hutang", "", true);
+        $data['page_content'] = $this->load->view("keuangan/pembayaran/hutang", $content, true);
+        $data['page_js'] = $this->load->view("keuangan/pembayaran/hutang_js", "", true);
 
         return $data;
     }
@@ -363,11 +367,11 @@ class Keuangan extends CI_Controller
         $data['neraca']     = array();
 
         if (isset($_GET['submit'])) {
-            
-            $data['neraca'] = $this->keumod->get_neraca_saldo($_GET['year'].'-'.$_GET['periode'])->result();
+
+            $data['neraca'] = $this->keumod->get_neraca_saldo($_GET['year'] . '-' . $_GET['periode'])->result();
         }
 
-        
+
         $data['page_content'] = $this->load->view("keuangan/report/bulanan/neraca_saldo", $data, true);
 
         $this->load->view('layout/head');
@@ -459,7 +463,7 @@ class Keuangan extends CI_Controller
     public function print_neraca_saldo($periode = '2020-08')
     {
         $data['neraca'] = $this->keumod->get_neraca_saldo($periode)->result();
-        $data['periode']= $periode;
+        $data['periode'] = $periode;
         $this->load->view('layout/head');
         $this->load->view('keuangan/report/bulanan/print_neraca_saldo', $data);
         // $this->load->view('layout/js');
