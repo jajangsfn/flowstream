@@ -1269,7 +1269,7 @@ class pdf
 													   								"align"=>'L',
 													   							),
 													   					2 => array( "title"=> "Nama Barang",
-													   								"width"=>10,
+													   								"width"=>8,
 													   								"height"=>0.5,
 													   								"align"=>'L',
 													   							),
@@ -1279,15 +1279,15 @@ class pdf
 													   								"align"=>'C',
 													   							),
 													   					4 => array( "title"=> "Jumlah Order",
-													   								"width"=>3,
+													   								"width"=>2.3,
 													   								"height"=>0.5,
 													   								"align"=>'R',
 													   							),
-													   					// 5 => array( "title"=> "Jumlah Tersedia",
-													   					// 			"width"=>2.8,
-													   					// 			"height"=>0.5,
-													   					// 			"align"=>'R',
-													   					// 		),
+													   					5 => array( "title"=> "Jumlah Tersedia",
+													   								"width"=>2.5,
+													   								"height"=>0.5,
+													   								"align"=>'R',
+													   							),
 													   				),
 													   				
 													   "footer" => array("footer_ln" => 0.09,
@@ -1371,13 +1371,13 @@ class pdf
 																		   				"align"=>'C',
 																		   			  ),
 																			1 => array( "title"=> "Kode Barang",
-																		   				"width"=>50,
+																		   				"width"=>40,
 																		   				"height"=>5,
 																		   				"align"=>'L',
 																		   			),
 
 																		   	2 => array( "title"=> "Nama Barang",
-																		   				"width"=>100,
+																		   				"width"=>80,
 																		   				"height"=>5,
 																		   				"align"=>'L',
 																		   			  ),																	   	
@@ -1391,11 +1391,11 @@ class pdf
 																		   				"height"=>5,
 																		   				"align"=>'R',
 																		   			),
-																		//    5 => array( "title"=> "Jumlah Tersedia",
-																		//    				"width"=>25,
-																		//    				"height"=>5,
-																		//    				"align"=>'R',
-																		//    			),
+																		   5 => array( "title"=> "Jumlah Tersedia",
+																		   				"width"=>25,
+																		   				"height"=>5,
+																		   				"align"=>'R',
+																		   			),
 
 																			),
 															"footer" => array(
@@ -1548,7 +1548,7 @@ class pdf
 														   "space" => 22,
 														   "header"=> array(
 														   					0 => array("position_x" => 1.5,
-																		   				"position_y" => 20,
+																		   				"position_y" => 26,
 																		   				"name" => 15,
 																		   				"pad" => 1.7,
 																		   				"val" => 11.8,
@@ -1557,7 +1557,7 @@ class pdf
 																		   				"index" => "order_no"
 																		   			),
 																		   	1 => array("position_x" => 1.5,
-																		   				"position_y" => 24.5,
+																		   				"position_y" => 30,
 																		   				"name" => 18,
 																		   				"pad" => 1.6,
 																		   				"val" => 11.8,
@@ -1565,7 +1565,7 @@ class pdf
 																		   				"align" => 'L',
 																		   				"index" => "partner_name"),
 														   					2 => array("position_x" => 1.5,
-																		   				"position_y" => 29,
+																		   				"position_y" => 34,
 																		   				"name" => 18,
 																		   				"pad" => 1.6,
 																		   				"val" => 11.8,
@@ -1574,7 +1574,7 @@ class pdf
 																		   				"index" => "order_date"
 																		   			),
 																			),
-															"body_position_y" => 33,
+															"body_position_y" => 38,
 															"body_position_x" => 3,
 															"body_ln" => 4,
 															"body_start_y" => 5,
@@ -2837,28 +2837,24 @@ class pdf
 
 				
 				// if not yet checksheet process
-				if ( is_null($val['checksheet_id'] )) {
+				if (in_array($type_print, array("order_request_out", "checksheet_out"))) {
 					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
 						   number_format($val['quantity']),$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
 
 					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
-						   '',$border,0,$paper_reference[$type_print][$use_paper]['body'][5]['align']);
-				}else {
-
+						   !empty($val['checksheet_qty']) ? number_format(intval($val['checksheet_qty'])) : ''
+						   ,$border,0,$paper_reference[$type_print][$use_paper]['body'][5]['align']);
+						   
+				}else if ($type_print == "order_request_out_fix") {
 					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
-						   number_format($val['quantity']),$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
+						   number_format($val['checksheet_qty']),$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
+					
+					
 				}
 				
-
-				if ($show_tersedia) {
-					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
-							   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
-							   $val['checksheet_qty'],$border,0,
-							   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
-				}
 
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
 
