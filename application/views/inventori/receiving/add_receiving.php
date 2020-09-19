@@ -31,7 +31,6 @@
 		      	<form method="post" id="form_receiving" action="<?=base_url()?>index.php/inventori/receiving">
 		      		<input type="hidden" name="supplier_id_temp" id="supplier_id_temp">
 		      		<input type="hidden" name="po_id_temp" id="po_id_temp">
-		      		<input type="hidden" name="price_method" id="price_method">
 		      		<div class="row ml-30">
 						<div class="col-md-1"></div>
 						<label class="col-form-label col-md-1 text-right">Supplier</label>
@@ -154,7 +153,7 @@
 							</table>
 
 							<div class="text-center">
-								<button type="button" class="btn btn-light-success btn-md" id="btn_save_receiving">
+								<button type="button" class="btn btn-light-success btn-md" id="btn_confirm_receiving"> 
 									<span class="fa la-save"></span> Save
 								</button>
 

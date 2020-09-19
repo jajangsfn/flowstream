@@ -7,16 +7,8 @@
 		get_goods_list();
 			
 		show_goods_to_chart();		
-		
-		$("#btn_save_receiving").click(function(){
-			
-			$("#priceMethod").modal('show');
-
-		});
 
 		$("#btn_confirm_receiving").click(function() {
-
-			if ( $("#price_method").val()!= ""){
 				Swal.fire({
 			        title: "Anda Yakin ingin menyimpan transaksi ini?",
 			        text: "Data yg telah diproses tidak dapat diubah!",
@@ -28,9 +20,6 @@
 			            $("#form_receiving").submit();
 			        }
 			    });
-			}else {
-				Swal.fire("Info", "Silahkan pilih metode harga!", "error");
-			}
 		});
 		
 	});

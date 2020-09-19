@@ -60,8 +60,10 @@ class S_reference_model extends CI_Model
     }
 
 
-    public function get_type_price() {
-        return $this->db->query("SELECT id,detail_data,flag FROM s_reference WHERE group_data LIKE 'PRICE_METHOD'");
+    public function get_type_price($where = null) {
+
+        return $this->db->query("SELECT id,detail_data,flag FROM s_reference 
+                                 WHERE group_data LIKE 'PRICE_METHOD'" . (isset($where) ? " and ".$where : ""));
     }
 
     public function update_type_price($data) {
