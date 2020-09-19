@@ -390,7 +390,7 @@ class Pembelian extends CI_Controller
         $data['master']       = array();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['page_content'] = $this->load->view("pembelian/po/add_purchase", $data ,true);
-
+ 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
