@@ -71,6 +71,14 @@
                                     <span class="navi-text font-size-lg">Kode Rekening</span>
                                 </a>
                             </div>
+                            <div class="navi-item mb-2">
+                                <a href="#" class="navi-link py-4" onclick="change_type_price()">
+                                    <span class="navi-icon mr-2">
+                                        <span class="fa fa-dollar-sign"></span>
+                                    </span>
+                                    <span class="navi-text font-size-lg">Jenis Harga</span>
+                                </a>
+                            </div>
                             <div class="navi-item mb-2 d-none">
                                 <a href="<?= current_url() ?>/tutup_buku" class="navi-link py-4">
                                     <span class="navi-icon mr-2">
@@ -404,4 +412,31 @@
             </div>
         </form>
     </div>
+</div>
+
+
+<!-- change type price -->
+<!-- Modal -->
+<div class="modal fade" id="change_type_price" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form class="modal-content" method="post" action="<?=base_url()?>index.php/setting/update_type_price">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Ubah Jenis Harga</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="id_branch" value="<?=$data_branch->id?>"/>
+        <?php
+        foreach($type_price as $key => $row) {?>
+           <input type="radio" name="type_price" value="<?=$row->id?>" <?=$row->flag == 1 ? 'checked' :'';?>> <?=$row->detail_data?>
+         <?php }?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </form>
+  </div>
 </div>

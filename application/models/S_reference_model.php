@@ -58,4 +58,20 @@ class S_reference_model extends CI_Model
         );
         return md5($query->num_rows() > 0 ? $query->row()->detail_data : "flowstream");
     }
+
+
+    public function get_type_price() {
+        return $this->db->query("SELECT id,detail_data,flag FROM s_reference WHERE group_data LIKE 'PRICE_METHOD'");
+    }
+
+    public function update_type_price($data) {
+        // update set flag = 1 where type price changed
+        $this->db->where("id", $data);
+        $this->db->update("s_reference", array("flag"=>1));
+
+        // update set flag = 99 where type price except id changed
+        $where = array("id!=" => $data, "group_data"=>"PRICE_METHOD");
+        $this->db->where($where);
+        $this->db->update("s_reference", array("flag"=>99));
+    }
 }

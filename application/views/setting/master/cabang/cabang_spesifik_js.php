@@ -53,4 +53,8 @@
             confirmButtonClass: 'btn btn-primary font-weight-bold'
         });
     });
+
+    function change_type_price() {
+        $("#change_type_price").modal('show');
+    }
 </script>
