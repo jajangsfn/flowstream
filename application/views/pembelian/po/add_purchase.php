@@ -78,7 +78,6 @@
 					<div class="row mb-5">
 						<label class="col-form-label col-md-2">Salesman</label>
 						<select name="salesman" id="partner_salesman" class="col-md-3 form-control selectpicker" data-live-search="true" required="" onchange="show_goods_per_salesman()">
-							<!-- <option value=""></option> -->
 						</select>
 						<div class="col-md-1"></div>
 						<label class="col-form-label col-md-2 text-right">No Referensi</label>
