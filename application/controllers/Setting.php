@@ -403,12 +403,11 @@ class Setting extends CI_Controller
     }
 
     public function update_type_price() {
-        $post = $this->input->post();
-        
-        $id_type_price = $post['type_price'];
+        $post           = $this->input->post();
+        $id_type_price  = $post['type_price'];
         
         $this->ref->update_type_price($id_type_price);
-
-        redirect('setting/master/cabang/'. $post['id_branch']);
+        $this->session->set_flashdata("success", "Jenis Harga berhasil diubah");
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }

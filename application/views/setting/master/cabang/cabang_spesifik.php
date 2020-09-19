@@ -427,7 +427,6 @@
         </button>
       </div>
       <div class="modal-body">
-        <input type="hidden" name="id_branch" value="<?=$data_branch->id?>"/>
         <?php
         foreach($type_price as $key => $row) {?>
            <input type="radio" name="type_price" value="<?=$row->id?>" <?=$row->flag == 1 ? 'checked' :'';?>> <?=$row->detail_data?>
