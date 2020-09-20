@@ -16,7 +16,7 @@
 			// clear goods 
 			$("#goods_list").html('');
 
-
+ 
 			if(id_supplier){ 
 
 				$.get("<?=base_url()?>index.php/pembelian/get_goods_json/",
@@ -403,9 +403,12 @@
 					if (salesman_id && salesman_id == val.id) {
 						text+="<option value='"+val.id+"' selected>"+val.name+"</option>";
 					}else {
-						text+="<option value='"+val.id+"'>"+val.name+"</option>";	
+						if (id == 0) {
+							text+="<option value='"+val.id+"' selected>"+val.name+"</option>";	
+						}else {
+							text+="<option value='"+val.id+"'>"+val.name+"</option>";	
+						}
 					}
-					
 				});
 
 				$("#partner_salesman").append(text);
@@ -416,6 +419,8 @@
 
 			
 		});
+
+		show_goods_per_salesman();
 	}
 
 

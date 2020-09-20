@@ -273,7 +273,8 @@ class Setting extends CI_Controller
                     $data['page_js'] = $this->load->view("setting/master/cabang/reference/index_js", $content, true);
                     break;
                 default:
-                    $data['page_title'] = $content['data_branch']->name;
+                    $content['type_price'] = $this->ref->get_type_price()->result();
+                    $data['page_title'] = $content['data_branch']->name; 
                     $data['back_url'] = base_url("/index.php/setting/master/cabang");
 
                     $data['page_content'] = $this->load->view("setting/master/cabang/cabang_spesifik", $content, true);
@@ -284,7 +285,7 @@ class Setting extends CI_Controller
             redirect(current_url() . "/" . $this->session->branch_id);
         } else {
             $content['data_branches'] = $this->branch->get_all()->result();
-
+  
             $data['page_content'] = $this->load->view("setting/master/cabang/cabang", $content, true);
             $data['page_subheader'] = $this->load->view("setting/master/cabang/cabang_subheader", $content, true);
             $data['page_js'] = $this->load->view("setting/master/cabang/cabang_js", '', true);
@@ -407,5 +408,14 @@ class Setting extends CI_Controller
         $data['page_content'] = $this->load->view("setting/user/role_management", "", true);
 
         return $data;
+    }
+
+    public function update_type_price() {
+        $post           = $this->input->post();
+        $id_type_price  = $post['type_price'];
+        
+        $this->ref->update_type_price($id_type_price);
+        $this->session->set_flashdata("success", "Jenis Harga berhasil diubah");
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }

@@ -23,6 +23,7 @@ class Inventori extends CI_Controller
                 "Receiving_model" => "rm",
                 "Receiving_detail_model" => "rdm",
                 "S_history_model" => "history",
+                "S_reference_model" => "ref",
                 "Warehouse_model" => "t_ws",
                 "Return_model" => "return",
             )
@@ -53,7 +54,10 @@ class Inventori extends CI_Controller
             $name              = $this->session->userdata('name');
             $branch_id         = $this->session->userdata('branch_id');
             $branch_name       = $this->session->userdata('branch_name');
-
+            //get active price method
+            $price_method      = $this->ref->get_type_price("flag = 1")->row()->id;
+            // set price method
+            $_POST['price_method'] = $price_method;
             if (array_key_exists("id", $_POST)) {
 
                 $where_id['id']= $_POST['id'];
@@ -66,9 +70,9 @@ class Inventori extends CI_Controller
                                 "created_by" => $id_user,
                                 "updated_date" => date('Y-m-d H:i:s'),
                                 "updated_by" => $id_user,
-                                "price_method_id" => $_POST['price_method'],
+                                "price_method_id" => $price_method,
                                 "flag" => 1);
-
+                
                 // update header receiving
                 $this->rm->update($where_id, $entry_data);
 
@@ -97,7 +101,9 @@ class Inventori extends CI_Controller
                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Penerimaan Barang berhasil diperbaharui</div>');
 
             } else {
-
+                //get active price method
+                 $price_method  = $this->ref->get_type_price("flag = 1")->row()->id;
+                 
                  $entry_data    = array("branch_id" => $branch_id,
                                 "receiving_no" => $_POST['purchase_receive_no'],
                                 "reference_no" => $_POST['reference_no'],
@@ -108,7 +114,7 @@ class Inventori extends CI_Controller
                                 "created_date" => date('Y-m-d H:i:s'),
                                 "updated_date" => date('Y-m-d H:i:s'),
                                 "updated_by" => $id_user,
-                                "price_method_id" => $_POST['price_method'],
+                                "price_method_id" => $price_method,
                                 "flag" => 1);
                 // insert receiving data 
                 $rv_id         = $this->rm->insert($entry_data)->row()->id;
@@ -156,8 +162,6 @@ class Inventori extends CI_Controller
         $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['price_method'] = $this->rm->get_price_method()->result();
-
-
         $data['page_content'] = $this->load->view("inventori/receiving/add_receiving", $data ,true);
 
         $this->load->view('layout/head');

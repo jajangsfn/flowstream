@@ -2681,7 +2681,7 @@ class pdf
 		// get userdata
 		$CI =& get_instance();
 		$branch_name 	= ($CI->session->userdata('branch_name')) ? $CI->session->userdata('branch_name') : "PD. Parahyangan Djaya";
-		$branch_address = ($CI->session->userdata('branch_address')) ? $CI->session->userdata('branch_address') : "Jl. Kiara condong";
+		$branch_address = ($CI->session->userdata('branch_address')) ? $CI->session->userdata('branch_address') : "Jl Terusan Kiaracondong";
 		
 		$pdf->SetY($header_reference[$use_paper]['title']['position_y']);
 		$pdf->SetX($header_reference[$use_paper]['title']['position_x']);
@@ -2695,10 +2695,7 @@ class pdf
 		$pdf->SetX($header_reference[$use_paper]['address']['position_x']);
 		$pdf->Cell($header_reference[$use_paper]['address']['width'], 
 					$header_reference[$use_paper]['address']['height'], 
-					$branch_address,0,1,'L');
-
-		// $pdf->ln();
-		
+					$branch_address,0,1,'L');		
 		// set header 
 		$pdf->SetFont('Arial','B',9);
 			foreach ($paper_reference[$type_print][$use_paper]['header'] as $key => $value) {
@@ -2733,7 +2730,6 @@ class pdf
 		}
 
 		$pdf->ln($paper_reference[$type_print][$use_paper]['body_start_y']);	
-		// $pdf->ln(0.);
 	
 		$pdf->SetFont('Arial','',8);
 
