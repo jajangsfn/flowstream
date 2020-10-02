@@ -11,6 +11,7 @@
                     periode: date
                 },
                 success: function(response) {
+                    console.log(response);
                     if (response.data.message) {
                         Swal.fire({
                             title: "Telah Ditutup",
@@ -18,7 +19,6 @@
                             icon: "info",
                         });
                     } else {
-
                         var focus = response.data.kode_rekening_saldo;
 
                         if (focus.length) {
@@ -97,14 +97,13 @@
                                     icon: "info",
                                 });
                             }
+                        } else if (response.data.unregistered_jurnal.length > 0) {
+                            Swal.fire({
+                                title: "Warning",
+                                text: "Terdapat jurnal pada periode ini yang belum diregistrasi",
+                                icon: "info",
+                            });
                         } else {
-                            if (response.data.unregistered_jurnal.length) {
-                                Swal.fire({
-                                    title: "Warning",
-                                    text: "Terdapat jurnal pada periode ini yang belum diregistrasi",
-                                    icon: "info",
-                                });
-                            }
                             Swal.fire({
                                 title: "Data tidak ditemukan",
                                 text: "Tidak terdapat jurnal periode ini yang dapat dimasukan kedalam tutup buku",

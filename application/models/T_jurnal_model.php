@@ -198,7 +198,7 @@ class T_jurnal_model extends CI_Model
             SET registered_flag = 'Y', 
                 registered_date = NOW(),
                 registered_user = $user
-            WHERE jurnal_no = $jurnal_no"
+            WHERE jurnal_no = '$jurnal_no'"
         );
     }
 
@@ -226,7 +226,8 @@ class T_jurnal_model extends CI_Model
         if (intval($periode_array[1]) == 1) {
             $periode_data_bulan_lalu = "12-" . (intval($periode_array[0]) - 1);
         } else {
-            $periode_data_bulan_lalu = (intval($periode_array[1]) - 1) . "-" . $periode_array[0];
+            $bulan = sprintf("%02d", intval($periode_array[1]) - 1);
+            $periode_data_bulan_lalu = $bulan . "-" . $periode_array[0];
         }
 
         // IMPORTANT: Check t_monthly_report_status, jika untuk bulan ini sudah ada, infokan "periode sudah ditutup"
@@ -259,7 +260,7 @@ class T_jurnal_model extends CI_Model
                 AND t_jurnal.branch_id = $branch_id
                 AND t_jurnal.registered_flag = 'Y'
                 AND t_jurnal.flag <> 10
-                AND (t_kode_rekening_saldo.periode = '$periode_data_bulan_lalu' OR t_kode_rekening_saldo.periode is null)
+                AND (t_kode_rekening_saldo.periode like '$periode_data_bulan_lalu%' OR t_kode_rekening_saldo.periode is null)
                 AND (t_kode_rekening_saldo.branch_id = '$branch_id' OR t_kode_rekening_saldo.branch_id is null)
 
             GROUP BY t_jurnal_detail.acc_code
@@ -290,7 +291,7 @@ class T_jurnal_model extends CI_Model
                 AND t_jurnal.branch_id = $branch_id
                 AND t_jurnal.registered_flag = 'Y'
                 AND t_jurnal.flag <> 10
-                AND (t_ikhtisar_saldo.periode = '$periode_data_bulan_lalu' OR t_ikhtisar_saldo.periode is null)
+                AND (t_ikhtisar_saldo.periode like '$periode_data_bulan_lalu%' OR t_ikhtisar_saldo.periode is null)
                 AND (t_ikhtisar_saldo.branch_id = '$branch_id' OR t_ikhtisar_saldo.branch_id is null)
 
             GROUP BY acc_code_ikhtisar
@@ -321,7 +322,7 @@ class T_jurnal_model extends CI_Model
                 AND t_jurnal.branch_id = $branch_id
                 AND t_jurnal.registered_flag = 'Y'
                 AND t_jurnal.flag <> 10
-                AND ( t_neraca_saldo_akhir.periode = '$periode_data_bulan_lalu' OR t_neraca_saldo_akhir.periode is null ) 
+                AND ( t_neraca_saldo_akhir.periode like '$periode_data_bulan_lalu%' OR t_neraca_saldo_akhir.periode is null ) 
                 AND ( t_neraca_saldo_akhir.branch_id = '$branch_id' OR t_neraca_saldo_akhir.branch_id is null ) 
 
             GROUP BY acc_code_neraca
