@@ -292,8 +292,8 @@ class Keuangan extends CI_Controller
                     case 'neraca_saldo':
                         $this->neraca_saldo();
                         break;
-                    case 'faktur_pajak_harian':
-                        $this->faktur_pajak_harian();
+                    case 'faktur_pajak':
+                        $this->faktur_pajak();
                         break;
                     case 'laba_rugi':
                         $this->laba_rugi();
@@ -379,10 +379,10 @@ class Keuangan extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    private function faktur_pajak_harian()
+    private function faktur_pajak()
     {
-        $data['page_title'] = "Faktur Pajak Harian";
-        $data['page_content'] = $this->load->view("keuangan/report/bulanan/faktur_pajak_harian", "", true);
+        $data['page_title'] = "Faktur Pajak";
+        $data['page_content'] = $this->load->view("keuangan/report/bulanan/faktur_pajak", "", true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

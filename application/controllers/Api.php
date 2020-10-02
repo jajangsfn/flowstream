@@ -1221,7 +1221,7 @@ class Api extends CI_Controller
             )
         );
 
-        // buat jurnal awal
+        // buat jurnal awal // TODO: infokan kalau nomor pajak sudah habis
         $this->jurnal->insert(
             array(
                 "jurnal_no" => $jurnal_no_awal,
@@ -1246,7 +1246,7 @@ class Api extends CI_Controller
                 // "re_printed_date",
                 // "re_registered_date",
                 "cara_penerimaan" => $pos_target->payment_method,
-                // "no_seri_pajak_dipungut",
+                "no_seri_pajak_dipungut" => $this->keumod->get_and_use_tax_no($pos_target->branch_id),
                 // "no_seri_pajak_ditanggung",
                 // "bukti_pendukung",
                 // "tanggal_pendukung",
@@ -1729,6 +1729,46 @@ class Api extends CI_Controller
         }
 
         $this->session->set_flashdata("success", "Pembayaran telah tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function get_tax_no_branch($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" =>  $this->keumod->get_all_tax_no($branch_id)->result()
+            )
+        );
+    }
+
+    function add_tax_no($branch_id)
+    {
+        $data = array(
+            "branch_id" => $branch_id,
+            "start_tax" => $_POST['start_tax'],
+            "sequence" => 1 - intval($_POST['start_tax']),
+            "end_tax" => $_POST['end_tax'],
+            "years" => $_POST['years']
+        );
+        $this->keumod->add_tax_no($data);
+        $this->session->set_flashdata("success", "Nomor telah tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_tax_no()
+    {
+        $where = array(
+            "id" => $_POST['id']
+        );
+
+        $data = array(
+            "start_tax" => $_POST['start_tax'],
+            "sequence" => $_POST['sequence'],
+            "end_tax" => $_POST['end_tax'],
+            "years" => $_POST['years']
+        );
+        $this->keumod->edit_tax_no($where, $data);
+        $this->session->set_flashdata("success", "Nomor telah tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }

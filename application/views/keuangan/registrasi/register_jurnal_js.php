@@ -39,7 +39,7 @@
                     },
                     render: function(data) {
                         return `
-                            <button onclick="register_jurnal(${data})" type="button" class="btn btn-primary">
+                            <button onclick="register_jurnal('${data}')" type="button" class="btn btn-primary">
                                 Register
                             </button>
                         `
@@ -73,7 +73,7 @@
             confirmButtonText: "Ya, Register!"
         }).then(function(result) {
             if (result.value) {
-                window.location.href = `<?= base_url("/index.php/flowstream_api/v1/users/register_jurnal/") ?>${jurnal_no}`;
+                window.location.href = `<?= base_url("/index.php/api/register_jurnal/") ?>${jurnal_no}`;
             }
         })
     }

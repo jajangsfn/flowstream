@@ -1,4 +1,12 @@
 <script>
+    $(document).ready(() => {
+        if (
+            $("#main_customer_selector").val()
+        ) {
+            window.location.reload();
+        }
+    })
+
     function change_customer(e) {
         $("#invoice_cell").fadeOut();
         $(".after_invoice_cell").fadeOut();
@@ -9,7 +17,11 @@
             success: function(result) {
                 $("#invoice_list").empty();
 
+                let company_total = 0;
+
                 for (let i = 0; i < result.data.length; i++) {
+                    company_total += parseInt(result.data[i].total_tagihan);
+
                     $("#invoice_list").append(
                         `
                             <tr>
@@ -23,6 +35,9 @@
                                     ${result.data[i].created_date}
                                 </td>
                                 <td>
+                                    ${trippledot(result.data[i].total_tagihan)}
+                                </td>
+                                <td>
                                     <button type="button" onclick="init_bayar(${result.data[i].id})" class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" data-placement="top" title="Pembayaran">
                                         <i class="flaticon2-graph-1"></i>
                                     </button>
@@ -31,6 +46,8 @@
                         `
                     )
                 }
+
+                $("#full_total_cell").text(trippledot(company_total))
 
                 $("#invoice_cell").fadeIn();
             },

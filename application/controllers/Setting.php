@@ -43,7 +43,8 @@ class Setting extends CI_Controller
                 "Production_model" => "production",
                 "Production_detail_model" => "production_detail",
                 "S_reference_model" => "ref",
-                "User_model" => "user_m"
+                "User_model" => "user_m",
+                "Keuangan_model" => "keumod"
             )
         );
     }
@@ -350,6 +351,11 @@ class Setting extends CI_Controller
 
                             $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/saldo_kode_rekening/saldo_kode_rekening.php", $content, true);
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/saldo_kode_rekening/saldo_kode_rekening_js.php", $content, true);
+                            break;
+
+                        case 'nomor_pajak':
+                            $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/nomor_pajak/nomor_pajak.php", $content, true);
+                            $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/nomor_pajak/nomor_pajak_js.php", $content, true);
                             break;
 
                         default:
