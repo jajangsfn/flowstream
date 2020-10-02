@@ -63,7 +63,8 @@ class Keuangan_model extends CI_Model
                 tpp.id,
                 t_pos.id as pos_id,
                 tpp.invoice_no,
-                tpp.created_date
+                tpp.created_date,
+                t_pos.payment_total as total_tagihan
 
             FROM m_partner
             LEFT JOIN t_pos on t_pos.partner_id = m_partner.id

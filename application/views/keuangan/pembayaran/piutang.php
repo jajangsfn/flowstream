@@ -22,12 +22,24 @@
                                     <th width="1">No</th>
                                     <th>Invoice No</th>
                                     <th>Invoice Date</th>
+                                    <th>Total</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="invoice_list">
 
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="lead font-weight-bold">
+                                        Full Total
+                                    </td>
+                                    <td id="full_total_cell" class="lead font-weight-bold text-primary">
+
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
