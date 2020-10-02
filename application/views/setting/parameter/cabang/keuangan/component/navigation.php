@@ -110,6 +110,24 @@
                 </div>
             </a>
             <!--end::Section-->
+            <!--begin::Section-->
+            <a href="<?= base_url("/index.php/setting/parameter/cabang/$data_branch->id/keuangan/nomor_pajak") ?>" class="col-lg-2 col-md-3 col-sm-4 col-6 gutter-b">
+                <div class="card card-custom <?= stripos(current_url(), "/keuangan/nomor_pajak") ? "bg-light-primary" : "" ?>">
+                    <div class="d-flex align-items-center flex-column card-body">
+                        <!--begin::Symbol-->
+                        <div class="symbol symbol-45 symbol-light">
+                            <i class="flaticon-clock-2 <?= stripos(current_url(), "/keuangan/nomor_pajak") ? "text-primary" : "text-success" ?> fa-2x"></i>
+                        </div>
+                        <!--end::Symbol-->
+                        <!--begin::Text-->
+                        <div class="text-nowrap font-weight-bold <?= stripos(current_url(), "/keuangan/nomor_pajak") ? "text-primary" : "text-dark-75 text-hover-primary" ?> font-size-lg">
+                            Nomor Pajak
+                        </div>
+                        <!--end::Text-->
+                    </div>
+                </div>
+            </a>
+            <!--end::Section-->
         </div>
     </div>
     <!--end::Body-->

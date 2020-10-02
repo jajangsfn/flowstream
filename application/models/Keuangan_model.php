@@ -169,7 +169,7 @@ class Keuangan_model extends CI_Model
                                     WHERE SUBSTR(t1.jurnal_date,1,7) ='$periode'
                                     GROUP BY t1.jurnal_date,t2.acc_code");
     }
-        
+
     function get_parameter_neraca_saldo_akhir($branch_id)
     {
         return $this->db->query(
@@ -267,5 +267,61 @@ class Keuangan_model extends CI_Model
         $this->db->query(
             "DELETE FROM `m_parameter_kode_rekening_saldo` WHERE id = $id"
         );
+    }
+
+    function get_all_tax_no($branch_id)
+    {
+        return $this->db->get_where("tax_no", array(
+            "branch_id" => $branch_id
+        ));
+    }
+
+    function add_tax_no($data)
+    {
+        $this->db->insert("tax_no", $data);
+    }
+
+    function edit_tax_no($where, $data)
+    {
+        $this->db->update("tax_no", $data, $where);
+    }
+
+    function get_and_use_tax_no($branch_id)
+    {
+        $query = $this->db->get_where("tax_no", array(
+            "branch_id" => $branch_id,
+            "flag" => 1
+        ));
+        if ($query->num_rows() == 0) {
+            return null;
+        } else {
+            $focus = $query->row();
+            $newnumber = $focus->sequence + 1;
+            if ($newnumber == $focus->end_tax) {
+                $this->db->query(
+                    "UPDATE tax_no SET flag = 0, sequence = $newnumber WHERE id = $focus->id"
+                );
+            } else {
+                $this->db->query(
+                    "UPDATE tax_no SET sequence = $newnumber WHERE id = $focus->id"
+                );
+            }
+
+            // 6 digit id branch
+            $nomor_tax_to_use = sprintf("%06d", $branch_id);
+
+            // 2 digit transaction code: TODO: konfirmasi 51
+            $nomor_tax_to_use .= "51";
+
+            // 4 digit year
+            $nomor_tax_to_use .= date("Y");
+
+            // 2 digit month
+            $nomor_tax_to_use .= date("m");
+
+            // 6 digit nomor transaksi
+            $nomor_tax_to_use .= sprintf("%06d", $newnumber);
+            return $nomor_tax_to_use;
+        }
     }
 }
