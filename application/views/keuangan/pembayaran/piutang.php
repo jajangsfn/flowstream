@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="card gutter-b">
                 <div class="card-body d-flex justify-content-center align-items-center">
-                    <select class="select2" data-width="3500px" onchange="change_customer(this)">
+                    <select class="select2" data-width="3500px" onchange="change_customer(this)" id="main_customer_selector">
                         <option label="" value="" selected disabled>Pilih Customer</option>
                         <?php foreach ($customers as $customer) : ?>
                             <option value="<?= $customer->id ?>"><?= $customer->name ?></option>

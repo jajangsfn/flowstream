@@ -1,4 +1,12 @@
 <script>
+    $(document).ready(() => {
+        if (
+            $("#main_customer_selector").val()
+        ) {
+            window.location.reload();
+        }
+    })
+
     function change_customer(e) {
         $("#invoice_cell").fadeOut();
         $(".after_invoice_cell").fadeOut();
