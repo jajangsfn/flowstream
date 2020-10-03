@@ -292,6 +292,14 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                 new NavItem(
                     null,
                     null,
+                    "/index.php/keuangan/pembayaran/dashboard",
+                    "Dashboard Pembayaran",
+                    null,
+                    null
+                ),
+                new NavItem(
+                    null,
+                    null,
                     "/index.php/keuangan/pembayaran/piutang",
                     "Pembayaran Piutang",
                     null,
