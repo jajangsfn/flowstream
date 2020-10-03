@@ -1898,16 +1898,25 @@ class pdf
 															   								"align" => 'L',
 															   								"index" => "partner_name"),
 
-															   					3 => array("position_x" => 0.2,
-															   								"position_y" => 3.5,
+															   					3 => array("position_x" => 14,
+															   								"position_y" => 2.3,
 															   								"name" => 2,
 															   								"pad" => 0.2,
 															   								"val" => 11.8,
 															   								"title" => 'Tgl POS',
 															   								"align" => 'L',
-															   								"index" => "updated_date"),
+																							"index" => "updated_date"
+																							),
+																				4 => array("position_x" => 14,
+															   								"position_y" => 2.7,
+															   								"name" => 2,
+															   								"pad" => 0.2,
+															   								"val" => 11.8,
+															   								"title" => 'No. Faktur Pajak',
+															   								"align" => 'L',
+															   								"index" => "nomor_faktur_pajak"),
 															   				),
-															   "body_position_y" => 4.3,
+															   "body_position_y" => 4,
 															   "body_position_x" => 0.3,
 															   "body_ln" => 0.4,
 															   "body_start_y" => 0.5,
@@ -1958,18 +1967,18 @@ class pdf
 															   				),
 															   				
 															   "footer" => array("footer_ln" => 0.09,
-															   					"signature" => array("title" => "Disiapkan Oleh :",
+															   					"signature" => array("title" => "Diterima Oleh :",
 																									  "width" => 4,
 																									  "height" => 0.8,
 																									  "align"=>'L',
-																									  "position_x" => 0.3,
+																									  "position_x" => 1.0,
 
 																									), 
-															   					"approved_by" => array("title" => "Disahkan Oleh :",
+															   					"approved_by" => array("title" => "Supplier",
 																									  "width" => 4,
 																									  "height" => 0.8,
 																									  "align"=>'L',
-																									  "position_x" => 5,
+																									  "position_x" => 8,
 
 																									), 
 															   					"total" => array("title" => "Grant Total",
@@ -1990,7 +1999,7 @@ class pdf
 																				),
 
 																	), //end size a4
-														2 => array("paper"=> "a5",
+														2 => array("paper"=> "A5",
 																   "view" => "L",
 																   "type_size" => "mm",
 																   "title_paper" => array( "title" => 'Bukti Point Of Sales',
@@ -1998,7 +2007,7 @@ class pdf
 																							"height" => 1,
 																							"align" => 'C'),
 																   "title_position_y" => 5,
-																   "space" => 22,
+																   "space" => 25,
 																   "header"=> array(
 																   					0 => array("position_x" => 1.5,
 																				   				"position_y" => 27,
@@ -2023,20 +2032,29 @@ class pdf
 																				   				"name" => 18,
 																				   				"pad" => 1.6,
 																				   				"val" => 11.8,
-																				   				"title" => 'Customer',
+																				   				"title" => 'Kepada',
 																				   				"align" => 'L',
 																				   				"index" => "partner_name"),
-																   					3 => array("position_x" => 1.5,
-																				   				"position_y" => 39,
-																				   				"name" => 18,
+																   					3 => array("position_x" => 145,
+																				   				"position_y" => 31,
+																				   				"name" => 20,
 																				   				"pad" => 1.6,
-																				   				"val" => 11.8,
+																				   				"val" => 10.8,
 																				   				"title" => 'Tgl POS',
 																				   				"align" => 'L',
 																				   				"index" => "updated_date"
-																				   			),
+																							   ),
+																					4 => array("position_x" => 145,
+																							   "position_y" => 27,
+																							   "name" => 20,
+																							   "pad" => 1.6,
+																							   "val" => 10.8,
+																							   "title" => 'No. Faktur Pajak',
+																							   "align" => 'L',
+																							   "index" => "nomor_faktur_pajak"
+																						   ),
 																					),
-																	"body_position_y" => 43,
+																	"body_position_y" => 40,
 																	"body_position_x" => 3,
 																	"body_ln" => 4,
 																	"body_start_y" => 5,
@@ -2082,25 +2100,20 @@ class pdf
 																					   "height"=>5,
 																					   "align"=>'R',
 																				       ),
-																				   	// 8 => array( "title"=> "Jumlah Tersedia",
-																				   	// 			"width"=>28,
-																				   	// 			"height"=>5,
-																				   	// 			"align"=>'R',
-																				   	// 		),
 																					),
 																	"footer" => array(
 																				  	"footer_ln" => 0.9,
-																				  	"signature" => array("title" => "Disiapkan Oleh :",
+																				  	"signature" => array("title" => "Diterima Oleh :",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
-																										"position_x" => 3,
+																										"position_x" => 10,
 																									),
-																				  	"approved_by" => array("title" => "Disahkan Oleh :",
+																				  	"approved_by" => array("title" => "Supplier",
 																										"width" => 4,
 																										"height" => 0.8,
 																										"align"=>'L',
-																										"position_x" => 50,
+																										"position_x" => 65,
 																									),
 																				   	"total" => array("title" => "Grant Total",
 																					   				"width" => 181,
@@ -3465,9 +3478,6 @@ class pdf
 							   number_format($val['total']),$border,0,$paper_reference[$type_print][$use_paper]['body'][5]['align']);
 
 
-
-
-
 					$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
 				}
 
@@ -3689,11 +3699,6 @@ class pdf
 					   $paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_ini']['height'], 
 					   number_format($total_saldo_bulan_ini_c) ." K",'B',1,
 					   $paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_ini']['align']);
-		   
-		   
-			
-
-
 
 		}else {
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total']['position_x']);
@@ -3702,9 +3707,10 @@ class pdf
 					   '','T',0,
 					   $paper_reference[$type_print][$use_paper]['footer']['total']['align']);
 		}
+
 		// terbilang
 		if (!in_array($type_print, array("warehouse_in", "order_request_out", "order_request_out_fix", "checksheet_out"))) {
-			$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln']* 3);
+			$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln'] * 3);
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['terbilang']['position_x']);
 			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['terbilang']['width'], 
 					   $paper_reference[$type_print][$use_paper]['footer']['terbilang']['height'], 
@@ -3724,7 +3730,39 @@ class pdf
 		$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['approved_by']['width'], 
 				   $paper_reference[$type_print][$use_paper]['footer']['approved_by']['height'], 
 				   $paper_reference[$type_print][$use_paper]['footer']['approved_by']['title'],0,0,
-				   $paper_reference[$type_print][$use_paper]['footer']['approved_by']['align']);		
+				   $paper_reference[$type_print][$use_paper]['footer']['approved_by']['align']);
+				   
+		
+		//khusus pos
+
+		if (in_array($type_print, array("pos_out"))) {
+			//A4
+			if ($use_paper == 1) {
+				$space_tambahan = 20;
+				$posisi_tambahan_atas = 0.5;
+				$posisi_tambahan_bawah = 0.5;
+			//A5
+			} else {
+				$space_tambahan = 17;
+				$posisi_tambahan_atas = 4;
+				$posisi_tambahan_bawah = 8;
+			}
+			
+			$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln'] * $space_tambahan);
+			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['signature']['position_x'] - $posisi_tambahan_atas);
+			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['signature']['width'], 
+				   $paper_reference[$type_print][$use_paper]['footer']['signature']['height'], 
+				   '(................................)',0,0,
+				   $paper_reference[$type_print][$use_paper]['footer']['signature']['align']);
+			
+
+			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['approved_by']['position_x'] - $posisi_tambahan_bawah);
+			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['approved_by']['width'], 
+					$paper_reference[$type_print][$use_paper]['footer']['approved_by']['height'], 
+					'(...............................)',0,0,
+					$paper_reference[$type_print][$use_paper]['footer']['approved_by']['align']);
+		}
+
 
 
 		$pdf->output('i',$type_print.'-'.date('Y-m-d'));

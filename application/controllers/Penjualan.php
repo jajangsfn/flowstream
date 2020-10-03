@@ -256,7 +256,7 @@ class Penjualan extends CI_Controller
     public function print_pos($pos_id)
     {
         $data = $this->pos_report->pos_report("tab1.id=" . $pos_id, "tab3.id")->result_array();
-        
+                
         $this->pdf->dynamic_print(2, "pos_out", $data);
     }
 
