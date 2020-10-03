@@ -508,12 +508,32 @@ class Keuangan extends CI_Controller
 
     public function print_neraca_saldo($periode = '2020-08')
     {
-        $data['neraca'] = $this->keumod->get_neraca_saldo($periode)->result();
-        $data['periode'] = $periode;
-        $this->load->view('layout/head');
-        $this->load->view('keuangan/report/bulanan/print_neraca_saldo', $data);
-        // $this->load->view('layout/js');
-        // $this->load->view('keuangan/report/bulanan/ex');
+        $neraca = $this->keumod->get_neraca_saldo($periode)->result();
+        $data   = array();     
+        
+        if (!empty($neraca)) {
+            $total_page = ceil(count($neraca) / 45);
+            $page       = 1; 
+            foreach($neraca as $key => $row){
+                $data[$key]['page'] = $page . ' dari ' . $total_page;
+                $data[$key]['periode'] = $periode;
+                $data[$key]['date'] = date('Y-m-d');
+                $data[$key]['time'] = date('H:i:s');
+                $data[$key]['jurnal_no'] = $row->jurnal_no;
+                $data[$key]['jurnal_date'] = $row->jurnal_date;
+                $data[$key]['acc_code'] = $row->acc_code;
+                $data[$key]['acc_name'] = $row->acc_name;
+                $data[$key]['saldo_bulan_lalu'] = $row->saldo_bln_lalu;
+                $data[$key]['debit'] = $row->debit;
+                $data[$key]['credit'] = $row->credit;
+                $data[$key]['total_debit'] = $row->total_debit;
+                $data[$key]['total_credit'] = $row->total_credit;
+                $data[$key]['position'] = $row->position;
 
+                $page+=1;
+            }
+        } 
+        // echo json_encode($data);exit;
+        $this->pdf->dynamic_print(3, "neraca_saldo", $data);
     }
 }

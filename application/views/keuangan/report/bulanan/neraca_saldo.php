@@ -7,8 +7,8 @@
                         <tr>
                             <td width="50">Periode</td>
                             <td width="1">:</td>
-                            <td width="100">
-                                <select name="periode" class="form-control select2 col-9" required>
+                            <td>
+                                <select name="periode" class="form-control select2" required>
                                     <option value="">Pilih Periode</option>
                                     <?php
                                     for($i = 1; $i <= 12; $i++) { 
@@ -24,8 +24,8 @@
                         <tr>
                             <td width="50">Tahun</td>
                             <td width="1">:</td>
-                            <td width="50">
-                                <select name="year" class="form-control select2 col-7" required>
+                            <td>
+                                <select name="year" class="form-control select2" required>
                                     <option value="">Pilih Tahun</option>
                                     <?php
                                     for($i = date('Y'); $i >= 2015; $i--) { 
@@ -68,6 +68,9 @@
                     <tbody>
                     
                       <?php
+                        $debit = 0;
+                        $credit= 0;
+                        $saldo_bulan_ini = 0;
                         if (count($neraca)) {
                             foreach($neraca as $key => $row) { 
                                 $acc_code    = str_replace(".","",
@@ -80,6 +83,9 @@
                                 $saldo_akhir = $position == 'D' ? 
                                                 ($row->saldo_bln_lalu + $row->total_debit - $row->total_credit)
                                                 :($row->saldo_bln_lalu + $row->total_credit - $row->total_debit);
+                                $debit+= $row->total_debit;
+                                $credit+= $row->total_credit;
+                                $saldo_bulan_ini+=$saldo_akhir;
                                 ?>
                                 <tr>
                                     <td class="text-center"><?=$key+1?></td>
@@ -98,6 +104,13 @@
                       ?>
                     </tbody>
                     <tfoot>
+                        <tr>
+                            <td colspan="5" class="font-weight-bold text-right">Total</td>
+                            <td class="font-weight-bold text-right"><?=number_format($debit)?></td>
+                            <td class="font-weight-bold text-right"><?=number_format($credit)?></td>
+                            <td class="font-weight-bold text-right"><?=number_format($saldo_bulan_ini)?></td>
+                            <td></td>
+                        </tr>
                     <?php
                     if (count($neraca)) {
                     ?>
