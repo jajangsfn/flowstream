@@ -51,7 +51,7 @@
             </div>
         <?php endif ?>
         <div class="<?= $this->session->role_code == "ROLE_SUPER_ADMIN" ? "col-md-3 col-lg-3" : "col-md-4 col-lg-4"; ?> col-sm-6 p-5 text-center">
-            <a href="<?= base_url("/index.php/keuangan") ?>" class="btn btn-shadow btn-icon btn-circle btn-primary display-2">
+            <a href="<?= base_url("/index.php/keuangan/pembayaran/dashboard") ?>" class="btn btn-shadow btn-icon btn-circle btn-primary display-2">
                 <i class="flaticon-analytics  display-3"></i>
             </a>
             <h3 class="mt-2">
