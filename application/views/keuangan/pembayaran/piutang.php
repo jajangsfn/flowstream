@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="card gutter-b">
                 <div class="card-body d-flex justify-content-center align-items-center">
-                    <select class="select2" data-width="3500px" onchange="change_customer(this)">
+                    <select class="select2" data-width="3500px" onchange="change_customer(this)" id="main_customer_selector">
                         <option label="" value="" selected disabled>Pilih Customer</option>
                         <?php foreach ($customers as $customer) : ?>
                             <option value="<?= $customer->id ?>"><?= $customer->name ?></option>
@@ -22,12 +22,24 @@
                                     <th width="1">No</th>
                                     <th>Invoice No</th>
                                     <th>Invoice Date</th>
+                                    <th>Total</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="invoice_list">
 
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="lead font-weight-bold">
+                                        Full Total
+                                    </td>
+                                    <td id="full_total_cell" class="lead font-weight-bold text-primary">
+
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -37,9 +49,12 @@
 <?php else : ?>
     <div class="card">
         <div class="card-body text-center">
-            <h5 class="text-success m-0">
+            <h5 class="text-success">
                 Belum Terdapat Piutang untuk Dibayar
             </h5>
+            <a class="btn btn-primary" href="<?= base_url("/index.php/keuangan/pembayaran/piutang/histori") ?>">
+                Histori pembayaran piutang
+            </a>
         </div>
     </div>
 <?php endif ?>

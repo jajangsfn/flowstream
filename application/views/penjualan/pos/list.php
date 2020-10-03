@@ -111,7 +111,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary font-weight-bold">Simpan dan Cetak</button>
+                <button type="submit" class="btn btn-primary font-weight-bold">Simpan</button>
             </div>
         </form>
     </div>

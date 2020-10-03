@@ -281,25 +281,3 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <form action="<?= base_url("/index.php/api/delete_barang") ?>" method="POST" class="modal-content">
-            <input type="hidden" name="id" id="id_hapus">
-            <div class="modal-header">
-                <h5 class="modal-title">Konfirmasi Hapus Barang</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="m-0">Anda akan menghapus barang <span id="brand_description_hapus"></span></p>
-                <small class="m-0 text-info">Data yang menggunakan barang ini tidak akan ikut terhapus</small>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-warning" type="button" data-dismiss="modal">Batalkan</button>
-                <button class="btn btn-danger" name="delete" value="delete" type="submit">Konfirmasi</button>
-            </div>
-        </form>
-    </div>
-</div>

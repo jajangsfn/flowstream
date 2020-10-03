@@ -100,6 +100,33 @@ class T_jurnal_model extends CI_Model
         $this->insert_detail($data);
     }
 
+    // TODO: Konfirmasi JOURNAL_CD = P untuk Purchase
+    function insert_detail_hutang($branch_id, $data)
+    {
+        // lihat account code untuk credit hutang
+        if ($data['credit'] == 0) {
+            $data['acc_code'] = $this->db->get_where(
+                "m_journal_mapping",
+                array(
+                    "JOURNAL_CD" => "P",
+                    "SEQ_LINE" => 1,
+                    "BRANCH_ID" => $branch_id
+                )
+            )->row()->ACCOUNT_CODE;
+        } else {
+            $data['acc_code'] = $this->db->get_where(
+                "m_journal_mapping",
+                array(
+                    "JOURNAL_CD" => "P",
+                    "SEQ_LINE" => 2,
+                    "BRANCH_ID" => $branch_id
+                )
+            )->row()->ACCOUNT_CODE;
+        }
+
+        $this->insert_detail($data);
+    }
+
     function insert_detail_kas($branch_id, $data)
     {
         if ($data['credit'] == 0) {
@@ -171,7 +198,7 @@ class T_jurnal_model extends CI_Model
             SET registered_flag = 'Y', 
                 registered_date = NOW(),
                 registered_user = $user
-            WHERE jurnal_no = $jurnal_no"
+            WHERE jurnal_no = '$jurnal_no'"
         );
     }
 
@@ -199,15 +226,18 @@ class T_jurnal_model extends CI_Model
         if (intval($periode_array[1]) == 1) {
             $periode_data_bulan_lalu = "12-" . (intval($periode_array[0]) - 1);
         } else {
-            $periode_data_bulan_lalu = (intval($periode_array[1]) - 1) . "-" . $periode_array[0];
+            $bulan = sprintf("%02d", intval($periode_array[1]) - 1);
+            $periode_data_bulan_lalu = $bulan . "-" . $periode_array[0];
         }
 
-        // TODO: cek t_neraca_saldo_akhir
-        // TODO: cek t_ikhtisar_saldo
-        // TODO: cek t_kode_rekenin_saldo
-        // TODO: cek m_parameter_neraca_saldo
-        // TODO: cek m_parameter_ikhtisar_saldo
-        // TODO: cek m_parameter_kode_rekenin_saldo
+        // IMPORTANT: Check t_monthly_report_status, jika untuk bulan ini sudah ada, infokan "periode sudah ditutup"
+        $query_t_monthly_report_status = $this->db->query(
+            "SELECT * FROM t_monthly_report_status WHERE periode = LAST_DAY('$periode-01')"
+        );
+
+        if ($query_t_monthly_report_status->num_rows() > 0) {
+            $toreturn['message'] = $query_t_monthly_report_status->row();
+        }
 
         // Get semua jurnal detail, kelompokan berdasarkan kode rekening, sum debit dan kredit, where periode dan branch
         $kode_rekening_saldo_bulan = $this->db->query(
@@ -230,7 +260,7 @@ class T_jurnal_model extends CI_Model
                 AND t_jurnal.branch_id = $branch_id
                 AND t_jurnal.registered_flag = 'Y'
                 AND t_jurnal.flag <> 10
-                AND (t_kode_rekening_saldo.periode = '$periode_data_bulan_lalu' OR t_kode_rekening_saldo.periode is null)
+                AND (t_kode_rekening_saldo.periode like '$periode_data_bulan_lalu%' OR t_kode_rekening_saldo.periode is null)
                 AND (t_kode_rekening_saldo.branch_id = '$branch_id' OR t_kode_rekening_saldo.branch_id is null)
 
             GROUP BY t_jurnal_detail.acc_code
@@ -261,7 +291,7 @@ class T_jurnal_model extends CI_Model
                 AND t_jurnal.branch_id = $branch_id
                 AND t_jurnal.registered_flag = 'Y'
                 AND t_jurnal.flag <> 10
-                AND (t_ikhtisar_saldo.periode = '$periode_data_bulan_lalu' OR t_ikhtisar_saldo.periode is null)
+                AND (t_ikhtisar_saldo.periode like '$periode_data_bulan_lalu%' OR t_ikhtisar_saldo.periode is null)
                 AND (t_ikhtisar_saldo.branch_id = '$branch_id' OR t_ikhtisar_saldo.branch_id is null)
 
             GROUP BY acc_code_ikhtisar
@@ -292,7 +322,7 @@ class T_jurnal_model extends CI_Model
                 AND t_jurnal.branch_id = $branch_id
                 AND t_jurnal.registered_flag = 'Y'
                 AND t_jurnal.flag <> 10
-                AND ( t_neraca_saldo_akhir.periode = '$periode_data_bulan_lalu' OR t_neraca_saldo_akhir.periode is null ) 
+                AND ( t_neraca_saldo_akhir.periode like '$periode_data_bulan_lalu%' OR t_neraca_saldo_akhir.periode is null ) 
                 AND ( t_neraca_saldo_akhir.branch_id = '$branch_id' OR t_neraca_saldo_akhir.branch_id is null ) 
 
             GROUP BY acc_code_neraca
@@ -302,7 +332,7 @@ class T_jurnal_model extends CI_Model
 
         $toreturn["neraca_saldo"] = $neraca_saldo_bulan->result();
 
-
+        // Untuk jurnal yang belum diregister
         $unregistered_jurnal = $this->db->query(
             "SELECT 
                 t_jurnal.jurnal_no, 

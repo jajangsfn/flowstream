@@ -1,27 +1,15 @@
 <script>
-    $(document).ready(() => {
-        if (
-            $("#main_customer_selector").val()
-        ) {
-            window.location.reload();
-        }
-    })
-
     function change_customer(e) {
         $("#invoice_cell").fadeOut();
         $(".after_invoice_cell").fadeOut();
 
         // generate daftar invoice yang belum lunas
         $.ajax({
-            url: "<?= base_url("/index.php/api/get_uncomplete_invoice/") ?>" + $(e).val(),
+            url: "<?= base_url("/index.php/api/get_uncomplete_invoice_hutang/") ?>" + $(e).val(),
             success: function(result) {
                 $("#invoice_list").empty();
 
-                let company_total = 0;
-
                 for (let i = 0; i < result.data.length; i++) {
-                    company_total += parseInt(result.data[i].total_tagihan);
-
                     $("#invoice_list").append(
                         `
                             <tr>
@@ -35,9 +23,6 @@
                                     ${result.data[i].created_date}
                                 </td>
                                 <td>
-                                    ${trippledot(result.data[i].total_tagihan)}
-                                </td>
-                                <td>
                                     <button type="button" onclick="init_bayar(${result.data[i].id})" class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" data-placement="top" title="Pembayaran">
                                         <i class="flaticon2-graph-1"></i>
                                     </button>
@@ -46,8 +31,6 @@
                         `
                     )
                 }
-
-                $("#full_total_cell").text(trippledot(company_total))
 
                 $("#invoice_cell").fadeIn();
             },
@@ -59,7 +42,7 @@
 
     function init_bayar(tpp_id) {
         $.ajax({
-            url: "<?= base_url("/index.php/api/get_piutang_data/") ?>" + tpp_id,
+            url: "<?= base_url("/index.php/api/get_hutang_data/") ?>" + tpp_id,
             success: function(result) {
                 console.log(result.data);
                 $("#invoice_date").text(": " + result.data.invoice_date)

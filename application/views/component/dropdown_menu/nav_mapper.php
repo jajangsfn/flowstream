@@ -292,6 +292,14 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                 new NavItem(
                     null,
                     null,
+                    "/index.php/keuangan/pembayaran/dashboard",
+                    "Dashboard Pembayaran",
+                    null,
+                    null
+                ),
+                new NavItem(
+                    null,
+                    null,
                     "/index.php/keuangan/pembayaran/piutang",
                     "Pembayaran Piutang",
                     null,
@@ -481,8 +489,8 @@ if (stripos(current_url(), "/index.php/dashboard")) {
                         new NavItem(
                             null,
                             null,
-                            "/index.php/keuangan/report/bulanan/faktur_pajak_harian",
-                            "Faktur Pajak Harian",
+                            "/index.php/keuangan/report/bulanan/faktur_pajak",
+                            "Faktur Pajak",
                             null,
                             array()
                         ),

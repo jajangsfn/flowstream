@@ -30,7 +30,7 @@
     function add_modal(id_barang) {
         $.ajax({
             method: "get",
-            url: "<?= base_url("/index.php/api/get_barang/") ?>" + id_barang,
+            url: "<?= base_url("/index.php/flowstream_api/v1/goods/get_barang/") ?>" + id_barang,
             success: function(result) {
                 const focus = result.data;
                 let price;
@@ -117,7 +117,7 @@
                     data: {
                         "branch_id": branch_id
                     },
-                    url: "<?= base_url("/index.php/api/barang_for_customer") ?>",
+                    url: "<?= base_url("/index.php/flowstream_api/v1/goods/barang_for_customer") ?>",
                     // EOF
                     success: function(result) {
                         $("#order_request_col").addClass("col-lg-9").removeClass("col-lg-12");
@@ -238,7 +238,7 @@
         } else {
             // ambil info barang dengan ajax
             $.ajax({
-                url: "<?= base_url("/index.php/api/get_barang/") ?>" + id,
+                url: "<?= base_url("/index.php/flowstream_api/v1/goods/get_barang/") ?>" + id,
                 success: function(response) {
                     let price = parseInt(response.data["default_price"]);;
                     let discount = 0;

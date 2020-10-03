@@ -200,7 +200,7 @@
     function check_username(e) {
         if ($(e).val()) {
             $.ajax({
-                url: "<?= base_url("/index.php/api/check_username/") ?>" + $(e).val(),
+                url: "<?= base_url("/index.php/flowstream_api/v1/users/check_username/") ?>" + $(e).val(),
                 success: function(response) {
                     if (response.data.message == "available") {
                         $("#add_modal_simpan_button").removeAttr("disabled")

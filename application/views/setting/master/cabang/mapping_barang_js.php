@@ -3,7 +3,7 @@
     $(document).ready(function() {
         $.ajax({
             method: "get",
-            url: "<?= base_url("/index.php/api/barang_cabang_data_only/$data_branch->id") ?>",
+            url: "<?= base_url("/index.php/flowstream_api/v1/goods/barang_cabang_data_only/$data_branch->id") ?>",
             success: function(result) {
                 for (let i = 0; i < result.data.length; i++) {
                     const focus = result.data[i];
@@ -152,7 +152,7 @@
         // move box to right
         $.ajax({
             method: "get",
-            url: "<?= base_url("/index.php/api/barang/") ?>" + id,
+            url: "<?= base_url("/index.php/flowstream_api/v1/goods/barang/") ?>" + id,
             success: function(result) {
                 const focus = result.data[0];
 

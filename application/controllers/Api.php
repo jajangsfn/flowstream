@@ -45,280 +45,6 @@ class Api extends CI_Controller
         echo json_encode($this->session->userdata);
     }
 
-    public function check_username($username)
-    {
-        echo json_encode(
-            array(
-                "data" => array(
-                    "message" => $this->user_m->check_username($username)
-                )
-            )
-        );
-    }
-
-    public function register()
-    {
-        $signup_data = array(
-            "email" => $_POST['email'],
-            "user_id" => $_POST['username'],
-            "password" => md5($_POST['password'])
-        );
-
-        // insert to database
-        $user_query = $this->user_m->insert($signup_data);
-
-        // do login
-        $this->session->set_userdata(
-            array(
-                "login" => true,
-                "username" => $_POST['username'],
-                "name" => $user_query->row()->name,
-                "email" => $user_query->row()->email,
-                "id" => $user_query->row()->id,
-                "branch_id" => $user_query->row()->branch_id,
-                "branch_name" => $user_query->row()->branch_name,
-                "role_code" => $user_query->row()->role_code
-            )
-        );
-
-        // report last login
-        $this->user_m->login(array("id" => $user_query->row()->id));
-        redirect(base_url());
-    }
-
-    public function login()
-    {
-        $login_data = array(
-            "m_user.user_id" => $_POST['username'],
-            "password" => md5($_POST['password'])
-        );
-
-        // check if login data match in database
-        $user_query = $this->user_m->get($login_data);
-        
-        if ($user_query->num_rows()) {
-
-            if ($user_query->row()->role_code != "ROLE_SUPER_ADMIN") {
-                // look for branch info
-                $branch_query = $this->branch->get(array("m_branch.id" => $user_query->row()->branch_id))->row();
-            }
-            
-            // do login
-            $this->session->set_userdata(
-                array(
-                    "login" => true,
-                    "username" => $_POST['username'],
-                    "name" => $user_query->row()->name,
-                    "email" => $user_query->row()->email,
-                    "id" => $user_query->row()->id,
-                    "branch_id" => $user_query->row()->branch_id,
-                    "branch_name" => $user_query->row()->branch_name,
-                    "level" => $user_query->row()->level_name,
-                    "position" => $user_query->row()->position_name,
-                    "role_code" => $user_query->row()->role_code,
-                    "branch_obj" => $branch_query,
-                    "branch_address" => $user_query->row()->address,
-                )
-            );
-            // report last login
-            $this->user_m->login(array("id" => $user_query->row()->id));
-        } else {
-            $this->session->set_flashdata('error', 'Username and password did not match');
-        }
-        redirect(base_url());
-    }
-
-    public function get_barang($id)
-    {
-        $where['m_goods.id'] = $id;
-
-        $data_query = $this->goods->get($where)->row();
-        $data['data'] = $data_query;
-        echo json_encode($data);
-    }
-
-    public function barang($id = '')
-    {
-        if ($id) {
-            $data_query = $this->goods->get(array("m_goods.id" => $id))->result();
-        } else {
-            $data_query = $this->goods->get_complete()->result();
-        }
-        $data['data'] = $data_query;
-        echo json_encode($data);
-    }
-
-    public function barang_cabang($id_cabang)
-    {
-        $data_query = $this->goods->get(array("m_goods.branch_id" => $id_cabang))->result();
-        $data['data'] = $data_query;
-        echo json_encode($data);
-    }
-
-    // Update 29 Agustus: spesifik ambil data saja
-    public function barang_cabang_data_only($id_cabang)
-    {
-        $data_query = $this->goods->get_data(array("m_goods.branch_id" => $id_cabang))->result();
-        $data['data'] = $data_query;
-        echo json_encode($data);
-    }
-
-    // Update 29 Agustus: spesifik ambil harga saja
-    public function barang_cabang_harga_only($id_cabang)
-    {
-        $data_query = $this->goods->get_harga(array("m_goods.branch_id" => $id_cabang))->result();
-        $data['data'] = $data_query;
-        echo json_encode($data);
-    }
-
-    // Update 29 Agustus: spesifik ambil diskon saja
-    public function barang_cabang_diskon_only($id_cabang)
-    {
-        $data_query = $this->goods->get_diskon(array("m_goods.branch_id" => $id_cabang))->result();
-        $data['data'] = $data_query;
-        echo json_encode($data);
-    }
-
-    // Update 29 Agustus: spesifik ambil barang untuk POS dan OR customer
-    public function barang_for_customer()
-    {
-        echo json_encode(
-            array(
-                "data" => $this->goods->get_simple($_POST['branch_id'])->result()
-            )
-        );
-    }
-
-    public function add_barang()
-    {
-        $entry_data = array(
-            "branch_id" => $_POST['branch_id'],
-            "brand_name" => $_POST['brand_name'],
-            "brand_description" => $_POST['brand_description'],
-            "sku_code" => $_POST['sku_code'],
-            "plu_code" => $_POST['plu_code'],
-            "tax" => $_POST['tax'],
-            "quantity" => $_POST['quantity'],
-            "rekening_no" => $_POST['rekening_no'],
-            "division" => $_POST['division'],
-            "sub_division" => $_POST['sub_division'],
-            "category" => $_POST['category'],
-            "sub_category" => $_POST['sub_category'],
-            "package" => $_POST['package'],
-            "color" => $_POST['color'],
-            "unit" => $_POST['unit'],
-            "ratio_flag" => $_POST['ratio_flag']
-        );
-        if (isset($_POST['barcode']) && $_POST['barcode']) {
-            $entry_data['barcode'] = $_POST['barcode'];
-        }
-        $this->goods->insert($entry_data);
-        $this->session->set_flashdata("success", "Barang berhasil tersimpan");
-        redirect($_SERVER['HTTP_REFERER']);
-    }
-
-    public function edit_barang()
-    {
-        $where_id['id'] = $_POST['id'];
-        $entry_data = array(
-            "brand_name" => $_POST['brand_name'],
-            "brand_description" => $_POST['brand_description'],
-            "barcode" => isset($_POST['barcode']) ? $_POST['barcode'] : null,
-            "sku_code" => $_POST['sku_code'],
-            "plu_code" => isset($_POST['plu_code']) ? $_POST['plu_code'] : null,
-            "tax" => $_POST['tax'],
-            "quantity" => $_POST['quantity'],
-            "rekening_no" => $_POST['rekening_no'],
-            "division" => $_POST['division'],
-            "sub_division" => $_POST['sub_division'],
-            "category" => $_POST['category'],
-            "sub_category" => $_POST['sub_category'],
-            "package" => $_POST['package'],
-            "color" => $_POST['color'],
-            "unit" => $_POST['unit'],
-            "ratio_flag" => $_POST['ratio_flag']
-        );
-        $this->goods->update($where_id, $entry_data);
-        if (stripos($_SERVER['HTTP_REFERER'], base_url()) >= 0) {
-            $this->session->set_flashdata("success", "Barang berhasil diubah");
-            redirect($_SERVER['HTTP_REFERER']);
-        } else {
-            echo json_encode(
-                array(
-                    "message" => "Barang berhasil diubah"
-                )
-            );
-        }
-    }
-
-    public function delete_barang()
-    {
-        $where_id['id'] = $_POST['id'];
-        $this->goods->delete($where_id);
-        $this->session->set_flashdata("success", "Barang berhasil dihapus");
-        redirect($_SERVER['HTTP_REFERER']);
-    }
-
-    public function ubah_harga_barang()
-    {
-        if ($_POST['price_index'] == 0) {
-            echo json_encode(array("message" => "masuk 0"));
-
-            $this->goods->change_main_price(
-                array(
-                    "goods_id" => $_POST['id']
-                ),
-                array(
-                    "price" => $_POST['price'],
-                )
-            );
-        } else {
-            echo json_encode(array("message" => "masuk lain"));
-            $price_id = $this->goods->get_price(array(
-                "goods_id" => $_POST['id']
-            ))->row()->id;
-            $this->goods->change_price_alternate(
-                array(
-                    "price_id" => $price_id,
-                    "price_index" => $_POST['price_index'],
-                ),
-                array(
-                    "price" => $_POST['price'],
-                )
-            );
-        }
-    }
-
-    public function ubah_diskon_barang()
-    {
-        if ($_POST['price_index'] == 0) {
-            $this->goods->change_main_price(
-                array(
-                    "goods_id" => $_POST['id']
-                ),
-                array(
-                    "discount" => $_POST['discount'],
-                )
-            );
-        } else {
-            $price_id = $this->goods->get_price(array(
-                "goods_id" => $_POST['id']
-            ))->row()->id;
-            $this->goods->change_price_alternate(
-                array(
-                    "price_id" => $price_id,
-                    "price_index" => $_POST['price_index'],
-                ),
-                array(
-                    "discount_percent" => $_POST['discount'],
-                )
-            );
-        }
-        echo json_encode(array(
-            "message" => "success"
-        ));
-    }
-
     // Suppliers
     public function supplier()
     {
@@ -1495,7 +1221,7 @@ class Api extends CI_Controller
             )
         );
 
-        // buat jurnal awal
+        // buat jurnal awal // TODO: infokan kalau nomor pajak sudah habis
         $this->jurnal->insert(
             array(
                 "jurnal_no" => $jurnal_no_awal,
@@ -1520,7 +1246,7 @@ class Api extends CI_Controller
                 // "re_printed_date",
                 // "re_registered_date",
                 "cara_penerimaan" => $pos_target->payment_method,
-                // "no_seri_pajak_dipungut",
+                "no_seri_pajak_dipungut" => $this->keumod->get_and_use_tax_no($pos_target->branch_id),
                 // "no_seri_pajak_ditanggung",
                 // "bukti_pendukung",
                 // "tanggal_pendukung",
@@ -1739,7 +1465,7 @@ class Api extends CI_Controller
                 array(
                     "flag" => 1,
                     "jurnal_no" => $jurnal_no,
-                    "payment_date" => date("Y-m-d"),
+                    "payment_date" => date("Y-m-d h:i:s"),
                     "payment" => $_POST['payment']
                 )
             );
@@ -1750,7 +1476,7 @@ class Api extends CI_Controller
                 array(
                     "flag" => 1,
                     "jurnal_no" => $jurnal_no,
-                    "payment_date" => date("Y-m-d"),
+                    "payment_date" => date("Y-m-d h:i:s"),
                     "payment" => $_POST['payment']
                 )
             );
@@ -1853,6 +1579,196 @@ class Api extends CI_Controller
     {
         $this->keumod->delete_parameter_ikhtisar_saldo($id);
         $this->session->set_flashdata("success", "Parameter ikhtisar saldo berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function parameter_kode_rekening_saldo_cabang($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->keumod->get_parameter_kode_rekening_saldo($branch_id)->result()
+            )
+        );
+    }
+
+    public function add_parameter_kode_rekening_saldo()
+    {
+        $this->keumod->add_parameter_kode_rekening_saldo($_POST['branch_id'], $_POST['acc_code']);
+        $this->session->set_flashdata("success", "Parameter kode rekening saldo berhasil ditambahkan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function delete_parameter_kode_rekening_saldo($id)
+    {
+        $this->keumod->delete_parameter_kode_rekening_saldo($id);
+        $this->session->set_flashdata("success", "Parameter kode rekening saldo berhasil dihapus");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // Pelunasan Hutang
+    public function get_uncomplete_invoice_hutang($partner_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->keumod->get_invoice_supplier_with_hutang($partner_id)->result()
+            )
+        );
+    }
+
+    public function get_hutang_data($tph_id)
+    {
+        echo json_encode(
+            array(
+                "data" => $this->keumod->get_hutang_data($tph_id)
+            )
+        );
+    }
+
+    public function pembayaran_hutang()
+    {
+        // Get informasi hutang
+        $info_hutang = $this->keumod->get_hutang_data($_POST['id']);
+
+        // Informasi cabang
+        $branch_id = $this->session->userdata("branch_id");
+
+        // buat nomor jurnal
+        $jurnal_no = $this->jurnal->get_next_jurnal_no($branch_id);
+
+        $this->jurnal->insert(
+            array(
+                "jurnal_no" => $jurnal_no,
+                "branch_id" => $branch_id,
+                "invoice_no" => $info_hutang->invoice_no,
+                "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
+                // "carry_over",
+                "kurs" => 1,
+                // "description",
+                "flag" => 1,
+                "username" => $this->session->username,
+                "created_date" => date("Y-m-d H:i:s"),
+                // "updated_date",
+                // "printed_date",
+                // "printed_flag",
+                // "registered_date",
+                "registered_flag" => "N", // flag registered N untuk pembayaran di menu keuangan
+                // "registered_user",
+                // "registered_id",
+                // "print_count" => 1,
+                // "print_registered_count",
+                // "re_printed_date",
+                // "re_registered_date",
+                // "cara_penerimaan",
+                // "no_seri_pajak_dipungut",
+                // "no_seri_pajak_ditanggung",
+                // "bukti_pendukung",
+                // "tanggal_pendukung",
+                // "dpp_dipungut",
+                // "dpp_ditanggung",
+                // "tipe_jurnal_id",
+                // "mata_uang_id"
+            )
+        );
+
+        // buat detail jurnal untuk pembayaran hutang
+        $this->jurnal->insert_detail_hutang(
+            $branch_id,
+            array(
+                "jurnal_no" => $jurnal_no,
+                // "acc_code" diisi dari dalam model,
+                // "master_id",
+                "invoice_no" => $info_hutang->invoice_no,
+                "debit" => $_POST['payment'],
+                "credit" => 0,
+                // "cost_center"
+            )
+        );
+
+        $this->jurnal->insert_detail_kas(
+            $branch_id,
+            array(
+                "jurnal_no" => $jurnal_no,
+                // "acc_code" diisi dari dalam model,
+                // "master_id",
+                "invoice_no" => $info_hutang->invoice_no,
+                "debit" => 0,
+                "credit" => $_POST['payment'],
+                // "cost_center"
+            )
+        );
+
+        // Cek apakah sudah lunas atau belum
+        if ($_POST['payment'] == $info_hutang->sisa_tagihan) {
+            // Update entry t_pembayaran_hutang
+            $this->keumod->update_entry_hutang(
+                $_POST['id'],
+                array(
+                    "flag" => 1,
+                    "jurnal_no" => $jurnal_no,
+                    "payment_date" => date("Y-m-d h:i:s"),
+                    "payment" => $_POST['payment']
+                )
+            );
+        } else {
+            // Update entry t_pembayaran_hutang
+            $this->keumod->update_entry_hutang(
+                $_POST['id'],
+                array(
+                    "flag" => 1,
+                    "jurnal_no" => $jurnal_no,
+                    "payment_date" => date("Y-m-d h:i:s"),
+                    "payment" => $_POST['payment']
+                )
+            );
+
+            // jika belum lunas, buat entry baru
+            $this->keumod->entry_tagihan_hutang_baru(
+                $info_hutang->invoice_no,
+                $info_hutang->sisa_tagihan - $_POST['payment']
+            );
+        }
+
+        $this->session->set_flashdata("success", "Pembayaran telah tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function get_tax_no_branch($branch_id)
+    {
+        echo json_encode(
+            array(
+                "data" =>  $this->keumod->get_all_tax_no($branch_id)->result()
+            )
+        );
+    }
+
+    function add_tax_no($branch_id)
+    {
+        $data = array(
+            "branch_id" => $branch_id,
+            "start_tax" => $_POST['start_tax'],
+            "sequence" => 1 - intval($_POST['start_tax']),
+            "end_tax" => $_POST['end_tax'],
+            "years" => $_POST['years']
+        );
+        $this->keumod->add_tax_no($data);
+        $this->session->set_flashdata("success", "Nomor telah tersimpan");
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function edit_tax_no()
+    {
+        $where = array(
+            "id" => $_POST['id']
+        );
+
+        $data = array(
+            "start_tax" => $_POST['start_tax'],
+            "sequence" => $_POST['sequence'],
+            "end_tax" => $_POST['end_tax'],
+            "years" => $_POST['years']
+        );
+        $this->keumod->edit_tax_no($where, $data);
+        $this->session->set_flashdata("success", "Nomor telah tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
     }
 }

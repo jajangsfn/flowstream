@@ -81,11 +81,17 @@ class Keuangan extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    public function pembayaran($path)
+    public function pembayaran($path, $next_path = null)
     {
         switch ($path) {
+            case 'dashboard':
+                $data = $this->dashboard_pembayaran();
+                break;
+            case 'daftar_transaksi':
+                $data = $this->daftar_transaksi();
+                break;
             case 'piutang':
-                $data = $this->piutang();
+                $data = $this->piutang($next_path);
                 break;
             case 'hutang':
                 $data = $this->hutang();
@@ -100,22 +106,66 @@ class Keuangan extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    private function piutang()
+    private function dashboard_pembayaran()
     {
-        // Tampilkan seluruh client yang punya invoice
-        $content["customers"] = $this->keumod->get_customer_with_invoice_piutang()->result();
+        $content["statistik_pembayaran"] = $this->keumod->get_statistik_pembayaran();
 
-        $data['page_title'] = "Pembayaran Piutang";
-        $data['page_content'] = $this->load->view("keuangan/pembayaran/piutang", $content, true);
-        $data['page_js'] = $this->load->view("keuangan/pembayaran/piutang_js", "", true);
+        $data['page_title'] = "Daftar Transaksi";
+        $data['page_content'] = $this->load->view("keuangan/pembayaran/dashboard", $content, true);
+
+        return $data;
+    }
+
+    private function daftar_transaksi()
+    {
+        $content["statistik_pembayaran"] = $this->keumod->get_statistik_pembayaran();
+
+        $data['page_title'] = "Daftar transaksi";
+        $data['page_content'] = $this->load->view("keuangan/pembayaran/dashboard", $content, true);
+
+        return $data;
+    }
+
+    private function piutang($info = null)
+    {
+        switch ($info) {
+            case 'keseluruhan':
+                // Tampilkan seluruh client yang punya invoice
+                $content["histori_pembayaran_piutang"] = $this->keumod->get_histori_pembayaran_piutang_per_client();
+        
+                $data['page_title'] = "Laporan Piutang";
+                $data['back_url'] = base_url("/index.php/keuangan/pembayaran/piutang");
+                $data['page_content'] = $this->load->view("keuangan/pembayaran/laporan_piutang", $content, true);
+                break;
+            case 'histori':
+                $content["histori_pembayaran_piutang"] = $this->keumod->get_histori_pembayaran_piutang();
+        
+                $data['back_url'] = base_url("/index.php/keuangan/pembayaran/piutang");
+                $data['page_title'] = "Histori Pembayaran Piutang";
+                $data['page_content'] = $this->load->view("keuangan/pembayaran/histori_pembayaran_piutang_detail", $content, true);
+                break;
+            
+            default:
+                // Tampilkan seluruh client yang punya invoice
+                $content["customers"] = $this->keumod->get_customer_with_invoice_piutang()->result();
+        
+                $data['page_subheader'] = $this->load->view("keuangan/pembayaran/piutang_subheader", "", true);
+                $data['page_content'] = $this->load->view("keuangan/pembayaran/piutang", $content, true);
+                $data['page_js'] = $this->load->view("keuangan/pembayaran/piutang_js", "", true);
+                break;
+        }
 
         return $data;
     }
 
     private function hutang()
     {
+        // Tampilkan seluruh supplier yang kita hutang
+        $content["suppliers"] = $this->keumod->get_supplier_with_hutang()->result();
+
         $data['page_title'] = "Pembayaran Hutang";
-        $data['page_content'] = $this->load->view("keuangan/pembayaran/hutang", "", true);
+        $data['page_content'] = $this->load->view("keuangan/pembayaran/hutang", $content, true);
+        $data['page_js'] = $this->load->view("keuangan/pembayaran/hutang_js", "", true);
 
         return $data;
     }
@@ -288,8 +338,8 @@ class Keuangan extends CI_Controller
                     case 'neraca_saldo':
                         $this->neraca_saldo();
                         break;
-                    case 'faktur_pajak_harian':
-                        $this->faktur_pajak_harian();
+                    case 'faktur_pajak':
+                        $this->faktur_pajak();
                         break;
                     case 'laba_rugi':
                         $this->laba_rugi();
@@ -363,11 +413,11 @@ class Keuangan extends CI_Controller
         $data['neraca']     = array();
 
         if (isset($_GET['submit'])) {
-            
-            $data['neraca'] = $this->keumod->get_neraca_saldo($_GET['year'].'-'.$_GET['periode'])->result();
+
+            $data['neraca'] = $this->keumod->get_neraca_saldo($_GET['year'] . '-' . $_GET['periode'])->result();
         }
 
-        
+
         $data['page_content'] = $this->load->view("keuangan/report/bulanan/neraca_saldo", $data, true);
 
         $this->load->view('layout/head');
@@ -375,10 +425,10 @@ class Keuangan extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    private function faktur_pajak_harian()
+    private function faktur_pajak()
     {
-        $data['page_title'] = "Faktur Pajak Harian";
-        $data['page_content'] = $this->load->view("keuangan/report/bulanan/faktur_pajak_harian", "", true);
+        $data['page_title'] = "Faktur Pajak";
+        $data['page_content'] = $this->load->view("keuangan/report/bulanan/faktur_pajak", "", true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);

@@ -7,6 +7,17 @@ class Keuangan_model extends CI_Model
         $this->db->insert("t_pembayaran_piutang", array(
             "invoice_no" => $invoice_no,
             "total_bill" => $bill,
+            "created_by" => $this->session->userdata("id"),
+            "flag" => 0
+        ));
+    }
+
+    // TODO: panggil fungsi ini setelah buat entry pembelian baru
+    function entry_tagihan_hutang_baru($invoice_no, $bill)
+    {
+        $this->db->insert("t_pembayaran_hutang", array(
+            "invoice_no" => $invoice_no,
+            "total_bill" => $bill,
             "created_by" => $this->session->userdata("id")
         ));
     }
@@ -28,7 +39,43 @@ class Keuangan_model extends CI_Model
         );
     }
 
+    // TODO: Uncomplete tpp to tph
+    function get_supplier_with_hutang()
+    {
+        $where = "1";
+        if ($this->session->role_code != "ROLE_SUPER_ADMIN") {
+            $where = "t_pos.branch_id = " . $this->session->branch_id;
+        }
+        return $this->db->query(
+            "SELECT DISTINCT
+                m_partner.*
+            FROM m_partner
+            LEFT JOIN t_pos on t_pos.partner_id = m_partner.id
+            LEFT JOIN t_pembayaran_hutang tph on tph.invoice_no = t_pos.invoice_no
+            WHERE $where AND tph.flag = 0
+            "
+        );
+    }
+
     function get_invoice_customer_with_piutang($customer_id)
+    {
+        return $this->db->query(
+            "SELECT 
+                tpp.id,
+                t_pos.id as pos_id,
+                tpp.invoice_no,
+                tpp.created_date,
+                tpp.total_bill as total_tagihan
+
+            FROM m_partner
+            LEFT JOIN t_pos on t_pos.partner_id = m_partner.id
+            LEFT JOIN t_pembayaran_piutang tpp on tpp.invoice_no = t_pos.invoice_no
+            WHERE m_partner.id = $customer_id AND tpp.flag = 0"
+        );
+    }
+
+    // TODO: Uncomplete tpp to tph
+    function get_invoice_supplier_with_hutang($customer_id)
     {
         return $this->db->query(
             "SELECT 
@@ -67,10 +114,41 @@ class Keuangan_model extends CI_Model
         return $result;
     }
 
+    // TODO: Uncomplete tpp to tph
+    function get_hutang_data($tph_id)
+    {
+        $result = $this->db->query(
+            "SELECT
+                DATE(tph.created_date) as invoice_date,
+                tph.total_bill as sisa_tagihan,
+                tph.invoice_no,
+                t_pos.payment_total as total_tagihan,
+                tph.id
+
+            FROM t_pembayaran_hutang tph
+            LEFT JOIN t_pos on tph.invoice_no = t_pos.invoice_no
+
+            WHERE tph.id = $tph_id"
+        )->row();
+        $result->invoice_date = longdate_indo(date($result->invoice_date));
+        $result->sisa_tagihan = str_replace(',', '', $result->sisa_tagihan);
+        $result->sisa_tagihan_str = "Rp " . number_format($result->sisa_tagihan, 2, ',', '.');
+        $result->total_tagihan = str_replace(',', '', $result->total_tagihan);
+        $result->total_tagihan_str = "Rp " . number_format($result->total_tagihan, 2, ',', '.');
+        return $result;
+    }
+
     function update_entry_piutang($tpp_id, $data)
     {
         $this->db->update("t_pembayaran_piutang", $data, array(
             "id" => $tpp_id
+        ));
+    }
+
+    function update_entry_hutang($tph_id, $data)
+    {
+        $this->db->update("t_pembayaran_hutang", $data, array(
+            "id" => $tph_id
         ));
     }
 
@@ -92,7 +170,7 @@ class Keuangan_model extends CI_Model
                                     WHERE SUBSTR(t1.jurnal_date,1,7) ='$periode'
                                     GROUP BY t1.jurnal_date,t2.acc_code");
     }
-        
+
     function get_parameter_neraca_saldo_akhir($branch_id)
     {
         return $this->db->query(
@@ -157,5 +235,231 @@ class Keuangan_model extends CI_Model
         $this->db->query(
             "DELETE FROM `m_parameter_ikhtisar_saldo` WHERE id = $id"
         );
+    }
+
+    function get_parameter_kode_rekening_saldo($branch_id)
+    {
+        return $this->db->query(
+            "SELECT 
+                m_parameter_kode_rekening_saldo.*,
+                m_account_code.acc_name
+                
+            FROM m_parameter_kode_rekening_saldo
+            LEFT JOIN m_account_code on m_account_code.acc_code = m_parameter_kode_rekening_saldo.acc_code
+            WHERE m_parameter_kode_rekening_saldo.branch_id = $branch_id AND m_account_code.branch_id = $branch_id
+            "
+        );
+    }
+
+    function add_parameter_kode_rekening_saldo($branch_id, $acc_code)
+    {
+        $user = $this->session->userdata("id");
+
+        $this->db->query(
+            "INSERT INTO `m_parameter_kode_rekening_saldo`
+                (`id`, `branch_id`, `acc_code`, `created_date`, `created_by`, `flag`) 
+            VALUES 
+                (null, '$branch_id', '$acc_code', current_timestamp(), '$user', '1')"
+        );
+    }
+
+    function delete_parameter_kode_rekening_saldo($id)
+    {
+        $this->db->query(
+            "DELETE FROM `m_parameter_kode_rekening_saldo` WHERE id = $id"
+        );
+    }
+
+    function get_all_tax_no($branch_id)
+    {
+        return $this->db->get_where("tax_no", array(
+            "branch_id" => $branch_id
+        ));
+    }
+
+    function add_tax_no($data)
+    {
+        $this->db->insert("tax_no", $data);
+    }
+
+    function edit_tax_no($where, $data)
+    {
+        $this->db->update("tax_no", $data, $where);
+    }
+
+    function get_and_use_tax_no($branch_id)
+    {
+        $query = $this->db->get_where("tax_no", array(
+            "branch_id" => $branch_id,
+            "flag" => 1
+        ));
+        if ($query->num_rows() == 0) {
+            return null;
+        } else {
+            $focus = $query->row();
+            $newnumber = $focus->sequence + 1;
+            if ($newnumber == $focus->end_tax) {
+                $this->db->query(
+                    "UPDATE tax_no SET flag = 0, sequence = $newnumber WHERE id = $focus->id"
+                );
+            } else {
+                $this->db->query(
+                    "UPDATE tax_no SET sequence = $newnumber WHERE id = $focus->id"
+                );
+            }
+
+            // 6 digit id branch
+            $nomor_tax_to_use = sprintf("%06d", $branch_id);
+
+            // 2 digit transaction code: TODO: konfirmasi 51
+            $nomor_tax_to_use .= "51";
+
+            // 4 digit year
+            $nomor_tax_to_use .= date("Y");
+
+            // 2 digit month
+            $nomor_tax_to_use .= date("m");
+
+            // 6 digit nomor transaksi
+            $nomor_tax_to_use .= sprintf("%06d", $newnumber);
+            return $nomor_tax_to_use;
+        }
+    }
+
+    function get_statistik_pembayaran()
+    {
+        // get branch id
+        $branch_id = $this->session->userdata("branch_id");
+
+        // get all informasi pembayaran piutang
+        $query1 = $this->db->query(
+            "SELECT count(tpp.id) AS total_transaksi_dengan_piutang, SUM(tpp.total_bill) AS total_bill_piutang
+            FROM t_pos
+            LEFT JOIN t_pembayaran_piutang tpp on tpp.invoice_no = t_pos.invoice_no
+            WHERE t_pos.branch_id = $branch_id AND tpp.flag = 0"
+        )->row();
+
+        $query2 = $this->db->query(
+            "SELECT 
+                count(t_jurnal.jurnal_no) as total_unregistered_jurnal
+            FROM 
+                t_jurnal
+
+            LEFT JOIN t_pos ON t_pos.invoice_no = t_jurnal.invoice_no
+            LEFT JOIN t_pembayaran_piutang tpp ON tpp.jurnal_no = t_jurnal.jurnal_no AND tpp.flag = 1
+
+            WHERE t_jurnal.registered_flag = 'N' AND t_pos.branch_id = $branch_id"
+        )->row();
+
+        $query3 = $this->db->query(
+            "SELECT 
+                count(id) AS total_transaksi
+            FROM t_pos
+            WHERE t_pos.branch_id = $branch_id AND t_pos.flag = 10"
+        )->row();
+
+        $query4 = $this->db->query(
+            "SELECT count(invoice_no) AS total_transaksi_lunas 
+            FROM (
+                SELECT DISTINCT t_pos.invoice_no
+                FROM t_pos
+                LEFT JOIN t_pembayaran_piutang tpp on tpp.invoice_no = t_pos.invoice_no
+                WHERE 
+                    t_pos.branch_id = $branch_id AND 
+                    t_pos.flag = 10 AND
+                    (
+                        t_pos.payment_paid = t_pos.payment_total OR tpp.flag <> 0
+                    )
+                ) c
+            WHERE invoice_no NOT IN (
+                SELECT invoice_no
+                FROM t_pembayaran_piutang tpp
+                WHERE tpp.flag = 0
+            )
+            "
+        )->row();
+
+        // total transaksi lunas = yang langsung lunas + yang tidak ada tpp.flag = 0 lagi
+
+
+        $data = array(
+            "total_transaksi_dengan_piutang" => $query1->total_transaksi_dengan_piutang,
+            "total_bill_piutang" => $query1->total_bill_piutang,
+            "total_unregistered_jurnal" => $query2->total_unregistered_jurnal,
+            "total_transaksi" => $query3->total_transaksi,
+            "total_transaksi_lunas" => $query4->total_transaksi_lunas,
+        );
+
+        return $data;
+    }
+
+    function get_histori_pembayaran_piutang()
+    {
+
+        // get branch id
+        $branch_id = $this->session->userdata("branch_id");
+
+        $query1 = $this->db->query(
+            "SELECT DISTINCT 
+                tpp.invoice_no,
+                t_pos.id as pos_id
+            FROM t_pembayaran_piutang tpp
+            LEFT JOIN t_pos on t_pos.invoice_no = tpp.invoice_no AND t_pos.branch_id = $branch_id 
+            "
+        )->result();
+
+        $data = array();
+        foreach ($query1 as $row) {
+            $row->details = $this->db->query(
+                "SELECT 
+                    tpp.total_bill,
+                    tpp.payment,
+                    tpp.payment_date,
+                    tpp.created_date,
+                    tpp.flag
+                FROM t_pembayaran_piutang tpp
+                WHERE invoice_no = $row->invoice_no
+                "
+            )->result();
+            array_push($data, $row);
+        }
+        return $data;
+    }
+
+    function get_histori_pembayaran_piutang_per_client()
+    {
+
+        // get branch id
+        $branch_id = $this->session->userdata("branch_id");
+
+        $query0 = $this->db->query(
+            "SELECT DISTINCT 
+                t_pos.partner_id,
+                mp.name as partner_name
+            FROM t_pos 
+            LEFT JOIN m_partner mp on mp.id = t_pos.partner_id
+            LEFT JOIN t_pembayaran_piutang tpp on tpp.invoice_no = t_pos.invoice_no
+            WHERE t_pos.branch_id = $branch_id AND tpp.flag = 0"
+        )->result();
+
+        $data = array();
+
+        foreach ($query0 as $partner) {
+            $partner->details = $this->db->query(
+                "SELECT DISTINCT
+                    tpp.invoice_no,
+                    t_pos.id as pos_id,
+                    tpp.total_bill
+                FROM t_pembayaran_piutang tpp
+                LEFT JOIN t_pos on t_pos.invoice_no = tpp.invoice_no
+                WHERE 
+                    t_pos.partner_id = $partner->partner_id AND
+                    tpp.flag = 0
+                "
+            )->result();
+            array_push($data, $partner);
+        }
+
+        return $data;
     }
 }

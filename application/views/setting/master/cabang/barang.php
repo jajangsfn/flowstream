@@ -48,7 +48,7 @@
 
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <form action="<?= base_url("/index.php/api/delete_barang") ?>" method="POST" class="modal-content">
+        <form action="<?= base_url("/index.php/flowstream_api/v1/goods/delete_barang") ?>" method="POST" class="modal-content">
             <input type="hidden" name="id" id="id_hapus">
             <div class="modal-header">
                 <h5 class="modal-title">Konfirmasi Hapus Barang</h5>
@@ -71,7 +71,7 @@
 <div class="modal fade" id="tambahMasterBarangModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form class="form card" method="POST" action="<?= base_url("/index.php/api/add_barang") ?>">
+            <form class="form card" method="POST" action="<?= base_url("/index.php/flowstream_api/v1/goods/add_barang") ?>">
                 <input type="hidden" name="branch_id" value="<?= $data_branch->id ?>">
                 <h3 class="card-header border-0">
                     Tambah Barang
@@ -324,7 +324,7 @@
 <div class="modal fade" id="edit_barang" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form class="form card" method="POST" action="<?= base_url("/index.php/api/edit_barang") ?>">
+            <form class="form card" method="POST" action="<?= base_url("/index.php/flowstream_api/v1/goods/edit_barang") ?>">
                 <input type="hidden" name="id" id="id_barang_edit">
                 <h3 class="card-header border-0">
                     Ubah Barang

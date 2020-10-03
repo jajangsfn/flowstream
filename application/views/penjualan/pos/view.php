@@ -8,8 +8,18 @@
         <!--end::Daterange-->
     </div>
     <div class="card-body">
-        <small>Customer</small>
-        <p class="lead"><?= $data_pos->partner_name ?></p>
+        <div class="d-flex justify-content-between">
+            <div>
+                <small>Customer</small>
+                <p class="lead"><?= $data_pos->partner_name ?></p>
+            </div>
+            <?php if ($data_pos->tax_no) : ?>
+                <div class="text-right">
+                    <small>Nomor Seri Faktur Pajak</small>
+                    <p class="lead"><?= $data_pos->tax_no ?></p>
+                </div>
+            <?php endif ?>
+        </div>
         <small>Nomor Order</small>
         <p class="lead"><?= $data_pos->order_no ?></p>
         <small>Nomor Faktur</small>

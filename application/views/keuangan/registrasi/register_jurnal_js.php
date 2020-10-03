@@ -39,7 +39,7 @@
                     },
                     render: function(data) {
                         return `
-                            <button onclick="register_jurnal(${data})" type="button" class="btn btn-primary">
+                            <button onclick="register_jurnal('${data}')" type="button" class="btn btn-primary">
                                 Register
                             </button>
                         `

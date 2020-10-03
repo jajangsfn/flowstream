@@ -7,7 +7,7 @@
                 responsivePriority: 1,
                 targets: 0
             }, ],
-            ajax: "<?= base_url("/index.php/api/barang_cabang_diskon_only/$data_branch->id") ?>",
+            ajax: "<?= base_url("/index.php/flowstream_api/v1/goods/barang_cabang_diskon_only/$data_branch->id") ?>",
             columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {
@@ -74,7 +74,7 @@
 
     function ubah_data(index_harga, id, element) {
         $.ajax({
-            url: "<?= base_url("/index.php/api/ubah_diskon_barang") ?>",
+            url: "<?= base_url("/index.php/flowstream_api/v1/goods/ubah_diskon_barang") ?>",
             method: "POST",
             data: {
                 id: id,

@@ -43,7 +43,8 @@ class Setting extends CI_Controller
                 "Production_model" => "production",
                 "Production_detail_model" => "production_detail",
                 "S_reference_model" => "ref",
-                "User_model" => "user_m"
+                "User_model" => "user_m",
+                "Keuangan_model" => "keumod"
             )
         );
     }
@@ -345,6 +346,18 @@ class Setting extends CI_Controller
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/ikhtisar_saldo/ikhtisar_saldo_js.php", $content, true);
                             break;
 
+                        case 'saldo_kode_rekening':
+                            $content['accounts'] = $this->account->get_non_saldo_kode_rekening($id)->result();
+
+                            $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/saldo_kode_rekening/saldo_kode_rekening.php", $content, true);
+                            $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/saldo_kode_rekening/saldo_kode_rekening_js.php", $content, true);
+                            break;
+
+                        case 'nomor_pajak':
+                            $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/nomor_pajak/nomor_pajak.php", $content, true);
+                            $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/nomor_pajak/nomor_pajak_js.php", $content, true);
+                            break;
+
                         default:
                             $data['page_content'] = $this->load->view("setting/parameter/cabang/keuangan/master/master.php", $content, true);
                             $data['page_js'] = $this->load->view("setting/parameter/cabang/keuangan/master/master_js.php", $content, true);
@@ -372,24 +385,27 @@ class Setting extends CI_Controller
     {
         switch ($category) {
             case 'user_management':
-                $this->user_management();
+                $data = $this->user_management();
                 break;
             case 'role_management':
-                $this->role_management();
+                $data = $this->role_management();
                 break;
             default:
                 break;
         }
+        
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
     }
 
     private function user_management()
     {
         $data['page_title'] = "User Management";
         $data['page_content'] = $this->load->view("setting/user/user_management", "", true);
+        $data['page_js'] = $this->load->view("setting/user/user_management_js", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     private function role_management()
@@ -397,9 +413,7 @@ class Setting extends CI_Controller
         $data['page_title'] = "Role Management";
         $data['page_content'] = $this->load->view("setting/user/role_management", "", true);
 
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
+        return $data;
     }
 
     public function update_type_price() {
