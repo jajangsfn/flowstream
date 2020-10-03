@@ -21,6 +21,11 @@
                 Mode Laporan Piutang
             </a>
             <!--end::Button-->
+            <!--begin::Button-->
+            <a href="<?= base_url("/index.php/keuangan/pembayaran/piutang/histori") ?>" class="btn btn-light-primary font-weight-bold btn-sm px-5 font-size-base ml-2">
+                Histori Pembayaran Piutang
+            </a>
+            <!--end::Button-->
         </div>
         <!--end::Toolbar-->
     </div>

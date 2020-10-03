@@ -140,7 +140,7 @@ class Keuangan extends CI_Controller
             case 'histori':
                 $content["histori_pembayaran_piutang"] = $this->keumod->get_histori_pembayaran_piutang();
         
-                $data['back_url'] = base_url("/index.php/keuangan/pembayaran/piutang/keseluruhan");
+                $data['back_url'] = base_url("/index.php/keuangan/pembayaran/piutang");
                 $data['page_title'] = "Histori Pembayaran Piutang";
                 $data['page_content'] = $this->load->view("keuangan/pembayaran/histori_pembayaran_piutang_detail", $content, true);
                 break;
