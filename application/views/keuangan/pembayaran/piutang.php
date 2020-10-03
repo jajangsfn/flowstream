@@ -49,9 +49,12 @@
 <?php else : ?>
     <div class="card">
         <div class="card-body text-center">
-            <h5 class="text-success m-0">
+            <h5 class="text-success">
                 Belum Terdapat Piutang untuk Dibayar
             </h5>
+            <a class="btn btn-primary" href="<?= base_url("/index.php/keuangan/pembayaran/piutang/histori") ?>">
+                Histori pembayaran piutang
+            </a>
         </div>
     </div>
 <?php endif ?>

@@ -1465,7 +1465,7 @@ class Api extends CI_Controller
                 array(
                     "flag" => 1,
                     "jurnal_no" => $jurnal_no,
-                    "payment_date" => date("Y-m-d"),
+                    "payment_date" => date("Y-m-d h:i:s"),
                     "payment" => $_POST['payment']
                 )
             );
@@ -1476,7 +1476,7 @@ class Api extends CI_Controller
                 array(
                     "flag" => 1,
                     "jurnal_no" => $jurnal_no,
-                    "payment_date" => date("Y-m-d"),
+                    "payment_date" => date("Y-m-d h:i:s"),
                     "payment" => $_POST['payment']
                 )
             );
@@ -1705,7 +1705,7 @@ class Api extends CI_Controller
                 array(
                     "flag" => 1,
                     "jurnal_no" => $jurnal_no,
-                    "payment_date" => date("Y-m-d"),
+                    "payment_date" => date("Y-m-d h:i:s"),
                     "payment" => $_POST['payment']
                 )
             );
@@ -1716,7 +1716,7 @@ class Api extends CI_Controller
                 array(
                     "flag" => 1,
                     "jurnal_no" => $jurnal_no,
-                    "payment_date" => date("Y-m-d"),
+                    "payment_date" => date("Y-m-d h:i:s"),
                     "payment" => $_POST['payment']
                 )
             );
