@@ -1503,11 +1503,7 @@ class Api extends CI_Controller
     {
         echo json_encode(
             array(
-                "data" => $this->jurnal->get_unregistered_jurnal(
-                    array(
-                        "branch_id" => $branch_id
-                    )
-                )->result()
+                "data" => $this->jurnal->get_unregistered_jurnal_by_branch($branch_id)->result()
             )
         );
     }

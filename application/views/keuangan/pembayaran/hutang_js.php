@@ -1,5 +1,13 @@
 <script>
-    function change_customer(e) {
+    $(document).ready(() => {
+        if (
+            $("#main_supplier_selector").val()
+        ) {
+            window.location.reload();
+        }
+    })
+
+    function change_supplier(e) {
         $("#invoice_cell").fadeOut();
         $(".after_invoice_cell").fadeOut();
 
@@ -9,18 +17,23 @@
             success: function(result) {
                 $("#invoice_list").empty();
 
+                let company_total = 0;
+
                 for (let i = 0; i < result.data.length; i++) {
+                    company_total += parseInt(result.data[i].total_tagihan);
+
                     $("#invoice_list").append(
                         `
                             <tr>
                                 <td>${i + 1}</td>
                                 <td>
-                                    <a href="<?= base_url("/index.php/penjualan/pos/view/") ?>${result.data[i].pos_id}">
-                                        ${result.data[i].invoice_no}
-                                    </a>
+                                    ${result.data[i].invoice_no}
                                 </td>
                                 <td>
                                     ${result.data[i].created_date}
+                                </td>
+                                <td>
+                                    ${trippledot(result.data[i].total_tagihan)}
                                 </td>
                                 <td>
                                     <button type="button" onclick="init_bayar(${result.data[i].id})" class="btn btn-icon btn-sm btn-light-info" data-toggle="tooltip" data-placement="top" title="Pembayaran">
@@ -31,6 +44,8 @@
                         `
                     )
                 }
+
+                $("#full_total_cell").text(trippledot(company_total))
 
                 $("#invoice_cell").fadeIn();
             },

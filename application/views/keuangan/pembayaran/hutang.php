@@ -3,8 +3,8 @@
         <div class="col-md-12">
             <div class="card gutter-b">
                 <div class="card-body d-flex justify-content-center align-items-center">
-                    <select class="select2" data-width="3500px" onchange="change_supplier(this)">
-                        <option label="" value="" selected disabled>Pilih Customer</option>
+                    <select class="select2" data-width="3500px" onchange="change_supplier(this)" id="main_supplier_selector">
+                        <option label="" value="" selected disabled>Pilih Supplier</option>
                         <?php foreach ($suppliers as $supplier) : ?>
                             <option value="<?= $supplier->id ?>"><?= $supplier->name ?></option>
                         <?php endforeach ?>
@@ -20,14 +20,26 @@
                             <thead>
                                 <tr>
                                     <th width="1">No</th>
-                                    <th>Invoice No</th>
-                                    <th>Invoice Date</th>
+                                    <th>Purchase Order No</th>
+                                    <th>Purchase Order Date</th>
+                                    <th>Total</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="invoice_list">
 
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="lead font-weight-bold">
+                                        Full Total
+                                    </td>
+                                    <td id="full_total_cell" class="lead font-weight-bold text-primary">
+
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -37,9 +49,12 @@
 <?php else : ?>
     <div class="card">
         <div class="card-body text-center">
-            <h5 class="text-success m-0">
+            <h5 class="text-success">
                 Belum Terdapat Hutang untuk Dibayar
             </h5>
+            <a class="btn btn-primary" href="<?= base_url("/index.php/keuangan/pembayaran/hutang/histori") ?>">
+                Histori pembayaran hutang
+            </a>
         </div>
     </div>
 <?php endif ?>
