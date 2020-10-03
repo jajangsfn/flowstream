@@ -67,18 +67,13 @@
                         <tr>
                             <td>${element.acc_code_neraca}</td>
                             <td>${element.acc_name == null ? "" : element.acc_name}</td>
-                            <td>${element.saldo_bulan_lalu}</td>
-                            <td>${element.debit}</td>
-                            <td>${element.credit}</td>
-                            <td>${element.sum_position == "K" ? element.saldo_bulan_lalu + element.debit - element.credit : element.saldo_bulan_lalu - element.debit + element.credit}</td>
+                            <td class="text-right">${trippledot(element.saldo_bulan_lalu)}</td>
+                            <td class="text-right">${trippledot(element.debit)}</td>
+                            <td class="text-right">${trippledot(element.credit)}</td>
+                            <td class="text-right">${element.sum_position == "K" ? trippledot(element.saldo_bulan_lalu + element.debit - element.credit) : trippledot(element.saldo_bulan_lalu - element.debit + element.credit)}</td>
                         </tr>
                         `
                             });
-
-                            $("#neraca_saldo_cell").fadeIn();
-                            $("#ikhtisar_saldo_cell").fadeIn();
-                            $("#kode_rekening_saldo_cell").fadeIn();
-                            $("#konfirmasi_cell").fadeIn();
 
                             $("#konfirmasi_button").attr("href", `<?= base_url("/index.php/api/tutup_buku/") . $this->session->userdata("branch_id") ?>/${date}`)
 
@@ -89,6 +84,12 @@
                             $("#neraca_saldo_list").append(neraca_entries)
                             $("#ikhtisar_saldo_list").append(ikhtisar_entries)
                             $("#kode_rekening_saldo_list").append(kode_rekening_entries)
+
+
+                            $("#neraca_saldo_cell").fadeIn();
+                            // $("#ikhtisar_saldo_cell").fadeIn();
+                            // $("#kode_rekening_saldo_cell").fadeIn();
+                            $("#konfirmasi_cell").fadeIn();
 
                             if (response.data.unregistered_jurnal.length) {
                                 Swal.fire({
