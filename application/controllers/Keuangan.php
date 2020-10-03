@@ -483,7 +483,7 @@ class Keuangan extends CI_Controller
                 $page+=1;
             }
         } 
-
+        // echo json_encode($data);exit;
         $this->pdf->dynamic_print(3, "neraca_saldo", $data);
     }
 }

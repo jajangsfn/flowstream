@@ -2754,14 +2754,6 @@ class pdf
 																							"align"=>'R',
 																							"position_x" => 16.7
 																						),
-																			"posisi_saldo" => array(
-																							"title" => "",
-																							"width" => 1,
-																							"height" => 0.6,
-																							"align"=>'R',
-																							"position_x" => 19.5
-																						),
-	
 																		   "terbilang" => array("title" => "Terbilang",
 																						   "width" => 16.6,
 																						   "height" => 0.6,
@@ -2858,11 +2850,6 @@ class pdf
 																		   		"height"=>5,
 																		   		"align"=>'R',
 																			   ),
-																   7 => array( "title"=> "",
-																			   "width"=>10,
-																			   "height"=>5,
-																			   "align"=>'C',
-																		   ),
 																),
 												"footer" => array(
 																  "footer_ln" => 0.9,
@@ -2879,11 +2866,18 @@ class pdf
 																					"position_x" => 50,
 																				),
 																   "total" => array("title" => "Total",
-																			   "width" => 113,
-																			   "height" => 5,
+																			   "width" => 83,
+																			   "height" => 10,
 																			   "align"=>'R',
 																			   "position_x" => 1
 																			),
+																	"total_saldo_bulan_lalu" => 
+																			array("title" => "",
+																			   "width" => 30,
+																			   "height" => 5,
+																			   "align"=>'R',
+																			   "position_x" => 84
+																			 ),
 																	"total_saldo_debit" => 
 																			   	array("title" => "",
 																					  "width" => 25,
@@ -2904,12 +2898,6 @@ class pdf
 																					  "align"=>'R',
 																					  "position_x" => 164
 																					),
-																	"posisi_saldo" => 
-																				array("title" => "",
-																					   "width" =>10 ,
-																					   "height" => 5,
-																					   "align"=>'R',
-																					   "position_x" => 194),
 																   "terbilang" => array("title" => "Terbilang",
 																						   "width" => 173.3,
 																						   "height" => 5,
@@ -3539,7 +3527,11 @@ class pdf
 			$total_saldo_debit = 0;
             $total_saldo_credit= 0;
 			$total_saldo_bulan_lalu = 0;
+			$total_saldo_bulan_lalu_d = 0;
+			$total_saldo_bulan_lalu_c = 0;
 			$total_saldo_bulan_ini = 0;
+			$total_saldo_bulan_ini_d = 0;
+			$total_saldo_bulan_ini_c = 0;
 			$grant_total = 0;
 			foreach ($data as $key => $val) {
 
@@ -3566,8 +3558,21 @@ class pdf
                                             :($val['saldo_bulan_lalu'] + $val['total_credit'] - $val['total_debit']);
                 $total_saldo_debit+= $val['total_debit'];
 				$total_saldo_credit+= $val['total_credit'];
+				
+				//saldo bulan lalu
 				$total_saldo_bulan_lalu+=$val['saldo_bulan_lalu'];
+				//jika posisinya debit maka jumlahkan saldo bulan lalu bertipe debit
+				//jika posisinya credit maka jumlahkan saldo bulan lalu bertipe credit
+				$total_saldo_bulan_lalu_d+= $position == 'D' ? $val['saldo_bulan_lalu'] : 0;
+				$total_saldo_bulan_lalu_c+= $position == 'K' ? $val['saldo_bulan_lalu'] : 0;
+				
+				//saldo bulan ini
 				$total_saldo_bulan_ini+=$saldo_akhir;
+				//jika posisinya debit maka jumlahkan saldo bulan ini bertipe debit
+				//jika posisinya credit maka jumlahkan saldo bulan ini bertipe credit
+				$total_saldo_bulan_ini_d+= $position == 'D' ? $saldo_akhir : 0;
+				$total_saldo_bulan_ini_c+= $position == 'K' ? $saldo_akhir : 0;
+
 				$grant_total = $total_saldo_bulan_ini;
 				
 
@@ -3587,7 +3592,7 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
-						   number_format($val['saldo_bulan_lalu']),$border,0,$paper_reference[$type_print][$use_paper]['body'][3]['align']);
+						   number_format($val['saldo_bulan_lalu']) ." ".$position,$border,0,$paper_reference[$type_print][$use_paper]['body'][3]['align']);
 				
 			   	$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
@@ -3599,11 +3604,8 @@ class pdf
 				
 			    $pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
-						   number_format($saldo_akhir),$border,0,$paper_reference[$type_print][$use_paper]['body'][6]['align']);	
-				
-				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][7]['width'], 
-						   $paper_reference[$type_print][$use_paper]['body'][7]['height'], 
-						   $position,$border,0,$paper_reference[$type_print][$use_paper]['body'][7]['align']);	
+						   number_format($saldo_akhir) . " ".$position,$border,0,$paper_reference[$type_print][$use_paper]['body'][6]['align']);	
+			
 				
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
 
@@ -3643,33 +3645,54 @@ class pdf
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total']['position_x']);
 			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total']['width'], 
 					   $paper_reference[$type_print][$use_paper]['footer']['total']['height'], 
-					   $paper_reference[$type_print][$use_paper]['footer']['total']['title'],1,0,
+					   $paper_reference[$type_print][$use_paper]['footer']['total']['title'],'',0,
 					   $paper_reference[$type_print][$use_paper]['footer']['total']['align']);
 			
+			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_lalu']['position_x']);
+			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_lalu']['width'], 
+						$paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_lalu']['height'], 
+						number_format($total_saldo_bulan_lalu_d) ." D",'B',0,
+						$paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_lalu']['align']);
+
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total_saldo_debit']['position_x']);
 			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total_saldo_debit']['width'], 
 						$paper_reference[$type_print][$use_paper]['footer']['total_saldo_debit']['height'], 
-						number_format($total_saldo_debit),1,0,
+						number_format($total_saldo_debit),'B',0,
 						$paper_reference[$type_print][$use_paper]['footer']['total_saldo_debit']['align']);
 			
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total_saldo_credit']['position_x']);
 						$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total_saldo_credit']['width'], 
 						$paper_reference[$type_print][$use_paper]['footer']['total_saldo_credit']['height'], 
-						number_format($total_saldo_credit),1,0,
+						number_format($total_saldo_credit),'B',0,
 						$paper_reference[$type_print][$use_paper]['footer']['total_saldo_credit']['align']);
 			
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_ini']['position_x']);
 						$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_ini']['width'], 
 						$paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_ini']['height'], 
-						number_format($total_saldo_bulan_ini),1,0,
+						number_format($total_saldo_bulan_ini_d) ." D",'B',1,
 						$paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_ini']['align']);
 			
-			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['posisi_saldo']['position_x']);
-						$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['posisi_saldo']['width'], 
-						$paper_reference[$type_print][$use_paper]['footer']['posisi_saldo']['height'], 
-						'',1,1,
-						$paper_reference[$type_print][$use_paper]['footer']['posisi_saldo']['align']);
 			
+			//line ke 2
+			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total']['position_x']);
+			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_lalu']['position_x']);
+			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_lalu']['width'], 
+						$paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_lalu']['height'], 
+						number_format($total_saldo_bulan_lalu_c) ." K",'B',0,
+						$paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_lalu']['align']);
+			
+			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total_saldo_credit']['position_x']);
+			
+		   
+		    $pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_ini']['position_x']);
+					   $pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_ini']['width'], 
+					   $paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_ini']['height'], 
+					   number_format($total_saldo_bulan_ini_c) ." K",'B',1,
+					   $paper_reference[$type_print][$use_paper]['footer']['total_saldo_bulan_ini']['align']);
+		   
+		   
+			
+
 
 
 		}else {
