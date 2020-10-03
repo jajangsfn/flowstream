@@ -2,6 +2,11 @@
 class MY_Router extends CI_Router
 {
 
+    function __construct()
+    {
+        parent::__construct();
+    }
+
     protected function _validate_request($segments)
     {
         $c = count($segments);

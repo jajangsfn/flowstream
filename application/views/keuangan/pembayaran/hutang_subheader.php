@@ -7,7 +7,7 @@
                 kembali
             </a>
             <!--begin::Title-->
-            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Pembayaran Piutang</h5>
+            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Pembayaran Hutang</h5>
             <!--end::Title-->
             <!--begin::Separator-->
             <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
@@ -17,13 +17,13 @@
         <!--begin::Toolbar-->
         <div class="d-flex align-items-center">
             <!--begin::Button-->
-            <a href="<?= base_url("/index.php/keuangan/pembayaran/piutang/keseluruhan") ?>" class="btn btn-light-primary font-weight-bold btn-sm px-5 font-size-base ml-2">
-                Mode Laporan Piutang
+            <a href="<?= base_url("/index.php/keuangan/pembayaran/hutang/keseluruhan") ?>" class="btn btn-light-primary font-weight-bold btn-sm px-5 font-size-base ml-2">
+                Mode Laporan Hutang
             </a>
             <!--end::Button-->
             <!--begin::Button-->
-            <a href="<?= base_url("/index.php/keuangan/pembayaran/piutang/histori") ?>" class="btn btn-light-primary font-weight-bold btn-sm px-5 font-size-base ml-2">
-                Histori Pembayaran Piutang
+            <a href="<?= base_url("/index.php/keuangan/pembayaran/hutang/histori") ?>" class="btn btn-light-primary font-weight-bold btn-sm px-5 font-size-base ml-2">
+                Histori Pembayaran Hutang
             </a>
             <!--end::Button-->
         </div>

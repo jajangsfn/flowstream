@@ -44,7 +44,7 @@ class T_jurnal_model extends CI_Model
         // 6 digit id branch
         $nomor_jurnal = sprintf("%06d", $branch_id);
 
-        // 2 digit transaction code: TODO: konfirmasi 51
+        // 2 digit transaction code
         $nomor_jurnal .= "51";
 
         // 4 digit year
@@ -100,7 +100,7 @@ class T_jurnal_model extends CI_Model
         $this->insert_detail($data);
     }
 
-    // TODO: Konfirmasi JOURNAL_CD = P untuk Purchase
+    // JOURNAL_CD = P untuk Purchase
     function insert_detail_hutang($branch_id, $data)
     {
         // lihat account code untuk credit hutang
@@ -163,29 +163,40 @@ class T_jurnal_model extends CI_Model
         $this->insert_detail($data);
     }
 
-    public function get_unregistered_jurnal($where)
+    public function get_unregistered_jurnal_by_branch($branch_id)
     {
         return $this->db->query(
             "SELECT 
                 t_jurnal.jurnal_no, 
                 t_jurnal.invoice_no, 
                 t_jurnal.jurnal_date, 
-                tpp.payment,
                 case
-                    when tpp.id = null
+                    when tpp.id is null
+                    then tph.payment
+                    else tpp.payment
+                end as payment,
+                case
+                    when tpp.id is null
                     then 'Pembayaran Hutang'
                     else 'Pembayaran Piutang'
                 end as tipe,
-                t_pos.id as pos_id
+                t_pos.id as pos_id,
+                t_purchase_order.id as po_id
             
             FROM 
                 t_jurnal
 
             LEFT JOIN t_pos ON t_pos.invoice_no = t_jurnal.invoice_no
+            LEFT JOIN t_purchase_order ON t_purchase_order.purchase_order_no = t_jurnal.invoice_no
             LEFT JOIN t_pembayaran_piutang tpp ON tpp.jurnal_no = t_jurnal.jurnal_no AND tpp.flag = 1
+            LEFT JOIN t_pembayaran_hutang tph ON tph.jurnal_no = t_jurnal.jurnal_no AND tph.flag = 1
 
             WHERE
-                t_jurnal.registered_flag = 'N'
+                t_jurnal.registered_flag = 'N' AND 
+                (
+                    t_pos.branch_id = '$branch_id' OR
+                    t_purchase_order.branch_id = '$branch_id'
+                )
             "
         );
     }
