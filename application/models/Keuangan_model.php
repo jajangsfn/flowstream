@@ -405,31 +405,53 @@ class Keuangan_model extends CI_Model
         // get branch id
         $branch_id = $this->session->userdata("branch_id");
 
-        $query1 = $this->db->query(
+        $query0 = $this->db->query(
             "SELECT DISTINCT 
-                tpp.invoice_no,
-                t_pos.id as pos_id
+                m_partner.name as customer_name,
+                m_partner.id as partner_id
             FROM t_pembayaran_piutang tpp
-            LEFT JOIN t_pos on t_pos.invoice_no = tpp.invoice_no AND t_pos.branch_id = $branch_id 
+            LEFT JOIN t_pos on t_pos.invoice_no = tpp.invoice_no AND t_pos.branch_id = $branch_id
+            LEFT JOIN m_partner on m_partner.id = t_pos.partner_id
+            WHERE tpp.flag = 1
             "
         )->result();
 
-        $data = array();
-        foreach ($query1 as $row) {
-            $row->details = $this->db->query(
-                "SELECT 
-                    tpp.total_bill,
-                    tpp.payment,
-                    tpp.payment_date,
-                    tpp.created_date,
-                    tpp.flag
+        $resultdata = array();
+
+        foreach ($query0 as $outerrow) {
+            $query1 = $this->db->query(
+                "SELECT DISTINCT 
+                    tpp.invoice_no,
+                    t_pos.id as pos_id
                 FROM t_pembayaran_piutang tpp
-                WHERE invoice_no = $row->invoice_no
+                LEFT JOIN t_pos on t_pos.invoice_no = tpp.invoice_no AND t_pos.branch_id = $branch_id 
+                WHERE t_pos.partner_id = $outerrow->partner_id AND tpp.flag = 1
                 "
             )->result();
-            array_push($data, $row);
+
+            $data = array();
+            foreach ($query1 as $row) {
+                $row->details = $this->db->query(
+                    "SELECT 
+                        tpp.total_bill,
+                        tpp.payment,
+                        tpp.payment_date,
+                        tpp.created_date,
+                        tpp.flag
+                    FROM t_pembayaran_piutang tpp
+                    WHERE invoice_no = $row->invoice_no AND tpp.flag = 1
+                    "
+                )->result();
+                array_push($data, $row);
+            }
+
+            $outerrow->details = $data;
+
+            array_push($resultdata, $outerrow);
         }
-        return $data;
+
+
+        return $resultdata;
     }
 
     function get_histori_pembayaran_hutang()
@@ -438,31 +460,53 @@ class Keuangan_model extends CI_Model
         // get branch id
         $branch_id = $this->session->userdata("branch_id");
 
-        $query1 = $this->db->query(
+        $query0 = $this->db->query(
             "SELECT DISTINCT 
-                tph.invoice_no,
-                t_purchase_order.id as po_id
+                m_partner.name as partner_name,
+                m_partner.id as partner_id
             FROM t_pembayaran_hutang tph
             LEFT JOIN t_purchase_order on t_purchase_order.purchase_order_no = tph.invoice_no AND t_purchase_order.branch_id = $branch_id 
+            LEFT JOIN m_partner_salesman mps on t_purchase_order.salesman_id = mps.id
+            LEFT JOIN m_partner on mps.partner_id = m_partner.id
+            WHERE tph.flag = 1
             "
         )->result();
 
-        $data = array();
-        foreach ($query1 as $row) {
-            $row->details = $this->db->query(
-                "SELECT 
-                    tph.total_bill,
-                    tph.payment,
-                    tph.payment_date,
-                    tph.created_date,
-                    tph.flag
+        $resultdata = array();
+
+        foreach ($query0 as $outerrow) {
+            $query1 = $this->db->query(
+                "SELECT DISTINCT 
+                    tph.invoice_no,
+                    t_purchase_order.id as po_id
                 FROM t_pembayaran_hutang tph
-                WHERE invoice_no = $row->invoice_no
+                LEFT JOIN t_purchase_order on t_purchase_order.purchase_order_no = tph.invoice_no AND t_purchase_order.branch_id = $branch_id 
+                LEFT JOIN m_partner_salesman mps on t_purchase_order.salesman_id = mps.id
+                LEFT JOIN m_partner on mps.partner_id = m_partner.id
+                WHERE m_partner.id = $outerrow->partner_id AND tph.flag = 1
                 "
             )->result();
-            array_push($data, $row);
+
+            $data = array();
+            foreach ($query1 as $row) {
+                $row->details = $this->db->query(
+                    "SELECT 
+                        tph.total_bill,
+                        tph.payment,
+                        tph.payment_date,
+                        tph.created_date,
+                        tph.flag
+                    FROM t_pembayaran_hutang tph
+                    WHERE invoice_no = $row->invoice_no AND tph.flag = 1
+                    "
+                )->result();
+                array_push($data, $row);
+            }
+
+            $outerrow->details = $data;
+            array_push($resultdata, $outerrow);
         }
-        return $data;
+        return $resultdata;
     }
 
     function get_histori_pembayaran_piutang_per_client()

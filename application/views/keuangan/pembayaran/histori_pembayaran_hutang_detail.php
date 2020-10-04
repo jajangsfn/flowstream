@@ -5,6 +5,7 @@
                 <table class="table table-hover table-condensed">
                     <thead>
                         <tr>
+                            <th>Supplier</th>
                             <th>Nomor Purchase Order</th>
                             <th>Tagihan</th>
                             <th>Terbayar</th>
@@ -12,27 +13,35 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($histori_pembayaran_hutang as $index_transaksi => $entry_transaksi) : ?>
-                            <tr>
-                                <td colspan="4">
-                                    #<?= $entry_transaksi->invoice_no ?>
+                        <?php foreach ($histori_pembayaran_hutang as $index_supplier => $entry_supplier) : ?>
+                            <tr style="border-top: 2px solid grey;">
+                                <td colspan="5">
+                                    <?= $entry_supplier->partner_name ?>
                                 </td>
                             </tr>
-                            <?php foreach ($entry_transaksi->details as $index => $entry_pembayaran) : ?>
+                            <?php foreach ($entry_supplier->details as $index_transaksi => $entry_transaksi) : ?>
                                 <tr>
-                                    <td class="text-right font-weight-bold">
-                                        <?= $index + 1 ?>
-                                    </td>
-                                    <td>
-                                        <?= number_format($entry_pembayaran->total_bill, 0, ',', '.') ?>
-                                    </td>
-                                    <td>
-                                        <?= number_format($entry_pembayaran->payment, 0, ',', '.') ?>
-                                    </td>
-                                    <td>
-                                        <?= $entry_pembayaran->payment_date ?>
+                                    <td></td>
+                                    <td colspan="4">
+                                        #<?= $entry_transaksi->invoice_no ?>
                                     </td>
                                 </tr>
+                                <?php foreach ($entry_transaksi->details as $index => $entry_pembayaran) : ?>
+                                    <tr>
+                                        <td class="text-right font-weight-bold" colspan="2">
+                                            <?= $index + 1 ?>
+                                        </td>
+                                        <td>
+                                            <?= number_format($entry_pembayaran->total_bill, 0, ',', '.') ?>
+                                        </td>
+                                        <td>
+                                            <?= number_format($entry_pembayaran->payment, 0, ',', '.') ?>
+                                        </td>
+                                        <td>
+                                            <?= $entry_pembayaran->payment_date ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                             <?php endforeach; ?>
                         <?php endforeach; ?>
                     </tbody>
