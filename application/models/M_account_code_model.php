@@ -25,7 +25,8 @@ class M_account_code_model extends CI_Model
         return $this->db->query(
             "SELECT 
                 *,
-                CONCAT(acc_code, ' - ', acc_name) as acc_code_name
+                CONCAT(acc_code, ' ', acc_name) as acc_code_name,
+                LENGTH(`acc_code`)
 
             FROM m_account_code
             
@@ -38,6 +39,7 @@ class M_account_code_model extends CI_Model
                     WHERE branch_id = $branch_id
                 )
 
+            HAVING LENGTH(`acc_code`) = 5
             ORDER BY acc_code
             "
         );
@@ -48,7 +50,8 @@ class M_account_code_model extends CI_Model
         return $this->db->query(
             "SELECT 
                 *,
-                CONCAT(acc_code, ' - ', acc_name) as acc_code_name
+                CONCAT(acc_code, ' ', acc_name) as acc_code_name,
+                LENGTH(`acc_code`)
 
             FROM m_account_code
             
@@ -60,7 +63,8 @@ class M_account_code_model extends CI_Model
                     FROM m_parameter_ikhtisar_saldo
                     WHERE branch_id = $branch_id
                 )
-
+            
+            HAVING LENGTH(`acc_code`) = 8
             ORDER BY acc_code
             "
         );
@@ -71,7 +75,8 @@ class M_account_code_model extends CI_Model
         return $this->db->query(
             "SELECT 
                 *,
-                CONCAT(acc_code, ' - ', acc_name) as acc_code_name
+                CONCAT(acc_code, ' ', acc_name) as acc_code_name,
+                LENGTH(`acc_code`)
 
             FROM m_account_code
             
@@ -83,7 +88,8 @@ class M_account_code_model extends CI_Model
                     FROM m_parameter_kode_rekening_saldo
                     WHERE branch_id = $branch_id
                 )
-
+            
+            HAVING LENGTH(`acc_code`) > 8
             ORDER BY acc_code
             "
         );
