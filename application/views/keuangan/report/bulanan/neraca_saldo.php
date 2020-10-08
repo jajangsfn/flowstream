@@ -60,43 +60,56 @@
                         <th>No</th>
                         <th>Kode</th>
                         <th>Nama Rekening</th>
-                        <th colspan="2">Saldo bulan lalu</th>
+                        <th>Saldo bulan lalu</th>
                         <th>Debet</th>
                         <th>Kredit</th>
-                        <th colspan="2">Saldo bulan ini</th>
+                        <th>Saldo bulan ini</th>
                     </thead>
                     <tbody>
                     
                       <?php
-                        $debit = 0;
-                        $credit= 0;
-                        $saldo_bulan_ini = 0;
+                        $total_saldo_debit = 0;
+                        $total_saldo_credit= 0;
+                        $total_saldo_bulan_lalu = 0;
+                        $total_saldo_bulan_lalu_d = 0;
+                        $total_saldo_bulan_lalu_c = 0;
+                        $total_saldo_bulan_ini = 0;
+                        $total_saldo_bulan_ini_d = 0;
+                        $total_saldo_bulan_ini_c = 0;
+
                         if (count($neraca)) {
                             foreach($neraca as $key => $row) { 
-                                $acc_code    = str_replace(".","",
-                                                            substr( 
-                                                                    str_replace("-","",$row->acc_code)
-                                                                    , 3
-                                                                )
-                                                          );
                                 $position    = (is_null($row->position) || $row->position == 'D') ? 'D' : 'K';
                                 $saldo_akhir = $position == 'D' ? 
-                                                ($row->saldo_bln_lalu + $row->total_debit - $row->total_credit)
-                                                :($row->saldo_bln_lalu + $row->total_credit - $row->total_debit);
-                                $debit+= $row->total_debit;
-                                $credit+= $row->total_credit;
-                                $saldo_bulan_ini+=$saldo_akhir;
+                                                            ($row->saldo_bln_lalu + $row->total_debit - $row->total_credit)
+                                                            :($row->saldo_bln_lalu + $row->total_credit - $row->total_debit);
+                                $total_saldo_debit+= $row->total_debit;
+                                $total_saldo_credit+= $row->total_credit;
+                                
+                                //saldo bulan lalu
+                                $total_saldo_bulan_lalu+= $row->saldo_bln_lalu;
+                                //jika posisinya debit maka jumlahkan saldo bulan lalu bertipe debit
+                                //jika posisinya credit maka jumlahkan saldo bulan lalu bertipe credit
+                                $total_saldo_bulan_lalu_d+= $position == 'D' ? $row->saldo_bln_lalu : 0;
+                                $total_saldo_bulan_lalu_c+= $position == 'K' ? $row->saldo_bln_lalu : 0;
+                                
+                                //saldo bulan ini
+                                $total_saldo_bulan_ini+=$saldo_akhir;
+                                //jika posisinya debit maka jumlahkan saldo bulan ini bertipe debit
+                                //jika posisinya credit maka jumlahkan saldo bulan ini bertipe credit
+                                $total_saldo_bulan_ini_d+= $position == 'D' ? $saldo_akhir : 0;
+                                $total_saldo_bulan_ini_c+= $position == 'K' ? $saldo_akhir : 0;
+
+                                $grant_total = $total_saldo_bulan_ini;
                                 ?>
                                 <tr>
                                     <td class="text-center"><?=$key+1?></td>
-                                    <td><?=$acc_code?></td>
+                                    <td><?=$row->acc_code?></td>
                                     <td><?=$row->acc_name?></td>
-                                    <td class="text-right"><?=number_format($row->saldo_bln_lalu)?></td>
-                                    <td><?=$position?></td>
+                                    <td class="text-right"><?=number_format($row->saldo_bln_lalu). " ".$position;?></td>
                                     <td class="text-right"><?=number_format($row->total_debit)?></td>
                                     <td class="text-right"><?=number_format($row->total_credit)?></td>
-                                    <td class="text-right"><?=number_format($saldo_akhir)?></td>
-                                    <td><?=$position?></td>
+                                    <td class="text-right"><?=number_format($saldo_akhir)." ".$position;?></td>
                                 </tr>
 
                            <?php }
@@ -104,13 +117,19 @@
                       ?>
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <td colspan="5" class="font-weight-bold text-right">Total</td>
-                            <td class="font-weight-bold text-right"><?=number_format($debit)?></td>
-                            <td class="font-weight-bold text-right"><?=number_format($credit)?></td>
-                            <td class="font-weight-bold text-right"><?=number_format($saldo_bulan_ini)?></td>
-                            <td></td>
+                        <tr class="bg-light">
+                            <td colspan="3" rowspan="2" class="font-weight-bold text-right text-middle">Jumlah</td>
+                            <td class="font-weight-bold text-right"><?=number_format($total_saldo_bulan_lalu_d). " D";?></td>
+                            <td class="font-weight-bold text-right" rowspan="2"><?=number_format($total_saldo_debit)?></td>
+                            <td class="font-weight-bold text-right" rowspan="2"><?=number_format($total_saldo_credit)?></td>
+                            <td class="font-weight-bold text-right"><?=number_format($total_saldo_bulan_ini_d)." D";?></td>
                         </tr>
+                        <tr class="bg-light">
+                            <td class="font-weight-bold text-right"><?=number_format($total_saldo_bulan_lalu_c)." K";?></td>
+                            <td class="font-weight-bold text-right"><?=number_format($total_saldo_bulan_ini_c)." K";?></td>
+                        </tr>
+
+
                     <?php
                     if (count($neraca)) {
                     ?>
