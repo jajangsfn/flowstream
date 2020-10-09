@@ -2634,7 +2634,7 @@ class pdf
 								),
 						3 => array(
 									"neraca_saldo"=> array(
-														1 => array("paper"=>"A4",
+										 1 => array("paper"=>"A4",
 																   "view" => "P",
 																   "type_size" => "cm",
 																   "title_paper" => array( "title" => 'Neraca Saldo',
@@ -2923,7 +2923,246 @@ class pdf
 	
 											), //end size B5
 										), //end po
+									"delivery" => array(
+												1 => array("paper"=>"A4",
+																   "view" => "P",
+																   "type_size" => "cm",
+																   "title_paper" => array( "title" => 'Bukti Kirim',
+																							"width" => 20,
+																							"height" => 0.5,
+																							"align" => 'C'),
+																   "title_position_y" => 0.5,
+																   "space" => 2.4,
+																   "header"=> array(
+																				   0 => array("position_x" => 0.2,
+																							  "position_y" => 2.3,
+																							   "name" => 0.2,
+																							   "pad" => 0.2,
+																							   "val" => 3,
+																							   "title" => 'NO. Pengiriman',
+																							   "align" => 'L',
+																							   "index" => "delivery_no"),
+																					1 => array("position_x" => 0.2,
+																							   "position_y" => 2.7,
+																								"name" => 2,
+																								"pad" => 0.2,
+																								"val" => 11.8,
+																								"title" => 'No. PO',
+																								"align" => 'L',
+																								"index" => 'invoice_no'),
+																					2 => array("position_x" => 0.2,
+																							  "position_y" => 3.1,
+																							   "name" => 2,
+																							   "pad" => 0.2,
+																							   "val" => 11.8,
+																							   "title" => 'Tujuan',
+																							   "align" => 'L',
+																							   "index" => 'name'),
+																				    3=> array("position_x" => 0.2,
+																							   "position_y" => 3.5,
+																							   "name" => 2,
+																							   "pad" => 0.2,
+																							   "val" => 11.8,
+																							   "title" => 'Alamat',
+																							   "align" => 'L',
+																							   "index" => "address_partner"),
+																					4=> array("position_x" => 16.2,
+																							   "position_y" => 2.3,
+																							   "name" => 2,
+																							   "pad" => 0.2,
+																							   "val" => 11.8,
+																							   "title" => 'Tgl Kirim',
+																							   "align" => 'L',
+																							   "index" => "delivery_date"),
+																					5=> array("position_x" => 16.2,
+																							   "position_y" => 2.7,
+																							   "name" => 2,
+																							   "pad" => 0.2,
+																							   "val" => 11.8,
+																							   "title" => 'No. Mobil',
+																							   "align" => 'L',
+																							   "index" => "car_number"),
+																			),
+															   "body_position_y" => 4.3,
+															   "body_position_x" => 0.3,
+															   "body_ln" => 0.4,
+															   "body_start_y" => 0.4,
+															   "body_start_x" => 0.3,
+													   "body" => array(0 => array( "title"=> "No",
+																					   "width"=>0.6,
+																					   "height"=>0.4,
+																					   "align"=>'C',
+																				   ),
+																		   1 => array( "title"=> "Kode",
+																					   "width"=>5,
+																					   "height"=>0.4,
+																					   "align"=>'L',
+																				   ),
+																		   2 => array( "title"=> "Nama Barang",
+																					   "width"=>12,
+																					   "height"=>0.4,
+																					   "align"=>'L',
+																				   ),
+																		   3 => array( "title"=> "Qty(Pcs)",
+																					   "width"=>2.8,
+																					   "height"=>0.4,
+																					   "align"=>'R',
+																				   ),
+																		),
+													   "footer" => array("footer_ln" => 0,
+																		   "signature" => array("title" => "",
+																							  "width" => 4,
+																							  "height" => 0.8,
+																							  "align"=>'L',
+																							  "position_x" => 0.3,
+																							), 
+																		   "approved_by" => array("title" => "",
+																							  "width" => 3,
+																							  "height" => 0.8,
+																							  "align"=>'L',
+																							  "position_x" => 5,
+																							), 
+																		   "total" => array("title" => "Jumlah",
+																						   "width" => 8.4,
+																						   "height" => 0.6,
+																						   "align"=>'R',
+																						   "position_x" => 0.3
+																						),
+																		   "summary" => array("title" => "",
+																							   "width" => 3.5,
+																							   "height" => 0.6,
+																							   "align"=>'R',
+																							   "position_x" => 16.9
+																							),
+																		   "terbilang" => array("title" => "Terbilang",
+																						   "width" => 16.6,
+																						   "height" => 0.6,
+																						   "align"=>'L',
+																						   "position_x" => 0.3),
+																		),
 	
+															), //end size a4
+											2 => array(
+													"paper"=> "a5",
+													"view" => "L",
+													"type_size" => "mm",
+													"title_paper" => array( "title" => 'Bukti Kirim',
+																			"width" => 200,
+																			"height" => 1,
+																			"align" => 'C'),
+													"title_position_y" => 5,
+													"space" => 26,
+													"header"=> array(
+																		0 => array("position_x" => 3.8,
+																					"position_y" => 26,
+																					"name" => 15,
+																					"pad" => 1.6,
+																					"val" => 11.8,
+																					"title" => 'No. Pengiriman',
+																					"align" => 'L',
+																					"index" => "delivery_no"
+																				),
+																		1 => array("position_x" => 3.8,
+																					"position_y" => 30,
+																					"name" => 18,
+																					"pad" => 1.6,
+																					"val" => 11.8,
+																					"title" => 'No. PO',
+																					"align" => 'L',
+																					"index" => "invoice_no"
+																				),
+																		2 => array("position_x" => 3.8,
+																					"position_y" => 34,
+																					"name" => 18,
+																					"pad" => 1.6,
+																					"val" => 11.8,
+																					"title" => 'Tujuan',
+																					"align" => 'L',
+																					"index" => "name"
+																			),
+																		3 => array("position_x" => 3.8,
+																					"position_y" => 38,
+																					"name" => 18,
+																					"pad" => 1.6,
+																					"val" => 11.8,
+																					"title" => 'Alamat',
+																					"align" => 'L',
+																					"index" => "address_partner"
+																				),
+																		4 => array("position_x" => 150.8,
+																				"position_y" => 26,
+																				"name" => 18,
+																				"pad" => 1.8,
+																				"val" => 11.8,
+																				"title" => 'Tgl Kirim',
+																				"align" => 'L',
+																				"index" => "delivery_date"
+																			),
+																		5 => array("position_x" => 150.8,
+																			"position_y" => 30,
+																			"name" => 18,
+																			"pad" => 1.6,
+																			"val" => 11.8,
+																			"title" => 'No. Mobil',
+																			"align" => 'L',
+																			"index" => "car_number"
+																		),
+																	),
+													"body_position_y" => 43,
+													"body_position_x" => 3.8,
+													"body_ln" => 4,
+													"body_start_y" => 5,
+													"body_start_x" => 3.8,
+													"body" => array(0 => array( "title"=> "No",
+																					"width"=>7,
+																					"height"=>5,
+																					"align"=>'C',
+																				),
+																	1 => array( "title"=> "Kode",
+																					"width"=>35,
+																					"height"=>5,
+																					"align"=>'L',
+																				),
+																		2 => array( "title"=> "Nama Barang",
+																					"width"=>125,
+																					"height"=>5,
+																					"align"=>'L',
+																				),
+																		3 => array( "title"=> "Qty(Pcs)",
+																					"width"=>30,
+																					"height"=>5,
+																					"align"=>'R',
+																				),
+																	),
+													"footer" => array(
+															   "footer_ln" => 0.9,
+															   "signature" => array("title" => "",
+																				 "width" => 4,
+																				 "height" => 0.8,
+																				 "align"=>'L',
+																				 "position_x" => 1,
+																			 ),
+															   "approved_by" => array("title" => "",
+																				 "width" => 4,
+																				 "height" => 0.8,
+																				 "align"=>'L',
+																				 "position_x" => 50,
+																			 ),
+																"total" => array("title" => "Jumlah",
+																			"width" => 83,
+																			"height" => 10,
+																			"align"=>'R',
+																			"position_x" => 1
+																		 ),
+																"terbilang" => array("title" => "Terbilang",
+																						"width" => 173.3,
+																						"height" => 5,
+																						"align"=>'L',
+																						"position_x" => 3.1),
+															 ),
+ 
+										 ), //end size B5
+									),
 								   ),
 					
 					);
@@ -3626,6 +3865,52 @@ class pdf
 			}
 		}
 
+		// delivery
+		if ($type_print == 'delivery'){
+			foreach ($data as $key => $val) {
+
+				// if first row then set border top left and right
+				// if last row then set border bottom left right
+				// else set border to 0
+				if ( $key == 0)
+				{
+					$border = 'L,R,T';
+				} else if ( ($key+1) == $total_row) {
+					$border ='L,B,R';
+				}else {
+					$border = 'L,R';
+				}
+				if ( count($data) == 1) {
+					$border = 1;
+				}
+			
+				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
+							$paper_reference[$type_print][$use_paper]['body'][0]['height'], 
+							$key+1,$border,0,$paper_reference[$type_print][$use_paper]['body'][0]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
+						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
+						   $val['brand_description'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
+						   number_format($val['qty']),$border,0,$paper_reference[$type_print][$use_paper]['body'][3]['align']);
+				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
+
+				// set margin bottom
+				// jika data / row lebih dari atau sama dengan 10
+				if ( ($key+1) >= 10) {
+					$pdf->SetAutoPageBreak(true,0);
+				}
+
+			}
+		}
+
 		// set signature
 		$pdf->SetFont('Arial','',8);		
 		$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln']);
@@ -3635,7 +3920,8 @@ class pdf
 										"order_request_out",
 										"order_request_out_fix", 
 										"checksheet_out",
-										"neraca_saldo"))) {
+										"neraca_saldo",
+										"delivery"))) {
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total']['position_x']);
 			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total']['width'], 
 					   $paper_reference[$type_print][$use_paper]['footer']['total']['height'], 
@@ -3707,7 +3993,12 @@ class pdf
 		}
 
 		// terbilang
-		if (!in_array($type_print, array("warehouse_in", "order_request_out", "order_request_out_fix", "checksheet_out","neraca_saldo"))) {
+		if (!in_array($type_print, array("warehouse_in", 
+										"order_request_out", 
+										"order_request_out_fix", 
+										"checksheet_out",
+										"neraca_saldo",
+										"delivery"))) {
 			$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln'] * 3);
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['terbilang']['position_x']);
 			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['terbilang']['width'], 

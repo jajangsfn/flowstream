@@ -513,7 +513,7 @@ class Pembelian extends CI_Controller
         $index = 0;
         
 
-        for ($i=0; $i <9 ; $i++) { 
+        for ($i=0; $i <29 ; $i++) { 
             $data[$index] = array();
             // PO
             // $data[$index]['partner_name'] = "PT ABCD";
@@ -673,20 +673,32 @@ class Pembelian extends CI_Controller
             // $data[$index]['updated_date'] = $this->generateRandomString(20);
             // $data[$index]['brand_name']    = $this->generateRandomString(20);
             // $data[$index]['brand_description']    = $this->generateRandomString(20);
+            //neraca saldo
+            // $data[$index]['page'] = "1 dari 1";
+            // $data[$index]['periode'] = date('Y-m');
+            // $data[$index]['date'] = date('Y-m-d');
+            // $data[$index]['time'] = date('H:i:s');
+            // $data[$index]['jurnal_no'] =  $this->generateRandomString(20);
+            // $data[$index]['acc_code']  = $this->generateRandomString(10);
+            // $data[$index]['acc_name']  = $this->generateRandomString(20);
+            // $data[$index]['saldo_bulan_lalu']  = rand(12000,9999999);
+            // $data[$index]['debit']  = rand(1000,9999999);
+            // $data[$index]['credit']  = rand(1000,9999999);
+            // $data[$index]['total_debit']  = rand(1000,9999999);
+            // $data[$index]['total_credit']  = rand(1000,9999999);
+            // $data[$index]['position']  = rand(1,2) == 1 ? "D" : "K";
 
-            $data[$index]['page'] = "1 dari 1";
-            $data[$index]['periode'] = date('Y-m');
-            $data[$index]['date'] = date('Y-m-d');
-            $data[$index]['time'] = date('H:i:s');
-            $data[$index]['jurnal_no'] =  $this->generateRandomString(20);
-            $data[$index]['acc_code']  = $this->generateRandomString(10);
-            $data[$index]['acc_name']  = $this->generateRandomString(20);
-            $data[$index]['saldo_bulan_lalu']  = rand(12000,9999999);
-            $data[$index]['debit']  = rand(1000,9999999);
-            $data[$index]['credit']  = rand(1000,9999999);
-            $data[$index]['total_debit']  = rand(1000,9999999);
-            $data[$index]['total_credit']  = rand(1000,9999999);
-            $data[$index]['position']  = rand(1,2) == 1 ? "D" : "K";
+            //delivery
+            $data[$index]['delivery_no'] = $this->generateRandomString(20);
+            $data[$index]['delivery_date'] = date('Y-m');
+            $data[$index]['receive_name'] = $this->generateRandomString(20);
+            $data[$index]['invoice_no'] = $this->generateRandomString(20);
+            $data[$index]['brand_description'] =  $this->generateRandomString(20);
+            $data[$index]['plu_code']  = $this->generateRandomString(10);
+            $data[$index]['address_partner']  = $this->generateRandomString(30);
+            $data[$index]['name'] =  $this->generateRandomString(20);
+            $data[$index]['qty']  = rand(12000,9999999);
+            $data[$index]['car_number']  = $this->generateRandomString(8);
 
 
             $index+=1;
@@ -707,7 +719,8 @@ class Pembelian extends CI_Controller
         // $this->pdf->dynamic_print(2,"monthly_sales_out",$data);
         // $this->pdf->dynamic_print(2,"checksheet_out",$data);
         // $this->pdf->dynamic_print(2,"pos_out",$data);
-        $this->pdf->dynamic_print(3,"neraca_saldo",$data);
+        // $this->pdf->dynamic_print(3,"neraca_saldo",$data);
+        $this->pdf->dynamic_print(3,"delivery",$data);
     }
 
 

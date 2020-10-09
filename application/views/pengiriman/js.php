@@ -71,8 +71,79 @@ function delete_good(id){
     $("#id_"+id).remove();
 }
 
-function update_delivery(id) {
+function get_delivery_detail(id) {
+    $.ajax({
+        url : "<?=base_url()?>index.php/pengiriman/get_delivery_detail",
+        type:"post",
+        data: "id="+id,
+        datatype:"json",
+        success:function(msg) {
+            parse = JSON.parse(msg);
+            $("#id").val(id);
+            $("#delivery_no").html(parse[0].delivery_no);
+            $("#delivery_date").html(parse[0].delivery_date);
+            $("#invoice_no").html(parse[0].invoice_no);
+            $("#employee_name").html(parse[0].employee_name);
+            $("#partner_name").html(parse[0].name);
+            $("#car_number").html(parse[0].car_number);
+            $("#address_partner").html(parse[0].address_partner);
+            $("#charge").html("Rp. "+numeral(parse[0].charge).format('0,0'));
+            
+        }
+    });
     $("#delivery_detail").modal('show');
+}
+
+
+function update_delivery_status() {
+    delivery_status= $("#status").val();
+    receive_date   = $("#receive_date").val();
+    receive_name   = $("#receive_name").val();
+    notes          = $("#notes").val();
+
+
+    if ( delivery_status == 1) {
+        if ( !receive_date ) {
+            Swal.fire(
+				    "Error!",
+				    "Silahkan isi tanggal terima",
+				    "error"
+				    );	
+                    return;
+        }
+
+        if ( !receive_name ) {
+            Swal.fire(
+				    "Error!",
+				    "Silahkan isi penerima",
+				    "error"
+				    );	
+                    return;
+        }
+
+        if ( receive_date && receive_name ) {
+            $("#delivery_status_form").submit();
+        } 
+
+    }else if ( delivery_status == 2 ) {
+        if ( !notes ) {
+            Swal.fire(
+				    "Error!",
+				    "Silahkan isi catatan pengiriman",
+				    "error"
+				    );	
+                    return;
+        }else {
+            $("#delivery_status_form").submit();
+        }
+    } else {
+        Swal.fire(
+				    "Error!",
+				    "Silahkan pilih status pengiriman",
+				    "error"
+				    );	
+                    return;
+    }
 }
 
 </script>
