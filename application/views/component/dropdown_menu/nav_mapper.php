@@ -280,6 +280,17 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             )
         )
     );
+} else if (stripos(current_url(), "/index.php/pengiriman")) {
+    $nav = array(
+        new NavItem(
+            "/index.php/pengiriman/",
+            null,
+            "/index.php/pengiriman/",
+            "Pengiriman",
+            null,
+            null
+        ),
+    );
 } else if (stripos(current_url(), "/index.php/keuangan") && !stripos(current_url(), "/index.php/setting")) {
     $nav = array(
         new NavItem(

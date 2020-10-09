@@ -160,21 +160,20 @@ class Keuangan_model extends CI_Model
 
     public function get_neraca_saldo($periode = '2020-07')
     {
-        return $this->db->query("SELECT 
-                                    t1.jurnal_no,SUBSTR(t1.jurnal_date,1,7)jurnal_date,
-                                    t2.acc_code,t3.acc_name,
+        return $this->db->query("SELECT  t1.jurnal_no,SUBSTR(t1.jurnal_date,1,7)jurnal_date,
+                                    SUBSTR(SUBSTR(t2.acc_code FROM 3),3,4) acc_code,t3.acc_name,
                                     t4.saldo_akhir saldo_bln_lalu,
                                     t2.debit,t2.credit, 
                                     sum(t2.debit) total_debit,
                                     sum(t2.credit) total_credit ,
                                     t3.position
-                                    FROM 
+                                FROM 
                                     t_jurnal t1 
                                     JOIN t_jurnal_detail t2 ON t2.jurnal_no=t1.jurnal_no
                                     JOIN m_account_code t3 ON SUBSTR(t3.acc_code,1,8)=TRIM(t2.acc_code)
                                     LEFT JOIN t_neraca_saldo_akhir t4 ON SUBSTR(t4.acc_code,1,8)=TRIM(t2.acc_code)
-                                    WHERE SUBSTR(t1.jurnal_date,1,7) ='$periode'
-                                    GROUP BY t1.jurnal_date,t2.acc_code");
+                                WHERE SUBSTR(t1.jurnal_date,1,7) ='$periode'
+                                GROUP BY SUBSTR(SUBSTR(t2.acc_code FROM 3),3,3)");
     }
 
     function get_parameter_neraca_saldo_akhir($branch_id)

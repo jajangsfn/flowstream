@@ -484,45 +484,6 @@ class Pembelian extends CI_Controller
             $data = null;
         }
 
-        // if (isset($_POST['goods']) ) {
-        //     $where     = $_POST['goods'];   
-        // }
-        // if ( $type == 1)
-        // {
-        //      $goods     = $this->input->get('goods');
-        //      $supplier  = $this->input->get('id_supplier');  
-        //      $salesman  = ($this->input->get("id_salesman")) ? $this->input->get("id_salesman");
-        //      $where     = "tab1.id=".$supplier;
-        //      $where     = ($goods) ? $where." AND tab4.brand_description like '".$goods."%' or tab4.sku_code like '".$goods."%' or tab4.plu_code like '".$goods."%' or tab4.barcode like '".$goods."%'" : $where;
-        //      $data      = $this->goods->get_goods_per_supplier($where)->result(); 
- 
-        // }else if( $type == 2){
-        //     $goods      = $this->input->get('id_goods');
-        //     $where      = "goods_id=".$goods;
-        //     $data       = $this->goods->get_goods_price($where)->result();
-        // }else if ( $type == 3){
-
-        //     $supplier   = $this->input->get("id_supplier");    
-        //     $where      = "tab1.id=".$supplier;
-        //     $data       = $this->goods->get_goods_per_supplier($where)->result();
-        // }else if ( $type == 4)
-        // { 
-        //      $goods     = $this->input->get('goods_id');
-        //      $supplier  = $this->input->get('id_supplier');             
-        //      $where     = "tab1.id=".$supplier;
-        //      $where     = ($goods) ? $where." AND tab4.id='".$goods."'" : $where;
-        //      $data      = $this->goods->get_goods_per_supplier($where)->result(); 
-
-        // }else if ( $type == 5){
-
-        //     $supplier   = $this->input->get("id_supplier");    
-        //     $salesman   = $this->input->get("id_salesman");    
-        //     $where      = "tab1.id=".$supplier. " and tab2.id=".$salesman;
-        //     $data       = $this->goods->get_goods_per_supplier($where)->result();
-        // }
-       
-        
-
         echo json_encode($data);
 
     }
@@ -552,7 +513,7 @@ class Pembelian extends CI_Controller
         $index = 0;
         
 
-        for ($i=0; $i <25 ; $i++) { 
+        for ($i=0; $i <9 ; $i++) { 
             $data[$index] = array();
             // PO
             // $data[$index]['partner_name'] = "PT ABCD";

@@ -12,7 +12,8 @@
 								"Warehouse_model" => "ws",
 								"Receiving_model" => "rm",
 								"Return_model" => "return",
-								"T_pos_return_model" => "pos_return",
+								"T_pos_return_model" => "pos_return", 
+								"T_delivery_model" => "delivery",
 							)
 						); 
 		// array for transaction code
@@ -21,7 +22,8 @@
 							2 => 31,
 							3 => 32,
 							4 => 62,
-							5 => 61);
+							5 => 61,
+							6 => 71);
 
 		// get branch code from session
 		$branch_code = str_pad($CI->session->userdata('branch_id'), 6, '0', STR_PAD_LEFT); 
@@ -42,6 +44,8 @@
 			$trx_no_db = ($CI->return->get_return_no()->row()) ? substr( $CI->return->get_return_no()->row()->return_no, 8) : null;
 		} else if ( $type == 5) {
 			$trx_no_db = ($CI->pos_return->get_return_no()->row()) ? substr( $CI->pos_return->get_return_no()->row()->return_no, 8) : null;
+		} else if ( $type == 6) {
+			$trx_no_db = ($CI->delivery->get_delivery_no()->row()) ? substr( $CI->delivery->get_delivery_no()->row()->delivery_no, 8) : null;
 		}
 		
 		// initialize trx no
