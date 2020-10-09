@@ -449,8 +449,6 @@
 				$("#goods_list").selectpicker('refresh');
 				$("#goods_list_bar").selectpicker('refresh');
 			
-
-			
 		});
 
 	 	get_all_po();
@@ -464,7 +462,7 @@
 				{"supplier_id": supplier_id})
 		.done(function( result){
 
-			var parse = jQuery.parseJSON(result);console.log(parse);
+			var parse = jQuery.parseJSON(result);
 			var po = "";
 			$("#nro").html('<option value="">Data No PO Kosong</option>');
 			if (parse.length > 0) {
@@ -483,7 +481,7 @@
 					}
 				});
 			}
-
+			
 			$("#nro").append(po);
 			$("#nro").selectpicker('refresh');
 		});	

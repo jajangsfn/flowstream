@@ -53,7 +53,6 @@
         <!-- end card header -->
      <div class="card-body">
         <form method="post" action="<?=base_url()?>index.php/pembelian/save_return" id="form_return">
-          <!-- <input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=date('Y-m-d')?>"> -->
           <input type="hidden" name="id" class="form-control col-md-3" id="return_id" readonly value="<?=($master) ? $master[0]->id : ""?>">
           
 

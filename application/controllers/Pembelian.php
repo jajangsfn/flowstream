@@ -195,7 +195,7 @@ class Pembelian extends CI_Controller
     public function save_return()
     {
         $param = $this->input->post();
-        // echo json_encode($param);exit;
+        
         if ( count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
@@ -213,7 +213,7 @@ class Pembelian extends CI_Controller
                             "updated_date" => date('Y-m-d H:i:s'),
                             "updated_by" => $this->session->userdata('id'),
                             "flag" => 1);
-                    // echo json_encode($arr_return);exit;
+                    
                     $this->return->delete($param['id']);
                     $this->return->insert($arr_return, $param);
 
