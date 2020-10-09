@@ -3573,7 +3573,7 @@ class pdf
 				//jika posisinya credit maka jumlahkan saldo bulan lalu bertipe credit
 				$total_saldo_bulan_lalu_d+= $position == 'D' ? $val['saldo_bulan_lalu'] : 0;
 				$total_saldo_bulan_lalu_c+= $position == 'K' ? $val['saldo_bulan_lalu'] : 0;
-				
+				  
 				//saldo bulan ini
 				$total_saldo_bulan_ini+=$saldo_akhir;
 				//jika posisinya debit maka jumlahkan saldo bulan ini bertipe debit
