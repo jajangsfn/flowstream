@@ -8,10 +8,12 @@ class T_delivery_model extends CI_Model {
     public function get_delivery($where = null) {
 
         $this->db->select("pack.*,order.id order_id,order.delivery_no,
-                            order.delivery_date,order.car_number,partner.name,
+                            order.delivery_date,order.car_number,
+                            partner.name,partner.address_1 address_partner,
                             team.id delivery_team_id,team.employee_id,
                             employee.name employee_name,good.plu_code, 
-                            detail.goods_id,good.sku_code, good.barcode,good.brand_description,detail.qty");
+                            detail.goods_id,good.sku_code, good.barcode,good.brand_description,
+                            detail.qty");
         $this->db->from("t_delivery_package pack");
         $this->db->join("t_delivery_order order", "order.id=pack.delivery_order_id");
         $this->db->join("t_delivery_order_detail detail","detail.delivery_order_id=order.id");

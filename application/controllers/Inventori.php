@@ -46,7 +46,6 @@ class Inventori extends CI_Controller
     // receiving
     public function receiving()
     {
-
         // echo json_encode($_POST);exit;
          if (count($_POST)) {
 
@@ -58,6 +57,7 @@ class Inventori extends CI_Controller
             $price_method      = $this->ref->get_type_price("flag = 1")->row()->id;
             // set price method
             $_POST['price_method'] = $price_method;
+            
             if (array_key_exists("id", $_POST)) {
 
                 $where_id['id']= $_POST['id'];
@@ -178,11 +178,9 @@ class Inventori extends CI_Controller
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['po_no']        = generate_po_no(2);
         $data['master']       = $this->rm->get_all_receive("tab1.id=".$rv_id,null,"tab2.id")->result();
-
         $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
         $data['price_method'] = $this->rm->get_price_method()->result();
-        // echo json_encode($data);exit;
         $data['page_content'] = $this->load->view("inventori/receiving/edit_receiving", $data ,true);
 
 
@@ -246,7 +244,7 @@ class Inventori extends CI_Controller
                                             "quantity" => $param['goods_qty'][$i],
                                             "price" => $param['goods_price'][$i],
                                             "discount" => $param['goods_discount'][$i],
-                                        );
+                                        ); 
 
                $param['goods_price'][$i] = $this->rdm->price_method($param_price_method);
            }

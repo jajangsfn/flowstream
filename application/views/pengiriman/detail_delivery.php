@@ -6,42 +6,82 @@
 		      	<form method="post" id="form_delivery" action="<?=base_url()?>index.php/pengiriman/save_delivery">
 		      		<div class="row ml-30 mb-4">
 						<label class="col-form-label col-md-2 text-right">No Pengiriman</label>
+						<label class="col-form-label m-0">:</label>
 						<label class="col-form-label col-md-2 text-right font-weight-bold"><?=$delivery_data[0]->delivery_no?></label>
 
 						<label class="col-form-label col-md-3 text-right">Tgl Pengiriman</label>
+						<label class="col-form-label m-0">:</label>
 						<label class="col-form-label col-md-2 font-weight-bold"><?=date('Y-m-d', strtotime($delivery_data[0]->delivery_date))?></label>
 					</div>
 
 					<div class="row ml-30 mb-4">
 						<label class="col-form-label col-md-2 text-right">No PO</label>
+						<label class="col-form-label m-0">:</label>
 						<label class="col-form-label col-md-2 text-right font-weight-bold"><?=$delivery_data[0]->invoice_no?></label>
                         
                         <label class="col-form-label col-md-3 text-right">Pengirim</label>
+						<label class="col-form-label m-0">:</label>
                         <label class="col-form-label col-md-2 font-weight-bold"><?=$delivery_data[0]->employee_name?></label>
 
 					</div>
 
 					<div class="row ml-30 mb-4">
  						<label class="col-form-label col-md-2 text-right">Nama Pelanggan</label>
+						 <label class="col-form-label m-0">:</label>
                          <label class="col-form-label col-md-2 font-weight-bold"><?=$delivery_data[0]->name?></label>
 
                          <label class="col-form-label col-md-3 text-right">No Mobil</label>
+						 <label class="col-form-label m-0">:</label>
                          <label class="col-form-label col-md-2 font-weight-bold"><?=$delivery_data[0]->car_number?></label>
                     </div>
 
                     <div class="row ml-30 mb-4">
                         <label class="col-form-label col-md-2 text-right">Alamat Pengiriman</label>
+						<label class="col-form-label m-0">:</label>
                         <label class="col-form-label col-md-2 font-weight-bold"><?=$delivery_data[0]->address?></label>
 
                         <label class="col-form-label col-md-3 text-right">Biaya Kirim</label>
+						<label class="col-form-label m-0">:</label>
 						<label class="col-form-label col-md-2 font-weight-bold">Rp. <?=number_format($delivery_data[0]->charge)?></label>
                     </div>
                     
                     <div class="row ml-30 mb-1">
                         <label class="col-form-label col-md-2 text-right">Keterangan</label>
-                        <label class="col-form-label col-md-2 text-right font-weight-bold"><?=$delivery_data[0]->description?></label>
+						<label class="col-form-label m-0">:</label>
+                        <label class="col-form-label col-md-2 font-weight-bold"><?=$delivery_data[0]->description?></label>
                     </div>
 					<hr>
+					<div class="row ml-30 mb-4">
+						<h4>Status Pengiriman</h4><br>
+					</div>
+					<hr>
+					<div class="row ml-30 mb-4">
+ 						<label class="col-form-label col-md-2 text-right">Status</label>
+						 <label class="col-form-label m-0">:</label>
+						 <label class="col-form-label col-md-2 font-weight-bold"><?=$delivery_data[0]->receive_status == null ? 
+																					 "<div class='badge badge-info'>sedang dikirim</div>" : ($delivery_data[0]->receive_status == 1 ? 
+																					 "<div class='badge badge-success'>sudah sampai</div>" : 
+																					 "<div class='badge badge-danger'>pending</div>")?></label>
+
+                         <label class="col-form-label col-md-3 text-right">Penerima</label>
+						 <label class="col-form-label m-0">:</label>
+                         <label class="col-form-label col-md-2 font-weight-bold"><?=$delivery_data[0]->receive_name?></label>
+                    </div>
+
+					<div class="row ml-30 mb-4">
+                        <label class="col-form-label col-md-2 text-right">Tgl Terima</label>
+						<label class="col-form-label m-0">:</label>
+                        <label class="col-form-label col-md-2 font-weight-bold"><?=$delivery_data[0]->receive_date?></label>
+
+                        <label class="col-form-label col-md-3 text-right">Catatan Pengiriman</label>
+						<label class="col-form-label m-0">:</label>
+						<label class="col-form-label col-md-2 font-weight-bold"><?=$delivery_data[0]->notes?></label>
+                    </div>
+
+					<hr>
+					<div class="row ml-30 mb-4">
+						<h4>Daftar Barang</h4><br>
+					</div>
 					<div class="row">
                         <div class="col-md-1"></div>
 						<div class="col-md-10 table-responsive">

@@ -52,21 +52,21 @@
                                 }
                             ?></td>
                             <td>
-                                 <?php
-                                  if ($val->flag == 1) {
-                                ?>
-                                  <a href="<?=base_url()?>index.php/inventori/edit_warehouse/<?=$val->id?>" class="btn btn-light-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa la-edit" title="Edit"></i></a>
-                                <?php }?>
-                                  <button type="button" class="btn btn-light-info btn-sm" data-toggle="tooltip" data-placement="top" title="Print" onclick="print_warehouse(<?=$val->id?>)"> 
-                                      <i class="fa la-print" title="Print"></i>
-                                  </button>
                                 <?php
                                   if ($val->flag == 1) {
                                 ?>
-                                    <button type="button" class="btn btn-light-success btn-sm" data-toggle="tooltip" data-placement="top" title="Approved" onclick="approve_warehouse(<?=$val->id?>)">
-                                      <i class="fa la-check" title="Approve"></i>
-                                    </button>
-                                  <?php }?>
+                                        <a href="<?=base_url()?>index.php/inventori/edit_warehouse/<?=$val->id?>" class="btn btn-light-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa la-edit" title="Edit"></i></a>
+                                <?php }?>
+                                        <button type="button" class="btn btn-light-info btn-sm" data-toggle="tooltip" data-placement="top" title="Print" onclick="print_warehouse(<?=$val->id?>)"> 
+                                            <i class="fa la-print" title="Print"></i>
+                                        </button>
+                                <?php
+                                  if ($val->flag == 1) {
+                                ?>
+                                        <button type="button" class="btn btn-light-success btn-sm" data-toggle="tooltip" data-placement="top" title="Approved" onclick="approve_warehouse(<?=$val->id?>)">
+                                            <i class="fa la-check" title="Approve"></i>
+                                        </button>
+                                <?php }?>
                             </td>
                         </tr>
                     <?php }

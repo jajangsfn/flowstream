@@ -182,6 +182,36 @@ class Pengiriman extends CI_Controller{
         $this->load->view('layout/js'); 
         $this->load->view('pengiriman/js');
     }
+
+    public function get_delivery_detail() {
+        $id   = $this->input->post('id');
+        $data = $this->delivery->get_delivery(array("pack.id" => $id))->result();
+        echo json_encode($data);
+    }
+
+    public function update_delivery_status() {
+        $post = $this->input->post();
+
+        echo json_encode($post);
+
+        $update_delivery = array(
+                                "receive_date" => $post['receive_date'],
+                                "receive_name" => $post['receive_name'],
+                                "receive_status" => $post['status'],
+                                "notes" => $post['notes']
+                            );
+        $this->delivery->update_delivery("t_delivery_package", $update_delivery, array("id" => $post['id']));
+        $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Status Pengiriman berhasil diperbaharui</div>');
+        redirect("pengiriman/");
+    }
+
+
+    public function print_delivery($id) {
+        $data = $this->delivery->get_delivery(array("pack.id" => $id))->result_array();
+        
+        $this->pdf->dynamic_print(3, "delivery", $data);
+        // echo json_encode($data);exit;
+    }
 }
 
 ?>

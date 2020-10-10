@@ -60,7 +60,6 @@
 					<input type="hidden" name="partner_name" id="partner_name">
 					<input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=date('Y-m-d')?>">
 					<div class="row mb-5">
-						<!-- <div class="col-md-1"></div> -->
 						<label class="col-form-label col-md-2">Supplier</label>
 						<select name="supplier" id="supplier_id" class="col-md-3 form-control selectpicker" data-live-search="true" onchange="show_supplier_detail()">
 							<option value="" selected>Pilih Supplier</option>

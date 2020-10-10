@@ -87,6 +87,7 @@
 			var supplier_id = $("#supplier_id").val();
 			
 			$("#goods_list").html('');
+
 			if (supplier_id){
 				$.get("<?=base_url()?>index.php/pembelian/get_goods_json/",
 					{"id_supplier":supplier_id})
@@ -125,7 +126,9 @@
 	{
 			var supplier_id = $("#supplier_id").val();
 			var salesman_id = $("#partner_salesman").val();
+			
 			$("#goods_list").html('');
+
 			if (supplier_id){
 				$.get("<?=base_url()?>index.php/pembelian/get_goods_json",
 					{"id_supplier":supplier_id, "id_salesman": salesman_id})
@@ -133,8 +136,7 @@
 
 					var goods_arr = JSON.parse(data);
 					if (goods_arr.length > 0){
-						
-						
+					
 						var goods_list = "";
 							$.each(goods_arr,function(id,val){
 								goods_list+='<li class="navi-item nav-click" onclick="show_goods_detail('+val.id+')">';
@@ -394,7 +396,7 @@
 		.done(function(data){
 			const salesman_arr = JSON.parse(data);
 
-			$("#partner_salesman").html('<option value=""></option>');
+			$("#partner_salesman").html('');
 
 			if (salesman_arr.length > 0) {
 				var text = "";
@@ -416,6 +418,7 @@
 			}
 
 			$("#partner_salesman").selectpicker('refresh');
+			show_goods_per_salesman();
 
 			
 		});
