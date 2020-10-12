@@ -25,6 +25,7 @@ class Penjualan extends CI_Controller
                 "t_pos_model" => "pos",
                 "t_pos_return_model" => "pos_return",
                 "T_pos_report_model" => "pos_report",
+                "Keuangan_model" => "keumod",
                 "S_history_model" => "history",
                 "S_reference_model" => "ref"
             )
@@ -131,7 +132,7 @@ class Penjualan extends CI_Controller
     public function print_order_request($id_or, $type = 1)
     {
 
-        $content = $this->or->get_specific($id_or);#echo json_encode($content);exit;
+        $content = $this->or->get_specific($id_or); #echo json_encode($content);exit;
         $data = array();
         if ($content) {
             foreach ($content->details as $key => $val) {
@@ -177,18 +178,18 @@ class Penjualan extends CI_Controller
                 );
             }
 
-            if ($type == 1 ) {
+            if ($type == 1) {
 
                 if ($data[0]['checksheet_id']) {
                     $type_print = "order_request_out_fix";
-                }else {
+                } else {
                     $type_print = "order_request_out";
                 }
-            }else {
+            } else {
                 $type_print = "checksheet_out";
             }
-                    
-            
+
+
             $this->pdf->dynamic_print(2, $type_print, $data);
         }
     }
@@ -243,6 +244,10 @@ class Penjualan extends CI_Controller
             $content['payment_methods'] = $this->ref->get(array("group_data" => "PAYMENT_METHOD"))->result();
             $content['data_branch'] = $this->branch->get(array("id" => $this->session->branch_id))->row();
 
+            if (is_null($this->keumod->get_next_tax_no($this->session->branch_id))) {
+                $this->session->set_flashdata("warning", "Tidak ada nomor faktur pajak yang tersedia untuk digunakan, cetak faktur pajak selanjutnya tidak akan menambahkan penomoran faktur pajak.");
+            }
+
             $data['page_title'] = "Penjualan - Daftar Point of Sales";
             $data['page_content'] = $this->load->view("penjualan/pos/list", $content, true);
             $data['page_js'] = $this->load->view("penjualan/pos/list_js", "", true);
@@ -256,7 +261,7 @@ class Penjualan extends CI_Controller
     public function print_pos($pos_id)
     {
         $data = $this->pos_report->pos_report("tab1.id=" . $pos_id, "tab3.id")->result_array();
-                
+
         $this->pdf->dynamic_print(2, "pos_out", $data);
     }
 
@@ -265,7 +270,7 @@ class Penjualan extends CI_Controller
     {
 
         $data['page_title'] = "Retur Penjualan";
-        $data['return']     = $this->pos_return->get_all(); 
+        $data['return']     = $this->pos_return->get_all();
         $data['page_content'] = $this->load->view("penjualan/return/return", $data, true);
 
         $this->load->view('layout/head');
@@ -373,7 +378,7 @@ class Penjualan extends CI_Controller
         if (count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
- 
+
 
                 $arr_return = array(
                     "branch_id" => $this->session->userdata('branch_id'),
@@ -387,7 +392,7 @@ class Penjualan extends CI_Controller
                     "updated_by" => $this->session->userdata('id'),
                     "flag" => 1
                 );
-                
+
                 $this->pos_return->delete($param['id']);
                 $this->pos_return->insert($arr_return, $param);
 

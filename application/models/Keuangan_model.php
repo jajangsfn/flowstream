@@ -316,7 +316,35 @@ class Keuangan_model extends CI_Model
             // 6 digit id branch
             $nomor_tax_to_use = sprintf("%06d", $branch_id);
 
-            // 2 digit transaction code: TODO: konfirmasi 51
+            $nomor_tax_to_use .= "51";
+
+            // 4 digit year
+            $nomor_tax_to_use .= date("Y");
+
+            // 2 digit month
+            $nomor_tax_to_use .= date("m");
+
+            // 6 digit nomor transaksi
+            $nomor_tax_to_use .= sprintf("%06d", $newnumber);
+            return $nomor_tax_to_use;
+        }
+    }
+
+    function get_next_tax_no($branch_id)
+    {
+        $query = $this->db->get_where("tax_no", array(
+            "branch_id" => $branch_id,
+            "flag" => 1
+        ));
+        if ($query->num_rows() == 0) {
+            return null;
+        } else {
+            $focus = $query->row();
+            $newnumber = $focus->sequence + 1;
+
+            // 6 digit id branch
+            $nomor_tax_to_use = sprintf("%06d", $branch_id);
+
             $nomor_tax_to_use .= "51";
 
             // 4 digit year

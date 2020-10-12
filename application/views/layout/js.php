@@ -82,12 +82,22 @@
     <?= isset($page_js) ? $page_js : "" ?>
     <?php if ($this->session->flashdata("error")) { ?>
         <script>
-            Swal.fire("Error!", "<?= $this->session->flashdata("error") ?>", "error");
+            Swal.fire("Gagal!", "<?= $this->session->flashdata("error") ?>", "error");
         </script>
     <?php } ?>
     <?php if ($this->session->flashdata("success")) { ?>
         <script>
-            Swal.fire("Success!", "<?= $this->session->flashdata("success") ?>", "success");
+            Swal.fire("Sukses!", "<?= $this->session->flashdata("success") ?>", "success");
+        </script>
+    <?php } ?>
+    <?php if ($this->session->flashdata("warning")) { ?>
+        <script>
+            Swal.fire("Peringatan!", "<?= $this->session->flashdata("warning") ?>", "warning");
+        </script>
+    <?php } ?>
+    <?php if ($this->session->flashdata("info")) { ?>
+        <script>
+            Swal.fire("Informasi!", "<?= $this->session->flashdata("info") ?>", "info");
         </script>
     <?php } ?>
     <script>

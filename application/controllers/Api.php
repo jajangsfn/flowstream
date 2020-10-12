@@ -1198,11 +1198,9 @@ class Api extends CI_Controller
                 array(
                     "jurnal_no" => $jurnal_no_awal,
                     "acc_code" => $pos_detail->rekening_no,
-                    // "master_id",
                     "invoice_no" => $pos_target->invoice_no,
                     "debit" => 0,
                     "credit" => $pos_detail->total,
-                    // "cost_center"
                 )
             );
         }
@@ -1212,48 +1210,27 @@ class Api extends CI_Controller
             $pos_target->branch_id,
             array(
                 "jurnal_no" => $jurnal_no_awal,
-                // "acc_code" diisi dari dalam model,
-                // "master_id",
                 "invoice_no" => $pos_target->invoice_no,
                 "debit" => $pos_target->payment_total,
                 "credit" => 0,
-                // "cost_center"
             )
         );
 
-        // buat jurnal awal // TODO: infokan kalau nomor pajak sudah habis
+        // buat jurnal awal
         $this->jurnal->insert(
             array(
                 "jurnal_no" => $jurnal_no_awal,
                 "branch_id" => $pos_target->branch_id,
                 "invoice_no" => $pos_target->invoice_no,
                 "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
-                // "carry_over",
                 "kurs" => 1,
-                // "description",
                 "flag" => 1,
                 "username" => $this->session->username,
                 "created_date" => date("Y-m-d H:i:s"),
-                // "updated_date",
-                // "printed_date",
-                // "printed_flag",
-                // "registered_date",
                 "registered_flag" => "Y",
-                // "registered_user",
-                // "registered_id",
-                // "print_count" => 1,
-                // "print_registered_count",
-                // "re_printed_date",
-                // "re_registered_date",
                 "cara_penerimaan" => $pos_target->payment_method,
                 "no_seri_pajak_dipungut" => $this->keumod->get_and_use_tax_no($pos_target->branch_id),
-                // "no_seri_pajak_ditanggung",
-                // "bukti_pendukung",
-                // "tanggal_pendukung",
                 "dpp_dipungut" => $dpp,
-                // "dpp_ditanggung",
-                // "tipe_jurnal_id",
-                // "mata_uang_id"
             )
         );
 
@@ -1269,32 +1246,13 @@ class Api extends CI_Controller
                     "branch_id" => $pos_target->branch_id,
                     "invoice_no" => $pos_target->invoice_no,
                     "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
-                    // "carry_over",
                     "kurs" => 1,
-                    // "description",
                     "flag" => 1,
                     "username" => $this->session->username,
                     "created_date" => date("Y-m-d H:i:s"),
-                    // "updated_date",
-                    // "printed_date",
-                    // "printed_flag",
-                    // "registered_date",
-                    "registered_flag" => "Y", // flag registered auto Y untuk pembayaran langsung
-                    // "registered_user",
-                    // "registered_id",
-                    // "print_count" => 1,
-                    // "print_registered_count",
-                    // "re_printed_date",
-                    // "re_registered_date",
+                    "registered_flag" => "Y",
                     "cara_penerimaan" => $pos_target->payment_method,
-                    // "no_seri_pajak_dipungut",
-                    // "no_seri_pajak_ditanggung",
-                    // "bukti_pendukung",
-                    // "tanggal_pendukung",
                     "dpp_dipungut" => $dpp,
-                    // "dpp_ditanggung",
-                    // "tipe_jurnal_id",
-                    // "mata_uang_id"
                 )
             );
 
@@ -1303,12 +1261,9 @@ class Api extends CI_Controller
                 $pos_target->branch_id,
                 array(
                     "jurnal_no" => $jurnal_no,
-                    // "acc_code" diisi dari dalam model,
-                    // "master_id",
                     "invoice_no" => $pos_target->invoice_no,
                     "debit" => 0,
                     "credit" => $pos_target->payment_paid,
-                    // "cost_center"
                 )
             );
 
@@ -1317,12 +1272,9 @@ class Api extends CI_Controller
                 $pos_target->branch_id,
                 array(
                     "jurnal_no" => $jurnal_no,
-                    // "acc_code" diisi dari dalam model,
-                    // "master_id",
                     "invoice_no" => $pos_target->invoice_no,
                     "debit" => $pos_target->payment_paid,
                     "credit" => 0,
-                    // "cost_center"
                 )
             );
         }

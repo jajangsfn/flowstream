@@ -269,7 +269,6 @@
                                 .change(() => hitung_ulang_all())
                             ),
 
-                            // diskon (TODO)
                             $(document.createElement("td")).attr("style", "width: 90px").append(
                                 $(document.createElement("input"))
                                 .attr("type", "number")
