@@ -299,7 +299,7 @@ class Api extends CI_Controller
             $entry_data['logo'] = $uploadData['file_name'];
         }
 
-        $this->branch->insert($entry_data);
+        $this->branch->create_new_branch($entry_data);
         $this->session->set_flashdata("success", "Cabang berhasil tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
     }
