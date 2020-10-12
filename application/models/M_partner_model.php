@@ -205,6 +205,7 @@ class M_partner_model extends CI_Model
 
     function insert($data)
     {
+        $data['flag'] = 1;
         $this->db->insert("m_partner", $data);
         return $this->get($data);
     }

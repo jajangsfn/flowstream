@@ -94,12 +94,42 @@ class Setting extends CI_Controller
                     } else {
                         // pengaturan barang
                         // get division, subdivision, category, subcategory, package, color for goods
-                        $content['division'] = $this->ref->get(array("group_data" => "GOODS_DIVISION"))->result();
-                        $content['sub_division'] = $this->ref->get(array("group_data" => "GOODS_SUB_DIVISION"))->result();
-                        $content['category'] = $this->ref->get(array("group_data" => "GOODS_CATEGORY"))->result();
-                        $content['sub_category'] = $this->ref->get(array("group_data" => "GOODS_SUB_CATEGORY"))->result();
-                        $content['package'] = $this->ref->get(array("group_data" => "GOODS_PACKAGE"))->result();
-                        $content['color'] = $this->ref->get(array("group_data" => "GOODS_COLOR"))->result();
+                        $content['division'] = $this->ref->get(
+                            array(
+                                "group_data" => "GOODS_DIVISION",
+                                "branch_id" => $id
+                            )
+                        )->result();
+                        $content['sub_division'] = $this->ref->get(
+                            array(
+                                "group_data" => "GOODS_SUB_DIVISION",
+                                "branch_id" => $id
+                            )
+                        )->result();
+                        $content['category'] = $this->ref->get(
+                            array(
+                                "group_data" => "GOODS_CATEGORY",
+                                "branch_id" => $id
+                            )
+                        )->result();
+                        $content['sub_category'] = $this->ref->get(
+                            array(
+                                "group_data" => "GOODS_SUB_CATEGORY",
+                                "branch_id" => $id
+                            )
+                        )->result();
+                        $content['package'] = $this->ref->get(
+                            array(
+                                "group_data" => "GOODS_PACKAGE",
+                                "branch_id" => $id
+                            )
+                        )->result();
+                        $content['color'] = $this->ref->get(
+                            array(
+                                "group_data" => "GOODS_COLOR",
+                                "branch_id" => $id
+                            )
+                        )->result();
                         $content['unit'] = $this->unit->get_all()->result();
                         $content['accounts'] = $this->account->get(array(
                             "branch_id" => $id,
@@ -180,7 +210,7 @@ class Setting extends CI_Controller
 
                         $content['m_employee'] = $this->emp->get(
                             array(
-                                "branch_id" => $id,
+                                "m_employee.branch_id" => $id,
                             )
                         )->result();
 
@@ -275,7 +305,7 @@ class Setting extends CI_Controller
                     break;
                 default:
                     $content['type_price'] = $this->ref->get_type_price()->result();
-                    $data['page_title'] = $content['data_branch']->name; 
+                    $data['page_title'] = $content['data_branch']->name;
                     $data['back_url'] = base_url("/index.php/setting/master/cabang");
 
                     $data['page_content'] = $this->load->view("setting/master/cabang/cabang_spesifik", $content, true);
@@ -286,7 +316,7 @@ class Setting extends CI_Controller
             redirect(current_url() . "/" . $this->session->branch_id);
         } else {
             $content['data_branches'] = $this->branch->get_all()->result();
-  
+
             $data['page_content'] = $this->load->view("setting/master/cabang/cabang", $content, true);
             $data['page_subheader'] = $this->load->view("setting/master/cabang/cabang_subheader", $content, true);
             $data['page_js'] = $this->load->view("setting/master/cabang/cabang_js", '', true);
@@ -393,7 +423,7 @@ class Setting extends CI_Controller
             default:
                 break;
         }
-        
+
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
@@ -416,10 +446,11 @@ class Setting extends CI_Controller
         return $data;
     }
 
-    public function update_type_price() {
+    public function update_type_price()
+    {
         $post           = $this->input->post();
         $id_type_price  = $post['type_price'];
-        
+
         $this->ref->update_type_price($id_type_price);
         $this->session->set_flashdata("success", "Jenis Harga berhasil diubah");
         redirect($_SERVER['HTTP_REFERER']);

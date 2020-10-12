@@ -184,7 +184,7 @@
                                     "identifier" => "acc_code",
                                     "showable" => "acc_name",
 
-                                    "manage_url" => base_url("/index.php/setting/parameter/cabang/$data_branch->id/keuangan/kode_rekening"),
+                                    "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/kode_rekening"),
                                     "object_name" => "kode akun",
 
                                     "selected" => false,

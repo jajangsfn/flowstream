@@ -50,6 +50,166 @@ class M_branch_model extends CI_Model
                 "created_date" => date("Y-m-d h:i:s"),
                 "updated_date" => date("Y-m-d h:i:s")
             ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "GOODS_DIVISION",
+                "detail_data" => "General",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "GOODS_SUB_DIVISION",
+                "detail_data" => "General",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "GOODS_CATEGORY",
+                "detail_data" => "General",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "GOODS_SUB_CATEGORY",
+                "detail_data" => "General",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "GOODS_PACKAGE",
+                "detail_data" => "General",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "GOODS_COLOR",
+                "detail_data" => "General",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "EMPLOYEE_LEVEL",
+                "detail_data" => "General",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "EMPLOYEE_LEVEL",
+                "detail_data" => "Staff",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "EMPLOYEE_LEVEL",
+                "detail_data" => "Supervisor",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "EMPLOYEE_LEVEL",
+                "detail_data" => "Manager",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "EMPLOYEE_LEVEL",
+                "detail_data" => "Director",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "EMPLOYEE_POSITION",
+                "detail_data" => "Sales",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "EMPLOYEE_POSITION",
+                "detail_data" => "Accounting",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "EMPLOYEE_POSITION",
+                "detail_data" => "IT",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "EMPLOYEE_POSITION",
+                "detail_data" => "Tax",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "EMPLOYEE_POSITION",
+                "detail_data" => "General",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "ACTIVATION_STATUS",
+                "detail_data" => "Active",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "ACTIVATION_STATUS",
+                "detail_data" => "Expired",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "ACTIVATION_STATUS",
+                "detail_data" => "Lifetime",
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
+            array(
+                "branch_id" => $branch_id,
+                "group_data" => "DEFAULT_PASSWORD",
+                "detail_data" => "parahyangan", // TODO: perlu ganti
+                "flag" => 1,
+                "created_date" => date("Y-m-d h:i:s"),
+                "updated_date" => date("Y-m-d h:i:s")
+            ),
         ));
 
         return $this->get($data);
