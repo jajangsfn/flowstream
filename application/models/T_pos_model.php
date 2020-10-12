@@ -100,7 +100,7 @@ class T_pos_model extends CI_Model
 
     function get_specific($id)
     {
-        $this->db->select("t_pos.*, m_employee.name as salesman_name, m_partner.sales_price_level as index_harga,
+        $this->db->select("t_pos.*, m_employee.name as salesman_name, m_partner.sales_price_level as index_harga, m_partner.name as partner_name
         t_jurnal.no_seri_pajak_dipungut as tax_no");
         $this->db->from("t_pos");
         $this->db->join("m_user_salesman", "m_user_salesman.id = t_pos.user_salesman_id", "left");

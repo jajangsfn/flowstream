@@ -1231,6 +1231,10 @@ class Api extends CI_Controller
                 "cara_penerimaan" => $pos_target->payment_method,
                 "no_seri_pajak_dipungut" => $this->keumod->get_and_use_tax_no($pos_target->branch_id),
                 "dpp_dipungut" => $dpp,
+                "tipe_jurnal_id" => 2,
+                "printed_date" => date("Y-m-d H:i:s"),
+                "print_count" => 1,
+                "description" => "Pembelian oleh customer '$pos_target->partner_name' pada tanggal '" . date("d M Y", strtotime($pos_target->pos_date)) . "' dengan total harga '$pos_target->payment_total'"
             )
         );
 
@@ -1253,6 +1257,9 @@ class Api extends CI_Controller
                     "registered_flag" => "Y",
                     "cara_penerimaan" => $pos_target->payment_method,
                     "dpp_dipungut" => $dpp,
+                    "printed_date" => date("Y-m-d H:i:s"),
+                    "print_count" => 1,
+                    "description" => "Pembayaran oleh customer '$pos_target->partner_name' pada tanggal '" . date("d M Y", strtotime($pos_target->pos_date)) . "' dengan total pembayaran '$pos_target->payment_paid' untuk nomor tagihan '$pos_target->invoice_no'"
                 )
             );
 
@@ -1351,32 +1358,14 @@ class Api extends CI_Controller
                 "branch_id" => $branch_id,
                 "invoice_no" => $info_piutang->invoice_no,
                 "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
-                // "carry_over",
                 "kurs" => 1,
-                // "description",
                 "flag" => 1,
                 "username" => $this->session->username,
                 "created_date" => date("Y-m-d H:i:s"),
-                // "updated_date",
-                // "printed_date",
-                // "printed_flag",
-                // "registered_date",
-                "registered_flag" => "N", // flag registered N untuk pembayaran di menu keuangan
-                // "registered_user",
-                // "registered_id",
-                // "print_count" => 1,
-                // "print_registered_count",
-                // "re_printed_date",
-                // "re_registered_date",
-                // "cara_penerimaan",
-                // "no_seri_pajak_dipungut",
-                // "no_seri_pajak_ditanggung",
-                // "bukti_pendukung",
-                // "tanggal_pendukung",
-                // "dpp_dipungut",
-                // "dpp_ditanggung",
-                // "tipe_jurnal_id",
-                // "mata_uang_id"
+                "registered_flag" => "N",
+                "printed_date" => date("Y-m-d H:i:s"),
+                "print_count" => 1,
+                "description" => "Pembayaran piutang customer '$info_piutang->partner_name' pada tanggal '" . date("d M Y") . "' dengan total pembayaran '" . $_POST['payment'] . "' untuk nomor tagihan '$info_piutang->invoice_no'"
             )
         );
 
@@ -1385,12 +1374,9 @@ class Api extends CI_Controller
             $branch_id,
             array(
                 "jurnal_no" => $jurnal_no,
-                // "acc_code" diisi dari dalam model,
-                // "master_id",
                 "invoice_no" => $info_piutang->invoice_no,
                 "debit" => 0,
-                "credit" => $_POST['payment'],
-                // "cost_center"
+                "credit" => $_POST['payment']
             )
         );
 
@@ -1589,32 +1575,14 @@ class Api extends CI_Controller
                 "branch_id" => $branch_id,
                 "invoice_no" => $info_hutang->invoice_no,
                 "jurnal_date" => date("Y-m-d"), // TODO: cek status tutup buku
-                // "carry_over",
                 "kurs" => 1,
-                // "description",
                 "flag" => 1,
                 "username" => $this->session->username,
                 "created_date" => date("Y-m-d H:i:s"),
-                // "updated_date",
-                // "printed_date",
-                // "printed_flag",
-                // "registered_date",
-                "registered_flag" => "N", // flag registered N untuk pembayaran di menu keuangan
-                // "registered_user",
-                // "registered_id",
-                // "print_count" => 1,
-                // "print_registered_count",
-                // "re_printed_date",
-                // "re_registered_date",
-                // "cara_penerimaan",
-                // "no_seri_pajak_dipungut",
-                // "no_seri_pajak_ditanggung",
-                // "bukti_pendukung",
-                // "tanggal_pendukung",
-                // "dpp_dipungut",
-                // "dpp_ditanggung",
-                // "tipe_jurnal_id",
-                // "mata_uang_id"
+                "registered_flag" => "N",
+                "printed_date" => date("Y-m-d H:i:s"),
+                "print_count" => 1,
+                "description" => "Pembayaran hutang sebesar '" . $_POST['payment'] . "' pada tanggal '" . date("d M Y") . "' untuk nomor tagihan '$info_hutang->invoice_no'"
             )
         );
 
@@ -1623,12 +1591,9 @@ class Api extends CI_Controller
             $branch_id,
             array(
                 "jurnal_no" => $jurnal_no,
-                // "acc_code" diisi dari dalam model,
-                // "master_id",
                 "invoice_no" => $info_hutang->invoice_no,
                 "debit" => $_POST['payment'],
-                "credit" => 0,
-                // "cost_center"
+                "credit" => 0
             )
         );
 
@@ -1636,12 +1601,9 @@ class Api extends CI_Controller
             $branch_id,
             array(
                 "jurnal_no" => $jurnal_no,
-                // "acc_code" diisi dari dalam model,
-                // "master_id",
                 "invoice_no" => $info_hutang->invoice_no,
                 "debit" => 0,
-                "credit" => $_POST['payment'],
-                // "cost_center"
+                "credit" => $_POST['payment']
             )
         );
 

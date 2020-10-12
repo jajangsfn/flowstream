@@ -99,10 +99,12 @@ class Keuangan_model extends CI_Model
                 tpp.total_bill as sisa_tagihan,
                 tpp.invoice_no,
                 t_pos.payment_total as total_tagihan,
-                tpp.id
+                tpp.id,
+                m_partner.name as partner_name
 
             FROM t_pembayaran_piutang tpp
             LEFT JOIN t_pos on tpp.invoice_no = t_pos.invoice_no
+            LEFT JOIN m_partner on m_partner.id = t_pos.partner_id
 
             WHERE tpp.id = $tpp_id"
         )->row();
