@@ -11,6 +11,35 @@ class M_account_code_model extends CI_Model
         return $this->db->get();
     }
 
+    function get_akun_pendapatan_aktif($branch_id)
+    {
+        return $this->db->query(
+            "SELECT 
+                id, 
+                branch_id, 
+                acc_code, 
+                CONCAT(acc_code, ' - ', acc_name) as acc_name, 
+                group_code,
+                upr_acc_code,
+                is_active,
+                inv_required,
+                position
+                
+            FROM m_account_code
+            WHERE 
+                m_account_code.is_active = '1' AND 
+                m_account_code.branch_id = '$branch_id' AND 
+                m_account_code.acc_code like (
+                    SELECT CONCAT(
+                            SUBSTRING(inner_acc.acc_code, 1, 2), '%'
+                        )
+                    FROM m_account_code as inner_acc
+                    WHERE LOWER(acc_name) = 'pendapatan'
+            )
+            ORDER BY acc_code asc"
+        );
+    }
+
     function get_viewable($where)
     {
         $this->db->select("m_account_code.*, CONCAT(acc_code, ' - ', acc_name) as acc_code_name");
@@ -31,15 +60,14 @@ class M_account_code_model extends CI_Model
             FROM m_account_code
             
             WHERE 
-                branch_id = '$branch_id'
-                AND is_active = 0
-                AND acc_code NOT IN (
+                branch_id = '$branch_id' AND 
+                acc_code NOT IN (
                     SELECT acc_code
                     FROM m_parameter_neraca_saldo
                     WHERE branch_id = $branch_id
-                )
+                ) AND
+                acc_code like '%.00.000'
 
-            HAVING LENGTH(`acc_code`) = 5
             ORDER BY acc_code
             "
         );
@@ -50,21 +78,20 @@ class M_account_code_model extends CI_Model
         return $this->db->query(
             "SELECT 
                 *,
-                CONCAT(acc_code, ' ', acc_name) as acc_code_name,
-                LENGTH(`acc_code`)
+                CONCAT(acc_code, ' ', acc_name) as acc_code_name
 
             FROM m_account_code
             
             WHERE 
                 branch_id = '$branch_id'
-                AND is_active = 0
                 AND acc_code NOT IN (
                     SELECT acc_code
                     FROM m_parameter_ikhtisar_saldo
                     WHERE branch_id = $branch_id
-                )
-            
-            HAVING LENGTH(`acc_code`) = 8
+                ) AND
+                acc_code like '%.000' AND
+                acc_code NOT like '%.00.000'
+
             ORDER BY acc_code
             "
         );
@@ -75,21 +102,20 @@ class M_account_code_model extends CI_Model
         return $this->db->query(
             "SELECT 
                 *,
-                CONCAT(acc_code, ' ', acc_name) as acc_code_name,
-                LENGTH(`acc_code`)
+                CONCAT(acc_code, ' ', acc_name) as acc_code_name
 
             FROM m_account_code
             
             WHERE 
                 branch_id = '$branch_id'
-                AND is_active = 0
                 AND acc_code NOT IN (
                     SELECT acc_code
-                    FROM m_parameter_kode_rekening_saldo
-                    WHERE branch_id = $branch_id
-                )
-            
-            HAVING LENGTH(`acc_code`) > 8
+                        FROM m_parameter_kode_rekening_saldo
+                        WHERE branch_id = '$branch_id'
+                ) AND
+                acc_code NOT like '%.000' AND
+                acc_code NOT like '%.00.000'
+
             ORDER BY acc_code
             "
         );

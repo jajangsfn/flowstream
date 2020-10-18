@@ -95,7 +95,8 @@
                                 '${row.quantity}',
                                 '${row.tax}',
                                 '${row.ratio_flag}',
-                                '${row.rekening_no}'
+                                '${row.rekening_no}',
+                                '${row.hpp}'
                                 )">
                                 <i class="flaticon2-pen"></i>
                             </button>
@@ -142,7 +143,8 @@
         quantity,
         tax,
         ratio_flag,
-        rekening_no
+        rekening_no,
+        hpp
     ) {
         $("#id_barang_edit").val(id)
         $("#brand_name_edit").val(brand_name)
@@ -161,6 +163,7 @@
         $("#tax_edit").val(tax)
         $("#ratio_flag_edit").val(ratio_flag)
         $("#rekening_no_edit").val(rekening_no)
+        $("#hpp_preview").text(hpp)
 
         $('.select2').trigger('change');
         $("#edit_barang").modal('show');

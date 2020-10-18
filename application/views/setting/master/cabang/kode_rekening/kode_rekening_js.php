@@ -55,7 +55,7 @@
                         if (data == 1) {
                             return `<span class="text-success">Active</span>`;
                         } else {
-                            return `<span class="text-muted">Passive</span>`;
+                            return `<span class="text-muted">Not Active</span>`;
                         }
                     }
                 },

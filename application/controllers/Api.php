@@ -184,7 +184,6 @@ class Api extends CI_Controller
             "email" => $_POST['email'],
             "partner_code" => $_POST['partner_code'],
             "master_code" => $_POST['master_code'],
-            "branch_id" => $_POST['branch_id'],
             "address_1" => $_POST['address_1'],
             "address_2" => $_POST['address_2'],
             "city" => $_POST['city'],
@@ -214,7 +213,15 @@ class Api extends CI_Controller
 
     public function add_salesman()
     {
-        $this->part_salesman->insert($_POST);
+        $data = array(
+            "partner_id" => $_POST['partner_id'],
+            "name" => $_POST['name'],
+            "phone" => $_POST['phone'],
+            "salesman_status" => 1,
+            "created_date" => date("Y-m-d h:i:s"),
+            "flag" => 1
+        );
+        $this->part_salesman->insert($data);
         $this->session->set_flashdata("success", "Salesman berhasil ditambahkan");
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -365,8 +372,11 @@ class Api extends CI_Controller
             "width" => $_POST['width'],
             "capacity" => $_POST['capacity'],
             "description" => $_POST['description'],
-            "created_by" => $this->session->id
+            "created_by" => $this->session->id,
+            "created_date" => date("Y-m-d h:i:s"),
+            "flag" => 1
         );
+
         $this->warehouse->insert($entry_data);
         $this->session->set_flashdata("success", "Gudang berhasil tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
@@ -920,13 +930,11 @@ class Api extends CI_Controller
     }
 
     // m_unit
-    function m_unit_branch($branch_id)
+    function m_unit()
     {
         echo json_encode(
             array(
-                "data" => $this->unit->get(
-                    array("branch_id" => $branch_id)
-                )->result()
+                "data" => $this->unit->get_all()->result()
             )
         );
     }

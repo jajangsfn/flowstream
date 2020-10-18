@@ -55,7 +55,7 @@
                         <!--begin::User-->
                         <div class="pb-2">
                             <div class="symbol symbol-circle symbol-lg-75">
-                                <img src="<?= base_url("/attachment/$data_branch->logo") ?>" alt="image" />
+                                <img src="<?= base_url("/attachment/$data_branch->logo") ?>" onerror="this.onerror=null; this.src = `https://static-media-prod-cdn.itsre-sumo.mozilla.net/static/sumo/img/default-FFA-avatar.png`" alt="image" />
                             </div>
                         </div>
                         <!--end::User-->
@@ -67,7 +67,9 @@
                         </div>
                         <!--end::Name-->
                         <!--begin::Label-->
-                        <div class="btn btn-sm btn-info font-weight-bold readonly" style="cursor: unset;"><?= $data_branch->code ?></div>
+                        <a href="<?= base_url("/index.php/setting/master/cabang/$data_branch->id") ?>" class="btn btn-sm btn-info font-weight-bold readonly">
+                            <?= $data_branch->code ?>
+                        </a>
                         <!--end::Label-->
                     </a>
                 </div>

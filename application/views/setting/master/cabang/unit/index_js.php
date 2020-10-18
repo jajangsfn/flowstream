@@ -3,7 +3,7 @@
         $("#unit_table").DataTable({
             responsive: true,
             paging_type: 'full_numbers',
-            ajax: "<?= base_url("/index.php/api/m_unit_branch/$data_branch->id") ?>",
+            ajax: "<?= base_url("/index.php/api/m_unit") ?>",
             columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {

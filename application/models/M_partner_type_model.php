@@ -15,6 +15,7 @@ class M_partner_type_model extends CI_Model
 
     function insert($data)
     {
+        $data['flag'] = 1;
         $this->db->insert("m_partner_type", $data);
     }
 

@@ -284,7 +284,7 @@ class T_jurnal_model extends CI_Model
         // Get semua jurnal detail, kelompokan berdasarkan 6 digit awal kode rekening, sum debit dan kredit, where periode dan branch
         $ikhtisar_saldo_bulan = $this->db->query(
             "SELECT 
-                LEFT(t_jurnal_detail.acc_code, 6) as acc_code_ikhtisar,
+                CONCAT(LEFT(t_jurnal_detail.acc_code, 6), '00.000') as acc_code_ikhtisar,
                 m_account_code.acc_name,
                 t_ikhtisar_saldo.saldo_akhir as saldo_bulan_lalu,
                 SUM(t_jurnal_detail.debit) as debit,
@@ -294,8 +294,8 @@ class T_jurnal_model extends CI_Model
             FROM t_jurnal_detail
 
             LEFT JOIN t_jurnal on t_jurnal.jurnal_no = t_jurnal_detail.jurnal_no
-            LEFT JOIN m_account_code on m_account_code.acc_code = LEFT(t_jurnal_detail.acc_code, 6)
-            LEFT JOIN t_ikhtisar_saldo on t_ikhtisar_saldo.acc_code = LEFT(t_jurnal_detail.acc_code, 6)
+            LEFT JOIN m_account_code on m_account_code.acc_code = CONCAT(LEFT(t_jurnal_detail.acc_code, 6), '00.000')
+            LEFT JOIN t_ikhtisar_saldo on t_ikhtisar_saldo.acc_code = CONCAT(LEFT(t_jurnal_detail.acc_code, 6), '00.000')
 
             WHERE 
                 t_jurnal.jurnal_date like '$periode-%'
@@ -315,7 +315,7 @@ class T_jurnal_model extends CI_Model
         // Get semua jurnal detail, kelompokan berdasarkan 3 digit awal kode rekening, sum debit dan kredit, where periode dan branch
         $neraca_saldo_bulan = $this->db->query(
             "SELECT 
-                LEFT(t_jurnal_detail.acc_code, 3) as acc_code_neraca,
+                CONCAT(LEFT(t_jurnal_detail.acc_code, 3), '.0.00.000') as acc_code_neraca,
                 m_account_code.acc_name,
                 t_neraca_saldo_akhir.saldo_akhir as saldo_bulan_lalu,
                 SUM(t_jurnal_detail.debit) as debit,
@@ -325,8 +325,8 @@ class T_jurnal_model extends CI_Model
             FROM t_jurnal_detail
 
             LEFT JOIN t_jurnal on t_jurnal.jurnal_no = t_jurnal_detail.jurnal_no
-            LEFT JOIN m_account_code on m_account_code.acc_code = LEFT(t_jurnal_detail.acc_code, 3)
-            LEFT JOIN t_neraca_saldo_akhir on t_neraca_saldo_akhir.acc_code = LEFT(t_jurnal_detail.acc_code, 3)
+            LEFT JOIN m_account_code on m_account_code.acc_code = CONCAT(LEFT(t_jurnal_detail.acc_code, 3), '.0.00.000')
+            LEFT JOIN t_neraca_saldo_akhir on t_neraca_saldo_akhir.acc_code = CONCAT(LEFT(t_jurnal_detail.acc_code, 3), '.0.00.000')
 
             WHERE 
                 t_jurnal.jurnal_date like '$periode-%'
@@ -403,7 +403,7 @@ class T_jurnal_model extends CI_Model
             
                     SELECT 
                         null as id,
-                        LEFT(t_jurnal_detail.acc_code, 3) as acc_code,
+                        CONCAT(LEFT(t_jurnal_detail.acc_code, 3), '.0.00.000') as acc_code,
                         '$periode_data_bulan_ini' as periode,
                         CASE
                             when t_neraca_saldo_akhir.saldo_akhir is null
@@ -435,8 +435,8 @@ class T_jurnal_model extends CI_Model
                     FROM t_jurnal_detail
 
                     LEFT JOIN t_jurnal on t_jurnal.jurnal_no = t_jurnal_detail.jurnal_no
-                    LEFT JOIN m_account_code on m_account_code.acc_code = LEFT(t_jurnal_detail.acc_code, 3)
-                    LEFT JOIN t_neraca_saldo_akhir on t_neraca_saldo_akhir.acc_code = LEFT(t_jurnal_detail.acc_code, 3)
+                    LEFT JOIN m_account_code on m_account_code.acc_code = CONCAT(LEFT(t_jurnal_detail.acc_code, 3), '.0.00.000')
+                    LEFT JOIN t_neraca_saldo_akhir on t_neraca_saldo_akhir.acc_code = CONCAT(LEFT(t_jurnal_detail.acc_code, 3), '.0.00.000')
 
                     WHERE 
                         t_jurnal.jurnal_date like '$periode-%'
@@ -446,8 +446,8 @@ class T_jurnal_model extends CI_Model
                         AND (t_neraca_saldo_akhir.periode = '$periode_data_bulan_lalu' OR t_neraca_saldo_akhir.periode is null)
                         AND (t_neraca_saldo_akhir.branch_id = $branch_id OR t_neraca_saldo_akhir.branch_id is null)
 
-                    GROUP BY LEFT(t_jurnal_detail.acc_code, 3)
-                    ORDER BY LEFT(t_jurnal_detail.acc_code, 3) asc
+                    GROUP BY CONCAT(LEFT(t_jurnal_detail.acc_code, 3), '.0.00.000')
+                    ORDER BY CONCAT(LEFT(t_jurnal_detail.acc_code, 3), '.0.00.000') asc
             "
         );
 
@@ -460,7 +460,7 @@ class T_jurnal_model extends CI_Model
             
                     SELECT 
                         null as id,
-                        LEFT(t_jurnal_detail.acc_code, 6) as acc_code,
+                        CONCAT(LEFT(t_jurnal_detail.acc_code, 6), '00.000') as acc_code,
                         '$periode_data_bulan_ini' as periode,
                         CASE
                             when t_ikhtisar_saldo.saldo_akhir is null
@@ -492,8 +492,8 @@ class T_jurnal_model extends CI_Model
                     FROM t_jurnal_detail
 
                     LEFT JOIN t_jurnal on t_jurnal.jurnal_no = t_jurnal_detail.jurnal_no
-                    LEFT JOIN m_account_code on m_account_code.acc_code = LEFT(t_jurnal_detail.acc_code, 6)
-                    LEFT JOIN t_ikhtisar_saldo on t_ikhtisar_saldo.acc_code = LEFT(t_jurnal_detail.acc_code, 6)
+                    LEFT JOIN m_account_code on m_account_code.acc_code = CONCAT(LEFT(t_jurnal_detail.acc_code, 6), '00.000')
+                    LEFT JOIN t_ikhtisar_saldo on t_ikhtisar_saldo.acc_code = CONCAT(LEFT(t_jurnal_detail.acc_code, 6), '00.000')
 
                     WHERE 
                         t_jurnal.jurnal_date like '$periode-%'
@@ -503,8 +503,8 @@ class T_jurnal_model extends CI_Model
                         AND (t_ikhtisar_saldo.periode = '$periode_data_bulan_lalu' OR t_ikhtisar_saldo.periode is null)
                         AND (t_ikhtisar_saldo.branch_id = $branch_id OR t_ikhtisar_saldo.branch_id is null)
 
-                    GROUP BY LEFT(t_jurnal_detail.acc_code, 6)
-                    ORDER BY LEFT(t_jurnal_detail.acc_code, 6) asc
+                    GROUP BY CONCAT(LEFT(t_jurnal_detail.acc_code, 6), '00.000')
+                    ORDER BY CONCAT(LEFT(t_jurnal_detail.acc_code, 6), '00.000') asc
             "
         );
 

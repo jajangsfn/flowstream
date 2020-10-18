@@ -44,7 +44,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="branch_id" value="<?= $data_branch->id ?>">
                 <?= $this->load->view("component/input/flowstream_input", array(
                     "name" => "initial",
                     "placeholder" => "Masukan Inisial Unit",

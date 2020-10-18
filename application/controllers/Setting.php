@@ -131,10 +131,7 @@ class Setting extends CI_Controller
                             )
                         )->result();
                         $content['unit'] = $this->unit->get_all()->result();
-                        $content['accounts'] = $this->account->get(array(
-                            "branch_id" => $id,
-                            "is_active" => 1
-                        ))->result();
+                        $content['accounts'] = $this->account->get_akun_pendapatan_aktif($id)->result();
 
                         $data['page_title'] = "Daftar Barang " . $content['data_branch']->name;
                         $data['transactional'] = true;

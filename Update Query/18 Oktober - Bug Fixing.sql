@@ -1,0 +1,1 @@
+ALTER TABLE `m_goods` CHANGE `rekening_no` `rekening_no` VARCHAR(255) NOT NULL;

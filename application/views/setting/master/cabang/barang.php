@@ -134,7 +134,7 @@
                                 ), true); ?>
                             </div>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <?= $this->load->view("component/input/flowstream_input", array(
                                     "name" => "plu_code",
                                     "type" => "text",
@@ -148,7 +148,7 @@
                                 ), true); ?>
                             </div>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <?= $this->load->view("component/input/flowstream_input", array(
                                     "name" => "tax",
                                     "type" => "number",
@@ -162,7 +162,7 @@
                                 ), true); ?>
                             </div>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <?= $this->load->view("component/input/flowstream_input", array(
                                     "name" => "quantity",
                                     "type" => "number",
@@ -175,7 +175,7 @@
                                     "value" => false
                                 ), true); ?>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <?= $this->load->view("component/input/flowstream_select", array(
                                     "name" => "rekening_no",
                                     "title" => "Kode Akun",
@@ -302,7 +302,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group w-100">
                                     <label class="required">Rasio Penjualan</label>
-                                    <select class="form-control select2" name="ratio_flag" required>
+                                    <select class="form-control select2" data-width="100%" name="ratio_flag" required>
                                         <option value="1">per Pieces</option>
                                         <option value="0">per Unit</option>
                                     </select>
@@ -444,21 +444,11 @@
                                 ), true); ?>
                             </div>
                             <div class="col-lg-6">
-                                <?= $this->load->view("component/input/flowstream_select", array(
-                                    "name" => "rekening_no",
-                                    "title" => "Kode Akun",
-
-                                    "list" => $accounts,
-                                    "identifier" => "acc_code",
-                                    "showable" => "acc_name",
-
-                                    "id" => "rekening_no_edit",
-
-                                    "manage_url" => base_url("/index.php/setting/parameter/cabang/$data_branch->id/keuangan/kode_rekening"),
-                                    "object_name" => "kode akun",
-
-                                    "selected" => false,
-                                ), true); ?>
+                                <label for="hpp_edit" class="required">HPP</label>
+                                <div class="d-flex align-items-center" style="height: calc(1.5em + 1.3rem + 2px);">
+                                    <p id="hpp_preview" class="m-0 font-weight-bold"></p>
+                                </div>
+                                <span class="form-text text-muted">Status harga terakhir</span>
                             </div>
                         </div>
                     </div>
@@ -586,13 +576,30 @@
                             <div class="col-lg-6">
                                 <div class="form-group w-100">
                                     <label class="required">Rasio Penjualan</label>
-                                    <select class="form-control select2" name="ratio_flag" id="ratio_flag_edit" required>
+                                    <select class="form-control select2" name="ratio_flag" data-width="100%" id="ratio_flag_edit" required>
                                         <option value="1">per Pieces</option>
                                         <option value="0">per Unit</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-12">
+                        <?= $this->load->view("component/input/flowstream_select", array(
+                            "name" => "rekening_no",
+                            "title" => "Kode Akun",
+
+                            "list" => $accounts,
+                            "identifier" => "acc_code",
+                            "showable" => "acc_name",
+
+                            "id" => "rekening_no_edit",
+
+                            "manage_url" => base_url("/index.php/setting/master/cabang/$data_branch->id/kode_rekening"),
+                            "object_name" => "kode akun",
+
+                            "selected" => false
+                        ), true); ?>
                     </div>
                 </div>
                 <div class="card-footer text-right">

@@ -99,7 +99,7 @@
                         "identifier" => "code",
                         "showable" => "name",
 
-                        "manage_url" => base_url("/index.php/setting/system/m_master"),
+                        "manage_url" => null,
                         "object_name" => "Master",
 
                         "selected" => false,

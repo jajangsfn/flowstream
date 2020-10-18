@@ -146,11 +146,10 @@ class M_partner_model extends CI_Model
         $this->db->from("m_partner p");
         $this->db->join("m_branch b", "b.id = p.branch_id", "left");
         $this->db->join("m_master m", "m.code = p.master_code", "left");
-        $this->db->join("m_partner_salesman ps", "ps.partner_id = p.id", "left");
+        $this->db->join("m_partner_salesman ps", "ps.partner_id = p.id AND ps.flag <> 99", "left");
 
         $where['p.flag <>'] = 99;
         $where['p.is_supplier'] = 1;
-        $where['ps.flag <>'] = 99;
 
         $this->db->where($where);
 
