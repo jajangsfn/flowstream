@@ -165,7 +165,7 @@
                 		<div class="col-form-label col-sm-1">:</div>
 	                	<div class="col-form-label col-md-8" id="goods_price"></div>
                 	</div>
-
+ 
                 	<div class="form-group row">
                 		<div class="col-form-label col-md-3">Qty</div>
                 		<div class="col-form-label col-sm-1">:</div>

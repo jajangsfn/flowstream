@@ -502,6 +502,6 @@ class Setting extends CI_Controller
         }
 
         $this->session->set_flashdata('msg', '<div class="alert alert-success">'.$msg.'</div>');
-        redirect("setting/param_penjualan");  
+        redirect("setting/param_penjualan");   
     }
 }
