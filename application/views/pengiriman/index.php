@@ -51,17 +51,17 @@
                             <?php
                             if (in_array($row->receive_status, array(null,2))) {
                             ?>
-                            <button type="button" class="btn btn-light-info btn-sm" onclick="get_delivery_detail(<?=$row->id?>)">
+                            <button type="button" class="btn btn-light-info btn-sm" onclick="get_delivery_detail(<?=$row->order_id?>)">
                                 <i class="fa la-check"></i>
                             </button>
-                            <a href="<?=base_url()?>index.php/pengiriman/add_delivery/<?=$row->id?>">
+                            <a href="<?=base_url()?>index.php/pengiriman/add_delivery/<?=$row->order_id?>">
                                 <button type="button" class="btn btn-light-warning btn-sm">
                                 <i class="fa la-pen"></i>
                                 </button>
                             </a>
                             <?php }?>
 
-                            <a href="<?=base_url()?>index.php/pengiriman/print_delivery/<?=$row->id?>" target="_blank">
+                            <a href="<?=base_url()?>index.php/pengiriman/print_delivery/<?=$row->order_id?>" target="_blank">
                                 <button type="button" class="btn btn-light-info btn-sm">
                                 <i class="fa la-print"></i>
                                 </button>
@@ -123,13 +123,64 @@
          <label class="col-2">Alamat</label>
          <label class="m-1">:</label>
          <label class="col-3" id="addrss">Jalan Kenangan</label>
-
-         <label class="col-2">Biaya Kirim</label>
-         <label class="m-1">:</label>
-         <label class="col-3" id="charge">Rp. 20.000</label>
         </div>
         <hr/>
         <div class="row mb-2">
+            <div class="col-12">
+                <h4>Data Barang</h4>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th width="1">No</th>
+                            <th>No. Invoice</th>
+                            <th>Kode PLU</th>
+                            <th>Nama Barang
+                            <th>Qty(Pcs)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data_barang">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr/>
+        <div class="row mb-2">
+            <div class="col-12">
+                <h4>Data Pegawai</h4>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th width="1">No</th>
+                            <th>Pegawai</th>
+                            <th>Tugas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data_pegawai">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr/>
+        <div class="row mb-2">
+            <div class="col-12">
+                <h4>Data Biaya</h4>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th width="1">No</th>
+                            <th>Jenis Biaya</th>
+                            <th>Jumlah</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data_biaya">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr/>
+        <div class="row mb-2">
+         <h4 class="col-12"> Status Pengiriman</h4><br>
+         <hr/>
          <label class="col-2">Status</label>
          <label class="m-1">:</label>
          <select name='status' id="status" class="form-control col-3">

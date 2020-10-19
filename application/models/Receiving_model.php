@@ -8,7 +8,13 @@ class Receiving_model extends CI_Model
 	
 	function __construct()
 	{
-		parent::__construct();
+        parent::__construct();
+        $this->load->model(
+                            array(
+                                'T_jurnal_model' => 'jurnal',
+                                'Keuangan_model' => 'keumod',
+                            )
+                        );
 	}
 
 	function get($where) 
@@ -70,7 +76,7 @@ class Receiving_model extends CI_Model
     }
 
     function approve_receive($where)
-    {
+    { 
         // set param
         $data['flag'] = 2;
         // update receiving
@@ -88,6 +94,9 @@ class Receiving_model extends CI_Model
         // update qty all goods
         $where_goods['receiving_id'] = $where['id']; 
         $this->update_qty_goods($where_goods);
+        // create jurnal & jurnal_detail
+        $this->create_jurnal($where);
+
         return 1;
     }
 
@@ -164,10 +173,88 @@ class Receiving_model extends CI_Model
 
     }
 
-
     public function get_price_method()
     {
         return $this->db->query("SELECT * FROM s_reference WHERE group_data ='PRICE_METHOD'");
     }
+
+    public function create_jurnal($where) {
+
+        //get header
+        $this->db->select("*");
+        $this->db->where("id", $where['id']);
+        $header = $this->db->get("t_receiving")->result();
+
+        //get detail
+        $this->db->select("*");
+        $this->db->where("receiving_id", $where['id']);
+        $detail = $this->db->get("t_receiving_detail")->result();
+        
+        $dpp_dipungut = 0;
+        //counting dpp dipungut from detail
+        foreach($detail as $key => $row) {
+            $dpp_dipungut+= ($row->price * $row->quantity) - (( ($row->price * $row->quantity) * $row->discount) /100);
+        }
+        
+        
+        //data
+        $branch_id    = $this->session->branch_id;
+        $journal_no   = $this->jurnal->get_next_jurnal_no($branch_id);
+        $journal_date = date('Y-m-d');
+        $invoice_no   = $header[0]->receiving_no;
+        $username     = $this->session->username;
+
+        //header
+        $temp_jurnal  = array("jurnal_no" => $journal_no,
+                             "branch_id" => $branch_id,
+                             "jurnal_date" => $journal_date,
+                             "invoice_no" => $invoice_no,
+                             "username" => $username,
+                             "dpp_dipungut" => $dpp_dipungut,
+                             "dpp_ditanggung" => $dpp_dipungut,
+                             "created_date" => date('Y-m-d H:i:s'),
+                             "updated_date" => date('Y-m-d H:i:s'),
+                        );
+        
+        // insert into t_journal
+        $this->db->insert("t_jurnal", $temp_jurnal);
+
+        //get data journal mapping
+        $this->db->where("JOURNAL_CD", "PO");
+        $this->db->order_by("SEQ_LINE");
+        $journal_ref = $this->db->get("m_journal_mapping")->result();
+
+        foreach($journal_ref as $key => $row) {
+
+            if ($row->SEQ_LINE == 1) {
+                $debit = 0;
+                $credit= $dpp_dipungut;
+            }else {
+                $debit = $dpp_dipungut;
+                $credit= 0;
+            }
+            //get master id          
+            $master_id = $this->db->query("SELECT salesman.partner_id 
+                                           FROM t_purchase_order po 
+                                           JOIN m_partner_salesman salesman on salesman.id=po.salesman_id
+                                           WHERE po.id=".$header[0]->purchase_order_id)->row()->partner_id;
+
+            $temp_jurnal_detail = array("jurnal_no" => $journal_no,
+                                        "invoice_no" => $invoice_no,
+                                        "acc_code" => $row->ACCOUNT_CODE,
+                                        "invoice_no" => $invoice_no,
+                                        "debit" => $debit,
+                                        "credit" => $credit,
+                                        "master_id" => $master_id);
+            
+            //insert into jurnal detail
+            $this->db->insert("t_jurnal_detail", $temp_jurnal_detail);
+
+            // 2. entry tagihan hutang
+            $this->keumod->entry_tagihan_hutang_baru($invoice_no, $dpp_dipungut);
+        }     
+
+    }
+
 }
 ?>

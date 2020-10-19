@@ -122,7 +122,7 @@ class Pembelian extends CI_Controller
     public function purchase_order()
     {
 
-        $data['page_title']   = "Purchase Order";
+        $data['page_title']   = "Purchase Order"; 
         $data['po_data']      = $this->po->get_all_trx(null,array("tab1.id"))->result(); 
         $data['master']       = array();
         $data['page_content'] = $this->load->view("pembelian/po/purchase_order", $data, true); 
@@ -513,7 +513,7 @@ class Pembelian extends CI_Controller
         $index = 0;
         
 
-        for ($i=0; $i <29 ; $i++) { 
+        for ($i=0; $i <9; $i++) { 
             $data[$index] = array();
             // PO
             // $data[$index]['partner_name'] = "PT ABCD";
@@ -637,7 +637,6 @@ class Pembelian extends CI_Controller
             // $data[$index]['quantity']      =  rand(10, 2390); 
             // $data[$index]['checksheet_qty']      =  rand(10, 2390); 
             // $data[$index]['checksheet_id']      =  1; 
-            // // $data[$index]['checksheet_id']      =  rand(10, 2390); 
             // $data[$index]['price']      =  rand(10, 2390); 
             // $data[$index]['total']      =  $data[$index]['price'] * $data[$index]['quantity'];
             // $data[$index]['discount']      =  rand(0, 10); 
@@ -681,13 +680,30 @@ class Pembelian extends CI_Controller
             // $data[$index]['jurnal_no'] =  $this->generateRandomString(20);
             // $data[$index]['acc_code']  = $this->generateRandomString(10);
             // $data[$index]['acc_name']  = $this->generateRandomString(20);
-            // $data[$index]['saldo_bulan_lalu']  = rand(12000,9999999);
+            // $data[$index]['saldo_bulan_lalu']  = 0;
             // $data[$index]['debit']  = rand(1000,9999999);
             // $data[$index]['credit']  = rand(1000,9999999);
             // $data[$index]['total_debit']  = rand(1000,9999999);
             // $data[$index]['total_credit']  = rand(1000,9999999);
             // $data[$index]['position']  = rand(1,2) == 1 ? "D" : "K";
 
+
+            //ikhtisar buku besar
+            // $data[$index]['page'] = "1 dari 1";
+            // $data[$index]['periode'] = date('Y-m');
+            // $data[$index]['date'] = date('Y-m-d');
+            // $data[$index]['time'] = date('H:i:s');
+            // $data[$index]['jurnal_no'] =  $this->generateRandomString(20);
+            // $data[$index]['acc_code_header']  = $this->generateRandomString(10);
+            // $data[$index]['acc_name_header']  = $this->generateRandomString(20);
+            // $data[$index]['acc_code']  = $this->generateRandomString(10);
+            // $data[$index]['acc_name']  = $this->generateRandomString(20);
+            // $data[$index]['saldo_bln_lalu']  = 0;
+            // $data[$index]['debit']  = rand(1000,9999999);
+            // $data[$index]['credit']  = rand(1000,9999999);
+            // $data[$index]['total_debit']  = rand(1000,9999999);
+            // $data[$index]['total_credit']  = rand(1000,9999999);
+            // $data[$index]['position']  = rand(1,2) == 1 ? "D" : "K";
             //delivery
             $data[$index]['delivery_no'] = $this->generateRandomString(20);
             $data[$index]['delivery_date'] = date('Y-m');
@@ -706,7 +722,7 @@ class Pembelian extends CI_Controller
        
 
 
-        // echo json_encode($data);
+        // echo json_encode($data);exit;
         // $this->pdf->dynamic_print(1,"po_in",$data);
         // $this->pdf->dynamic_print(1,"receive_in",$data);
         // $this->pdf->dynamic_print(1,"warehouse_in",$data);
@@ -721,6 +737,7 @@ class Pembelian extends CI_Controller
         // $this->pdf->dynamic_print(2,"pos_out",$data);
         // $this->pdf->dynamic_print(3,"neraca_saldo",$data);
         $this->pdf->dynamic_print(3,"delivery",$data);
+        // $this->pdf->dynamic_print(3,"ikhtisar_buku_besar",$data);
     }
 
 
@@ -752,6 +769,10 @@ class Pembelian extends CI_Controller
         $data       = $this->po->get_all_trx($supplier_id, $group_by)->result();
 
         echo json_encode($data);
+    }
+
+    public function md55() {
+        echo md5('pdpjadmin');
     }
 
 

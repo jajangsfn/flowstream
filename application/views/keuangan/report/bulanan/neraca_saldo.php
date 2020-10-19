@@ -104,8 +104,8 @@
                                 ?>
                                 <tr>
                                     <td class="text-center"><?=$key+1?></td>
-                                    <td><?=$row->acc_code?></td>
-                                    <td><?=$row->acc_name?></td>
+                                    <td><?=$row->acc_code_header?></td>
+                                    <td><?=$row->acc_name_header?></td>
                                     <td class="text-right"><?=number_format($row->saldo_bln_lalu). " ".$position;?></td>
                                     <td class="text-right"><?=number_format($row->total_debit)?></td>
                                     <td class="text-right"><?=number_format($row->total_credit)?></td>

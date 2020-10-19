@@ -46,7 +46,7 @@ class Inventori extends CI_Controller
     // receiving
     public function receiving()
     {
-        // echo json_encode($_POST);exit;
+        #echo json_encode($_POST);exit;
          if (count($_POST)) {
 
             $id_user           = $this->session->userdata('id');
@@ -55,6 +55,7 @@ class Inventori extends CI_Controller
             $branch_name       = $this->session->userdata('branch_name');
             //get active price method
             $price_method      = $this->ref->get_type_price("flag = 1")->row()->id;
+            #echo json_encode($price_method);exit;
             // set price method
             $_POST['price_method'] = $price_method;
             
@@ -239,13 +240,14 @@ class Inventori extends CI_Controller
            for ($i=0; $i < count($param['goods_id']) ; $i++) {
 
                $param_price_method = array(
+                                            "reference_no" => $param['purchase_receive_no'],
                                             "price_method" => $param['price_method'],
                                             "goods_id" => $param['goods_id'][$i],
                                             "quantity" => $param['goods_qty'][$i],
                                             "price" => $param['goods_price'][$i],
                                             "discount" => $param['goods_discount'][$i],
                                         ); 
-
+ 
                $param['goods_price'][$i] = $this->rdm->price_method($param_price_method);
            }
         }
@@ -257,7 +259,7 @@ class Inventori extends CI_Controller
     public function approve_receive()
     {
         $data['id'] = $this->input->get("rv_id");
-
+ 
         $msg   = $this->rm->approve_receive($data);
 
         echo json_encode($msg);
@@ -534,5 +536,10 @@ class Inventori extends CI_Controller
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
+    }
+
+    public function jurnal($id=4) {
+        $where['id'] = $id;
+        $this->rm->create_jurnal($where);
     }
 }

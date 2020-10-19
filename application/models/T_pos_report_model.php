@@ -21,7 +21,8 @@ class T_pos_report_model extends CI_Model
 									)
 								)
 								total,
-								(tab3.total / tab3.quantity) price,
+								(tab3.total / tab3.quantity) price_ppn,
+								tab3.price,(tab3.tax / tab3.quantity)  ppn,
 								tab1.*,tab4.id goods_id,tab4.barcode,tab4.plu_code,tab4.sku_code, 
 								tab4.brand_name,tab4.brand_description,tab3.quantity,tab3.discount,tab3.tax ,
 								count(DISTINCT tab1.id) total_trans, tab5.initial unit_initial, tab5.name unit_desc,

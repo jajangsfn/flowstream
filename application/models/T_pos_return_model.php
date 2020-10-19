@@ -18,7 +18,7 @@ class T_pos_return_model extends CI_Model
     }
 
 
-    function get_return_no()
+    function get_return_no() 
     {
         $branch_id  = ($this->session->userdata('branch_id')) ? $this->session->userdata('branch_id')  : 1;
 
@@ -85,11 +85,12 @@ class T_pos_return_model extends CI_Model
                                 tab6.barcode,tab6.brand_description goods_name,tab6.sku_code,tab6.plu_code,
                                 tab2.warehouse_id,tab5.`name` warehouse_name,tab1.partner_id,tab7.name customer,
                                 tab2.quantity,tab4.price,tab4.discount,
-                                (tab2.quantity * tab4.price)total,tab3.invoice_no
+                                (tab2.quantity * tab4.price)total,
+                                (tab4.tax / tab4.quantity) ppn,tab3.invoice_no
                                 FROM t_pos_return tab1
                                 JOIN t_pos_return_detail tab2 ON tab2.purchase_return_id=tab1.id
                                 LEFT JOIN t_pos tab3 ON tab3.invoice_no=tab1.reference_no
-                                LEFT JOIN t_pos_detail tab4 ON tab4.pos_id=tab3.id
+                                LEFT JOIN t_pos_detail tab4 ON tab4.pos_id=tab3.id  and tab4.goods_id=tab2.goods_id
                                 LEFT JOIN m_warehouse tab5 ON tab5.id=tab2.warehouse_id
                                 LEFT JOIN m_goods tab6 ON tab6.id=tab2.goods_id
                                 LEFT JOIN m_partner tab7 ON tab7.id=tab1.partner_id

@@ -453,7 +453,7 @@ class Penjualan extends CI_Controller
     public function print_return($id)
     {
         $where = "tab1.id=" . $id;
-        $group = "tab1.id,tab2.id";
+        $group = "tab2.id";
         $data = $this->pos_return->get_all($where, $group, 2);
         $this->pdf->dynamic_print(2, "return_out", $data);
     }

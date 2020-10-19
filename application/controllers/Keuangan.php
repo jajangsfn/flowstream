@@ -431,7 +431,7 @@ class Keuangan extends CI_Controller
         $data['page_title'] = "Neraca Saldo";
         $data['neraca']     = array();
 
-        if (isset($_GET['submit'])) {
+        if (isset($_GET['submit'])) { 
 
             $data['neraca'] = $this->keumod->get_neraca_saldo($_GET['year'] . '-' . $_GET['periode'])->result();
         }
@@ -466,12 +466,35 @@ class Keuangan extends CI_Controller
 
     private function ikhtisar_buku_besar()
     {
+        $data['ikhtisar_buku_besar'] = array();
+        
+        if (isset($_GET['submit'])) {
+            $data['ikhtisar_buku_besar'] = $this->get_ikhtisar_buku_besar($_GET['year']."-".$_GET['periode']);
+        }
+
         $data['page_title'] = "Ikhtisar Buku Besar";
-        $data['page_content'] = $this->load->view("keuangan/report/ikhtisar/ikhtisar_buku_besar", "", true);
+        $data['page_content'] = $this->load->view("keuangan/report/ikhtisar/ikhtisar_buku_besar", $data, true);
 
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
+    }
+
+    public function get_ikhtisar_buku_besar($periode) {
+        $data       = $this->keumod->get_neraca_saldo($periode, 2)->result_array();
+        
+        $temp_data  = array();
+
+        if (!empty($data)) {
+            foreach($data as $key => $row){
+                $acc_code_data   = $this->keumod->get_acc_code_header(substr(trim($row['acc_code']),0,5).".00.000")->row();
+                $temp_data[$row['acc_code_header']]['acc_code_header'] = substr($acc_code_data->acc_code,0,5);
+                $temp_data[$row['acc_code_header']]['acc_name_header'] = $acc_code_data->acc_name;
+                $temp_data[$row['acc_code_header']]['data'][] = $row;
+            }
+        }
+        
+        return $temp_data;
     }
 
     private function ikhtisar_pajak()
@@ -540,8 +563,8 @@ class Keuangan extends CI_Controller
                 $data[$key]['time'] = date('H:i:s');
                 $data[$key]['jurnal_no'] = $row->jurnal_no;
                 $data[$key]['jurnal_date'] = $row->jurnal_date;
-                $data[$key]['acc_code'] = $row->acc_code;
-                $data[$key]['acc_name'] = $row->acc_name;
+                $data[$key]['acc_code'] = $row->acc_code_header;
+                $data[$key]['acc_name'] = $row->acc_name_header;
                 $data[$key]['saldo_bulan_lalu'] = $row->saldo_bln_lalu;
                 $data[$key]['debit'] = $row->debit;
                 $data[$key]['credit'] = $row->credit;
@@ -552,7 +575,40 @@ class Keuangan extends CI_Controller
                 $page+=1;
             }
         } 
-        // echo json_encode($data);exit;
+        
         $this->pdf->dynamic_print(3, "neraca_saldo", $data);
+    }
+
+
+    public function print_ikhtisar_buku_besar($periode) {
+        $data = $this->get_ikhtisar_buku_besar($periode);
+        $temp = array();
+        $total_page = ceil(count($data) / 45);
+        $page       = 1; 
+        $total_row  = 0;
+
+        foreach($data as $key => &$row) {
+            
+            foreach($row['data'] as $key2 => &$val) {
+                $val['page'] = $page . ' dari ' . $total_page;
+                $val['periode'] = $periode;
+                $val['date'] = date('Y-m-d');
+                $val['time'] = date('H:i:s');
+                $val['acc_code_header'] = $row['acc_code_header'];
+                $val['acc_name_header'] = $row['acc_name_header'];
+                $total_row+=1;
+                array_push($temp,$val);
+            }
+
+            if ($total_row == 45) {
+                $page+=1;
+                $total_row = 0;
+            }
+            
+
+            
+        }
+        
+        $this->pdf->dynamic_print(3, "ikhtisar_buku_besar", $temp);
     }
 }

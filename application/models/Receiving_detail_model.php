@@ -71,7 +71,8 @@ class Receiving_detail_model extends CI_Model
                 $new_qty = $goods->quantity + intval($param['quantity']);
                 // jika metode harga yg dipilih adalah faktur terakhir
                 if ($param['price_method'] == 31) {
-                    $new_hpp = $goods->hpp;
+                    // $new_hpp = $goods->hpp;
+                    $new_hpp = $param['price'];
                 }else {
                     // calculate m goods qty * price
                     $sum_m_goods = ( $goods->quantity * $goods->hpp );
@@ -83,6 +84,21 @@ class Receiving_detail_model extends CI_Model
                     $new_hpp     =  floor( ($sum_m_goods + $sum_r_detail) / ($new_qty) );
                 }
 
+                //update harga hpp
+                $this->db->where("id", $param['goods_id']);
+                $this->db->update("m_goods", array("hpp"=>$new_hpp));
+                // insert into price history
+                $insert_history = array("branch_id" => $this->session->userdata('branch_id'),
+                                        "reference_no" => $param['reference_no'],
+                                        "goods_id" => $param['goods_id'],
+                                        "discount" => $param['discount'],
+                                        "price" => $param['price'],
+                                        "transaction_flag" => 1,
+                                        "flag" => 1,
+                                        "created_date" => date('Y-m-d H:i:s'),
+                                        "created_by" => $this->session->userdata('id')
+                                    );
+                $this->db->insert("m_price_history", $insert_history); 
                 $hpp = $new_hpp;
                
         }

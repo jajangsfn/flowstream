@@ -8,11 +8,14 @@ class T_delivery_model extends CI_Model {
     public function get_delivery($where = null) {
 
         $this->db->select("pack.*,order.id order_id,order.delivery_no,
-                            order.delivery_date,order.car_number,
+                            order.delivery_date,order.car_number,order.description order_desc,
                             partner.name,partner.address_1 address_partner,
                             team.id delivery_team_id,team.employee_id,
-                            employee.name employee_name,good.plu_code, 
-                            detail.goods_id,good.sku_code, good.barcode,good.brand_description,
+                            employee.name employee_name,
+                            team.job_description,
+                            good.plu_code, 
+                            detail.id detail_id,detail.goods_id,good.sku_code, good.barcode,
+                            good.brand_description,
                             detail.qty");
         $this->db->from("t_delivery_package pack");
         $this->db->join("t_delivery_order order", "order.id=pack.delivery_order_id");
@@ -27,7 +30,7 @@ class T_delivery_model extends CI_Model {
             $this->db->group_by("order.delivery_no");
         }else {
             $this->db->where($where);
-            $this->db->group_by("order.delivery_no,detail.id");
+            $this->db->group_by("order.delivery_no,detail.id,team.id,pack.id");
         }
 
         $this->db->order_by("order.delivery_no","desc");
@@ -60,7 +63,8 @@ class T_delivery_model extends CI_Model {
         return $this->db->query("SELECT partner.name,partner.address_1 address,employee.name employee_name,pos.*,deliv.*,goods.sku_code,goods.plu_code,goods.brand_description,(pos.qty_pos - COALESCE(deliv.qty_deliv,0)) sisa 
                                 FROM 
                                 ( 
-                                    SELECT pos.partner_id,pos.invoice_no, pos_detail.goods_id goods_id_pos, sum(pos_detail.quantity) qty_pos 
+                                    SELECT pos.id,pos.partner_id,pos.invoice_no, pos_detail.goods_id goods_id_pos, 
+                                    sum(pos_detail.quantity) qty_pos 
                                     FROM t_pos pos 
                                     JOIN t_pos_detail pos_detail ON pos_detail.pos_id=pos.id 
                                         ".(isset($po_no) ? " WHERE pos.invoice_no='$po_no' " : "")."

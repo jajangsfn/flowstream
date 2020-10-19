@@ -71,14 +71,6 @@
                                     <span class="navi-text font-size-lg">Kode Rekening</span>
                                 </a>
                             </div>
-                            <div class="navi-item mb-2">
-                                <a href="#" class="navi-link py-4" onclick="change_type_price()">
-                                    <span class="navi-icon mr-2">
-                                        <span class="fa fa-dollar-sign"></span>
-                                    </span>
-                                    <span class="navi-text font-size-lg">Jenis Harga</span>
-                                </a>
-                            </div>
                             <div class="navi-item mb-2 d-none">
                                 <a href="<?= current_url() ?>/tutup_buku" class="navi-link py-4">
                                     <span class="navi-icon mr-2">
@@ -167,6 +159,14 @@
                                         <span class="flaticon2-box"></span>
                                     </span>
                                     <span class="navi-text font-size-lg">Barang</span>
+                                </a>
+                            </div>
+                            <div class="navi-item mb-2">
+                                <a href="#" class="navi-link py-4" onclick="change_type_price()">
+                                    <span class="navi-icon mr-2">
+                                        <span class="fa fa-dollar-sign"></span>
+                                    </span>
+                                    <span class="navi-text font-size-lg">Jenis Harga</span>
                                 </a>
                             </div>
                             <div class="navi-item mb-2">

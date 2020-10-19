@@ -160,22 +160,24 @@ class Keuangan_model extends CI_Model
         ));
     }
 
-    public function get_neraca_saldo($periode = '2020-07')
+    public function get_neraca_saldo($periode = '2020-07',$type = 1)
     {
-        return $this->db->query("SELECT  t1.jurnal_no,SUBSTR(t1.jurnal_date,1,7)jurnal_date,
-                                    SUBSTR(SUBSTR(t2.acc_code FROM 3),3,4) acc_code,t3.acc_name,
-                                    t4.saldo_akhir saldo_bln_lalu,
-                                    t2.debit,t2.credit, 
-                                    sum(t2.debit) total_debit,
-                                    sum(t2.credit) total_credit ,
-                                    t3.position
-                                FROM 
-                                    t_jurnal t1 
-                                    JOIN t_jurnal_detail t2 ON t2.jurnal_no=t1.jurnal_no
-                                    JOIN m_account_code t3 ON SUBSTR(t3.acc_code,1,8)=TRIM(t2.acc_code)
-                                    LEFT JOIN t_neraca_saldo_akhir t4 ON SUBSTR(t4.acc_code,1,8)=TRIM(t2.acc_code)
-                                WHERE SUBSTR(t1.jurnal_date,1,7) ='$periode'
-                                GROUP BY SUBSTR(SUBSTR(t2.acc_code FROM 3),3,3)");
+        $group = $type == 1 ? "SUBSTR(TRIM(acc_code),1,5)" : "SUBSTR(TRIM(acc_code),1,8)";
+        
+        return $this->db->query("SELECT t1.jurnal_no,SUBSTR(TRIM(t3.acc_code),1,5) acc_code_header,
+        t3.acc_name acc_name_header,
+                                    SUBSTR(TRIM(t2.acc_code),1,8)acc_code,t3.acc_name,
+                                    sum(t2.debit)debit,sum(t2.debit) total_debit,
+                                    sum(t2.credit) credit ,sum(t2.credit) total_credit ,
+                                    IFNULL(t5.saldo_akhir,0) saldo_bln_lalu,
+                                    ifnull(t3.position,'D') position,
+                                    jurnal_date 
+                                FROM t_jurnal t1 
+                                JOIN t_jurnal_detail t2 ON t1.jurnal_no=t2.jurnal_no
+                                LEFT JOIN m_account_code t3 ON TRIM(t2.acc_code)= trim(t3.acc_code)
+                                LEFT JOIN t_neraca_saldo_akhir t5 ON substr(t5.acc_code,1,3)=TRIM(t2.acc_code)
+                                WHERE DATE_FORMAT(jurnal_date,'%Y-%m')='$periode'
+                                GROUP BY $group");
     }
 
     function get_parameter_neraca_saldo_akhir($branch_id)
@@ -614,4 +616,12 @@ class Keuangan_model extends CI_Model
 
         return $data;
     }
+
+    function get_acc_code_header($where) {
+        $this->db->select("acc_code,acc_name");
+        $this->db->from("m_account_code");
+        $this->db->where("acc_code", $where);
+        return $this->db->get();
+    }
 }
+
