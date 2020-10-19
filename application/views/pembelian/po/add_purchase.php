@@ -14,7 +14,7 @@
                       "label" => "Search",
                       "help" => "", 
                       "value" => false, 
-                      "autocomplete"=>"off",
+                      "autocomplete"=>"off", 
                         ), true); ?>	
                 <hr>
                 <ul class="navi navi-hover navi-active" id="goods_list" style="overflow: scroll;height: 400px">
