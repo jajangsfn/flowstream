@@ -41,7 +41,7 @@ function save_invoice_format() {
     if ($("#enabled").prop("checked") == true) {
 
         if ($("#invoice_code").val() == "") {
- 
+  
             Swal.fire(
 				        "Gagal!",
 				        "Silahkan isi Kode Faktur!",

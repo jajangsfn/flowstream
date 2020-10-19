@@ -264,7 +264,7 @@
 	{
 		
 		$("tr#"+id).each(function(){
-			var new_input = {}; 
+			var new_input = {};  
 
 			var goods_id_chart = $(this).find('td #goods_id_chart_'+id).val();
 			var goods_qty_chart = ($(this).find('td #goods_qty_chart_'+id).val() ) ? parseInt( $(this).find('td #goods_qty_chart_'+id).val() ) : 0;

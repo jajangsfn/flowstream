@@ -257,7 +257,7 @@ class Penjualan extends CI_Controller
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
     }
-
+ 
     public function print_pos($pos_id)
     {
         $data = $this->pos_report->pos_report("tab1.id=" . $pos_id, "tab3.id")->result_array();

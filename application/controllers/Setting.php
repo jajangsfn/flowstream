@@ -500,7 +500,7 @@ class Setting extends CI_Controller
             $this->db->insert("m_parameter_nomor_faktur", $arr);
             $msg = "Parameter Kode Faktur berhasil disimpan";
         }
-
+ 
         $this->session->set_flashdata('msg', '<div class="alert alert-success">'.$msg.'</div>');
         redirect("setting/param_penjualan");   
     }

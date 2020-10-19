@@ -117,7 +117,7 @@
 								<tbody id="goods_chart_table">
 								</tbody>
 								<tfoot>
-									<tr> 
+									<tr>  
 										<td colspan="9" class="text-center">
 											<button type='button' class="btn btn-light-success btn-md" id="btn_save_purchase">
 												<span class="fa fa-save"></span>
