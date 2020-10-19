@@ -1,0 +1,27 @@
+ALTER TABLE `t_jurnal_detail` CHANGE `debit` `debit` FLOAT(11) NULL DEFAULT NULL;
+ALTER TABLE `t_jurnal_detail` CHANGE `credit` `credit` FLOAT(11) NULL DEFAULT NULL;
+
+CREATE TABLE `m_journal_mapping` (
+  `ID` int(11) NOT NULL,
+  `JOURNAL_CD` varchar(255) DEFAULT NULL,
+  `JOURNAL_TYPE` varchar(255) DEFAULT NULL,
+  `SEQ_LINE` varchar(255) DEFAULT NULL,
+  `ACCOUNT_CODE` varchar(255) DEFAULT NULL,
+  `FLAG` varchar(255) DEFAULT NULL,
+  `BRANCH_ID` int(255) DEFAULT NULL,
+  `BRANCH_NAME` varchar(255) DEFAULT NULL,
+  `CREATED_BY` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `m_journal_mapping` (`ID`, `JOURNAL_CD`, `JOURNAL_TYPE`, `SEQ_LINE`, `ACCOUNT_CODE`, `FLAG`, `BRANCH_ID`, `BRANCH_NAME`, `CREATED_BY`) VALUES
+(1, 'POS', '12', '1', '2-1.8.01.000', 'Y', 1, 'Main', 'SYSADMIN'),
+(2, 'POS', '12', '2', '1-1.2.01.000', 'Y', 1, 'Main', 'SYSADMIN'),
+(3, 'KAS', '12', '1', '1-1.1.01.000', 'Y', 1, 'Main', 'SYSADMIN'),
+(4, 'KAS', '12', '2', '1-1.1.01.000', 'Y', 1, 'Main', 'SYSADMIN');
+
+ALTER TABLE `m_journal_mapping`
+  ADD PRIMARY KEY (`ID`);
+
+ALTER TABLE `m_journal_mapping`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+COMMIT;

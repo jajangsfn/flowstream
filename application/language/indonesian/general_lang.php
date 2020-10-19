@@ -1,0 +1,46 @@
+<?php
+$lang['general_submit'] = "Kirim";
+$lang['general_list'] = "Daftar";
+$lang['general_add'] = "Tambah";
+$lang["general_name"] = "Nama";
+$lang["general_barcode"] = "Barcode";
+$lang["general_division"] = "Divisi";
+$lang["general_subdivision"] = "Sub - Divisi";
+$lang["general_category"] = "Kategori";
+$lang["general_subcategory"] = "Sub - Kategori";
+$lang["general_package"] = "Paket";
+$lang["general_color"] = "Warna";
+$lang["general_unit"] = "Unit";
+$lang["general_quantity"] = "Jumlah";
+$lang["general_tax"] = "Pajang";
+$lang["general_action"] = "Aksi";
+$lang["general_sku"] = "SKU";
+$lang["general_plu"] = "PLU";
+$lang["general_hpp"] = "HPP";
+$lang["general_number"] = "No";
+$lang["general_master"] = "Master";
+$lang["general_branch"] = "Cabang";
+$lang["general_partner_code"] = "Kode Partner";
+$lang["general_address_1"] = "Alamat 1";
+$lang["general_address_2"] = "Alamat 2";
+$lang["general_city"] = "Kota";
+$lang["general_province"] = "Provinsi";
+$lang["general_zip_code"] = "Kode Pos";
+$lang["general_phone"] = "Nomor Ponsel";
+$lang["general_fax"] = "Nomor Fax";
+$lang["general_tax_number"] = "Nomor Pajak (NPWP)";
+$lang["general_salesman"] = "Nama Penjual";
+$lang["general_partner_type"] = "Tipe Partner";
+$lang["general_sll"] = "Sales Price Level";
+$lang["general_tax_addr"] = "Alamat Sesuai Pajak";
+$lang["general_is_customer"] = "Adalah Customer";
+$lang["general_is_supplier"] = "Adalah Supplier";
+$lang["general_yes"] = "Ya";
+$lang["general_no"] = "Tidak";
+
+$lang["general_list_goods"] = "Daftar Barang";
+$lang["general_list_supplier"] = "Daftar Supplier";
+
+$lang["general_list_goods_page"] = "Master Data Barang";
+$lang["general_list_supplier_page"] = "Master Data Supplier";
+$lang["general_list_customer_page"] = "Master Data Customer";
