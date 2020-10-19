@@ -136,8 +136,13 @@ class pdf
 												   								"width"=>2.5,
 												   								"height"=>0.4,
 												   								"align"=>'R',
-												   							),
-												   					5 => array( "title"=> "Jumlah",
+																			   ),
+																	5 => array( "title"=> "Discount",
+																			   "width"=>2,
+																			   "height"=>0.4,
+																			   "align"=>'R',
+																		   ),
+												   					6 => array( "title"=> "Jumlah",
 												   								"width"=>3.5,
 												   								"height"=>0.4,
 												   								"align"=>'R',
@@ -235,21 +240,26 @@ class pdf
 														   				"align"=>'L',
 														   			),
 														   	2 => array( "title"=> "Nama Barang",
-														   				"width"=>93,
+														   				"width"=>80,
 														   				"height"=>5,
 														   				"align"=>'L',
 														   			  ),
 														   	3 => array( "title"=> "Harga Satuan",
-														   				"width"=>25,
+														   				"width"=>23,
 														   				"height"=>5,
 														   				"align"=>'R',
 														   			  ),
 														   	4 => array( "title"=> "Qty (Pcs)",
-														   				"width"=>25,
+														   				"width"=>20,
 														   				"height"=>5,
 														   				"align"=>'R',
-														   			),
-														   	5 => array( "title"=> "Jumlah",
+																	   ),
+															5 => array( "title"=> "Disc",
+																	   "width"=>20,
+																	   "height"=>5,
+																	   "align"=>'R',
+																   ),
+														   	6 => array( "title"=> "Jumlah",
 														   				"width"=>30,
 														   				"height"=>5,
 														   				"align"=>'R',
@@ -3639,8 +3649,9 @@ class pdf
 					$border = 'L,R';
 				}
 				
+				$discount = ((($val['goods_price'] * $val['goods_qty']) * $val['goods_discount']) /100);
+				$total = $val['goods_price'] * $val['goods_qty'] - $discount;
 
-				$total = $val['goods_price'] * $val['goods_qty'] - (($val['goods_price'] * $val['goods_qty'] * $val['goods_discount']) /100);
 				$grant_total+=$total;
 				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
@@ -3662,12 +3673,17 @@ class pdf
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
 						   number_format($val['goods_qty']),$border,0,
-						   $paper_reference[$type_print][$use_paper]['body'][4]['align']);	
-
+						   $paper_reference[$type_print][$use_paper]['body'][4]['align']);
+				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
-						   number_format($total),$border,0,
+						   number_format($discount),$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][5]['align']);	
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
+						   number_format($total),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][6]['align']);	
 
 				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
 

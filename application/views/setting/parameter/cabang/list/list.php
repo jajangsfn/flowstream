@@ -9,7 +9,7 @@
         </a>
     </div>
     <div class="col-md-2">
-        <a href="#" class="h4 text-white text-hover-white text-center">
+        <a href="<?=base_url()?>index.php/setting/param_penjualan" class="h4 text-white text-hover-white text-center">
             <div class="card card-stretch card-custom gutter-b bg-primary">
                 <div class="card-body d-flex justify-content-center align-items-center">
                     Parameter Penjualan

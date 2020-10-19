@@ -330,7 +330,7 @@ class Setting extends CI_Controller
     }
 
     private function parameter_cabang($id = '', $firstpath = '', $second_path = '', $third_path = '', $fourth_path = '', $fifth_path = '')
-    {
+    { 
         $data['transactional'] = true;
         if ($id) {
             // data cabang
@@ -451,5 +451,57 @@ class Setting extends CI_Controller
         $this->ref->update_type_price($id_type_price);
         $this->session->set_flashdata("success", "Jenis Harga berhasil diubah");
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+
+    public function param_penjualan() {
+
+        $data['page_title'] = "Parameter Penjualan";
+        $data['page_content'] = $this->load->view("setting/parameter/penjualan/index", "", true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+        $this->load->view('setting/parameter/penjualan/invoice_js');
+    }
+
+    public function get_invoice_format() {
+        $branch_id = $this->session->userdata('branch_id');
+        $qry = $this->db->query("SELECT * FROM m_parameter_nomor_faktur WHERE branch_id=".$branch_id)->result_array();
+        echo json_encode($qry);
+    }
+    
+    public function save_invoice_format() {
+        
+        $post = $this->input->post();
+        
+        if (!empty($post['id'])) {
+            $arr = array(
+                "invoice_code" => trim($post['invoice_code']),
+                "flag" => $post['enabled'] == "on" ? 1 : null,
+                "updated_by" => $this->session->userdata('id'),
+                "updated_date" => date('Y-m-d H:i:s')
+            );
+            
+            $this->db->where("id", $post['id']);
+            $this->db->update("m_parameter_nomor_faktur", $arr);
+
+            $msg = "Parameter Kode Faktur berhasil diperbaharui";
+        }else {
+            $arr = array(
+                "branch_id" => $this->session->userdata('branch_id'),
+                "invoice_code" => trim($post['invoice_code']),
+                "flag" => $post['enabled'] == "on" ? 1 : null,
+                "created_by" => $this->session->userdata('id'),
+                "updated_by" => $this->session->userdata('id'),
+                "created_date" => date('Y-m-d H:i:s'),
+                "updated_date" => date('Y-m-d H:i:s')
+            );          
+            $this->db->insert("m_parameter_nomor_faktur", $arr);
+            $msg = "Parameter Kode Faktur berhasil disimpan";
+        }
+
+        $this->session->set_flashdata('msg', '<div class="alert alert-success">'.$msg.'</div>');
+        redirect("setting/param_penjualan");  
     }
 }

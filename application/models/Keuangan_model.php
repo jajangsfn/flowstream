@@ -162,7 +162,8 @@ class Keuangan_model extends CI_Model
 
     public function get_neraca_saldo($periode = '2020-07',$type = 1)
     {
-        $group = $type == 1 ? "SUBSTR(TRIM(acc_code),1,5)" : "SUBSTR(TRIM(acc_code),1,8)";
+        $group = $type == 1 ? "SUBSTR(TRIM(t3.acc_code),1,5)" : "SUBSTR(TRIM(t3.acc_code),1,8)";        
+        $table = $type == 1 ? "neraca_saldo" : "ikhtisar_saldo";
         
         return $this->db->query("SELECT t1.jurnal_no,SUBSTR(TRIM(t3.acc_code),1,5) acc_code_header,
         t3.acc_name acc_name_header,
@@ -177,6 +178,9 @@ class Keuangan_model extends CI_Model
                                 LEFT JOIN m_account_code t3 ON TRIM(t2.acc_code)= trim(t3.acc_code)
                                 LEFT JOIN t_neraca_saldo_akhir t5 ON substr(t5.acc_code,1,3)=TRIM(t2.acc_code)
                                 WHERE DATE_FORMAT(jurnal_date,'%Y-%m')='$periode'
+                                AND $group IN (
+                                    SELECT $group acc_code FROM m_parameter_$table t3
+                                )
                                 GROUP BY $group");
     }
 

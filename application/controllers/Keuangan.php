@@ -549,7 +549,7 @@ class Keuangan extends CI_Controller
 
 
     public function print_neraca_saldo($periode = '2020-08')
-    { 
+    {  
         $neraca = $this->keumod->get_neraca_saldo($periode)->result();
         $data   = array();     
         

@@ -262,6 +262,11 @@ class Penjualan extends CI_Controller
     {
         $data = $this->pos_report->pos_report("tab1.id=" . $pos_id, "tab3.id")->result_array();
 
+        foreach($data as $key => &$row) {
+            //get invoice format            
+            $row['invoice_no'] = get_invoice_format($row['invoice_no']);
+        }
+
         $this->pdf->dynamic_print(2, "pos_out", $data);
     }
 
@@ -410,7 +415,6 @@ class Penjualan extends CI_Controller
                 $this->history->insert($history_data);
                 $this->session->set_flashdata('msg', '<div class="alert alert-success" role="alert">Retur berhasil diperbaharui</div>');
 
-                redirect("penjualan/return");
             } else {
 
                 $arr_return = array(
@@ -444,10 +448,10 @@ class Penjualan extends CI_Controller
 
                 $this->history->insert($history_data);
                 $this->session->set_flashdata('msg', '<div class="alert alert-success" role="alert">Retur berhasil disimpan</div>');
-
-                redirect("penjualan/add_return");
             }
         }
+
+        redirect("penjualan/return");
     }
 
     public function print_return($id)

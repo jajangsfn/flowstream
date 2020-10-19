@@ -59,7 +59,7 @@
 			// get month
 			$trx_month = substr($trx_no_db, 4,2);
 
-			// if year no is same with trx year from db
+			// if year same with trx year from db
 			if ( date('Y') == $trx_year) {
 				// if month now is same with trx month from db
 				if ( date('m') == $trx_month) {
@@ -79,9 +79,32 @@
 		}
 
 		return $trx_no;
-		
 
+	}
 
+	function get_invoice_format($invoice_no)
+	{
+		$CI 		=& get_instance();
+		$new_format = "";		
+		// get branch code from session
+		$branch_id 	= $CI->session->userdata('branch_id'); 
+		// get param
+		$param 		= $CI->db->query("SELECT * FROM m_parameter_nomor_faktur WHERE branch_id=".$branch_id);
+
+		if ($param->num_rows() > 0) {
+
+			if (!is_null($param->row()->flag)) {
+				$invoice_code = $param->row()->invoice_code;
+				$new_format   = substr($invoice_no,8,4)."/".$invoice_code."/".substr($invoice_no,12,2)."/".substr($invoice_no,14);
+			}else {
+				$new_format   = $invoice_no;	
+			}
+			
+		}else {
+			$new_format   = $invoice_no;
+		}
+
+		return $new_format;
 	}
 
 ?>
