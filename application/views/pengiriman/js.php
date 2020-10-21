@@ -2,7 +2,9 @@
 $(function() {
     arr_pegawai = [];
     arr_biaya   = [];
+    arr_goods   = [];
 
+    get_data_from_db();
     $("#btn_confirm_delivery").click(function() {
                 
         if ($("#good_list tr").length <=0) {
@@ -41,8 +43,7 @@ $(function() {
 })
 
 function get_po_no_detail() {
-    po_no = $("#po_no_list").val();
-    
+    po_no = $("#po_no_list").val();    
     $.ajax({
         url : "<?=base_url()?>index.php/pengiriman/get_po_no",
         type:"post",
@@ -50,23 +51,30 @@ function get_po_no_detail() {
         datatype:"json",
         success:function(msg) {
             parse = JSON.parse(msg);
-            console.log(parse);
-            
+            var temp_goods = {};
             if (parse.length > 0) {
                 $("#customer_name").val(parse[0].name);
                 $("#customer_address").val(parse[0].address);
-
-                show_good_list(parse);
+                
+                $.each(parse, function(id, row){
+                    temp_goods.id = row.id;
+                    temp_goods.invoice_no = row.invoice_no;
+                    temp_goods.plu_code = row.plu_code;
+                    temp_goods.brand_description = row.brand_description;
+                    temp_goods.goods_id_pos = row.goods_id_pos;
+                    temp_goods.sisa = row.sisa;
+                    arr_goods.push(temp_goods);
+                });
             }
         }
     });
 }
 
-function show_good_list(data) {
-
-    $.each(data, function(id,val) {
+function show_good_list() {
+    var x = 1;
+    $.each(arr_goods, function(id,val) {
         $("#good_list").append("<tr id='id_"+id+"'>"
-                                +"<td>"+(id+1)+"</td>"    
+                                +"<td>"+(x)+"</td>"    
                                 +"<td><input type='hidden' name='pos_id[]' value='"+val.id+"'/>"
                                 +"<input type='hidden' name='invoice_no[]' value='"+val.invoice_no+"'/>"+val.invoice_no+"</td>"
                                 +"<td>"+(val.plu_code)+"</td>"
@@ -75,6 +83,7 @@ function show_good_list(data) {
                                 +"<td><input type='number' name='qty[]' value='"+(val.sisa)+"' min='1' max='"+(val.sisa)+"' class='form-control' required/></td>"
                                 +"<td><button type='button' class='btn btn-xs btn-danger' onclick='delete_good("+id+")'><span class='fa fa-trash'></span></button></td>"
                             +"</tr>");    
+                            x++;
     });
 }
 
@@ -270,7 +279,7 @@ function clear_pegawai() {
 function show_pegawai() {
     var table = $("#table_pegawai");
     var temp_table = "";
-    if (arr_pegawai) {
+    if (arr_pegawai.length > 0) {
         $(table).html('');
         $.each(arr_pegawai,function(id,data) {
             temp_table+="<tr id='pegawai_id_'"+id+">";
@@ -352,4 +361,68 @@ function delete_biaya(id) {
     $("#biaya_id_"+id).remove();
 }
 
+
+function get_data_from_db() {
+    var data = <?=isset($delivery_data) ? json_encode($delivery_data['detail']) : null?>;
+    
+    var goods={};
+    var employee= {};
+    var cost = {};
+
+    $.each(data, function(idx, row){
+        goods.id =row.id;
+        goods.plu_code = row.plu_code;
+        goods.brand_description = row.brand_description;
+        goods.goods_id_pos = row.goods_id;
+        goods.invoice_no = row.invoice_no;
+        goods.sisa = row.qty;
+        goods.qty = row.qty;
+
+        
+        if (arr_goods.length > 0 ) {
+            $.each(arr_goods, function(idx, rows) {
+                if (goods.id != rows.id) {
+                    arr_goods.push(goods);
+                }
+            });
+        }else {
+            arr_goods.push(goods);
+        }
+
+        cost.id = row.order_desc;
+        cost.biaya = row.order_desc;
+        cost.jumlah = row.charge;
+
+        if (arr_biaya.length > 0) {
+            $.each(arr_biaya, function(idx, rows) {
+                if (cost.id != rows.id) 
+                {
+                    arr_biaya.push(cost);
+                }
+            });
+        }else {
+                arr_biaya.push(cost);
+        }
+
+
+        employee.id   = row.employee_id;
+        employee.nama = row.employee_name;
+        employee.tugas= row.job_description;
+
+        if (arr_pegawai.length > 0) {
+            $.each(arr_pegawai, function(idx, rows) {
+                if (employee.id != rows.id) {
+                    arr_pegawai.push(employee);
+                }
+            });
+        }else {
+            arr_pegawai.push(employee);
+        }
+        
+    });
+    
+    show_good_list();
+    show_pegawai();
+    show_biaya();
+}
 </script>

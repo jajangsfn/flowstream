@@ -20,7 +20,7 @@
 		        		Swal.fire("Info", "Silahkan pilih supplier!","error");
 		        		
 		        	}else if (!$("#nro").val() && !$("#no_ref").val() ) {
-		        		Swal.fire("Info", "Silahkan isi nomor referensi!","error");
+		        		Swal.fire("Info", "Silahkan pilih nomor nota atau isi nomor referensi!","error");
 		        	}else if ($("#nro").val() || $("#no_ref").val() ){
 		        		$("#form_return").submit();   
 		        	}
@@ -405,7 +405,7 @@
 			}
 		} 
 
-	}
+	} 
 
 
 	function get_all_goods_supplier()

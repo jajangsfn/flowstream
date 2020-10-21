@@ -12,6 +12,9 @@
                       "required" => true,
                       "placeholder" => "Isi Nama Barang",
                       "label" => "Search",
+                      "help" => "", 
+                      "value" => false, 
+                      "autocomplete"=>"off", 
                       "help" => "",
                       "value" => false, 
                       "autocomplete"=>"off",
@@ -117,7 +120,8 @@
 								<tbody id="goods_chart_table">
 								</tbody>
 								<tfoot>
-									<tr>
+									<tr>  
+
 										<td colspan="9" class="text-center">
 											<button type='button' class="btn btn-light-success btn-md" id="btn_save_purchase">
 												<span class="fa fa-save"></span>

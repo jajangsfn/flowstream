@@ -60,10 +60,9 @@ class Pengiriman extends CI_Controller{
 
     public function save_delivery() {
 
-        $post       = $this->input->post();
+        $post       = $this->input->post();#echo json_encode($post);exit;
         $branch_id  = ($this->session->userdata('branch_id')!="") ? $this->session->userdata('branch_id') : 1;
         $user_id    = $this->session->userdata('id');
-        // echo json_encode($post);exit;
         if (empty($post['id'])) {
             // insert t_delivery order
             $delivery_order  = array(
@@ -123,7 +122,7 @@ class Pengiriman extends CI_Controller{
         }else {
             
             $data = $this->delivery->get_delivery(array("order.id" =>$post['id']))->result();
-            // echo json_encode($data[0]->delivery_order_id);exit;
+            
             // update t_delivery order
             $delivery_order  = array(
                     "branch_id" => $branch_id,
@@ -189,7 +188,8 @@ class Pengiriman extends CI_Controller{
 
         $msg =  empty($post['id']) ? "disimpan" : "diubah";
         $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Pengiriman berhasil '.$msg.'</div>');
-        empty($post['id']) ? redirect("pengiriman/add_delivery") : redirect("pengiriman/");
+        redirect("pengiriman/");
+
     }
 
     public function detail_delivery($id) {

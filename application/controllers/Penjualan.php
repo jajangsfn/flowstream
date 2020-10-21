@@ -11,7 +11,7 @@ class Penjualan extends CI_Controller
         if ($this->session->userdata('login') == null) {
             redirect(
                 base_url()
-            );
+            ); 
         }
         $this->lang->load('menu_lang', 'indonesian');
         $this->load->model(
@@ -261,6 +261,10 @@ class Penjualan extends CI_Controller
     public function print_pos($pos_id)
     {
         $data = $this->pos_report->pos_report("tab1.id=" . $pos_id, "tab3.id")->result_array();
+        foreach($data as $key => &$row) {
+            //get invoice format            
+            $row['invoice_no'] = get_invoice_format($row['invoice_no']);
+        }
 
         $this->pdf->dynamic_print(2, "pos_out", $data);
     }
@@ -374,7 +378,7 @@ class Penjualan extends CI_Controller
     public function save_return()
     {
         $param = $this->input->post();
-
+        
         if (count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
@@ -384,7 +388,7 @@ class Penjualan extends CI_Controller
                     "branch_id" => $this->session->userdata('branch_id'),
                     "partner_id" => $param['customer_id'],
                     "return_no" => $param['return_no'],
-                    "reference_no" => $param['no_ref'],
+                    "reference_no" => !empty($param['no_ref']) ? $param['no_ref'] : $param['nro'],
                     "description" => $param['deskripsi'],
                     "transaction_date" => $param['tgl_trx'],
                     "return_date" => $param['tgl_trx'],
@@ -409,15 +413,14 @@ class Penjualan extends CI_Controller
 
                 $this->history->insert($history_data);
                 $this->session->set_flashdata('msg', '<div class="alert alert-success" role="alert">Retur berhasil diperbaharui</div>');
-
-                redirect("penjualan/return");
+                
             } else {
 
                 $arr_return = array(
                     "branch_id" => $this->session->userdata('branch_id'),
                     "partner_id" => $param['customer_id'],
                     "return_no" => $param['return_no'],
-                    "reference_no" => $param['no_ref'],
+                    "reference_no" => !empty($param['no_ref']) ? $param['no_ref'] : $param['nro'],
                     "description" => $param['deskripsi'],
                     "transaction_date" => $param['tgl_trx'],
                     "return_date" => $param['tgl_trx'],
@@ -428,7 +431,7 @@ class Penjualan extends CI_Controller
                     "flag" => 1
                 );
 
-                // echo json_encode($param);exit;
+                
                 $this->pos_return->insert($arr_return, $param);
 
 
@@ -444,10 +447,10 @@ class Penjualan extends CI_Controller
 
                 $this->history->insert($history_data);
                 $this->session->set_flashdata('msg', '<div class="alert alert-success" role="alert">Retur berhasil disimpan</div>');
-
-                redirect("penjualan/add_return");
             }
         }
+
+        redirect("penjualan/return");
     }
 
     public function print_return($id)
@@ -455,6 +458,7 @@ class Penjualan extends CI_Controller
         $where = "tab1.id=" . $id;
         $group = "tab2.id";
         $data = $this->pos_return->get_all($where, $group, 2);
+        
         $this->pdf->dynamic_print(2, "return_out", $data);
     }
 

@@ -55,7 +55,6 @@ class Inventori extends CI_Controller
             $branch_name       = $this->session->userdata('branch_name');
             //get active price method
             $price_method      = $this->ref->get_type_price("flag = 1")->row()->id;
-            #echo json_encode($price_method);exit;
             // set price method
             $_POST['price_method'] = $price_method;
             
@@ -136,8 +135,6 @@ class Inventori extends CI_Controller
                 $this->history->insert($history_data);
 
                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Penerimaan Barang berhasil disimpan</div>');
-
-                redirect("inventori/add_receiving");
             }
         }
 
