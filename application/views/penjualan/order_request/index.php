@@ -80,10 +80,10 @@
                         <span></span>
                     </label>
                     <div class="text-right">
-                        <p class="text-right m-0">
+                        <p class="text-right m-0" id="total_harga_order_cell">
                             Subtotal <span id="total_harga_order">0</span>
                         </p>
-                        <p class="text-right m-0">
+                        <p class="text-right m-0" id="tax_cell">
                             Pajak <span id="tax_price">0</span>
                         </p>
                         <h5 class="text-right font-weight-bold">

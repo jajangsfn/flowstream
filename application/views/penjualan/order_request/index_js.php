@@ -1,6 +1,7 @@
 <script>
     var branch_id = 0;
     var index_harga = 0;
+    var tax_enabled = true;
 
     $(document).ready(function() {
         $('#pilih_customer').select2({
@@ -117,6 +118,26 @@
                         console.log(err.responseText);
                     }
                 })
+
+                // check status pajak
+                $.ajax({
+                    url: "<?= base_url("index.php/api/is_branch_tax_active/") ?>" + branch_id,
+                    method: "get",
+                    success: function(result) {
+                        if (result.data == 1) {
+                            tax_enabled = true;
+                        } else {
+                            $("#total_harga_order_cell").fadeOut();
+                            $("#tax_cell").fadeOut();
+                            tax_enabled = false;
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err.responseText)
+                    }
+                });
+
+                hitung_ulang_all();
             }
         })
     }
@@ -335,10 +356,12 @@
             total_price += (parseInt(row_quantity) * parseInt(row_price));
         });
 
-        const pajak = total_price / 10;
-        const finalPrice = total_price * 110 / 100;
         $("#total_harga_order").text(numeral(total_price).format('0,[.]00'));
+
+        const pajak = tax_enabled ? total_price / 10 : 0;
         $("#tax_price").text(numeral(pajak).format('0,[.]00'));
+
+        const finalPrice = tax_enabled ? total_price * 110 / 100 : total_price;
         $("#total_harga_order_tax").text(numeral(finalPrice).format('0,[.]00'))
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
