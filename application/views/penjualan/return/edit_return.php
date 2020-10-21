@@ -59,7 +59,7 @@
             <div class="col-md-1"></div>
             <div class="col-form-label col-md-2 text-right">Customer</div>
             <div class="col-md-3">
-              <select name="customer_id" id="customer_id" class="form-control selectpicker" data-live-search="true" required="">
+              <select name="customer_id" id="customer_id" class="form-control selectpicker" data-live-search="true" required="" onchange="get_all_goods_customer()">
                   <option value="" selected>Pilih Customer</option>
                   <?php
                     foreach ($customer as $key => $val) {

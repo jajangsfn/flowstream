@@ -105,6 +105,7 @@
 		}
 
 		return $new_format;
+
 	}
 
 ?>

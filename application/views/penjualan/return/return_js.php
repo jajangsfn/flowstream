@@ -16,10 +16,15 @@
 
 		        if (result.value) {
 
-		        	if ( $("#no_ref").val() ) {
+		        	if ( !$("#customer_id").val() ) {
+		        		Swal.fire("Info", "Silahkan pilih customer!","error");
+		        		
+		        	}else if (!$("#nro").val() && !$("#no_ref").val() ) {
+		        		Swal.fire("Info", "Silahkan pilih nomor nota atau isi nomor referensi!","error");
+		        	}else if ($("#goods_return_table tr").length == 0){
+						Swal.fire("Info", "Barang masih kosong!","error");
+					}else if ($("#nro").val() || $("#no_ref").val() ){
 		        		$("#form_return").submit();   
-		        	}else {
-		        		Swal.fire("Info", "Silahkan isi nomor referensi!","error");
 		        	}
 		         	
 		        }
@@ -597,7 +602,7 @@
 			}
 		} 
 
-		get_all_po
+		get_all_po();
 
 	}
 </script>

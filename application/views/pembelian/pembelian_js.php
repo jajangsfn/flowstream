@@ -239,9 +239,15 @@
 				rows+="<input type='hidden' name='goods_code_chart[]' id='goods_code_chart' value='"+val.code+"'>"+val.code+"</td>";
 				rows+= "<td>"+val.name+"'</td>";
 				rows+="<td class='goods_price_chart'>";
+<<<<<<< HEAD
 				rows+="<input type='number' name='goods_price_chart[]' class='form-control' id='goods_price_chart_"+id+"' value='"+val.price+"' onchange='sum_total_goods("+id+")' style='width:100%' ></td>";
 				rows+="<td><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' onchange='sum_total_goods("+id+")' style='width:100%'></td>";
 				rows+="<td><input type='number' name='goods_discount_chart[]' class='form-control' id='goods_discount_chart_"+id+"' value='"+val.discount+"' onchange='sum_total_goods("+id+")' style='width:100%'></td>";
+=======
+				rows+="<input type='number' name='goods_price_chart[]' class='form-control w-50' id='goods_price_chart_"+id+"' value='"+val.price+"' onchange='sum_total_goods("+id+")' style='width:100%' ></td>";
+				rows+="<td><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' onchange='sum_total_goods("+id+")' style='width:70%'></td>";
+				rows+="<td><input type='number' name='goods_discount_chart[]' class='form-control' id='goods_discount_chart_"+id+"' value='"+val.discount+"' onchange='sum_total_goods("+id+")' style='width:50%'></td>";
+>>>>>>> d87fa101812b665fa805cfcabe27d4fdcd9a3697
 				rows+="<td class='text-right'>"+total+"</td>";
 				rows+="<td><button type='button' class='btn btn-xs btn-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa fa-trash'></span></button></td>";
 				rows+="</tr>";	

@@ -15,6 +15,9 @@
                       "help" => "", 
                       "value" => false, 
                       "autocomplete"=>"off", 
+                      "help" => "",
+                      "value" => false, 
+                      "autocomplete"=>"off",
                         ), true); ?>	
                 <hr>
                 <ul class="navi navi-hover navi-active" id="goods_list" style="overflow: scroll;height: 400px">
@@ -118,6 +121,7 @@
 								</tbody>
 								<tfoot>
 									<tr>  
+
 										<td colspan="9" class="text-center">
 											<button type='button' class="btn btn-light-success btn-md" id="btn_save_purchase">
 												<span class="fa fa-save"></span>

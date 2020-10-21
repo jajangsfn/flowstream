@@ -135,8 +135,6 @@ class Inventori extends CI_Controller
                 $this->history->insert($history_data);
 
                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Penerimaan Barang berhasil disimpan</div>');
-
-                // redirect("inventori/add_receiving");
             }
         }
 

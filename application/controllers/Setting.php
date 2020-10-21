@@ -453,7 +453,6 @@ class Setting extends CI_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-
     public function param_penjualan() {
 
         $data['page_title'] = "Parameter Penjualan";
@@ -504,4 +503,5 @@ class Setting extends CI_Controller
         $this->session->set_flashdata('msg', '<div class="alert alert-success">'.$msg.'</div>');
         redirect("setting/param_penjualan");   
     }
+
 }

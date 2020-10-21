@@ -133,7 +133,7 @@ class Pembelian extends CI_Controller
 
     // return
     public function return()
-    {
+    { 
         $data['return']       = $this->return->get_all();
         $data['page_title']   = "Retur Pembelian";
         $data['page_content'] = $this->load->view("pembelian/return/return", $data, true);
@@ -192,7 +192,7 @@ class Pembelian extends CI_Controller
     public function save_return()
     {
         $param = $this->input->post();
-        
+        // echo json_encode($param['supplier']);exit;
         if ( count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
@@ -226,7 +226,6 @@ class Pembelian extends CI_Controller
 
                     $this->history->insert($history_data);
                     $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil diperbaharui</div>');
-
             }else {
                
                 $arr_return = array(
@@ -256,12 +255,10 @@ class Pembelian extends CI_Controller
 
                 $this->history->insert($history_data);
                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil disimpan</div>');
-
             }
         }
 
-        redirect("pembelian/return"); 
-        
+        redirect("pembelian/return");  
         
 
     }

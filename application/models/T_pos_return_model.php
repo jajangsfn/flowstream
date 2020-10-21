@@ -85,8 +85,8 @@ class T_pos_return_model extends CI_Model
                                 tab6.barcode,tab6.brand_description goods_name,tab6.sku_code,tab6.plu_code,
                                 tab2.warehouse_id,tab5.`name` warehouse_name,tab1.partner_id,tab7.name customer,
                                 tab2.quantity,tab4.price,tab4.discount,
-                                (tab2.quantity * tab4.price)total,
-                                (tab4.tax / tab4.quantity) ppn,tab3.invoice_no
+                                sum(tab2.quantity * tab4.price)total,
+                                sum(tab4.tax / tab4.quantity) ppn,tab3.invoice_no
                                 FROM t_pos_return tab1
                                 JOIN t_pos_return_detail tab2 ON tab2.purchase_return_id=tab1.id
                                 LEFT JOIN t_pos tab3 ON tab3.invoice_no=tab1.reference_no
