@@ -1,9 +1,7 @@
 <script>
-    $(document).ready(function() {
-        hitung_ulang_all();
-    })
     var branch_id = 0;
     var index_harga = 0;
+    var tax_enabled = false;
 
     $(document).ready(function() {
         // get customer info
@@ -58,6 +56,26 @@
                         console.log(err.responseText);
                     }
                 })
+
+                // check status pajak
+                $.ajax({
+                    url: "<?= base_url("index.php/api/is_branch_tax_active/") ?>" + branch_id,
+                    method: "get",
+                    success: function(result) {
+                        console.log(result);
+                        if (result.data == 1) {
+                            tax_enabled = true;
+                        } else {
+                            $("#total_harga_order_cell").fadeOut();
+                            $("#tax_cell").fadeOut();
+                            tax_enabled = false;
+                        }
+                        hitung_ulang_all();
+                    },
+                    error: function(err) {
+                        console.log(err.responseText)
+                    }
+                });
             }
         })
     });
@@ -132,8 +150,8 @@
             total_price += (parseInt(row_quantity) * parseInt(row_price));
         });
 
-        const pajak = total_price / 10;
-        const finalPrice = total_price * 110 / 100;
+        const pajak = tax_enabled ? total_price / 10 : 0;
+        const finalPrice = tax_enabled ? total_price * 110 / 100 : total_price;
         $("#total_harga_order").text(numeral(total_price).format('0,[.]00'));
         $("#tax_price").text(numeral(pajak).format('0,[.]00'));
         $("#total_harga_order_tax").text(numeral(finalPrice).format('0,[.]00'))
@@ -170,7 +188,6 @@
             });
 
 
-            hitung_ulang_all()
         } else {
             // ambil info barang dengan ajax
             $.ajax({
@@ -295,7 +312,7 @@
         let total_found = 0;
         let id_barang = 0;
         $('.goods_placement').children('div.align-items-center.justify-content-between.mb-5.text-dark-75.text-hover-primary').each(function() {
-            var targetkey = $(this).attr("data-keyword").replace(/ /g,'').toLowerCase();
+            var targetkey = $(this).attr("data-keyword").replace(/ /g, '').toLowerCase();
             if (targetkey.indexOf(searchtarget) >= 0) {
                 $(this).removeClass("d-none")
                 $(this).addClass("d-flex")

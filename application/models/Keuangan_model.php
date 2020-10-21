@@ -160,7 +160,7 @@ class Keuangan_model extends CI_Model
         ));
     }
 
-    public function get_neraca_saldo($periode = '2020-07',$type = 1)
+    public function get_neraca_saldo($periode = '2020-07', $type = 1)
     {
         $group = $type == 1 ? "SUBSTR(TRIM(t3.acc_code),1,5)" : "SUBSTR(TRIM(t3.acc_code),1,8)";        
         $table = $type == 1 ? "neraca_saldo" : "ikhtisar_saldo";
@@ -302,6 +302,14 @@ class Keuangan_model extends CI_Model
 
     function get_and_use_tax_no($branch_id)
     {
+        $branch_target = $this->db->get_where("m_branch", array(
+            "id" => $branch_id
+        ))->row();
+        
+        if ($branch_target->tax_status == 0) {
+            return null;
+        }
+
         $query = $this->db->get_where("tax_no", array(
             "branch_id" => $branch_id,
             "flag" => 1
@@ -621,11 +629,11 @@ class Keuangan_model extends CI_Model
         return $data;
     }
 
-    function get_acc_code_header($where) {
+    function get_acc_code_header($where)
+    {
         $this->db->select("acc_code,acc_name");
         $this->db->from("m_account_code");
         $this->db->where("acc_code", $where);
         return $this->db->get();
     }
 }
-

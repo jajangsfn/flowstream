@@ -244,7 +244,7 @@ class Penjualan extends CI_Controller
             $content['payment_methods'] = $this->ref->get(array("group_data" => "PAYMENT_METHOD"))->result();
             $content['data_branch'] = $this->branch->get(array("id" => $this->session->branch_id))->row();
 
-            if (is_null($this->keumod->get_next_tax_no($this->session->branch_id))) {
+            if (is_null($this->keumod->get_next_tax_no($this->session->branch_id)) && $content['data_branch']->tax_status == 1) {
                 $this->session->set_flashdata("warning", "Tidak ada nomor faktur pajak yang tersedia untuk digunakan, cetak faktur pajak selanjutnya tidak akan menambahkan penomoran faktur pajak.");
             }
 

@@ -67,25 +67,29 @@
             </table>
         </div>
         <div class="text-right">
-            <p class="text-right m-0">
-                Subtotal <span id="total_harga_order" class="rupiah">
-                    <?php
-                    $i = 0;
-                    foreach ($data_pos->details as $detail) {
-                        $i += ($detail->quantity * $detail->price * (100 - $detail->discount) / 100);
-                    }
-                    echo $i;
-                    ?>
-                </span>
-            </p>
-            <p class="text-right m-0">
-                Pajak <span id="tax_price" class="rupiah">
-                    <?= 10 * $i / 100 ?>
-                </span>
-            </p>
+            <?php
+            $subtotal = 0;
+            $pajak = 0;
+            foreach ($data_pos->details as $detail) {
+                $subtotal += ($detail->quantity * $detail->price * (100 - $detail->discount) / 100);
+                $pajak += $detail->tax;
+            }
+            ?>
+            <?php if ($pajak) : ?>
+                <p class="text-right m-0">
+                    Subtotal <span id="total_harga_order" class="rupiah">
+                        <?= $subtotal ?>
+                    </span>
+                </p>
+                <p class="text-right m-0">
+                    Pajak <span id="tax_price" class="rupiah">
+                        <?= $pajak ?>
+                    </span>
+                </p>
+            <?php endif; ?>
             <h5 class="text-right font-weight-bold">
                 Total <span id="total_harga_order_tax" class="rupiah">
-                    <?= 110 * $i / 100 ?>
+                    <?= $pajak ? $subtotal + $pajak : $subtotal ?>
                 </span>
             </h5>
         </div>

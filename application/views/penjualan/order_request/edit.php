@@ -77,16 +77,16 @@
                                         <input type="hidden" name="barang[<?= $detail->goods_id ?>][goods_name]" value="<?= $detail->goods_name ?>">
                                     </td>
                                     <td style="width: 90px;">
-                                        <input type="number" name="barang[<?= $detail->goods_id ?>][quantity]" class="form-control text-center" id="jumlah_<?= $detail->goods_id ?>" value="<?= $detail->quantity ?>" min="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>" onchange="hitung_ulang(<?= $detail->goods_id ?>)" step="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>">
+                                        <input type="number" name="barang[<?= $detail->goods_id ?>][quantity]" class="form-control text-center" id="jumlah_<?= $detail->goods_id ?>" value="<?= $detail->quantity ?>" min="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>" onchange="hitung_ulang_all()" step="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>">
                                     </td>
                                     <td>
                                         <?= $detail->ratio_flag == 1 ? "Pieces" : $detail->unit_name ?>
                                     </td>
                                     <td style="width: 130px;">
-                                        <input type="number" name="barang[<?= $detail->goods_id ?>][price]" class="form-control text-center" id="harga_<?= $detail->goods_id ?>" value="<?= $detail->price ?>" min="1" onchange="hitung_ulang(<?= $detail->goods_id ?>)">
+                                        <input type="number" name="barang[<?= $detail->goods_id ?>][price]" class="form-control text-right" id="harga_<?= $detail->goods_id ?>" value="<?= $detail->price ?>" min="1" onchange="hitung_ulang_all()">
                                     </td>
                                     <td style="width: 90px;" class="d-none">
-                                        <input type="number" name="barang[<?= $detail->goods_id ?>][discount]" class="form-control text-center" id="diskon_<?= $detail->goods_id ?>" value="<?= $detail->discount ?>" min="0" onchange="hitung_ulang(<?= $detail->goods_id ?>)">
+                                        <input type="number" name="barang[<?= $detail->goods_id ?>][discount]" class="form-control text-center" id="diskon_<?= $detail->goods_id ?>" value="<?= $detail->discount ?>" min="0" onchange="hitung_ulang_all()">
                                     </td>
                                     <td id="total_harga_<?= $detail->goods_id ?>" class="text-right rupiah d-none">
                                         <?= $detail->quantity * $detail->price * (1 - $detail->discount / 100) ?>
@@ -117,7 +117,7 @@
                         <span></span>
                     </label>
                     <div class="text-right">
-                        <p class="text-right m-0">
+                        <p class="text-right m-0" id="total_harga_order_cell">
                             Subtotal <span id="total_harga_order">
                                 <?php
                                 $subtotal = 0;
@@ -128,7 +128,7 @@
                                 ?>
                             </span>
                         </p>
-                        <p class="text-right m-0">
+                        <p class="text-right m-0" id="tax_cell">
                             Pajak <span id="tax_price">
                                 <?= 10 * $subtotal / 100 ?>
                             </span>

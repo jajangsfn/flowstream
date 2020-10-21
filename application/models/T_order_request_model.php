@@ -110,6 +110,7 @@ class T_order_request_model extends CI_Model
     {
         $this->db->select("
         m_branch.name as branch_name,
+        m_branch.tax_status,
         or.*
         ");
 

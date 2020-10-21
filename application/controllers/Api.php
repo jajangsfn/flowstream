@@ -514,10 +514,17 @@ class Api extends CI_Controller
         $this->or->insert($data);
         $id_new_or = $this->db->insert_id();
 
+        // ambil informasi branch
+        $branch_target = $this->branch->get(
+            array(
+                "id" => $_POST['branch_id']
+            )
+        )->row();
+
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
-            $good['tax'] = 10 * $good['total'] / 100;
+            $good['tax'] = $branch_target->tax_status == 1 ? 10 * $good['total'] / 100 : 0;
             $good['total'] = $good['total'] + $good['tax'];
             $good['order_request_id'] = $id_new_or;
             $good['flag'] = 1;
@@ -525,7 +532,7 @@ class Api extends CI_Controller
         }
 
         $this->session->set_flashdata("success", "Order Request berhasil dicetak");
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(base_url("index.php/penjualan/home"));
     }
 
     public function order_request($branch_id = '')
@@ -562,14 +569,19 @@ class Api extends CI_Controller
         );
         $this->or->update($where, $data);
 
+        // get informasi order request
+        $order_request_target = $this->or->get(array(
+            "or.id" => $data['id']
+        ))->row();
+
         // clear details
         $this->or->delete_detail(array("order_request_id" => $_POST['id']));
 
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
-            $good['tax'] = 10 * $good['total'] / 100;
-            $good['total'] = $good['total'] + $good['tax'];
+            $good['tax'] = $order_request_target->tax_status == 1 ? 10 * $good['total'] / 100 : 0;
+            $good['total'] = $order_request_target->tax_status == 1 ? $good['total'] + $good['tax'] : $good['total'];
             $good['order_request_id'] = $_POST['id'];
             $this->or->insert_detail($good);
         }
@@ -610,13 +622,19 @@ class Api extends CI_Controller
             "tax_no" => null,
             "description" => $order_request->description,
             "pos_date" => date("Y-m-d H:i:s"),
-
             "created_by" => $this->session->id,
             "flag" => 1
         );
 
         $this->pos->insert($pos_data);
         $pos_id = $this->db->insert_id();
+
+        // ambil informasi branch
+        $branch_target = $this->branch->get(
+            array(
+                "id" => $_POST['branch_id']
+            )
+        )->row();
 
         $payment_total = 0;
 
@@ -626,8 +644,8 @@ class Api extends CI_Controller
         foreach ($order_request_details as $or_det) {
             // generate POS detail data
             $total = $or_det->checksheet_qty * $or_det->price * (100 - $or_det->discount) / 100;
-            $tax = 10 * $total / 100;
-            $total = 110 * $total / 100;
+            $tax = $branch_target->tax_status == 1 ? 10 * $total / 100 : 0;
+            $total = $branch_target->tax_status == 1 ? 110 * $total / 100 : $total;
             $payment_total += $total;
 
             $pos_det_data = array(
@@ -755,14 +773,22 @@ class Api extends CI_Controller
         $this->pos->insert($pos_data);
         $id_new_pos = $this->db->insert_id();
 
+
+        // ambil informasi branch
+        $branch_target = $this->branch->get(
+            array(
+                "id" => $_POST['branch_id']
+            )
+        )->row();
+
         $fullprice = 0;
         $fullend_price = 0;
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
             $fullprice += $good['total'];
-            $good['tax'] = 10 * $good['total'] / 100;
-            $good['total'] = $good['total'] + $good['tax'];
+            $good['tax'] = $branch_target->tax_status == 1 ? 10 * $good['total'] / 100 : 0;
+            $good['total'] = $branch_target->tax_status == 1 ? $good['total'] + $good['tax'] : $good['total'];
             $fullend_price += $good['total'];
 
             // generate POS detail data
@@ -784,7 +810,7 @@ class Api extends CI_Controller
         }
 
         $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
-        redirect($_SERVER['HTTP_REFERER']);
+        redirect(base_url("index.php/penjualan/home"));
     }
 
 
@@ -803,6 +829,11 @@ class Api extends CI_Controller
 
         $this->pos->update($where_pos, $pos_data);
 
+        // get pos info
+        $pos_target = $this->pos->get(array(
+            "pos.id" => $_POST
+        ))->row();
+
         // delete semua detailnya
         $where_pos_detail = array(
             "pos_id" => $_POST['id']
@@ -813,8 +844,8 @@ class Api extends CI_Controller
         // loop added goods
         foreach ($_POST['barang'] as $good) {
             $good['total'] = $good['quantity'] * $good['price'] * (1 - $good['discount'] / 100);
-            $good['tax'] = 10 * $good['total'] / 100;
-            $good['total'] = $good['total'] + $good['tax'];
+            $good['tax'] = $pos_target->tax_status == 1 ? 10 * $good['total'] / 100 : 0;
+            $good['total'] = $pos_target->tax_status == 1 ? $good['total'] + $good['tax'] : $good['total'];
 
             // generate POS detail data
             $pos_det_data = array(
@@ -1688,5 +1719,15 @@ class Api extends CI_Controller
         $this->keumod->edit_tax_no($where, $data);
         $this->session->set_flashdata("success", "Nomor telah tersimpan");
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    function is_branch_tax_active($branch_id)
+    {
+        $where['id'] = $branch_id;
+        echo json_encode(
+            array(
+                "data" => $this->branch->get($where)->row()->tax_status
+            )
+        );
     }
 }

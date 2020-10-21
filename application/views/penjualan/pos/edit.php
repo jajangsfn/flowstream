@@ -129,24 +129,27 @@
                         <span></span>
                     </label>
                     <div class="text-right">
-                        <p class="text-right m-0">
-                            Subtotal <span id="total_harga_order" class="late_numeral">
-                                <?php $toret = 0; ?>
-                                <?php foreach ($data_pos->details as $detail) : ?>
-                                    <?php $toret += ($detail->price * $detail->quantity * (100 - $detail->discount) / 100) ?>
-                                <?php endforeach; ?>
-                                <?php echo $toret ?>
-                            </span>
-                        </p>
-                        <p class="text-right m-0">
-                            Pajak <span id="tax_price" class="late_numeral">
-                                <?php $taxret = 10 * $toret / 100 ?>
-                                <?= $taxret; ?>
-                            </span>
-                        </p>
+                        <?php $subtotal = 0; ?>
+                        <?php $tax = 0; ?>
+                        <?php foreach ($data_pos->details as $detail) : ?>
+                            <?php $subtotal += ($detail->price * $detail->quantity * (100 - $detail->discount) / 100) ?>
+                            <?php $tax += ($detail->tax) ?>
+                        <?php endforeach; ?>
+                        <?php if ($tax) : ?>
+                            <p class="text-right m-0">
+                                Subtotal <span id="total_harga_order" class="late_numeral">
+                                    <?php echo $subtotal ?>
+                                </span>
+                            </p>
+                            <p class="text-right m-0">
+                                Pajak <span id="tax_price" class="late_numeral">
+                                    <?= $tax; ?>
+                                </span>
+                            </p>
+                        <?php endif ?>
                         <h5 class="text-right font-weight-bold">
                             Total <span id="total_harga_order_tax" class="late_numeral">
-                                <?= $taxret + $toret ?>
+                                <?= $tax + $subtotal ?>
                             </span>
                         </h5>
                     </div>
