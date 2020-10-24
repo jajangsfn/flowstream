@@ -17,7 +17,7 @@
     <div class="col-lg-12" id="order_request_col">
         <form id="pos_form" class="card card-custom gutter-b" action="<?= base_url("/index.php/api/kirim_pos") ?>" method="POST">
             <div class="card-header">
-                <div class="card-title">Point of Sales <span id="pos_no" class="ml-2" style="display: none;">No #</span></div>
+                <div class="card-title">Faktur Penjualan <span id="pos_no" class="ml-2" style="display: none;">No #</span></div>
                 <div class="card-toolbar d-none" id="pilih_barang_modal_toggle">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#daftarBarang">
                         Pilih Barang

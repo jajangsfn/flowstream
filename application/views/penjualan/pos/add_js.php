@@ -425,8 +425,8 @@
         } else {
 
             Swal.fire({
-                title: "Konfirmasi simpan POS?",
-                text: "Anda akan menyimpan POS ini",
+                title: "Konfirmasi simpan faktur penjualan?",
+                text: "Anda akan menyimpan faktur penjualan ini",
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonText: "Ya, Simpan!"

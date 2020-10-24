@@ -174,7 +174,7 @@
     function confirm_cetak(id) {
         Swal.fire({
             title: "Anda yakin?",
-            text: "Anda akan mencetak ulang order request ini",
+            text: "Anda akan mencetak ulang penyiapan barang ini",
             icon: "question",
             showCancelButton: true,
             confirmButtonText: "Ya, Cetak!"
@@ -208,7 +208,7 @@
     function confirm_cetak_faktur(id) {
         Swal.fire({
             title: "Anda yakin?",
-            text: "Anda akan mencetak faktur order request ini",
+            text: "Anda akan mencetak faktur penyiapan barang ini",
             icon: "question",
             showCancelButton: true,
             confirmButtonText: "Ya, Cetak!"

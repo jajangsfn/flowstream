@@ -1,6 +1,6 @@
 <div class="card card-custom gutter-b">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <div class="card-title">Order Request</div>
+        <div class="card-title">Penyiapan Barang</div>
         <!--begin::Daterange-->
         <span class="p-2 rounded text-primary bg-light-primary font-weight-bold">
             <h6 class="font-weight-bold m-0"><?= longdate_indo(date('Y-m-d', strtotime($data_or->order_date))) ?></h6>

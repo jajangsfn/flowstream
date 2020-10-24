@@ -61,7 +61,7 @@
                         </a>
                         `
                         var extbutton = `
-                        <a class="btn btn-icon btn-sm btn-light-success" onclick="confirm_cetak_pajak(${data})" data-toggle="tooltip" title="cetak faktur pajak">
+                        <a class="btn btn-icon btn-sm btn-light-success" onclick="confirm_cetak_pajak(${data})" data-toggle="tooltip" title="Cetak Faktur Pajak">
                             <i class="fa la-print"></i>
                         </a>
                         `
@@ -73,7 +73,7 @@
                         `
 
                         var cetakPosButton = `
-                        <a class="btn btn-icon btn-sm btn-light-info" onclick="confirm_cetak(${data})" data-toggle="tooltip" title="Cetak POS" target="_blank">
+                        <a class="btn btn-icon btn-sm btn-light-info" onclick="confirm_cetak(${data})" data-toggle="tooltip" title="Cetak Faktur Penjualan" target="_blank">
                             <i class="fa la-print"></i>
                         </a>
                         `

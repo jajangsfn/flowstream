@@ -2,7 +2,7 @@
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
-            <h3 class="card-label">Daftar Order Request</h3>
+            <h3 class="card-label">Daftar Penyiapan Barang</h3>
         </div>
         <div class="card-toolbar">
             <!-- Button trigger modal-->
@@ -37,14 +37,14 @@
         <form action="<?= base_url("/index.php/api/delete_order_request") ?>" method="POST" class="modal-content">
             <input type="hidden" name="id" id="id_delete">
             <div class="modal-header">
-                <h5 class="modal-title">Hapus Order Request</h5>
+                <h5 class="modal-title">Hapus Penyiapan Barang</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <p class="m-0">anda akan menghapus order request</p>
-                <small class="m-0 text-info">Seluruh data yang terkait dengan order request ini tidak akan ikut terhapus</small>
+                <p class="m-0">anda akan menghapus penyiapan barang</p>
+                <small class="m-0 text-info">Seluruh data yang terkait dengan penyiapan barang ini tidak akan ikut terhapus</small>
             </div>
             <div class="modal-footer">
                 <button type="submit" name="delete" class="btn btn-danger mr-2">Hapus</button>

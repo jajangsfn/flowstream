@@ -16,7 +16,7 @@
                         <!--begin::Content-->
                         <div class="d-flex flex-column">
                             <a href="<?= base_url("/index.php/penjualan/order_request") ?>" class="text-dark text-hover-primary font-weight-bold font-size-h1 mb-3"><?= $belum_cetak_faktur ?></a>
-                            <div class="text-dark font-size-h3">Order Request Menunggu Cetak Faktur</div>
+                            <div class="text-dark font-size-h3">Penyiapan Barang Menunggu Cetak Faktur</div>
                         </div>
                         <!--end::Content-->
                     </div>
@@ -41,7 +41,7 @@
                         <!--begin::Content-->
                         <div class="d-flex flex-column">
                             <a href="<?= base_url("/index.php/penjualan/order_request") ?>" class="text-dark text-hover-primary font-weight-bold font-size-h1 mb-3"><?= $or_di_bulan_berjalan ?></a>
-                            <div class="text-dark font-size-h3">Order Request pada Bulan Berjalan</div>
+                            <div class="text-dark font-size-h3">Penyiapan Barang pada Bulan Berjalan</div>
                         </div>
                         <!--end::Content-->
                     </div>
@@ -66,7 +66,7 @@
                         <!--begin::Content-->
                         <div class="d-flex flex-column">
                             <a href="<?= base_url("/index.php/penjualan/pos") ?>" class="text-dark text-hover-primary font-weight-bold font-size-h1 mb-3"><?= $pos_di_bulan_berjalan ?></a>
-                            <div class="text-dark font-size-h3">Transaksi Point of Sales di Bulan Berjalan</div>
+                            <div class="text-dark font-size-h3">Transaksi Faktur Penjualan di Bulan Berjalan</div>
                         </div>
                         <!--end::Content-->
                     </div>

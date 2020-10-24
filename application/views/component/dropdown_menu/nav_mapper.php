@@ -44,7 +44,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "/index.php/penjualan/order_request",
             null,
             "/index.php/penjualan/order_request",
-            "Order Request",
+            "Penyiapan Barang",
             null,
             null
         ),
@@ -52,7 +52,7 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             "/index.php/penjualan/pos",
             null,
             "/index.php/penjualan/pos",
-            "Point of Sales (POS)",
+            "Faktur Penjualan",
             null,
             null
         ),

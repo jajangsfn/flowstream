@@ -4,7 +4,7 @@
             <div class="card-header py-5">
                 <h3 class="card-title align-items-start flex-column">
                     <span class="card-label font-weight-bolder text-dark">Daftar Barang</span>
-                    <span class="text-muted mt-3 font-weight-bold font-size-sm">Klik untuk menambahkan ke Order Request </span>
+                    <span class="text-muted mt-3 font-weight-bold font-size-sm">Klik untuk menambahkan ke Penyiapan Barang </span>
                 </h3>
             </div>
             <div class="card-body daftar_barang_container pt-0">
@@ -18,7 +18,7 @@
         <form class="card card-custom gutter-b" action="<?= base_url("/index.php/api/update_order_request") ?>" method="POST">
             <input type="hidden" name="id" value="<?= $data_or->id ?>">
             <div class="card-header">
-                <div class="card-title">Order Request No #<?= $data_or->order_no ?></div>
+                <div class="card-title">Penyiapan Barang No #<?= $data_or->order_no ?></div>
                 <div class="card-toolbar d-unset d-lg-none">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#daftarBarang">
                         Pilih Barang

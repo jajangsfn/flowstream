@@ -70,13 +70,13 @@ class Penjualan extends CI_Controller
     {
         $data['transactional'] = true;
         if ($command == "view") {
-            $data['page_title'] = "Penjualan - Order Request";
+            $data['page_title'] = "Penjualan - Penyiapan Barang";
             $data['back_url'] = base_url("/index.php/penjualan/order_request");
             $content['data_or'] = $this->or->get_specific($id_or);
 
             $data['page_content'] = $this->load->view("penjualan/order_request/view/view", $content, true);
         } else if ($command == "checksheet") {
-            $data['page_title'] = "Checksheet - Order Request";
+            $data['page_title'] = "Checksheet - Penyiapan Barang";
             $data['back_url'] = base_url("/index.php/penjualan/order_request");
             $content['data_or'] = $this->or->get_specific($id_or);
 
@@ -84,7 +84,7 @@ class Penjualan extends CI_Controller
             $data['page_js'] = $this->load->view("penjualan/order_request/checksheet_js", $content, true);
         } else {
             // tampilkan list of order request
-            $data['page_title'] = "Penjualan - Daftar Order Request";
+            $data['page_title'] = "Penjualan - Daftar Penyiapan Barang";
             $data['back_url'] = base_url("/index.php/penjualan/home");
 
             $data['page_content'] = $this->load->view("penjualan/order_request/list", "", true);
@@ -98,7 +98,7 @@ class Penjualan extends CI_Controller
 
     public function add_order_request()
     {
-        $data['page_title']   = "Tambah Order Request";
+        $data['page_title']   = "Tambah Penyiapan Barang";
         $data['back_url']     = base_url("/index.php/penjualan/order_request");
         $content["customers"] = $this->partner->get_customer()->result();
         $data['page_content'] = $this->load->view("penjualan/order_request/index", $content, true);
@@ -113,7 +113,7 @@ class Penjualan extends CI_Controller
 
     public function edit_order_request($id_or)
     {
-        $data['page_title'] = "Edit Order Request";
+        $data['page_title'] = "Edit Penyiapan Barang";
         $data['back_url'] = base_url("/index.php/penjualan/order_request");
 
         $content['data_or'] = $this->or->get_specific($id_or);
@@ -201,7 +201,7 @@ class Penjualan extends CI_Controller
         $data['transactional'] = true;
         if ($command == "cetak_faktur") {
         } else if ($command == "add") {
-            $data['page_title'] = "Transaksi Baru - Point of Sales";
+            $data['page_title'] = "Transaksi Baru - Faktur Penjualan";
             $data['back_url'] = base_url("/index.php/penjualan/pos");
 
             $content["customers"] = $this->partner->get_customer()->result();
@@ -213,7 +213,7 @@ class Penjualan extends CI_Controller
 
             $data['transactional'] = true;
         } else if ($command == "view") {
-            $data['page_title'] = "Preview - Point of Sales";
+            $data['page_title'] = "Preview - Faktur Penjualan";
             $data['back_url'] = base_url("/index.php/penjualan/pos");
 
             $content['data_pos'] = $this->pos->get_specific($id_or);
@@ -223,7 +223,7 @@ class Penjualan extends CI_Controller
 
             $data['transactional'] = true;
         } else if ($command == "edit") {
-            $data['page_title'] = "Edit - Point of Sales";
+            $data['page_title'] = "Edit - Faktur Penjualan";
             $data['back_url'] = base_url("/index.php/penjualan/pos");
 
             $content['banks'] = $this->ref->get(array("group_data" => "BANK"))->result();
@@ -248,7 +248,7 @@ class Penjualan extends CI_Controller
                 $this->session->set_flashdata("warning", "Tidak ada nomor faktur pajak yang tersedia untuk digunakan, cetak faktur pajak selanjutnya tidak akan menambahkan penomoran faktur pajak.");
             }
 
-            $data['page_title'] = "Penjualan - Daftar Point of Sales";
+            $data['page_title'] = "Penjualan - Daftar Faktur Penjualan";
             $data['page_content'] = $this->load->view("penjualan/pos/list", $content, true);
             $data['page_js'] = $this->load->view("penjualan/pos/list_js", "", true);
         }

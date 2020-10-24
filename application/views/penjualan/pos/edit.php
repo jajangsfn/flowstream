@@ -18,7 +18,7 @@
         <form id="pos_form" class="card card-custom gutter-b" action="<?= base_url("/index.php/api/edit_pos") ?>" method="POST">
             <input type="hidden" name="id" value="<?= $data_pos->id ?>">
             <div class="card-header">
-                <div class="card-title">Point of Sales - <span id="pos_no" class="ml-2">Order No #<?= $data_pos->order_no ?></span></div>
+                <div class="card-title">Faktur Penjualan - <span id="pos_no" class="ml-2">Order No #<?= $data_pos->order_no ?></span></div>
                 <div class="card-toolbar d-none" id="pilih_barang_modal_toggle">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#daftarBarang">
                         Pilih Barang
