@@ -532,7 +532,7 @@ class Api extends CI_Controller
         }
 
         $this->session->set_flashdata("success", "Order Request berhasil dicetak");
-        redirect(base_url("index.php/penjualan/home"));
+        redirect(base_url("index.php/penjualan/order_request"));
     }
 
     public function order_request($branch_id = '')
@@ -810,7 +810,7 @@ class Api extends CI_Controller
         }
 
         $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
-        redirect(base_url("index.php/penjualan/home"));
+        redirect(base_url("/index.php/penjualan/pos"));
     }
 
 
