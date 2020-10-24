@@ -363,66 +363,68 @@ function delete_biaya(id) {
 
 
 function get_data_from_db() {
-    var data = <?=isset($delivery_data) ? json_encode($delivery_data['detail']) : null?>;
+    var data = <?=isset($delivery_data['detail']) ? json_encode($delivery_data['detail']) : 'undefined';?> ;
     
     var goods={};
     var employee= {};
     var cost = {};
 
-    $.each(data, function(idx, row){
-        goods.id =row.id;
-        goods.plu_code = row.plu_code;
-        goods.brand_description = row.brand_description;
-        goods.goods_id_pos = row.goods_id;
-        goods.invoice_no = row.invoice_no;
-        goods.sisa = row.qty;
-        goods.qty = row.qty;
+    if (data) {
+        $.each(data, function(idx, row){
+            goods.id =row.id;
+            goods.plu_code = row.plu_code;
+            goods.brand_description = row.brand_description;
+            goods.goods_id_pos = row.goods_id;
+            goods.invoice_no = row.invoice_no;
+            goods.sisa = row.qty;
+            goods.qty = row.qty;
 
-        
-        if (arr_goods.length > 0 ) {
-            $.each(arr_goods, function(idx, rows) {
-                if (goods.id != rows.id) {
-                    arr_goods.push(goods);
-                }
-            });
-        }else {
-            arr_goods.push(goods);
-        }
+            
+            if (arr_goods.length > 0 ) {
+                $.each(arr_goods, function(idx, rows) {
+                    if (goods.id != rows.id) {
+                        arr_goods.push(goods);
+                    }
+                });
+            }else {
+                arr_goods.push(goods);
+            }
 
-        cost.id = row.order_desc;
-        cost.biaya = row.order_desc;
-        cost.jumlah = row.charge;
+            cost.id = row.order_desc;
+            cost.biaya = row.order_desc;
+            cost.jumlah = row.charge;
 
-        if (arr_biaya.length > 0) {
-            $.each(arr_biaya, function(idx, rows) {
-                if (cost.id != rows.id) 
-                {
+            if (arr_biaya.length > 0) {
+                $.each(arr_biaya, function(idx, rows) {
+                    if (cost.id != rows.id) 
+                    {
+                        arr_biaya.push(cost);
+                    }
+                });
+            }else {
                     arr_biaya.push(cost);
-                }
-            });
-        }else {
-                arr_biaya.push(cost);
-        }
+            }
 
 
-        employee.id   = row.employee_id;
-        employee.nama = row.employee_name;
-        employee.tugas= row.job_description;
+            employee.id   = row.employee_id;
+            employee.nama = row.employee_name;
+            employee.tugas= row.job_description;
 
-        if (arr_pegawai.length > 0) {
-            $.each(arr_pegawai, function(idx, rows) {
-                if (employee.id != rows.id) {
-                    arr_pegawai.push(employee);
-                }
-            });
-        }else {
-            arr_pegawai.push(employee);
-        }
+            if (arr_pegawai.length > 0) {
+                $.each(arr_pegawai, function(idx, rows) {
+                    if (employee.id != rows.id) {
+                        arr_pegawai.push(employee);
+                    }
+                });
+            }else {
+                arr_pegawai.push(employee);
+            }
+            
+        });
         
-    });
-    
-    show_good_list();
-    show_pegawai();
-    show_biaya();
+        show_good_list();
+        show_pegawai();
+        show_biaya();
+    }
 }
 </script>
