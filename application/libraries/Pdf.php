@@ -117,7 +117,7 @@ class pdf
 												   								"height"=>0.4,
 												   								"align"=>'C',
 												   							),
-												   					1 => array( "title"=> "Kode Barang",
+												   					1 => array( "title"=> "PLU",
 												   								"width"=>4,
 												   								"height"=>0.4,
 												   								"align"=>'L',
@@ -229,7 +229,7 @@ class pdf
 														   				"height"=>5,
 														   				"align"=>'C',
 														   			  ),
-															1 => array( "title"=> "Kode Barang",
+															1 => array( "title"=> "PLU",
 														   				"width"=>23,
 														   				"height"=>5,
 														   				"align"=>'L',
@@ -336,7 +336,7 @@ class pdf
 													   								"height"=>0.5,
 													   								"align"=>'C',
 													   							),
-													   					1 => array( "title"=> "Kode Barang",
+													   					1 => array( "title"=> "PLU",
 													   								"width"=>3,
 													   								"height"=>0.5,
 													   								"align"=>'L',
@@ -450,7 +450,7 @@ class pdf
 															   				"height"=>5,
 															   				"align"=>'C',
 															   			  ),
-																1 => array( "title"=> "Kode Barang",
+																1 => array( "title"=> "PLU",
 															   				"width"=>30,
 															   				"height"=>5,
 															   				"align"=>'L',
@@ -565,7 +565,7 @@ class pdf
 													   								"height"=>0.5,
 													   								"align"=>'C',
 													   							),
-													   					1 => array( "title"=> "Kode Barang",
+													   					1 => array( "title"=> "PLU",
 													   								"width"=>4,
 													   								"height"=>0.5,
 													   								"align"=>'L',
@@ -662,7 +662,7 @@ class pdf
 															   				"height"=>5,
 															   				"align"=>'C',
 															   			  ),
-																1 => array( "title"=> "Kode Barang",
+																1 => array( "title"=> "PLU",
 															   				"width"=>35,
 															   				"height"=>5,
 															   				"align"=>'L',
@@ -772,7 +772,7 @@ class pdf
 													   								"height"=>0.5,
 													   								"align"=>'C',
 													   							),
-													   					1 => array( "title"=> "Kode Barang",
+													   					1 => array( "title"=> "PLU",
 													   								"width"=>3.3,
 													   								"height"=>0.5,
 													   								"align"=>'L',
@@ -891,7 +891,7 @@ class pdf
 																	   				"height"=>5,
 																	   				"align"=>'C',
 																	   			  ),
-																		1 => array( "title"=> "Kode Barang",
+																		1 => array( "title"=> "PLU",
 																	   				"width"=>30,
 																	   				"height"=>5,
 																	   				"align"=>'L',
@@ -1019,7 +1019,7 @@ class pdf
 													   								"height"=>0.5,
 													   								"align"=>'C',
 													   							),
-													   					1 => array( "title"=> "Kode Barang",
+													   					1 => array( "title"=> "PLU",
 													   								"width"=>3.3,
 													   								"height"=>0.5,
 													   								"align"=>'L',
@@ -1143,7 +1143,7 @@ class pdf
 																		   				"height"=>5,
 																		   				"align"=>'C',
 																		   			  ),
-																			1 => array( "title"=> "Kode Barang",
+																			1 => array( "title"=> "PLU",
 																		   				"width"=>25,
 																		   				"height"=>5,
 																		   				"align"=>'L',
@@ -1692,7 +1692,7 @@ class pdf
 													   								"height"=>0.5,
 													   								"align"=>'C',
 													   							),
-													   					1 => array( "title"=> "Kode Barang",
+													   					1 => array( "title"=> "PLU",
 													   								"width"=>2.7,
 													   								"height"=>0.5,
 													   								"align"=>'L',
@@ -1804,7 +1804,7 @@ class pdf
 																		   				"height"=>5,
 																		   				"align"=>'C',
 																		   			  ),
-																			1 => array( "title"=> "Kode Barang",
+																			1 => array( "title"=> "PLU",
 																		   				"width"=>27,
 																		   				"height"=>5,
 																		   				"align"=>'L',
@@ -3318,7 +3318,7 @@ class pdf
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
-						   $val['barcode'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
+						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
@@ -3450,7 +3450,7 @@ class pdf
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
-						   $val['barcode'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
+						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
@@ -3507,7 +3507,7 @@ class pdf
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
-						   $val['barcode'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
+						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
@@ -3556,7 +3556,7 @@ class pdf
 				
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
-						   $val['barcode'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
+						   $val['plu_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
@@ -4142,7 +4142,7 @@ class pdf
 
 			$pdf->SetMargins(0.8,10,1);
 			$pdf->Cell(1, 0.8, 'No', 1, 0, 'C',1);
-			$pdf->Cell(5, 0.8, 'Kode Barang', 1, 0, 'C',1);
+			$pdf->Cell(5, 0.8, 'PLU', 1, 0, 'C',1);
 			$pdf->Cell(9, 0.8, 'Nama Barang', 1, 0, 'C',1);
 			$pdf->Cell(3.5, 0.8, 'Qty', 1, 1, 'C',1);
 
@@ -4235,7 +4235,7 @@ class pdf
 			$pdf->SetTextColor(255,255,255);
 			
 			$pdf->Cell(1, 0.8, 'No', 1, 0, 'C',1);
-			$pdf->Cell(3.5, 0.8, 'Kode Barang', 1, 0, 'C',1);
+			$pdf->Cell(3.5, 0.8, 'PLU', 1, 0, 'C',1);
 			$pdf->Cell(8, 0.8, 'Nama Barang', 1, 0, 'C',1);
 			$pdf->Cell(3.5, 0.8, 'Harga', 1, 0, 'C',1);
 			$pdf->Cell(3.5, 0.8, 'Qty', 1, 0, 'C',1);
