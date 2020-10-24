@@ -542,4 +542,26 @@ class Inventori extends CI_Controller
         $where['id'] = $id;
         $this->rm->create_jurnal($where);
     }
+
+    // Direct Receiving
+    public function direct_receiving()
+    {
+        $data['page_title'] = "Direct Receiving";
+
+        $data['supplier'] = $this->get_partner(array("is_supplier"=>1));
+        $data['po_no'] = generate_po_no();
+        $data['master'] = array();
+        $data['tgl_indo'] = longdate_indo(date('Y-m-d'));
+
+        $data['purchase_receive_no'] = generate_po_no(2);
+        $data['warehouse'] = $this->m_ws->get("flag<>99")->result();
+        $data['price_method'] = $this->rm->get_price_method()->result();
+
+        $data['page_content'] = $this->load->view("inventori/direct_receiving/direct_receiving", $data, true);
+        $data['page_js'] = $this->load->view("inventori/direct_receiving/direct_receiving_js", $data, true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+    }
 }

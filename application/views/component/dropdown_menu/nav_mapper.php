@@ -221,6 +221,14 @@ if (stripos(current_url(), "/index.php/dashboard")) {
             null
         ),
         new NavItem(
+            "inventori/direct_receiving",
+            null,
+            "/index.php/inventori/direct_receiving",
+            "Direct Receiving",
+            null,
+            null
+        ),
+        new NavItem(
             null,
             null,
             null,
