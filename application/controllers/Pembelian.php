@@ -102,8 +102,6 @@ class Pembelian extends CI_Controller
                 $this->history->insert($history_data);
 
                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">PO berhasil disimpan</div>');
-
-                redirect("pembelian/add_purchase");
             }
         }
 
@@ -135,7 +133,7 @@ class Pembelian extends CI_Controller
 
     // return
     public function return()
-    {
+    { 
         $data['return']       = $this->return->get_all();
         $data['page_title']   = "Retur Pembelian";
         $data['page_content'] = $this->load->view("pembelian/return/return", $data, true);
@@ -171,7 +169,6 @@ class Pembelian extends CI_Controller
         $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
         $data['warehouse']    = $this->m_ws->get_all()->result();
         $data['master']       = $this->return->get_all("tab1.id=".$id,"all_result.purchase_return_detail_id"); 
-        //echo json_encode($data['master']);exit;
         $data['page_content'] = $this->load->view("pembelian/return/edit_return", $data, true);
 
         $this->load->view('layout/head');
@@ -195,7 +192,7 @@ class Pembelian extends CI_Controller
     public function save_return()
     {
         $param = $this->input->post();
-        
+        // echo json_encode($param['supplier']);exit;
         if ( count($param) > 0) {
 
             if (array_key_exists("id", $param)) {
@@ -229,9 +226,6 @@ class Pembelian extends CI_Controller
 
                     $this->history->insert($history_data);
                     $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil diperbaharui</div>');
-
-                    redirect("pembelian/return"); 
-
             }else {
                
                 $arr_return = array(
@@ -261,12 +255,10 @@ class Pembelian extends CI_Controller
 
                 $this->history->insert($history_data);
                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Retur berhasil disimpan</div>');
-
-                redirect("pembelian/add_return");
-
             }
         }
-        
+
+        redirect("pembelian/return");  
         
 
     }

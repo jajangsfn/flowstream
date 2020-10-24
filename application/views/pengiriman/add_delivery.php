@@ -82,27 +82,6 @@
 									</tr>
 								</thead>
 								<tbody id="good_list">
-									<?php
-									if (!is_null($delivery_data['goods'])) {
-										foreach($delivery_data['goods'] as $key => $row) { ?>
-											<tr id="id_<?=$key?>">
-												<td><?=$key+1?></td>
-												<td width="250"><?=$row['invoice_no']?></td>
-												<td width="250"><?=$row['plu_code']?></td>
-												<td><?=$row['brand_description']?></td>
-												<td width="100">
-													<input type='hidden' name='order_detail_id[]' value='<?=$row['id']?>'/>
-													<input type='hidden' name='good_id[]' value='<?=$row['goods_id']?>'/>
-													<input type='number' name='qty[]' class='form-control' value='<?=$row['qty']?>' min='1' required/></td>
-												<td>
-													<button type='button' class='btn btn-xs btn-danger' onclick='delete_good(<?=$key?>)'>
-														<span class='fa fa-trash'></span>
-													</button>
-												</td>
-											</tr>
-										<?php }
-									}
-									?>
 								</tbody>
 							</table>
 						</div>
@@ -146,25 +125,6 @@
 							</tr>
 						</thead>
 						<tbody id="table_pegawai">
-							<?php 
-							if (!is_null($delivery_data['pegawai'])) {
-								foreach($delivery_data['pegawai'] as $key => $row) { ?>
-									<tr id="pegawai_id_<?=$key?>">
-										<td><?=($key+1)?></td>
-										<td>
-											<input type='hidden' name='team_id[]' value='<?=$row['team_id']?>'/>
-											<input type='hidden' name='id_pegawai[]' value='<?=$row['employee_id']?>'/>
-											<input type='hidden' name='pegawai[]' value='<?=$row['employee_name']?>'/>
-											<?=$row['employee_name']?></td>
-										<td><input type='text' name='tugas_pegawai[]' class='form-control' value='<?=$row['job_description']?>'/></td>
-										<td>
-											<button type='button' class='btn btn-xs btn-danger' onclick='delete_pegawai(<?=$key?>)'>
-												<span class='fa fa-trash'></span>
-											</button>
-										</td>
-									</tr>
-							<?php }
-							}?>
 						</tbody>
 					</table>
 				</div>
@@ -207,18 +167,6 @@
 							</tr>
 						</thead>
 						<tbody id="table_biaya">
-						<?php 
-							if (!is_null($delivery_data['biaya'])) {
-								foreach($delivery_data['biaya'] as $key => $row) { ?>
-									<tr id="biaya_id_<?=$key?>">
-										<td><?=($key+1)?></td>
-										<td><input type='text' name='biaya[]' class='form-control' value='<?=$row['description']?>'/></td>
-										<td><input type='number' name='jumlah[]' class='form-control' value='<?=$row['charge']?>' min="1000"/></td>
-										<td><button type='button' class='btn btn-danger btn-sm' onclick='delete_biaya(<?=$key?>)'><span class='fas fa-trash'></span></button></td>";
-									</tr>
-						  <?php }
-							}
-							?>
 						</tbody>
 					</table>
 				</div>

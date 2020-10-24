@@ -166,7 +166,7 @@ class Return_model extends CI_Model
                                         
                                         GROUP BY all_result.id
                                         ".(($group) ? ",".$group : "")."
-                                        ORDER BY all_result.updated_date"); 
+                                        ORDER BY all_result.updated_date desc"); 
 
         if ( $type == 1) {
             return $data->result();
