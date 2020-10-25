@@ -44,13 +44,13 @@ $(function() {
 
 function get_po_no_detail() {
     po_no = $("#po_no_list").val();    
-    $.ajax({
+    $.ajax({ 
         url : "<?=base_url()?>index.php/pengiriman/get_po_no",
         type:"post",
         data: "po_no="+po_no,
         datatype:"json",
         success:function(msg) {
-            parse = JSON.parse(msg);
+            parse = JSON.parse(msg);console.log(parse);
             var temp_goods = {};
             if (parse.length > 0) {
                 $("#customer_name").val(parse[0].name);
@@ -66,12 +66,14 @@ function get_po_no_detail() {
                     arr_goods.push(temp_goods);
                 });
             }
+            show_good_list();
         }
     });
 }
 
 function show_good_list() {
     var x = 1;
+    $("#good_list").html('');
     $.each(arr_goods, function(id,val) {
         $("#good_list").append("<tr id='id_"+id+"'>"
                                 +"<td>"+(x)+"</td>"    

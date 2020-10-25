@@ -188,7 +188,7 @@ class Penjualan extends CI_Controller
             } else {
                 $type_print = "checksheet_out";
             }
-
+            // echo json_encode($data);exit;
 
             $this->pdf->dynamic_print(2, $type_print, $data);
         }

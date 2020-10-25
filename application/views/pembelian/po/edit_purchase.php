@@ -34,7 +34,7 @@
 		    </div>
 
 			<div class="card-body">
-				<form method="post" action="<?=base_url()?>index.php/pembelian" id="form_purchase">
+				<form method="post" action="<?=base_url()?>index.php/pembelian/save_po" id="form_purchase">
 					<input type="hidden" name="id" id="po_id" value="<?=($master) ? $master[0]->id : ""?>">
 					<input type="hidden" name="salesman_id" id="salesman_id" value="<?=($master) ? $master[0]->salesman_id : ""?>">
 					<input type="hidden" name="branch_id" id="branch_id" value="<?=($master) ? $master[0]->branch_id : ""?>">

@@ -56,7 +56,7 @@
 		    <!-- end card header -->
 
 			<div class="card-body">
-				<form method="post" action="<?=base_url()?>index.php/pembelian" id="form_purchase">
+				<form method="post" action="<?=base_url()?>index.php/pembelian/save_po" id="form_purchase">
 					<input type="hidden" name="salesman_id" id="salesman_id">
 					<input type="hidden" name="branch_id" id="branch_id">
 					<input type="hidden" name="branch_name" id="branch_name">
@@ -150,7 +150,6 @@
 <div class="modal fade" id="tambahBrgKeChart" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered" role="document">
         <div class="modal-content">
-            <!-- <form class="form card" method="POST" action="<?= current_url() ?>"> -->
                 <div class="card-header">
                     Tambah ke Troli
                 </div>
@@ -185,7 +184,6 @@
                     <button type="button" class="btn btn-primary mr-2" onclick="add_to_chart()">Add to Chart</button>
                     <?= $this->load->view("component/button/close", "", true); ?>
                 </div>
-            <!-- </form> -->
         </div>
     </div>
 </div>

@@ -31,7 +31,21 @@ class Pembelian extends CI_Controller
 
     public function index()
     {
-         if (count($_POST)) {
+
+        $data['back_url']     = base_url();
+        $data['page_title']   = "Daftar Pembelian"; 
+        $data['po_data']      = $this->po->get_all_trx(null,array("tab1.id"))->result();
+        $data['page_content'] = $this->load->view("pembelian/index", $data, true);
+        $data['master']       = array();
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js'); 
+        $this->load->view('pembelian/pembelian_js'); 
+    }
+
+    public function save_po() {
+        if (count($_POST)) {
             $id_user           = $this->session->userdata('id');
             $name              = $this->session->userdata('name');
             if (array_key_exists("id",$_POST)) {
@@ -104,17 +118,7 @@ class Pembelian extends CI_Controller
                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">PO berhasil disimpan</div>');
             }
         }
-
-        $data['back_url']     = base_url();
-        $data['page_title']   = "Daftar Pembelian";
-        $data['po_data']      = $this->po->get_all_trx(null,array("tab1.id"))->result();
-        $data['page_content'] = $this->load->view("pembelian/index", $data, true);
-        $data['master']       = array();
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js'); 
-        $this->load->view('pembelian/pembelian_js'); 
+        redirect('pembelian/');
     }
 
     public function purchase_order()
@@ -505,21 +509,21 @@ class Pembelian extends CI_Controller
         $index = 0;
         
 
-        for ($i=0; $i <29; $i++) { 
+        for ($i=0; $i <9; $i++) { 
             $data[$index] = array();
             // PO
-            // $data[$index]['partner_name'] = "PT ABCD";
-            // $data[$index]['salesman_name'] =  $this->generateRandomString(20);
-            // $data[$index]['purchase_order_no']     = '00000131202007000001';
-            // $data[$index]['purchase_order_date']   = date('Y-m-d');
-            // $data[$index]['reference_no']  = '00000125202007000012';
-            // $data[$index]['goods_name']    = $this->generateRandomString(20);
-            // $data[$index]['sku_code']      = $this->generateRandomString(5);
-            // $data[$index]['plu_code']      = rand(000000,9999999);
-            // $data[$index]['goods_price']         =  rand(1000, 155000);
-            // $data[$index]['goods_qty']      =  rand(10, 2390); 
-            // $data[$index]['goods_discount']      =  rand(1, 100); 
-            // $data[$index]['barcode']      =  rand(1, 1000); 
+            $data[$index]['partner_name'] = "PT ABCD";
+            $data[$index]['salesman_name'] =  $this->generateRandomString(20);
+            $data[$index]['purchase_order_no']     = '00000131202007000001';
+            $data[$index]['purchase_order_date']   = date('Y-m-d');
+            $data[$index]['reference_no']  = '00000125202007000012';
+            $data[$index]['goods_name']    = $this->generateRandomString(20);
+            $data[$index]['sku_code']      = $this->generateRandomString(5);
+            $data[$index]['plu_code']      = rand(000000,9999999);
+            $data[$index]['goods_price']         =  rand(1000, 155000);
+            $data[$index]['goods_qty']      =  rand(10, 2390); 
+            $data[$index]['goods_discount']      =  rand(1, 100); 
+            $data[$index]['barcode']      =  rand(1, 1000); 
 
             // $data[$index] = array();
             // RECEIVING
@@ -640,31 +644,31 @@ class Pembelian extends CI_Controller
 
 
             //POS
-            $data[$index]['partner_name'] = "PT. ABCD";
-            $data[$index]['customer'] = "PT. ABCD";
-            $data[$index]['order_no']   = rand(000000,9999999);
-            $data[$index]['salesman_name'] =  $this->generateRandomString(20);
-            $data[$index]['return_no']     = '00000131202007000001';
-            $data[$index]['reference_no']     = '00000131202007000001';
-            $data[$index]['return_date_convert']   = date('Y-m-d');
-            $data[$index]['reference_no']  = '00000125202007000012';
-            $data[$index]['goods_name']    = $this->generateRandomString(20);
-            $data[$index]['sku_code']      = $this->generateRandomString(5);
-            $data[$index]['plu_code']      = rand(000000,9999999);
-            $data[$index]['barcode']      =  rand(1, 1000); 
-            $data[$index]['quantity']      =  rand(10, 2390); 
-            $data[$index]['unit_initial']      =  rand(1, 1000); 
-            $data[$index]['price']      =  rand(10, 2390); 
-            $data[$index]['discount']      =  rand(0, 10); 
-            $data[$index]['total']      =  $data[$index]['price'] * $data[$index]['quantity'];
-            $data[$index]['warehouse_name']    = $this->generateRandomString(10);
-            $data[$index]['invoice_no']   = rand(000000,9999999);
-            $data[$index]['created_date'] = $this->generateRandomString(20);
-            $data[$index]['updated_date'] = $this->generateRandomString(20);
-            $data[$index]['brand_name']    = $this->generateRandomString(20);
-            $data[$index]['brand_description']    = $this->generateRandomString(20);
-            $data[$index]['nomor_faktur_pajak']      =  rand(1, 1000); 
-            $data[$index]['ppn']      =  rand(1, 1000); 
+            // $data[$index]['partner_name'] = "PT. ABCD";
+            // $data[$index]['customer'] = "PT. ABCD";
+            // $data[$index]['order_no']   = rand(000000,9999999);
+            // $data[$index]['salesman_name'] =  $this->generateRandomString(20);
+            // $data[$index]['return_no']     = '00000131202007000001';
+            // $data[$index]['reference_no']     = '00000131202007000001';
+            // $data[$index]['return_date_convert']   = date('Y-m-d');
+            // $data[$index]['reference_no']  = '00000125202007000012';
+            // $data[$index]['goods_name']    = $this->generateRandomString(20);
+            // $data[$index]['sku_code']      = $this->generateRandomString(5);
+            // $data[$index]['plu_code']      = rand(000000,9999999);
+            // $data[$index]['barcode']      =  rand(1, 1000); 
+            // $data[$index]['quantity']      =  rand(10, 2390); 
+            // $data[$index]['unit_initial']      =  rand(1, 1000); 
+            // $data[$index]['price']      =  rand(10, 2390); 
+            // $data[$index]['discount']      =  rand(0, 10); 
+            // $data[$index]['total']      =  $data[$index]['price'] * $data[$index]['quantity'];
+            // $data[$index]['warehouse_name']    = $this->generateRandomString(10);
+            // $data[$index]['invoice_no']   = rand(000000,9999999);
+            // $data[$index]['created_date'] = $this->generateRandomString(20);
+            // $data[$index]['updated_date'] = $this->generateRandomString(20);
+            // $data[$index]['brand_name']    = $this->generateRandomString(20);
+            // $data[$index]['brand_description']    = $this->generateRandomString(20);
+            // $data[$index]['nomor_faktur_pajak']      =  rand(1, 1000); 
+            // $data[$index]['ppn']      =  rand(1, 1000); 
             //neraca saldo
             // $data[$index]['page'] = "1 dari 1";
             // $data[$index]['periode'] = date('Y-m');
@@ -716,7 +720,7 @@ class Pembelian extends CI_Controller
 
 
         // echo json_encode($data);exit;
-        // $this->pdf->dynamic_print(1,"po_in",$data);
+        $this->pdf->dynamic_print(1,"po_in",$data);
         // $this->pdf->dynamic_print(1,"receive_in",$data);
         // $this->pdf->dynamic_print(1,"warehouse_in",$data);
         // $this->pdf->dynamic_print(1,"return_in",$data);
@@ -727,7 +731,7 @@ class Pembelian extends CI_Controller
         // $this->pdf->dynamic_print(2,"daily_sales_out",$data);
         // $this->pdf->dynamic_print(2,"monthly_sales_out",$data);
         // $this->pdf->dynamic_print(2,"checksheet_out",$data);
-        $this->pdf->dynamic_print(2,"pos_out",$data);
+        // $this->pdf->dynamic_print(2,"pos_out",$data);
         // $this->pdf->dynamic_print(3,"neraca_saldo",$data);
         // $this->pdf->dynamic_print(3,"delivery",$data);
         // $this->pdf->dynamic_print(3,"ikhtisar_buku_besar",$data);
