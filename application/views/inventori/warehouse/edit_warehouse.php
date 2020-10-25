@@ -26,7 +26,7 @@
 </div>
 <!-- end card header -->
      <div class="card-body">
-      <form method="post" action="<?=base_url()?>index.php/inventori/gudang" id="form_ws">
+      <form method="post" action="<?=base_url()?>index.php/inventori/save_warehouse" id="form_ws">
         <input type="hidden" name="id" value="<?=$warehouse[0]->id?>">
      	<div class="row mb-3">
           <div class="col-md-1"></div>

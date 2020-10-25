@@ -276,8 +276,18 @@ class Inventori extends CI_Controller
 
     public function gudang()
     {
+        $data['warehouse']  = $this->t_ws->get_all()->result();
+        $data['page_title'] = "Gudang";
+        $data['page_content'] = $this->load->view("inventori/gudang", $data, true);
 
-         if ( count($_POST) ) {
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+        $this->load->view('inventori/warehouse/warehouse_js');
+    }
+
+    public function save_warehouse() {
+        if ( count($_POST) ) {
 
             $id_user           = $this->session->userdata('id');
             $name              = $this->session->userdata('name');
@@ -312,8 +322,7 @@ class Inventori extends CI_Controller
                                );
 
                 $this->history->insert($history_data);
-
-                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Data Barang berhasil diperbaharui</div>');
+                $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Data Barang berhasil diperbaharui</div>');
 
 
             } else {
@@ -348,19 +357,10 @@ class Inventori extends CI_Controller
                 $this->history->insert($history_data);
 
                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Data Barang berhasil disimpan</div>');
-
-                redirect('inventori/add_warehouse');
             }
         }
 
-        $data['warehouse']  = $this->t_ws->get_all()->result();
-        $data['page_title'] = "Gudang";
-        $data['page_content'] = $this->load->view("inventori/gudang", $data, true);
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-        $this->load->view('inventori/warehouse/warehouse_js');
+        redirect('inventori/gudang');
     }
 
 
