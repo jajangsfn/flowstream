@@ -120,7 +120,7 @@ class Receiving_model extends CI_Model
                 // update hpp & qty m goods
                 $new_qty     = $goods->quantity + $val->quantity;
                 $arr_hpp     = array( "quantity" => $new_qty,"hpp" => $new_hpp);
-                // $this->db->set($arr_hpp,FALSE);
+                
                 $this->db->where("id", $val->goods_id );
                 $this->db->update("m_goods",$arr_hpp);
 

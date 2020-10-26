@@ -509,21 +509,21 @@ class Pembelian extends CI_Controller
         $index = 0;
         
 
-        for ($i=0; $i <9; $i++) { 
+        for ($i=0; $i <1; $i++) { 
             $data[$index] = array();
             // PO
-            $data[$index]['partner_name'] = "PT ABCD";
-            $data[$index]['salesman_name'] =  $this->generateRandomString(20);
-            $data[$index]['purchase_order_no']     = '00000131202007000001';
-            $data[$index]['purchase_order_date']   = date('Y-m-d');
-            $data[$index]['reference_no']  = '00000125202007000012';
-            $data[$index]['goods_name']    = $this->generateRandomString(20);
-            $data[$index]['sku_code']      = $this->generateRandomString(5);
-            $data[$index]['plu_code']      = rand(000000,9999999);
-            $data[$index]['goods_price']         =  rand(1000, 155000);
-            $data[$index]['goods_qty']      =  rand(10, 2390); 
-            $data[$index]['goods_discount']      =  rand(1, 100); 
-            $data[$index]['barcode']      =  rand(1, 1000); 
+            // $data[$index]['partner_name'] = "PT ABCD";
+            // $data[$index]['salesman_name'] =  $this->generateRandomString(20);
+            // $data[$index]['purchase_order_no']     = '00000131202007000001';
+            // $data[$index]['purchase_order_date']   = date('Y-m-d');
+            // $data[$index]['reference_no']  = '00000125202007000012';
+            // $data[$index]['goods_name']    = $this->generateRandomString(20);
+            // $data[$index]['sku_code']      = $this->generateRandomString(5);
+            // $data[$index]['plu_code']      = rand(000000,9999999);
+            // $data[$index]['goods_price']         =  rand(1000, 155000);
+            // $data[$index]['goods_qty']      =  rand(10, 2390); 
+            // $data[$index]['goods_discount']      =  rand(1, 100); 
+            // $data[$index]['barcode']      =  rand(1, 1000); 
 
             // $data[$index] = array();
             // RECEIVING
@@ -686,21 +686,21 @@ class Pembelian extends CI_Controller
 
 
             //ikhtisar buku besar
-            // $data[$index]['page'] = "1 dari 1";
-            // $data[$index]['periode'] = date('Y-m');
-            // $data[$index]['date'] = date('Y-m-d');
-            // $data[$index]['time'] = date('H:i:s');
-            // $data[$index]['jurnal_no'] =  $this->generateRandomString(20);
-            // $data[$index]['acc_code_header']  = $this->generateRandomString(10);
-            // $data[$index]['acc_name_header']  = $this->generateRandomString(20);
-            // $data[$index]['acc_code']  = $this->generateRandomString(10);
-            // $data[$index]['acc_name']  = $this->generateRandomString(20);
-            // $data[$index]['saldo_bln_lalu']  = 0;
-            // $data[$index]['debit']  = rand(1000,9999999);
-            // $data[$index]['credit']  = rand(1000,9999999);
-            // $data[$index]['total_debit']  = rand(1000,9999999);
-            // $data[$index]['total_credit']  = rand(1000,9999999);
-            // $data[$index]['position']  = rand(1,2) == 1 ? "D" : "K";
+            $data[$index]['page'] = "1 dari 1";
+            $data[$index]['periode'] = date('Y-m');
+            $data[$index]['date'] = date('Y-m-d');
+            $data[$index]['time'] = date('H:i:s');
+            $data[$index]['jurnal_no'] =  $this->generateRandomString(20);
+            $data[$index]['acc_code_header']  = $this->generateRandomString(10);
+            $data[$index]['acc_name_header']  = $this->generateRandomString(20);
+            $data[$index]['acc_code']  = $this->generateRandomString(10);
+            $data[$index]['acc_name']  = $this->generateRandomString(20);
+            $data[$index]['saldo_bln_lalu']  = 0;
+            $data[$index]['debit']  = rand(1000,9999999);
+            $data[$index]['credit']  = rand(1000,9999999);
+            $data[$index]['total_debit']  = rand(1000,9999999);
+            $data[$index]['total_credit']  = rand(1000,9999999);
+            $data[$index]['position']  = rand(1,2) == 1 ? "D" : "K";
             //delivery
             // $data[$index]['delivery_no'] = $this->generateRandomString(20);
             // $data[$index]['delivery_date'] = date('Y-m');
@@ -720,7 +720,7 @@ class Pembelian extends CI_Controller
 
 
         // echo json_encode($data);exit;
-        $this->pdf->dynamic_print(1,"po_in",$data);
+        // $this->pdf->dynamic_print(1,"po_in",$data);
         // $this->pdf->dynamic_print(1,"receive_in",$data);
         // $this->pdf->dynamic_print(1,"warehouse_in",$data);
         // $this->pdf->dynamic_print(1,"return_in",$data);
@@ -734,7 +734,7 @@ class Pembelian extends CI_Controller
         // $this->pdf->dynamic_print(2,"pos_out",$data);
         // $this->pdf->dynamic_print(3,"neraca_saldo",$data);
         // $this->pdf->dynamic_print(3,"delivery",$data);
-        // $this->pdf->dynamic_print(3,"ikhtisar_buku_besar",$data);
+        $this->pdf->dynamic_print(3,"ikhtisar_buku_besar",$data);
     }
 
 

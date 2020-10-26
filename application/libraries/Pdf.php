@@ -2945,6 +2945,306 @@ class pdf
 	
 											), //end size B5
 										), //end po
+										"ikhtisar_buku_besar"=> array(
+											1 => array("paper"=>"A4",
+														"view" => "P",
+														"type_size" => "cm",
+														"title_paper" => array( "title" => 'Ikhtisar Buku Besar',
+																			   "width" => 20,
+																			   "height" => 0.5,
+																			   "align" => 'C'),
+														"title_position_y" => 0.5,
+														"space" => 1.7,
+														"header"=> array(
+																	0 => array("position_x" => 0.2,
+																				 "position_y" => 2.3,
+																				  "name" => 0.2,
+																				  "pad" => 0.2,
+																				  "val" => 3,
+																				  "title" => 'Hal',
+																				  "align" => 'L',
+																				  "index" => "page"),
+																	1 => array("position_x" => 0.2,
+																			  "position_y" => 2.7,
+																			   "name" => 2,
+																			   "pad" => 0.2,
+																			   "val" => 11.8,
+																			   "title" => 'Periode',
+																			   "align" => 'L',
+																			   "index" => 'periode'),
+																	2 => array("position_x" => 15.9,
+																	 		 "position_y" => 2.3,
+																			  "name" => 2,
+																			  "pad" => 0.2,
+																			  "val" => 11.8,
+																			  "title" => 'Tanggal',
+																			  "align" => 'L',
+																			  "index" => 'date'),
+																	3=> array("position_x" => 15.9,
+																			  "position_y" => 2.7,
+																			  "name" => 2,
+																			  "pad" => 0.2,
+																			  "val" => 11.8,
+																			  "title" => 'Waktu',
+																			  "align" => 'L',
+																			  "index" => "time"),
+																	),
+																  "body_position_y" => 3.8,
+																  "body_position_x" => 0.3,
+																  "body_ln" => 0.4,
+																  "body_start_y" => 0.4,
+																  "body_start_x" => 0.3,
+														"body" => array(0 => array( "title"=> "No",
+																					"width"=>0.6,
+																					"height"=>0.4,
+																					"align"=>'C',
+																				),
+																		1 => array( "title"=> "Kode",
+																				  "width"=>3,
+																				  "height"=>0.4,
+																				  "align"=>'L',
+																			  ),
+																		2 => array( "title"=> "Nama Rekening",
+																				  "width"=>5,
+																				  "height"=>0.4,
+																				  "align"=>'L',
+																				),
+																		3 => array( "title"=> "Saldo Bulan Lalu",
+																				  "width"=>2.8,
+																				  "height"=>0.4,
+																				  "align"=>'R',
+																			  ),
+																		4 => array( "title"=> "Debit",
+																				  "width"=>2.5,
+																				  "height"=>0.4,
+																				  "align"=>'R',
+																			  ),
+																		5 => array( "title"=> "Kredit",
+																				  "width"=>2.5,
+																				  "height"=>0.4,
+																				  "align"=>'R',
+																			  ),
+																		6 => array( "title"=> "Saldo Bulan Ini",
+																				  "width"=>2.8,
+																				  "height"=>0.4,
+																				  "align"=>'R',
+																		),
+																		7 => array( "title"=> "",
+																				"width"=>19.2,
+																				"height"=>0.4,
+																				"align"=>'R',
+															  			),
+																	),
+														  "footer" => array("footer_ln" => 0,
+																			"signature" => array("title" => "",
+																			 					 "width" => 4,
+																								 "height" => 0.8,
+																								 "align"=>'L',
+																								 "position_x" => 0.3,
+																							   ), 
+																			"approved_by" => array("title" => "",
+																								 "width" => 3,
+																								 "height" => 0.8,
+																								 "align"=>'L',
+																								 "position_x" => 5,
+																							   ), 
+																			"total" => array("title" => "Jumlah",
+																							  "width" => 8.4,
+																							  "height" => 0.6,
+																							  "align"=>'R',
+																							  "position_x" => 0.3
+																						   ),
+																			"summary" => array("title" => "",
+																								  "width" => 3.5,
+																								  "height" => 0.6,
+																								  "align"=>'R',
+																								  "position_x" => 16.9
+																							   ),
+																			"total_saldo_debit" => array(
+																							   "title" => "",
+																							   "width" => 2.5,
+																							   "height" => 0.6,
+																							   "align"=>'R',
+																							   "position_x" => 11.7
+																						   ),
+																			"total_saldo_credit" => array(
+																							   "title" => "",
+																							   "width" => 2.5,
+																							   "height" => 0.6,
+																							   "align"=>'R',
+																							   "position_x" => 14.2),
+																			"total_saldo_bulan_ini" => array(
+																							   "title" => "",
+																							   "width" => 2.8,
+																							   "height" => 0.6,
+																							   "align"=>'R',
+																							   "position_x" => 16.8
+																						   ),
+																			"total_saldo_bulan_lalu" => array(
+																							   "title" => "",
+																							   "width" => 2.8,
+																							   "height" => 0.6,
+																							   "align"=>'R',
+																							   "position_x" => 8.9
+																						   ),
+																			"terbilang" => array("title" => "Terbilang",
+																							  "width" => 16.6,
+																							  "height" => 0.6,
+																							  "align"=>'L',
+																							  "position_x" => 0.3),
+																		),
+	   
+															   ), //end size a4
+											2 => array(
+												  "paper"=> "a5",
+												  "view" => "L",
+												  "type_size" => "mm",
+												  "title_paper" => array( "title" => 'Ikhtisar Buku Besar',
+																		   "width" => 200,
+																		   "height" => 1,
+																		   "align" => 'C'),
+												  "title_position_y" => 5,
+												  "space" => 16,
+												  "header"=> array(
+													  			0 => array("position_x" => 0.8,
+																		  "position_y" => 26,
+																		  "name" => 15,
+																		  "pad" => 1.6,
+																		  "val" => 11.8,
+																		  "title" => 'Hal',
+																		  "align" => 'L',
+																		  "index" => "page"
+																	   ),
+																1 => array("position_x" => 0.8,
+																		  "position_y" => 30,
+																		  "name" => 18,
+																		  "pad" => 1.6,
+																		  "val" => 11.8,
+																		  "title" => 'Periode',
+																		  "align" => 'L',
+																		  "index" => "periode"
+																	   ),
+																2 => array("position_x" => 158.8,
+																		   "position_y" => 26,
+																		   "name" => 18,
+																		   "pad" => 1.6,
+																		   "val" => 11.8,
+																		   "title" => 'Tanggal',
+																		   "align" => 'L',
+																		   "index" => "date"
+																	),
+																3 => array("position_x" => 158.8,
+																		  "position_y" => 30,
+																		  "name" => 18,
+																		  "pad" => 1.6,
+																		  "val" => 11.8,
+																		  "title" => 'Waktu',
+																		  "align" => 'L',
+																		  "index" => "time"
+																	   ),
+																),
+												   "body_position_y" => 35,
+												   "body_position_x" => 1,
+												   "body_ln" => 4,
+												   "body_start_y" => 5,
+												   "body_start_x" => 1,
+												   "body" => array(0 => array( "title"=> "No",
+																				  "width"=>7,
+																				  "height"=>5,
+																				  "align"=>'C',
+																				),
+																    1 => array( "title"=> "Kode",
+																				  "width"=>23,
+																				  "height"=>5,
+																				  "align"=>'L',
+																			  ),
+																	2 => array( "title"=> "Nama Rekening",
+																				  "width"=>53,
+																				  "height"=>5,
+																				  "align"=>'L',
+																				),
+																	3 => array( "title"=> "Saldo Bulan Lalu",
+																				  "width"=>30,
+																				  "height"=>5,
+																				  "align"=>'R',
+																				),
+																	4 => array( "title"=> "Debit",
+																				  "width"=>25,
+																				  "height"=>5,
+																				  "align"=>'R',
+																			  ),
+																	5 => array( "title"=> "Kredit",
+																				  "width"=>25,
+																				  "height"=>5,
+																				  "align"=>'R',
+																			  ),
+																	6 => array( "title"=> "Saldo Bulan Ini",
+																					  "width"=>30,
+																					  "height"=>5,
+																					  "align"=>'R',
+																				),
+																	// 7 => array( "title"=> "",
+																	// 				  "width"=>193,
+																	// 				  "height"=>5,
+																	// 				  "align"=>'L',
+																	// 			),
+																   ),
+												   "footer" => array(
+																	 "footer_ln" => 0.9,
+																	 "signature" => array("title" => "",
+																					   "width" => 4,
+																					   "height" => 0.8,
+																					   "align"=>'L',
+																					   "position_x" => 1,
+																				   ),
+																	 "approved_by" => array("title" => "",
+																					   "width" => 4,
+																					   "height" => 0.8,
+																					   "align"=>'L',
+																					   "position_x" => 50,
+																				   ),
+																	  "total" => array("title" => "Jumlah",
+																				  "width" => 83,
+																				  "height" => 10,
+																				  "align"=>'R',
+																				  "position_x" => 1
+																			   ),
+																	   "total_saldo_bulan_lalu" => 
+																			   array("title" => "",
+																				  "width" => 30,
+																				  "height" => 5,
+																				  "align"=>'R',
+																				  "position_x" => 84.5
+																				),
+																	   "total_saldo_debit" => 
+																					  array("title" => "",
+																						 "width" => 25,
+																						 "height" => 5,
+																						 "align"=>'R',
+																						 "position_x" => 114
+																					   ),
+																	   "total_saldo_credit" => 
+																				   array("title" => "",
+																						 "width" => 25,
+																						 "height" => 5,
+																						 "align"=>'R',
+																						 "position_x" => 139),
+																	   "total_saldo_bulan_ini" => 
+																				   array("title" => "",
+																						 "width" => 30,
+																						 "height" => 5,
+																						 "align"=>'R',
+																						 "position_x" => 164
+																					   ),
+																	  "terbilang" => array("title" => "Terbilang",
+																							  "width" => 173.3,
+																							  "height" => 5,
+																							  "align"=>'L',
+																							  "position_x" => 3.1),
+																   ),
+	   
+											   ), //end size B5
+										   ), //end ikhtisar buku besar
 									"delivery" => array(
 												1 => array("paper"=>"A4",
 																   "view" => "P",
@@ -3374,9 +3674,9 @@ class pdf
 				// if first row then set border top left and right
 				// if last row then set border bottom left right
 				// else set border to 0
-				if ( $key == 0)
+				if ( $key == 0 || count($data) == 1)
 				{
-					$border = 'L,R,T';
+					$border = 1;
 				} else if ( ($key+1) == $total_row) {
 					$border ='L,B,R';
 				}else {
@@ -3826,9 +4126,9 @@ class pdf
 				// if first row then set border top left and right
 				// if last row then set border bottom left right
 				// else set border to 0
-				if ( $key == 0)
+				if ( $key == 0 || count($data) == 1)
 				{
-					$border = 'L,R,T';
+					$border = 1;
 				} else if ( ($key+1) == $total_row) {
 					$border ='L,B,R';
 				}else {
@@ -3901,6 +4201,112 @@ class pdf
 			}
 		}
 
+		// ikhtisar buku besar
+		if ($type_print == 'ikhtisar_buku_besar'){
+			$total_saldo_debit = 0;
+            $total_saldo_credit= 0;
+			$total_saldo_bulan_lalu = 0;
+			$total_saldo_bulan_lalu_d = 0;
+			$total_saldo_bulan_lalu_c = 0;
+			$total_saldo_bulan_ini = 0;
+			$total_saldo_bulan_ini_d = 0;
+			$total_saldo_bulan_ini_c = 0;
+			$grant_total = 0;
+			$temp_acc_code = null;
+			foreach ($data as $key => $val) {
+
+				// if first row then set border top left and right
+				// if last row then set border bottom left right
+				// else set border to 0
+				if ( $key == 0 || count($data) == 1)
+				{
+					$border = 1;
+				} else if ( ($key+1) == $total_row) {
+					$border ='L,B,R';
+				}else {
+					$border = 'L,R';
+				}
+
+                $position    = (is_null($val['position']) || $val['position'] == 'D') ? 'D' : 'K';
+                $saldo_akhir = $position == 'D' ? 
+                                            ($val['saldo_bln_lalu'] + $val['total_debit'] - $val['total_credit'])
+                                            :($val['saldo_bln_lalu'] + $val['total_credit'] - $val['total_debit']);
+                $total_saldo_debit+= $val['total_debit'];
+				$total_saldo_credit+= $val['total_credit'];
+				
+				//saldo bulan lalu
+				$total_saldo_bulan_lalu+=$val['saldo_bln_lalu'];
+				//jika posisinya debit maka jumlahkan saldo bulan lalu bertipe debit
+				//jika posisinya credit maka jumlahkan saldo bulan lalu bertipe credit
+				$total_saldo_bulan_lalu_d+= $position == 'D' ? $val['saldo_bln_lalu'] : 0;
+				$total_saldo_bulan_lalu_c+= $position == 'K' ? $val['saldo_bln_lalu'] : 0;
+				  
+				//saldo bulan ini
+				$total_saldo_bulan_ini+=$saldo_akhir;
+				//jika posisinya debit maka jumlahkan saldo bulan ini bertipe debit
+				//jika posisinya credit maka jumlahkan saldo bulan ini bertipe credit
+				$total_saldo_bulan_ini_d+= $position == 'D' ? $saldo_akhir : 0;
+				$total_saldo_bulan_ini_c+= $position == 'K' ? $saldo_akhir : 0;
+
+				$grant_total = $total_saldo_bulan_ini;
+				
+				if (is_null($temp_acc_code) || $temp_acc_code != $val['acc_code_header']) {
+					$temp_acc_code = $val['acc_code_header'];
+
+					$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
+					$pdf->Cell( $paper_reference[$type_print][$use_paper]['body'][0]['width'] +
+								$paper_reference[$type_print][$use_paper]['body'][1]['width'] +
+								$paper_reference[$type_print][$use_paper]['body'][2]['width'] +
+								$paper_reference[$type_print][$use_paper]['body'][3]['width'] +
+								$paper_reference[$type_print][$use_paper]['body'][4]['width'] +
+								$paper_reference[$type_print][$use_paper]['body'][5]['width'] +
+								$paper_reference[$type_print][$use_paper]['body'][6]['width'] , 
+								$paper_reference[$type_print][$use_paper]['body'][1]['height'], 
+								$val['acc_code_header']." ".$val['acc_name_header'],1,0,
+								$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
+					$pdf->ln();
+				}
+				
+								
+				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
+							$paper_reference[$type_print][$use_paper]['body'][0]['height'], 
+							($key+1),$border,0,$paper_reference[$type_print][$use_paper]['body'][0]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][1]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][1]['height'], 
+						   $val['acc_code'],$border,0,$paper_reference[$type_print][$use_paper]['body'][1]['align']);	
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][2]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][2]['height'], 
+						   $val['acc_name'],$border,0,$paper_reference[$type_print][$use_paper]['body'][2]['align']);
+
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
+						   number_format($val['saldo_bln_lalu']) ." ".$position,$border,0,$paper_reference[$type_print][$use_paper]['body'][3]['align']);
+				
+			   	$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
+						   number_format($val['total_debit']),$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
+				
+				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
+						   number_format($val['total_credit']),$border,0,$paper_reference[$type_print][$use_paper]['body'][5]['align']);
+				
+			    $pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
+						   number_format($saldo_akhir) . " ".$position,$border,0,$paper_reference[$type_print][$use_paper]['body'][6]['align']);				
+				$pdf->ln();
+
+				// set margin bottom
+				// jika data / row lebih dari atau sama dengan 10
+				if ( ($key+1) >= 10) {
+					$pdf->SetAutoPageBreak(true,0);
+				}
+
+			}
+		}
+
 		// delivery
 		if ($type_print == 'delivery'){
 			foreach ($data as $key => $val) {
@@ -3908,17 +4314,17 @@ class pdf
 				// if first row then set border top left and right
 				// if last row then set border bottom left right
 				// else set border to 0
-				if ( $key == 0)
+				if ( $key == 0 || count($data) == 1)
 				{
-					$border = 'L,R,T';
+					$border = 1;
 				} else if ( ($key+1) == $total_row) {
 					$border ='L,B,R';
 				}else {
 					$border = 'L,R';
 				}
-				if ( count($data) == 1) {
-					$border = 1;
-				}
+				// if ( count($data) == 1) {
+				// 	$border = 1;
+				// }
 			
 				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
@@ -3957,6 +4363,7 @@ class pdf
 										"order_request_out_fix", 
 										"checksheet_out",
 										"neraca_saldo",
+										"ikhtisar_buku_besar",
 										"delivery"))) {
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total']['position_x']);
 			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total']['width'], 
@@ -3970,7 +4377,7 @@ class pdf
 					   number_format($grant_total),1,1,
 					   $paper_reference[$type_print][$use_paper]['footer']['summary']['align']);
 	
-		}else if (in_array($type_print, array("neraca_saldo"))) {
+		}else if (in_array($type_print, array("neraca_saldo","ikhtisar_buku_besar"))) {
 			$pdf->SetFont('Arial','B',9);	
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total']['position_x']);
 			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total']['width'], 
@@ -4034,6 +4441,7 @@ class pdf
 										"order_request_out_fix", 
 										"checksheet_out",
 										"neraca_saldo",
+										"ikhtisar_buku_besar",
 										"delivery"))) {
 			$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln'] * 3);
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['terbilang']['position_x']);
