@@ -284,7 +284,7 @@
                             $(document.createElement("td")).append(
                                 $(document.createElement("input"))
                                 .attr("type", "number")
-                                .addClass("form-control text-right rupiah")
+                                .addClass("form-control text-right rupiah w-75 styleHarga")
                                 .attr("id", "harga_" + data.id)
                                 .attr("name", `barang[${data.id}][price]`)
                                 .val(price)

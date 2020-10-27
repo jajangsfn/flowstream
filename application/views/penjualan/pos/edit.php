@@ -94,7 +94,7 @@
                                         <?= $detail->ratio_flag == 1 ? "Pieces" : $detail->unit_name ?>
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control text-right rupiah" name="barang[<?= $detail->goods_id ?>][price]" id="harga_<?= $detail->goods_id ?>" value="<?= $detail->price ?>" min="1" onchange="hitung_ulang_all()">
+                                        <input type="number" class="form-control text-right rupiah w-75 styleHarga" name="barang[<?= $detail->goods_id ?>][price]" id="harga_<?= $detail->goods_id ?>" value="<?= $detail->price ?>" min="1" onchange="hitung_ulang_all()">
                                     </td>
                                     <td style="width: 90px">
                                         <input type="number" class="form-control text-center" style="width: 100%;" name="barang[<?= $detail->goods_id ?>][discount]" id="diskon_<?= $detail->goods_id ?>" value="<?= $detail->discount ?>" min="0" max="100" onchange="hitung_ulang_all()">

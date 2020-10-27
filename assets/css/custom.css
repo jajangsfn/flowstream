@@ -1,22 +1,28 @@
 .header-menu-wrapper {
-	/*left: -30px;*/
+    /*left: -30px;*/
 }
 
-.br-1{
-	border-right: 1px solid #000;
+.br-1 {
+    border-right: 1px solid #000;
 }
 
 .table thead tr th,
-.table tbody tr td{
-	font-size: 1rem;
-	vertical-align: middle !important;
+.table tbody tr td {
+    font-size: 1rem;
+    vertical-align: middle !important;
 }
 
 label.required::after {
-	content: " *";
-	color: red;
+    content: " *";
+    color: red;
 }
 
 div[data-hide=true] {
-	display: none !important;
+    display: none !important;
+}
+
+.styleHarga {
+    min-width: 90px;
+    max-width: 125px;
+    float: right;
 }
