@@ -205,7 +205,7 @@ class M_branch_model extends CI_Model
             array(
                 "branch_id" => $branch_id,
                 "group_data" => "DEFAULT_PASSWORD",
-                "detail_data" => "parahyangan", // TODO: perlu ganti
+                "detail_data" => "parahiangan", // TODO: perlu ganti
                 "flag" => 1,
                 "created_date" => date("Y-m-d h:i:s"),
                 "updated_date" => date("Y-m-d h:i:s")
