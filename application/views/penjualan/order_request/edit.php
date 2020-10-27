@@ -71,7 +71,6 @@
                                         <input type="hidden" name="barang[<?= $detail->goods_id ?>][goods_id]" value="<?= $detail->goods_id ?>">
                                     </td>
                                     <td>
-                                        <div class="font-weight-bold"><?= substr($detail->goods_name, 0, strpos($detail->goods_name, " "))  ?></div>
                                         <div class="brand_description_show"><?= substr($detail->goods_name, strpos($detail->goods_name, " ") + 1)  ?></div>
                                         <div class="small"><?= $detail->sku_code ?></div>
                                         <input type="hidden" name="barang[<?= $detail->goods_id ?>][goods_name]" value="<?= $detail->goods_name ?>">

@@ -300,7 +300,7 @@
 
                             // nama barang
                             $(document.createElement("td")).append(
-                                $(document.createElement("div")).text(data.brand_name).addClass("font-weight-bold"),
+                                
                                 $(document.createElement("div")).text(data.brand_description).addClass(`brand_description_show ${show_desc ? "" : "d-none"}`),
                                 $(document.createElement("div")).text(data.sku_code).addClass("small"),
                                 $(document.createElement("input"))
