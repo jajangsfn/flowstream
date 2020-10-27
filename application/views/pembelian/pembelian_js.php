@@ -181,7 +181,7 @@
 				$("#id_goods").val(val.id);
 				$("#goods_code").html(code);
 				$("#goods_name").html(val.brand_description);
-				$("#goods_price").html(val.hpp);
+				$("#goods_price").html(numeral(val.hpp).format('0,0[.]00'));
 			});
 		});
 		// show modal
@@ -193,7 +193,7 @@
 		var goods_id = $("#id_goods").val();
 		var goods_name = $("#goods_name").html();
 		var goods_code = $("#goods_code").html();
-		var goods_price = parseInt( $("#goods_price").html() );
+		var goods_price = numeral( $("#goods_price").html() ).value();
 		var goods_qty  = parseInt( $("#goods_qty").val() );
 
 		var save_goods = {};
@@ -247,9 +247,9 @@
 				rows+="<input type='hidden' name='goods_code_chart[]' id='goods_code_chart' value='"+val.code+"'>"+val.code+"</td>";
 				rows+= "<td>"+val.name+"'</td>";
 				rows+="<td class='goods_price_chart'>";
-				rows+="<input type='number' name='goods_price_chart[]' class='form-control' id='goods_price_chart_"+id+"' value='"+val.price+"' onchange='sum_total_goods("+id+")' style='width:100%' ></td>";
-				rows+="<td><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' onchange='sum_total_goods("+id+")' style='width:100%'></td>";
-				rows+="<td><input type='number' name='goods_discount_chart[]' class='form-control' id='goods_discount_chart_"+id+"' value='"+val.discount+"' onchange='sum_total_goods("+id+")' style='width:100%'></td>";
+				rows+="<input type='number' name='goods_price_chart[]' class='form-control' id='goods_price_chart_"+id+"' value='"+val.price+"' onchange='sum_total_goods("+id+")' style='width:90%' ></td>";
+				rows+="<td><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' onchange='sum_total_goods("+id+")' style='width:90%'></td>";
+				rows+="<td><input type='number' name='goods_discount_chart[]' class='form-control' id='goods_discount_chart_"+id+"' value='"+val.discount+"' onchange='sum_total_goods("+id+")'></td>";
 				rows+="<td class='text-right'>"+total+"</td>";
 				rows+="<td><button type='button' class='btn btn-xs btn-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa fa-trash'></span></button></td>";
 				rows+="</tr>";	

@@ -3670,8 +3670,8 @@ class pdf
 		$total_row = count( $data );
 		// PO
 		if ($type_print == 'po_in'){
-			$total_ppn 	= (($data[0]['purchase_total'] * $data[0]['purchase_discount'])/100);
-			$total_dpp 	= $data[0]['purchase_total'] - $total_ppn;
+			$total_ppn 	= 0;
+			$total_dpp  = 0;
 			$grant_total= $data[0]['purchase_total'];
 
 			foreach ($data as $key => $val) {
@@ -3690,7 +3690,7 @@ class pdf
 
 				$discount = (($val['goods_price'] * $val['goods_qty'] * $val['goods_discount']) /100);
 				$total = $val['goods_price'] * $val['goods_qty'] - $discount;
-
+				$total_dpp+= $val['goods_price'] * $val['goods_qty'];
 				$pdf->SetX($paper_reference[$type_print][$use_paper]['body_start_x']);
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][0]['width'], 
 							$paper_reference[$type_print][$use_paper]['body'][0]['height'], 
@@ -3732,6 +3732,8 @@ class pdf
 				}
 
 			}
+
+			$total_ppn = ($data[0]['purchase_discount'] * $total_dpp)/100;
 		}
 
 		// ORDER REQUEST

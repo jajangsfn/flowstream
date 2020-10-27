@@ -57,13 +57,13 @@ class Pembelian extends CI_Controller
                                 "reference_no" => $_POST['reference_no'],
                                 "description" => $_POST['description'],
                                 "purchase_total" => $_POST['purchase_total'],
-                                "purchase_discount" => $_POST['disc_sum'],
+                                "purchase_discount" => $_POST['disc'],
                                 "created_by" => $id_user,
                                 "created_date" => date('Y-m-d H:i:s'),
                                 "updated_date" => date('Y-m-d H:i:s'),
                                 "updated_by" => $id_user,
                                 "flag" => 1);
-                
+                // echo json_encode($entry_data);exit;
                 $this->po->update($where_id, $entry_data);
                 $where_id = array();
                 $where_id['purchase_order_id']   = $_POST['id'];
@@ -95,7 +95,7 @@ class Pembelian extends CI_Controller
                                 "description" => $_POST['description'],
                                 "purchase_order_date" => $_POST['tgl_po'],
                                 "purchase_total" => $_POST['purchase_total'],
-                                "purchase_discount" => $_POST['disc_sum'],
+                                "purchase_discount" => $_POST['disc'],
                                 "created_by" => $id_user,
                                 "created_date" => date('Y-m-d H:i:s'),
                                 "updated_date" => date('Y-m-d H:i:s'),
@@ -199,7 +199,7 @@ class Pembelian extends CI_Controller
     public function save_return()
     {
         $param = $this->input->post();
-        // echo json_encode($param['supplier']);exit;
+        
         if ( count($param) > 0) {
 
             if (array_key_exists("id", $param)) {

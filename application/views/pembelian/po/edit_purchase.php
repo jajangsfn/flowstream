@@ -99,11 +99,11 @@
 						<thead>
 							<tr>
 								<th>No</th>
-								<th>Kode Barang/PLU</th>
-								<th>Nama Barang</th>
+								<th width="100">Kode Barang/PLU</th>
+								<th width="150">Nama Barang</th>
 								<th>Harga</th>
-								<th>Quantity Order (PCS)</th>
-								<th>Discount</th>
+								<th>Qty(Pcs)</th>
+								<th width="100">Disc(%)</th>
 								<th>Jumlah</th>
 								<th>#</th>
 							</tr>
