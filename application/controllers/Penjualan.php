@@ -135,47 +135,54 @@ class Penjualan extends CI_Controller
         $content = $this->or->get_specific($id_or); #echo json_encode($content);exit;
         $data = array();
         if ($content) {
+            
             foreach ($content->details as $key => $val) {
+                if ($type == 1) {
+                    $qty = $val->quantity;
+                }else {
+                    $qty = $val->checksheet_qty;
+                }
 
+                if ($qty > 0) {
+                    $data[] = array(
+                        "id" => $content->id,
+                        "branch_id" => $content->branch_id,
+                        "branch_name" => $content->branch_name,
+                        "partner_id" => $content->partner_id,
+                        "user_salesman_id" => $content->user_salesman_id,
+                        "order_no" => $content->order_no,
+                        "order_date" => $content->order_date,
+                        "partner_name" => $content->partner_name,
+                        "is_delivery" => $content->is_delivery,
+                        "description" => $content->description,
+                        "created_by" => $content->created_by,
+                        "created_date" => $content->created_date,
+                        "updated_date" => $content->updated_date,
+                        "updated_by" => $content->updated_by,
+                        "id" => "4",
+                        "order_request_id" => $val->order_request_id,
+                        "checksheet_id" => $val->checksheet_id,
+                        "warehouse_id" => $val->warehouse_id,
+                        "goods_id" => $val->goods_id,
+                        "goods_name" => $val->goods_name,
+                        "quantity" => $val->quantity,
+                        "checksheet_qty" => isset($val->checksheet_qty) ? $val->checksheet_qty : '',
+                        "discount" => $val->discount,
+                        "discount_code" => $val->discount_code,
+                        "price" => $val->price,
+                        "tax" => $val->tax,
+                        "total" => $val->total,
+                        "flag" => $val->flag,
+                        "barcode" => $val->barcode,
+                        "sku_code" => $val->sku_code,
+                        "plu_code" => $val->plu_code,
+                        "brand_name" => $val->brand_name,
+                        "brand_description" =>  $val->brand_description,
+                        "unit_name" => $val->unit_name,
+                        "unit_initial" => $val->unit_initial,
 
-                $data[] = array(
-                    "id" => $content->id,
-                    "branch_id" => $content->branch_id,
-                    "branch_name" => $content->branch_name,
-                    "partner_id" => $content->partner_id,
-                    "user_salesman_id" => $content->user_salesman_id,
-                    "order_no" => $content->order_no,
-                    "order_date" => $content->order_date,
-                    "partner_name" => $content->partner_name,
-                    "is_delivery" => $content->is_delivery,
-                    "description" => $content->description,
-                    "created_by" => $content->created_by,
-                    "created_date" => $content->created_date,
-                    "updated_date" => $content->updated_date,
-                    "updated_by" => $content->updated_by,
-                    "id" => "4",
-                    "order_request_id" => $val->order_request_id,
-                    "checksheet_id" => $val->checksheet_id,
-                    "warehouse_id" => $val->warehouse_id,
-                    "goods_id" => $val->goods_id,
-                    "goods_name" => $val->goods_name,
-                    "quantity" => $val->quantity,
-                    "checksheet_qty" => isset($val->checksheet_qty) ? $val->checksheet_qty : '',
-                    "discount" => $val->discount,
-                    "discount_code" => $val->discount_code,
-                    "price" => $val->price,
-                    "tax" => $val->tax,
-                    "total" => $val->total,
-                    "flag" => $val->flag,
-                    "barcode" => $val->barcode,
-                    "sku_code" => $val->sku_code,
-                    "plu_code" => $val->plu_code,
-                    "brand_name" => $val->brand_name,
-                    "brand_description" =>  $val->brand_description,
-                    "unit_name" => $val->unit_name,
-                    "unit_initial" => $val->unit_initial,
-
-                );
+                    );
+                }
             }
 
             if ($type == 1) {
@@ -188,7 +195,7 @@ class Penjualan extends CI_Controller
             } else {
                 $type_print = "checksheet_out";
             }
-            // echo json_encode($data);exit;
+            // echo json_encode($this->session->userdata('branch_obj')->tax_status);exit;
 
             $this->pdf->dynamic_print(2, $type_print, $data);
         }
@@ -260,11 +267,22 @@ class Penjualan extends CI_Controller
 
     public function print_pos($pos_id)
     {
-        $data = $this->pos_report->pos_report("tab1.id=" . $pos_id, "tab3.id")->result_array();
-        foreach($data as $key => &$row) {
+        $temp = $this->pos_report->pos_report("tab1.id=" . $pos_id, "tab3.id")->result_array();
+        
+        foreach($temp as $key => &$row) {
             //get invoice format            
             $row['invoice_no'] = get_invoice_format($row['invoice_no']);
         }
+    
+        $data = array();
+        //push data when quantity > 0
+        foreach($temp as $key => $val) {
+            if (intval($val['quantity']) > 0) {
+                $data[] = $val;
+            }
+    
+        }
+    
 
         $this->pdf->dynamic_print(2, "pos_out", $data);
     }

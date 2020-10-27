@@ -60,7 +60,7 @@ class Pengiriman extends CI_Controller{
 
     public function save_delivery() {
 
-        $post       = $this->input->post();echo json_encode($post);exit;
+        $post       = $this->input->post();#echo json_encode($post);exit;
         $branch_id  = ($this->session->userdata('branch_id')!="") ? $this->session->userdata('branch_id') : 1;
         $user_id    = $this->session->userdata('id');
         if (empty($post['id'])) {

@@ -61,6 +61,7 @@
 					<input type="hidden" name="branch_id" id="branch_id">
 					<input type="hidden" name="branch_name" id="branch_name">
 					<input type="hidden" name="partner_name" id="partner_name">
+					<input type="hidden" name="purchase_total" id="purchase_total">
 					<input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=date('Y-m-d')?>">
 					<div class="row mb-5">
 						<label class="col-form-label col-md-2">Supplier</label>
@@ -84,24 +85,14 @@
 						<div class="col-md-1"></div>
 						<label class="col-form-label col-md-2 text-right">No Referensi</label>
 						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=$po_no?>">
-						
 					</div>
 
 					<div class="row mb-5">
-						<!-- <div class="col-md-1"></div> -->
 						<label class="col-form-label col-md-2">Deskripsi</label>
 						<textarea name="description" class="form-control col-md-3"></textarea>
 					</div>
 
 					<hr>
-					<div class="row p-6">
-						<div class="col-md-10 text-right h3">
-							Total
-						</div>
-						<div class="col-md-2 h3" id="grant_total">
-							0
-						</div>
-					</div>
 
 						<div class="table-responsive">
 							<table class="table table-bordered table-condensed table-striped">
@@ -120,6 +111,26 @@
 								<tbody id="goods_chart_table">
 								</tbody>
 								<tfoot>
+									<tr>
+										<td colspan="5" class='text-right h5'>Sub Total</td>
+										<td class='h3 text-right' colspan="2" id="sub_total">Rp. 0</td>
+										<td></td>
+									</tr>
+									<tr class='w-50'>
+										<td colspan="5" class='text-right h5'>Diskon</td>
+										<td>
+											<input type="text" name="disc" id="disc_percent" class="form-control" style="width:100px" onchange="sum_discount(1)">
+										</td>
+										<td>
+											<input type="text" name="disc_sum" id="disc_sum" class="form-control" style="width:100px" onchange="sum_discount(2)">
+										</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td colspan="5" class='text-right h5'>Total</td>
+										<td class='h3 text-right' colspan="2" id="total">Rp. 0</td>
+										<td></td>
+									</tr>
 									<tr>  
 
 										<td colspan="9" class="text-center">
