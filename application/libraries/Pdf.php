@@ -3571,7 +3571,6 @@ class pdf
 		$setting_paper   = $this->param_paper($type);
 		$paper_reference = $setting_paper['setting_paper'];
 		$header_reference= $setting_paper['setting_header']; 
-		// echo json_encode($data);exit;
 		
 		// count data
 		$count_data = count($data);
