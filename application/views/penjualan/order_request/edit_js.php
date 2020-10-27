@@ -34,7 +34,7 @@
                                         class="d-flex align-items-center justify-content-between mb-5 text-dark-75 text-hover-primary"
                                         onclick="add_modal(${result.data[i].id})"
                                         style="cursor: pointer"
-                                        data-keyword="${result.data[i].brand_name + result.data[i].brand_description + result.data[i].barcode + result.data[i].sku_code + result.data[i].plu_code}
+                                        data-keyword="${result.data[i].brand_name + result.data[i].brand_description + result.data[i].barcode + result.data[i].sku_code + result.data[i].plu_code}"
                                         data-id-barang-passable="${result.data[i].id}"
                                     >
                                         <div class="d-flex justify-content-center flex-column mr-2">
