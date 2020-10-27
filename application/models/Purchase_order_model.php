@@ -54,26 +54,6 @@ class Purchase_order_model extends CI_Model
     function get_all_trx($where = null, $group_by = null)
     {
         
-        // $this->db->select("tab4.id partner_id,tab4.name partner_name,tab1.*,
-                                        
-        //                 floor(  sum(
-        //                                 (tab2.price* tab2.quantity) -  
-        //                              (
-        //                                 (tab2.price * tab2.quantity) * (ifnull(tab2.discount, 0)/100)
-        //                               )
-        //                             )
-        //                     ) sum_trx
-        //                     ,tab2.goods_id,tab5.barcode,tab5.brand_description goods_name,tab2.price goods_price,sum( `tab2`.`quantity`) goods_qty,ifnull(tab2.discount,0) goods_discount,tab5.plu_code,tab5.sku_code,tab6.name branch_name,
-        //                     tab3.name salesman_name, tab2.id purchase_order_detail_id,tab5.sku_code,tab5.brand_name
-        //                     ");
-        // $this->db->from("t_purchase_order tab1");
-        // $this->db->join("t_purchase_order_detail tab2", "tab2.purchase_order_id=tab1.id ");
-        // $this->db->join("m_partner_salesman tab3", "tab3.id=tab1.salesman_id");
-        // $this->db->join("m_partner tab4", "tab4.id=tab3.partner_id");
-        // $this->db->join("m_goods tab5", "tab5.id=tab2.goods_id");
-        // $this->db->join("m_branch tab6", "tab6.id=tab4.branch_id");
-        // $this->db->where("tab2.flag<>99");
-
         $this->db->select("tab4.id partner_id,tab4.name partner_name,tab1.*,
                                         
                         floor(  sum(
@@ -84,20 +64,20 @@ class Purchase_order_model extends CI_Model
                                     )
                             ) sum_trx
                             ,tab2.goods_id,tab5.barcode,tab5.brand_description goods_name,tab2.price goods_price,sum( `tab2`.`quantity`) goods_qty,ifnull(tab2.discount,0) goods_discount,tab5.plu_code,tab5.sku_code,tab6.name branch_name,tab3.name salesman_name, tab2.id purchase_order_detail_id,
-                                ( sum(tab2.quantity) - ifnull(tab7.diterima, 0) )sisa,tab7.receiving_no,
-                                tab5.sku_code,tab5.brand_name
-                            ");
+                                ( sum(tab2.quantity) - ifnull(tab8.diterima, 0) )sisa,tab8.receiving_no,
+                                tab5.sku_code,tab5.brand_name,tab7.initial unit_initial");
         $this->db->from("t_purchase_order tab1");
         $this->db->join("t_purchase_order_detail tab2", "tab2.purchase_order_id=tab1.id ");
         $this->db->join("m_partner_salesman tab3", "tab3.id=tab1.salesman_id");
         $this->db->join("m_partner tab4", "tab4.id=tab3.partner_id");
         $this->db->join("m_goods tab5", "tab5.id=tab2.goods_id");
         $this->db->join("m_branch tab6", "tab6.id=tab4.branch_id");
+        $this->db->join("m_unit tab7", "tab7.id=tab5.unit");
         $this->db->join("(SELECT tab1.purchase_order_id,tab2.*,sum(quantity) diterima,tab1.receiving_no 
                             FROM t_receiving tab1 
                             JOIN t_receiving_detail tab2 ON tab2.receiving_id=tab1.id
                             WHERE tab1.flag=2
-                            GROUP BY tab1.id,tab1.purchase_order_id,tab2.goods_id) tab7", "tab7.purchase_order_id=tab1.id", "left");
+                            GROUP BY tab1.id,tab1.purchase_order_id,tab2.goods_id) tab8", "tab8.purchase_order_id=tab1.id", "left");
         $this->db->where("tab2.flag<>99");
         if ($where) {
             $this->db->where($where);
@@ -107,6 +87,8 @@ class Purchase_order_model extends CI_Model
 
         if ($group_by) {
             $this->db->group_by($group_by);
+        }else {
+            $this->db->group_by("tab1.id");
         }
 
         $this->db->order_by("tab1.id desc,tab2.id");

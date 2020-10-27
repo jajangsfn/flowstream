@@ -568,7 +568,7 @@ class Api extends CI_Controller
             "description" => $_POST['description'],
         );
         $this->or->update($where, $data);
-
+ 
         // get informasi order request
         $order_request_target = $this->or->get(array(
             "or.id" => $data['id']

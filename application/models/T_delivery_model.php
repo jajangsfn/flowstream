@@ -60,33 +60,56 @@ class T_delivery_model extends CI_Model {
 
     public function get_po_no($po_no = null, $all = null) {
         
-        return $this->db->query("SELECT partner.name,partner.address_1 address,employee.name employee_name,pos.*,deliv.*,goods.sku_code,goods.plu_code,goods.brand_description,(pos.qty_pos - COALESCE(deliv.qty_deliv,0)) sisa 
-                                FROM 
-                                ( 
-                                    SELECT pos.id,pos.partner_id,pos.invoice_no, pos_detail.goods_id goods_id_pos, 
-                                    sum(pos_detail.quantity) qty_pos 
-                                    FROM t_pos pos 
-                                    JOIN t_pos_detail pos_detail ON pos_detail.pos_id=pos.id 
-                                        ".(isset($po_no) ? " WHERE pos.invoice_no='$po_no' " : "")."
-                                        GROUP BY pos.invoice_no ".(isset($po_no) ? ",pos_detail.goods_id" : "")."
-                                ) pos 
-                                LEFT JOIN 
-                                (
-                                    SELECT pack.invoice_no invoice_no_deliv,delivorderdetail.goods_id goods_id_deliv,
-                                           sum(delivorderdetail.qty) qty_deliv, team.employee_id
-                                    FROM t_delivery_package pack 
-                                    JOIN t_delivery_order delivorder ON delivorder.id= pack.delivery_order_id
-                                    JOIN t_delivery_order_detail delivorderdetail ON delivorderdetail.delivery_order_id=delivorder.id
-                                    JOIN t_delivery_team team ON team.delivery_order_id=delivorder.id
-                                    ".(isset($po_no) ? " WHERE pack.invoice_no='$po_no'" : "")." 
-                                    GROUP BY pack.invoice_no ".(isset($po_no) ? ",delivorderdetail.goods_id" : "")."
-                                ) deliv ON deliv.invoice_no_deliv=pos.invoice_no
-                                ".(isset($po_no) ? "AND deliv.goods_id_deliv=pos.goods_id_pos" : "")."
-                                LEFT JOIN m_goods goods ON goods.id=pos.goods_id_pos
-                                LEFT JOIN m_partner partner ON partner.id=pos.partner_id
-                                LEFT JOIN m_employee employee ON employee.id=deliv.employee_id
-                                GROUP BY pos.invoice_no ".(isset($po_no) ? ", pos.goods_id_pos" : "")."
-                                ".(isset($all) ? "" : "HAVING sisa > 0"));
+        // return $this->db->query("SELECT partner.name,partner.address_1 address,employee.name employee_name,pos.*,deliv.*,goods.sku_code,goods.plu_code,goods.brand_description,(pos.qty_pos - COALESCE(deliv.qty_deliv,0)) sisa 
+        //                         FROM 
+        //                         ( 
+        //                             SELECT pos.id,pos.partner_id,pos.invoice_no, pos_detail.goods_id goods_id_pos, 
+        //                             sum(pos_detail.quantity) qty_pos 
+        //                             FROM t_pos pos 
+        //                             JOIN t_pos_detail pos_detail ON pos_detail.pos_id=pos.id 
+        //                                 ".(isset($po_no) ? " WHERE pos.invoice_no='$po_no' " : "")."
+        //                                 GROUP BY pos.invoice_no ".(isset($po_no) ? ",pos_detail.goods_id" : "")."
+        //                         ) pos 
+        //                         LEFT JOIN 
+        //                         (
+        //                             SELECT pack.invoice_no invoice_no_deliv,delivorderdetail.goods_id goods_id_deliv,
+        //                                    sum(delivorderdetail.qty) qty_deliv, team.employee_id
+        //                             FROM t_delivery_package pack 
+        //                             JOIN t_delivery_order delivorder ON delivorder.id= pack.delivery_order_id
+        //                             JOIN t_delivery_order_detail delivorderdetail ON delivorderdetail.delivery_order_id=delivorder.id
+        //                             JOIN t_delivery_team team ON team.delivery_order_id=delivorder.id
+        //                             ".(isset($po_no) ? " WHERE pack.invoice_no='$po_no'" : "")." 
+        //                             GROUP BY pack.invoice_no ".(isset($po_no) ? ",delivorderdetail.goods_id" : "")."
+        //                         ) deliv ON deliv.invoice_no_deliv=pos.invoice_no
+        //                         ".(isset($po_no) ? "AND deliv.goods_id_deliv=pos.goods_id_pos" : "")."
+        //                         LEFT JOIN m_goods goods ON goods.id=pos.goods_id_pos
+        //                         LEFT JOIN m_partner partner ON partner.id=pos.partner_id
+        //                         LEFT JOIN m_employee employee ON employee.id=deliv.employee_id
+        //                         GROUP BY pos.invoice_no ".(isset($po_no) ? ", pos.goods_id_pos" : "")."
+        //                         ".(isset($all) ? "" : "HAVING sisa > 0"));
+
+        return $this->db->query("SELECT partner.name,partner.address_1 address,employee.name employee_name,pos.*,deliv.*,goods.sku_code,goods.plu_code,goods.brand_description,(pos.qty_pos - ifnull(deliv.qty_deliv,0)) sisa 
+        FROM (
+            SELECT tp.id,tp.partner_id,tp.invoice_no, tpd.goods_id goods_id_pos,sum(tpd.quantity) qty_pos 
+            FROM t_pos tp 
+            JOIN t_pos_detail tpd  ON tpd.pos_id = tp.id 
+            ".(isset($po_no) ? " WHERE tp.invoice_no='$po_no' " : "")."
+            GROUP BY tp.invoice_no ".(isset($po_no) ? ",tpd.goods_id" : "")."
+            ) pos 
+            LEFT JOIN (
+            SELECT tdp.invoice_no invoice_no_deliv,tdod.goods_id goods_id_deliv,sum(tdod.qty) qty_deliv, tdt.employee_id
+            FROM t_delivery_order tdo 
+            JOIN t_delivery_order_detail tdod  ON tdod.delivery_order_id = tdo.id 
+            JOIN t_delivery_package tdp  ON tdp.delivery_order_id = tdo.id 
+            JOIN t_delivery_team tdt ON tdt.delivery_order_id=tdo.id
+            ".(isset($po_no) ? " WHERE tdp.invoice_no='$po_no'" : "")." 
+            GROUP BY tdp.invoice_no ".(isset($po_no) ? ",tdod.goods_id" : "")."
+            ) deliv ON deliv.goods_id_deliv=pos.goods_id_pos
+            LEFT JOIN m_goods goods ON goods.id=pos.goods_id_pos
+            LEFT JOIN m_partner partner ON partner.id=pos.partner_id
+            LEFT JOIN m_employee employee ON employee.id=deliv.employee_id
+            GROUP BY pos.invoice_no ".(isset($po_no) ? ", pos.goods_id_pos" : "")."
+            ".(isset($all) ? "" : "HAVING sisa > 0"));
     }
 
 

@@ -78,6 +78,8 @@
     <script src="<?= base_url() ?>assets/js/pages/crud/datatables/basic/paginations.js"></script>
     <!-- numeral js for number formating -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <!-- script inputmask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.9/inputmask/inputmask.min.js" integrity="sha512-DVfS/GbZzLMmxBL/CW92N84eHP2Fq9d+r9RKbvctcvzISVfu+WvD+MCvbK9j8I6nVLrntGo3UUVrNFUDX0ukBw==" crossorigin="anonymous"></script>
     <!--end::Page Scripts-->
     <?= isset($page_js) ? $page_js : "" ?>
     <?php if ($this->session->flashdata("error")) { ?>

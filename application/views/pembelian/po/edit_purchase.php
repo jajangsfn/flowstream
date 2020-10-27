@@ -34,12 +34,13 @@
 		    </div>
 
 			<div class="card-body">
-				<form method="post" action="<?=base_url()?>index.php/pembelian" id="form_purchase">
+				<form method="post" action="<?=base_url()?>index.php/pembelian/save_po" id="form_purchase">
 					<input type="hidden" name="id" id="po_id" value="<?=($master) ? $master[0]->id : ""?>">
 					<input type="hidden" name="salesman_id" id="salesman_id" value="<?=($master) ? $master[0]->salesman_id : ""?>">
 					<input type="hidden" name="branch_id" id="branch_id" value="<?=($master) ? $master[0]->branch_id : ""?>">
 					<input type="hidden" name="branch_name" id="branch_name" value="<?=($master) ? $master[0]->branch_name : ""?>">
 					<input type="hidden" name="partner_name" id="partner_name" value="<?=($master) ? $master[0]->partner_name : ""?>">
+					<input type="hidden" name="purchase_total" id="purchase_total">
 					<input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=($master) ? $master[0]->purchase_order_date : date('Y-m-d')?>">
 
 					<div class="row mb-3">
@@ -92,25 +93,17 @@
 				</div>
 
 				<hr>
-				<div class="row p-6">
-					<div class="col-md-10 text-right h3">
-						Total
-					</div>
-					<div class="col-md-2 h3" id="grant_total">
-						0
-					</div>
-				</div>
 
 				<div class="table-responsive">
 					<table class="table table-bordered table-condensed table-striped">
 						<thead>
 							<tr>
 								<th>No</th>
-								<th>Kode Barang/PLU</th>
-								<th>Nama Barang</th>
+								<th width="100">Kode Barang/PLU</th>
+								<th width="150">Nama Barang</th>
 								<th>Harga</th>
-								<th>Quantity Order (PCS)</th>
-								<th>Discount</th>
+								<th>Qty(Pcs)</th>
+								<th width="100">Disc(%)</th>
 								<th>Jumlah</th>
 								<th>#</th>
 							</tr>
@@ -119,13 +112,33 @@
 						</tbody>
 						<tfoot>
 							<tr>
+								<td colspan="5" class='text-right h5'>Sub Total</td>
+								<td class='h3 text-right' colspan="2" id="sub_total">Rp. 0</td>
+								<td></td>
+							</tr>
+							<tr class='w-50'>
+								<td colspan="5" class='text-right h5'>Diskon</td>
+								<td>
+									<input type="text" name="disc" id="disc_percent" class="form-control" style="width:100px" onchange="sum_discount(1)">
+								</td>
+								<td>
+									<input type="text" name="disc_sum" id="disc_sum" class="form-control" style="width:100px" onchange="sum_discount(2)">
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td colspan="5" class='text-right h5'>Total</td>
+								<td class='h3 text-right' colspan="2" id="total">Rp. 0</td>
+								<td></td>
+							</tr>
+							<tr>  
 								<td colspan="9" class="text-center">
-									<button type='button' class="btn btn-light-success btn-xs" id="btn_save_purchase">
-										<span class="fa fa-save"></span> Save
+									<button type='button' class="btn btn-light-success btn-md" id="btn_save_purchase">
+										<span class="fa fa-save"></span>
+										Save
 									</button>
-									<a href="<?=base_url()?>index.php/pembelian/index" class="btn btn-light-danger btn-xs">
-										<span class="fa fa-arrow-left"></span>
-										Cancel
+									<a href="<?=base_url()?>index.php/pembelian" class="btn btn-light-danger btn-md">
+										<span class="fa la-arrow-left"></span> Cancel
 									</a>
 								</td>
 							</tr>

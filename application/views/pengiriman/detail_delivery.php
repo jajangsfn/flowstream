@@ -83,7 +83,7 @@
 										<th>Quantity(PCS)</th>
 									</tr>
 								</thead>
-								<tbody id="good_list">
+								<tbody>
 								<?php
 									if (!is_null($delivery_data['goods'])) {
 										$i = 1;
@@ -185,15 +185,15 @@
 								<th>Jumlah</th>
 							</tr>
 						</thead>
-						<tbody id="table_biaya">
+						<tbody>
 						<?php 
 							if (!is_null($delivery_data['biaya'])) {
 								$i = 1;
 								foreach($delivery_data['biaya'] as $key => $row) { ?>
-									<tr id="biaya_id_<?=$key?>">
+									<tr>
 										<td><?=$i;?></td>
 										<td><?=$row['description']?></td>
-										<td><?=$row['charge']?></td>
+										<td>Rp. <?=number_format($row['charge'])?></td>
 									</tr>
 						  <?php $i++;
 						  		}

@@ -39,7 +39,7 @@ class Pengiriman extends CI_Controller{
         $data['back_url']     = base_url('index.php/pengiriman');
         $data['page_title']   = is_null($id) ? "Tambah Pengiriman" : "Edit Pengiriman";
         $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
-        $data['delivery_no']  = generate_po_no(6);
+        $data['delivery_no']  = generate_po_no(6); 
         $data['po_no_list']   = is_null($id) ? $this->delivery->get_po_no()->result() : $this->delivery->get_po_no(null,1)->result();
         $data['employee_data']= $this->delivery->get_employee()->result();
         $data['id']           = $id;
@@ -140,6 +140,7 @@ class Pengiriman extends CI_Controller{
             if (count($post['good_id']) > 0) {
                 // delete data
                 $this->delivery->delete_delivery("t_delivery_order_detail", array("delivery_order_id" => $data[0]->delivery_order_id));
+                echo json_encode($post['goods_id']);exit;
                 //insert t delivery order detail
                 foreach($post['good_id'] as $key => $row) {
                     $delivery_detail = array(
@@ -207,7 +208,7 @@ class Pengiriman extends CI_Controller{
     }
 
     public function get_delivery_data($id) {
-        $data = $this->delivery->get_delivery(array("order.id"=>$id))->result();
+        $data     = $this->delivery->get_delivery(array("order.id"=>$id))->result();
         $detail   = array();
         $goods    = array();
         $pack     = array();

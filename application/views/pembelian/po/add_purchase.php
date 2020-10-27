@@ -56,11 +56,12 @@
 		    <!-- end card header -->
 
 			<div class="card-body">
-				<form method="post" action="<?=base_url()?>index.php/pembelian" id="form_purchase">
+				<form method="post" action="<?=base_url()?>index.php/pembelian/save_po" id="form_purchase">
 					<input type="hidden" name="salesman_id" id="salesman_id">
 					<input type="hidden" name="branch_id" id="branch_id">
 					<input type="hidden" name="branch_name" id="branch_name">
 					<input type="hidden" name="partner_name" id="partner_name">
+					<input type="hidden" name="purchase_total" id="purchase_total">
 					<input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?=date('Y-m-d')?>">
 					<div class="row mb-5">
 						<label class="col-form-label col-md-2">Supplier</label>
@@ -84,35 +85,25 @@
 						<div class="col-md-1"></div>
 						<label class="col-form-label col-md-2 text-right">No Referensi</label>
 						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=$po_no?>">
-						
 					</div>
 
 					<div class="row mb-5">
-						<!-- <div class="col-md-1"></div> -->
 						<label class="col-form-label col-md-2">Deskripsi</label>
 						<textarea name="description" class="form-control col-md-3"></textarea>
 					</div>
 
 					<hr>
-					<div class="row p-6">
-						<div class="col-md-10 text-right h3">
-							Total
-						</div>
-						<div class="col-md-2 h3" id="grant_total">
-							0
-						</div>
-					</div>
 
 						<div class="table-responsive">
 							<table class="table table-bordered table-condensed table-striped">
 								<thead>
 									<tr>
 										<th>No</th>
-										<th>Kode Barang/PLU</th>
-										<th>Nama Barang</th>
+										<th width="100">Kode Barang/PLU</th>
+										<th width="150">Nama Barang</th>
 										<th>Harga</th>
-										<th>Quantity Order (PCS)</th>
-										<th>Discount</th>
+										<th>Qty(Pcs)</th>
+										<th width="100">Disc(%)</th>
 										<th>Jumlah</th>
 										<th>#</th>
 									</tr>
@@ -120,6 +111,26 @@
 								<tbody id="goods_chart_table">
 								</tbody>
 								<tfoot>
+									<tr>
+										<td colspan="5" class='text-right h6'>Sub Total</td>
+										<td class='h6 text-right' colspan="2" id="sub_total">Rp. 0</td>
+										<td></td>
+									</tr>
+									<tr class='w-50'>
+										<td colspan="5" class='text-right h6'>Diskon</td>
+										<td>
+											<input type="text" name="disc" id="disc_percent" class="form-control" style="width:100px" onchange="sum_discount(1)">
+										</td>
+										<td>
+											<input type="text" name="disc_sum" id="disc_sum" class="form-control" style="width:100px" onchange="sum_discount(2)">
+										</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td colspan="5" class='text-right h6'>Total</td>
+										<td class='h6 text-right' colspan="2" id="total">Rp. 0</td>
+										<td></td>
+									</tr>
 									<tr>  
 
 										<td colspan="9" class="text-center">
@@ -150,7 +161,6 @@
 <div class="modal fade" id="tambahBrgKeChart" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered" role="document">
         <div class="modal-content">
-            <!-- <form class="form card" method="POST" action="<?= current_url() ?>"> -->
                 <div class="card-header">
                     Tambah ke Troli
                 </div>
@@ -185,7 +195,6 @@
                     <button type="button" class="btn btn-primary mr-2" onclick="add_to_chart()">Add to Chart</button>
                     <?= $this->load->view("component/button/close", "", true); ?>
                 </div>
-            <!-- </form> -->
         </div>
     </div>
 </div>

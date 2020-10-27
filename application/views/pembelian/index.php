@@ -43,7 +43,7 @@
                   <td><?=$val->partner_name?></td>
                   <td><?=$val->created_date?></td>
                   <td><?=$val->description?></td>
-                  <td><?=number_format($val->sum_trx)?></td>
+                  <td><?=number_format($val->purchase_total)?></td>
                   <td><?=$val->flag == 1 ? "<div class='badge badge-info'>Draft</div>" : "<div class='badge badge-success'>Approved</div>";?></td>
                   <td style="text-align: center;">
                     <?php
