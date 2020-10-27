@@ -83,7 +83,6 @@
                                         <input type="hidden" name="barang[<?= $detail->goods_id ?>][goods_id]" value="<?= $detail->goods_id ?>">
                                     </td>
                                     <td>
-                                        <div class="font-weight-bold"><?= substr($detail->goods_name, 0, strpos($detail->goods_name, " "))  ?></div>
                                         <div class="brand_description_show"><?= substr($detail->goods_name, strpos($detail->goods_name, " ") + 1)  ?></div>
                                         <div class="small"><?= $detail->sku_code ?></div>
                                         <input type="hidden" name="barang[<?= $detail->goods_id ?>][goods_name]" value="<?= $detail->goods_name ?>">
@@ -95,7 +94,7 @@
                                         <?= $detail->ratio_flag == 1 ? "Pieces" : $detail->unit_name ?>
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control text-right rupiah" name="barang[<?= $detail->goods_id ?>][price]" id="harga_<?= $detail->goods_id ?>" value="<?= $detail->price ?>" min="1" onchange="hitung_ulang_all()">
+                                        <input type="number" class="form-control text-right rupiah w-75 styleHarga" name="barang[<?= $detail->goods_id ?>][price]" id="harga_<?= $detail->goods_id ?>" value="<?= $detail->price ?>" min="1" onchange="hitung_ulang_all()">
                                     </td>
                                     <td style="width: 90px">
                                         <input type="number" class="form-control text-center" style="width: 100%;" name="barang[<?= $detail->goods_id ?>][discount]" id="diskon_<?= $detail->goods_id ?>" value="<?= $detail->discount ?>" min="0" max="100" onchange="hitung_ulang_all()">

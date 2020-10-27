@@ -64,13 +64,18 @@
                             </button>
                         `
 
+                        var jenis_cetak = 1
+                        if (row.flag == 10) {
+                            jenis_cetak = 2
+                        }
+
                         const cetakUlang =
                             `
                             <div 
                                 class="btn btn-icon btn-sm btn-light-info" 
                                 data-toggle="tooltip" 
                                 title="Cetak Order"
-                                onclick="confirm_cetak(${data})"
+                                onclick="confirm_cetak('${data}', '${jenis_cetak}')"
                             >
                                 <i class="fa la-print"></i>
                             </div>
@@ -171,7 +176,7 @@
 
     })
 
-    function confirm_cetak(id) {
+    function confirm_cetak(id, jenis_cetak) {
         Swal.fire({
             title: "Anda yakin?",
             text: "Anda akan mencetak ulang penyiapan barang ini",
@@ -180,7 +185,7 @@
             confirmButtonText: "Ya, Cetak!"
         }).then(function(result) {
             if (result.value) {
-                window.open(`<?= base_url("/index.php/penjualan/print_order_request/") ?>${id}`, "_blank");
+                window.open(`<?= base_url("/index.php/penjualan/print_order_request/") ?>${id}/${jenis_cetak}`, "_blank");
             }
         })
     }

@@ -568,7 +568,7 @@ class Api extends CI_Controller
             "description" => $_POST['description'],
         );
         $this->or->update($where, $data);
- 
+
         // get informasi order request
         $order_request_target = $this->or->get(array(
             "or.id" => $data['id']
@@ -593,9 +593,10 @@ class Api extends CI_Controller
     // Get next invoice number
     public function get_invoice_number($id_branch)
     {
+        $invoice_no =  $this->pos->get_next_invoice_no(array("branch_id" => $id_branch));
         echo json_encode(
             array(
-                "data" => $this->pos->get_next_invoice_no(array("branch_id" => $id_branch))
+                "data" => get_invoice_format($invoice_no)
             )
         );
     }

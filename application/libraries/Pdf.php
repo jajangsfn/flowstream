@@ -3611,7 +3611,7 @@ class pdf
 		$pdf->SetFont('Arial','B',13);
 		// get userdata
 		$CI =& get_instance();
-		$branch_name 	= ($CI->session->userdata('branch_name')) ? $CI->session->userdata('branch_name') : "PD. Parahyangan Djaya";
+		$branch_name 	= ($CI->session->userdata('branch_name')) ? $CI->session->userdata('branch_name') : "PD. Parahiangan Djaya";
 		$branch_address = ($CI->session->userdata('branch_address')) ? $CI->session->userdata('branch_address') : "Jl Terusan Kiaracondong";
 		
 		$pdf->SetY($header_reference[$use_paper]['title']['position_y']);
