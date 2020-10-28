@@ -81,7 +81,8 @@ class T_order_request_model extends CI_Model
         checksheet.quantity checksheet_qty,
         m_goods.sku_code,
         checksheet.id checksheet_id,
-        checksheet.order_placement
+        checksheet.order_placement,
+        checksheet.available
         ");
         $this->db->from("t_order_request_detail ordet");
         $this->db->join("m_goods", "m_goods.id = ordet.goods_id", "left");
@@ -174,7 +175,7 @@ class T_order_request_model extends CI_Model
         $this->db->update("t_order_request", $data, $where);
     }
 
-    function checksheet_update($or_id, $goods_id, $final_quantity, $order_placement)
+    function checksheet_update($or_id, $goods_id, $final_quantity, $order_placement, $available)
     {
         $where = array(
             "order_request_id" => $or_id,
@@ -205,7 +206,8 @@ class T_order_request_model extends CI_Model
             "old_quantity" => $stock,
             "flag" => 1,
             "created_by" => $this->session->userdata("id"),
-            "order_placement" => $order_placement
+            "order_placement" => $order_placement,
+            "available" => $available == "on" ? 1 : 0
         );
 
         $find = $this->db->get_where("t_checksheet", array(

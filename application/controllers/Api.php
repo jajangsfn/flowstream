@@ -682,7 +682,7 @@ class Api extends CI_Controller
     {
         // update jumlah
         foreach ($_POST['barang'] as $id_barang => $barang) {
-            $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity'], $barang['order_placement']);
+            $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity'], $barang['order_placement'], $barang['available']);
             $this->goods->update_quantity_from_checksheet($id_barang, $barang['quantity']);
         }
 
