@@ -105,7 +105,8 @@
             </div>
             <input type="hidden" name="payment_total" id="total_harga_field">
             <div class="card-footer text-right">
-                <button type="button" id="payment-button" onclick="confirm_pos_submit()" class="btn btn-primary" disabled> Simpan </button>
+                <button type="button" onclick="confirm_pos_submit(false)" class="btn btn-primary payment-button" disabled> Simpan </button>
+                <button type="button" onclick="confirm_pos_submit(true)" class="btn btn-primary payment-button" disabled> Simpan dan Cetak </button>
             </div>
         </form>
     </div>

@@ -816,6 +816,9 @@ class Api extends CI_Controller
             $this->pos->insert_detail($pos_det_data);
         }
 
+        if (isset($_POST['cetak']) && $_POST['cetak'] == "1") {
+            $this->session->set_flashdata("newtab", base_url("index.php/penjualan/print_pos/$id_new_pos"));
+        }
         $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
         redirect(base_url("/index.php/penjualan/pos"));
     }

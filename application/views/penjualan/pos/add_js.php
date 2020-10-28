@@ -186,9 +186,9 @@
         hitung_ulang_all();
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
-            $("#payment-button").removeAttr("disabled");
+            $(".payment-button").removeAttr("disabled");
         } else {
-            $("#payment-button").attr("disabled", "disabled");
+            $(".payment-button").attr("disabled", "disabled");
         }
     }
 
@@ -197,9 +197,9 @@
             $(elem).text(index + 1);
         })
         if ($("table#daftar_barang_order tbody th:first-child").length === 0) {
-            $("#payment-button").attr("disabled", "disabled");
+            $(".payment-button").attr("disabled", "disabled");
         } else {
-            $("#payment-button").removeAttr("disabled");
+            $(".payment-button").removeAttr("disabled");
         }
     }
 
@@ -224,9 +224,9 @@
         $("#total_harga_field").val(finalPrice);
 
         if ($("table#daftar_barang_order tbody").children().length > 0) {
-            $("#payment-button").removeAttr("disabled");
+            $(".payment-button").removeAttr("disabled");
         } else {
-            $("#payment-button").attr("disabled", "disabled");
+            $(".payment-button").attr("disabled", "disabled");
         }
     }
 
@@ -367,7 +367,7 @@
                     hitung_ulang_all();
 
                     // tombol submit
-                    $("#payment-button").removeAttr("disabled");
+                    $(".payment-button").removeAttr("disabled");
                 }
             })
         }
@@ -420,7 +420,7 @@
         )
     }
 
-    function confirm_pos_submit() {
+    function confirm_pos_submit(cetak) {
         if (!$("#pilih_salesman").val()) {
             Swal.fire("info", "Pilih salesman untuk transaksi ini", "info")
         } else {
@@ -433,6 +433,11 @@
                 confirmButtonText: "Ya, Simpan!"
             }).then(function(result) {
                 if (result.value) {
+                    if (cetak) {
+                        $("#pos_form").append(
+                            "<input name='cetak' value='1' />"
+                        );
+                    }
                     $("#pos_form").submit()
                 }
             })
