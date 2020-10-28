@@ -62,7 +62,17 @@ class Goods extends CI_Controller
 
     public function barang_cabang_data_only($id_cabang)
     {
-        $data_query = $this->goods->get_data(array("m_goods.branch_id" => $id_cabang))->result();
+        $where = array("m_goods.branch_id" => $id_cabang);
+        if (count($_GET)) {
+            if (isset($_GET['brand']) && $_GET['brand'] != "all") {
+                $where['brand_name'] = $_GET['brand'];
+            }
+
+            if (isset($_GET['with_stock']) && $_GET['with_stock'] == "on") {
+                $where['m_goods.quantity >'] = 0;
+            }
+        }
+        $data_query = $this->goods->get_data()->result();
         $data['data'] = $data_query;
         echo json_encode($data);
     }

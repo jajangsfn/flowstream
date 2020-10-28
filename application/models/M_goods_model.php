@@ -368,9 +368,9 @@ class M_goods_model extends CI_Model
         $this->db->join("m_price_alternate tab7", "tab7.price_id=tab6.id", "left");
         $this->db->where($where);
         if ($group_by) {
-            $this->db->group_by($group_by);    
+            $this->db->group_by($group_by);
         }
-        
+
         $this->db->order_by("tab4.brand_description");
 
         return $this->db->get();
@@ -386,12 +386,21 @@ class M_goods_model extends CI_Model
         $this->db->join("m_unit", "m_unit.id = m_goods.unit", "left");
         $this->db->where($where);
         $old = $this->db->get()->row();
-        
+
         $final_quantity = $old->ratio_flag == 1 ? $new_quantity / $old->converted_quantity : $new_quantity;
 
         $set = array(
             "quantity" => $final_quantity
         );
         $this->db->update("m_goods", $set, $where);
+    }
+
+    function get_brand_for_branch_id($branch_id)
+    {
+        return $this->db->query(
+            "SELECT DISTINCT brand_name
+            FROM m_goods
+            WHERE branch_id = '$branch_id' AND flag = 1"
+        );
     }
 }
