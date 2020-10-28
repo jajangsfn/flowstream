@@ -72,7 +72,7 @@ class Goods extends CI_Controller
                 $where['m_goods.quantity >'] = 0;
             }
         }
-        $data_query = $this->goods->get_data()->result();
+        $data_query = $this->goods->get_data($where)->result();
         $data['data'] = $data_query;
         echo json_encode($data);
     }
