@@ -93,7 +93,8 @@
                 </div>
             </div>
             <div class="card-footer text-right">
-                <button type="submit" class="btn btn-primary" disabled> Cetak </button>
+                <button type="submit" class="btn btn-primary" disabled> Simpan </button>
+                <button type="submit" class="btn btn-primary" name="cetak" value="1" disabled> Simpan dan Cetak </button>
             </div>
         </form>
     </div>

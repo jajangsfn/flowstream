@@ -531,7 +531,10 @@ class Api extends CI_Controller
             $this->or->insert_detail($good);
         }
 
-        $this->session->set_flashdata("success", "Order Request berhasil dicetak");
+        if (isset($_POST['cetak']) && $_POST['cetak'] == "1") {
+            $this->session->set_flashdata("newtab", base_url("index.php/penjualan/print_order_request/$id_new_or/2"));
+        }
+        $this->session->set_flashdata("success", "Order Request berhasil disimpan");
         redirect(base_url("index.php/penjualan/order_request"));
     }
 
