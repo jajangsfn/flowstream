@@ -137,7 +137,7 @@ class Penjualan extends CI_Controller
         if ($content) {
             
             foreach ($content->details as $key => $val) {
-                if ($type == 1) {
+                if ($type == 1 | is_null($val->checksheet_qty)) {
                     $qty = $val->quantity;
                 }else {
                     $qty = $val->checksheet_qty;
@@ -195,7 +195,7 @@ class Penjualan extends CI_Controller
             } else {
                 $type_print = "checksheet_out";
             }
-            // echo json_encode($this->session->userdata('branch_obj')->tax_status);exit;
+            
 
             $this->pdf->dynamic_print(2, $type_print, $data);
         }
