@@ -105,6 +105,8 @@
     <script>
         $(function() {
             $(".select2").select2();
+
+            $(".select2-filter").select2();
         });
 
         function trippledot(x) {

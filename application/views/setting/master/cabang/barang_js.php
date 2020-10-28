@@ -122,10 +122,6 @@
             ]
         })
 
-        $('.select2').select2({
-            width: '100%'
-        });
-
         $('#delete_modal').on('hidden.bs.modal', function() {
             $("#id_hapus").val("");
             $("#brand_description_hapus").text("");
@@ -178,7 +174,7 @@
         $("#rekening_no_edit").val(rekening_no)
         $("#hpp_preview").text(hpp)
 
-        $('.select2').trigger('change');
         $("#edit_barang").modal('show');
+        $('.select2').trigger('change.select2');
     }
 </script>
