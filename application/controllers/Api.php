@@ -832,7 +832,7 @@ class Api extends CI_Controller
 
         // get pos info
         $pos_target = $this->pos->get(array(
-            "pos.id" => $_POST
+            "pos.id" => $_POST['id']
         ))->row();
 
         // delete semua detailnya
