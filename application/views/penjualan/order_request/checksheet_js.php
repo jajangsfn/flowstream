@@ -83,6 +83,10 @@
             `
         )
         $("#" + unavailable_id).remove();
+        if ($("#unavailable_table tbody").children().length == 0) {
+            $("#unavailable_button").remove();
+            $('#unavailable_checksheet').modal('hide');
+        }
         renumber();
     }
 

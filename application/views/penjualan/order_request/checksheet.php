@@ -80,7 +80,7 @@
 
         <?php if (count($unavailable_details) > 0) : ?>
             <div class="text-center">
-                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#unavailable_checksheet">
+                <button class="btn btn-primary" type="button" data-toggle="modal" id="unavailable_button" data-target="#unavailable_checksheet">
                     Tambah Barang
                 </button>
             </div>
