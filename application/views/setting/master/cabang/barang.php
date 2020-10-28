@@ -21,7 +21,7 @@
     </div>
     <div class="card-body pt-2">
         <form class="d-flex justify-content-end align-items-center mb-8" method="GET" action="<?= current_url() ?>" id="filter">
-            <select class="form-control select2" name="brand" data-width="300px" onchange="$('#filter').submit()">
+            <select class="form-control select2-filter" name="brand" data-width="300px" onchange="$('#filter').submit()">
                 <option value="" selected disabled>Filter brand</option>
                 <option value="all">All Brand</option>
                 <?php foreach ($filter_brand as $fbrand) { ?>
