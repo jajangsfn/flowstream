@@ -64,7 +64,7 @@
                                     <?= $detail->quantity ?>
                                 </td>
                                 <td style="width: 70px;" class="text-center">
-                                    <input type="number" name="barang[<?= $detail->goods_id ?>][quantity]" class="form-control text-center" value="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity * $detail->last_quantity : $detail->last_quantity  ?>" min="0" step="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>">
+                                    <input type="number" name="barang[<?= $detail->goods_id ?>][quantity]" class="form-control text-center" value="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity * $detail->quantity : $detail->quantity  ?>" min="0" step="<?= $detail->ratio_flag == 1 ? $detail->converted_quantity : 1 ?>">
                                 </td>
                                 <td>
                                     <?= $detail->ratio_flag == 1 ? "pcs" : $detail->unit_initial ?>
@@ -133,7 +133,7 @@
                                     '<?= $detail->quantity ?>',
                                     '<?= $detail->ratio_flag ?>',
                                     '<?= $detail->converted_quantity ?>',
-                                    '<?= $detail->last_quantity ?>',
+                                    '<?= $detail->quantity ?>',
                                     '<?= $detail->unit_initial ?>',
                                     '<?= $detail->order_placement ?>',
                                     'unavailable_<?= $key ?>'
