@@ -89,9 +89,9 @@ class T_pos_model extends CI_Model
         $this->db->from("t_pos pos");
         $this->db->join("m_branch", "m_branch.id = pos.branch_id", "left");
         $this->db->order_by("pos.id desc");
-        if (!array_key_exists("id", $where)) {
+        if (is_array($where) && !array_key_exists("id", $where)) {
             $where['pos.flag <>'] = 99;
-        } else {
+        } else if (is_array($where)) {
             $where['pos.id'] = $where['id'];
             unset($where['id']);
         }
