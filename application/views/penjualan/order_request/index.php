@@ -63,8 +63,8 @@
                                 <th nowrap>Nama Barang</th>
                                 <th nowrap>Jumlah</th>
                                 <th nowrap>Unit</th>
-                                <th style="min-width: 100px">Harga</th>
-                                <th class="d-none">Diskon</th>
+                                <th style="min-width: 100px">Harga Satuan</th>
+                                <th>Diskon</th>
                                 <th class="d-none">Subtotal</th>
                                 <th class="text-center"><span class="mr-3">Aksi</span>
                                 </th>

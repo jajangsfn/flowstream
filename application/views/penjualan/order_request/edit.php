@@ -55,8 +55,8 @@
                                 <th nowrap>Nama Barang</th>
                                 <th nowrap>Jumlah</th>
                                 <th nowrap>Unit</th>
-                                <th style="min-width: 100px">Harga</th>
-                                <th class="d-none">Diskon</th>
+                                <th style="min-width: 100px">Harga Satuan</th>
+                                <th>Diskon</th>
                                 <th class="d-none">Subtotal</th>
                                 <th class="text-center"><span class="mr-3">Aksi</span>
                                 </th>
@@ -84,7 +84,7 @@
                                     <td style="width: 130px;">
                                         <input type="number" name="barang[<?= $detail->goods_id ?>][price]" class="form-control text-right w-75 styleHarga" id="harga_<?= $detail->goods_id ?>" value="<?= $detail->price ?>" min="1" onchange="hitung_ulang_all()">
                                     </td>
-                                    <td style="width: 90px;" class="d-none">
+                                    <td style="width: 90px;">
                                         <input type="number" name="barang[<?= $detail->goods_id ?>][discount]" class="form-control text-center" id="diskon_<?= $detail->goods_id ?>" value="<?= $detail->discount ?>" min="0" onchange="hitung_ulang_all()">
                                     </td>
                                     <td id="total_harga_<?= $detail->goods_id ?>" class="text-right rupiah d-none">

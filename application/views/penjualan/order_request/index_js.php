@@ -40,6 +40,11 @@
                 $("#nama_barang_tambah").text(focus.brand_name);
                 $("#desk_barang_tambah").text(focus.brand_description);
                 $("#barcode_barang_tambah").text(focus.barcode);
+                if (price) {
+                    price = "Rp " + numeral(price).format('0,[.]00')
+                } else {
+                    price = 0;
+                }
                 $("#harga_barang_tambah").text((price ? price : "0") + " / " + focus.unit_initial);
                 $("#tombol_tambah_baru").attr("data-id-barang", focus.id)
 
@@ -233,7 +238,7 @@
 
                             // nama barang
                             $(document.createElement("td")).append(
-                                
+
                                 $(document.createElement("div")).text(data.brand_description).addClass(`brand_description_show ${show_desc ? "" : "d-none"}`),
                                 $(document.createElement("div")).text(data.sku_code).addClass("small"),
                                 $(document.createElement("input"))
@@ -270,7 +275,7 @@
                                 .change(() => hitung_ulang_all())
                             ),
 
-                            $(document.createElement("td")).attr("style", "width: 90px").addClass("d-none").append(
+                            $(document.createElement("td")).attr("style", "width: 90px").append(
                                 $(document.createElement("input"))
                                 .attr("type", "number")
                                 .addClass("form-control text-center")
@@ -353,7 +358,9 @@
             const row_id = $(this).attr("id");
             const row_quantity = $("#jumlah_" + row_id).val();
             const row_price = $("#harga_" + row_id).val();
-            total_price += (parseInt(row_quantity) * parseInt(row_price));
+            const row_discount = $("#diskon_" + row_id).val();
+            const subtotal = (parseInt(row_quantity) * parseInt(row_price));
+            total_price += subtotal * (100 - parseInt(row_discount)) / 100;
         });
 
         $("#total_harga_order").text(numeral(total_price).format('0,[.]00'));

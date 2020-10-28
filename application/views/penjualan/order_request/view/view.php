@@ -30,7 +30,8 @@
                         <th nowrap>Nama Barang</th>
                         <th nowrap>Jumlah</th>
                         <th nowrap>Unit</th>
-                        <th style="min-width: 100px">Harga</th>
+                        <th nowrap>Diskon</th>
+                        <th style="min-width: 100px">Harga Satuan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,8 +50,11 @@
                             <td>
                                 <?= $detail->ratio_flag == 1 ? "pcs" : $detail->unit_initial ?>
                             </td>
+                            <td>
+                                <?= $detail->discount ?>%
+                            </td>
                             <td style="width: 100px;" class="text-right rupiah">
-                                <?= $detail->price ?>
+                                Rp <?= number_format($detail->price, 0, '.', ','); ?>
                             </td>
                         </tr>
                     <?php endforeach ?>
@@ -66,21 +70,21 @@
                 $pajak += $detail->tax;
             }
             ?>
-            <?php if ($pajak) : ?>
+            <?php if ($pajak > 0) : ?>
                 <p class="text-right m-0">
                     Subtotal <span id="total_harga_order">
-                        <?= $subtotal ?>
+                        <?= number_format($subtotal, 0, '.', ','); ?>
                     </span>
                 </p>
                 <p class="text-right m-0">
                     Pajak <span id="tax_price">
-                        <?= $pajak ?>
+                        <?= number_format($pajak, 0, '.', ','); ?>
                     </span>
                 </p>
             <?php endif; ?>
             <h5 class="text-right font-weight-bold">
                 Total <span id="total_harga_order_tax">
-                    <?= $pajak ? $subtotal + $pajak : $subtotal ?>
+                    <?= number_format($pajak ? $subtotal + $pajak : $subtotal, 0, '.', ','); ?>
                 </span>
             </h5>
         </div>

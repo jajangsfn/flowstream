@@ -43,7 +43,8 @@
                 $("#nama_barang_tambah").text(focus.brand_name);
                 $("#desk_barang_tambah").text(focus.brand_description);
                 $("#barcode_barang_tambah").text(focus.barcode);
-                $("#harga_barang_tambah").text(price ? numeral(price).format('0,[.]00') : 0);
+                $("#harga_barang_tambah").text(price ? "Rp " + numeral(price).format('0,[.]00') : 0);
+                $("#unit_barang_tambah").text(" / " + focus.unit_initial);
                 $("#tombol_tambah_baru").attr("data-id-barang", focus.id)
 
                 $("#tambah_barang").modal("show");

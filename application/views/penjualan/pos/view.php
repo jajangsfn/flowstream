@@ -39,7 +39,9 @@
                         <th nowrap>Nama Barang</th>
                         <th nowrap>Jumlah</th>
                         <th nowrap>Unit</th>
-                        <th style="min-width: 100px">Harga</th>
+                        <th nowrap>Diskon</th>
+                        <th style="min-width: 100px" nowrap>Harga Satuan</th>
+                        <th nowrap>Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,8 +60,14 @@
                             <td>
                                 <?= $detail->ratio_flag == 1 ? "pcs" : $detail->unit_name ?>
                             </td>
+                            <td>
+                                <?= $detail->discount ?>%
+                            </td>
                             <td style="width: 100px;" class="text-right rupiah">
                                 <?= $detail->price ?>
+                            </td>
+                            <td class="rupiah text-right">
+                                <?= ($detail->quantity * $detail->price * (100 - $detail->discount) / 100); ?>
                             </td>
                         </tr>
                     <?php endforeach ?>

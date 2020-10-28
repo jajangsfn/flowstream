@@ -571,7 +571,7 @@ class Api extends CI_Controller
 
         // get informasi order request
         $order_request_target = $this->or->get(array(
-            "or.id" => $data['id']
+            "or.id" => $_POST['id']
         ))->row();
 
         // clear details
@@ -633,7 +633,7 @@ class Api extends CI_Controller
         // ambil informasi branch
         $branch_target = $this->branch->get(
             array(
-                "id" => $_POST['branch_id']
+                "id" => $order_request->branch_id
             )
         )->row();
 
@@ -646,7 +646,9 @@ class Api extends CI_Controller
             // generate POS detail data
             $total = $or_det->checksheet_qty * $or_det->price * (100 - $or_det->discount) / 100;
             $tax = $branch_target->tax_status == 1 ? 10 * $total / 100 : 0;
-            $total = $branch_target->tax_status == 1 ? 110 * $total / 100 : $total;
+            $discount = $or_det->discount;
+            $sub = $branch_target->tax_status == 1 ? 110 * $total / 100 : $total;
+            $total = $sub * (100 - $discount) / 100;
             $payment_total += $total;
 
             $pos_det_data = array(
@@ -660,6 +662,7 @@ class Api extends CI_Controller
 
                 "warehouse_id" => 1, // default dulu buat test
 
+                "discount" => $discount,
                 "discount_code" => isset($or_det->discount_code) ? $or_det->discount_code : null,
                 "tax" => $tax,
                 "total" => $total,
