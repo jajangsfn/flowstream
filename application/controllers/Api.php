@@ -692,6 +692,10 @@ class Api extends CI_Controller
             $this->goods->update_quantity_from_checksheet($id_barang, $barang['quantity']);
         }
 
+        if (isset($_POST['cetak']) && $_POST['cetak'] == "1") {
+            $this->session->set_flashdata("newtab", base_url("index.php/penjualan/print_order_request/$order_request_id/2"));
+        }
+
         $this->session->set_flashdata("success", "Checksheet berhasil disimpan");
         redirect(base_url("/index.php/penjualan/order_request"));
     }

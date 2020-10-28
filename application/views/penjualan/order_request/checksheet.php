@@ -90,6 +90,7 @@
     <div class="card-footer text-right">
         <button type="button" class="btn btn-danger" onclick="confirm_pembatalan()"> Batalkan </button>
         <button class="btn btn-primary" type="submit"> Simpan </button>
+        <button class="btn btn-primary" name="cetak" value="1" type="submit"> Simpan dan Cetak</button>
     </div>
 </form>
 
