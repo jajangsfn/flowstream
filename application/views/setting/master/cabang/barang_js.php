@@ -1,4 +1,17 @@
 <script>
+    <?php
+    $uri_target = base_url("/index.php/flowstream_api/v1/goods/barang_cabang_data_only/$data_branch->id");
+    if (count($_GET) > 0) {
+        $uri_target .= "?";
+        if (isset($_GET['brand'])) {
+            $uri_target .= "brand=" . $_GET['brand'];
+            $uri_target .= "&";
+        }
+        if (isset($_GET['with_stock'])) {
+            $uri_target .= "with_stock=" . $_GET['with_stock'];
+        }
+    }
+    ?>
     $(document).ready(() => {
         $("#master_barang_table").DataTable({
             responsive: true,
@@ -17,7 +30,7 @@
                     orderable: false,
                 },
             ],
-            ajax: "<?= base_url("/index.php/flowstream_api/v1/goods/barang_cabang_data_only/$data_branch->id") ?>",
+            ajax: "<?= $uri_target ?>",
             columns: [{
                     data: 'id',
                     render: function(data, type, row, meta) {

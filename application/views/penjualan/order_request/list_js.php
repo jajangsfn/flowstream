@@ -64,9 +64,9 @@
                             </button>
                         `
 
-                        var jenis_cetak = 1
+                        var jenis_cetak = 2
                         if (row.flag == 10) {
-                            jenis_cetak = 2
+                            jenis_cetak = 1
                         }
 
                         const cetakUlang =

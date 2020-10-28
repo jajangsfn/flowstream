@@ -27,6 +27,7 @@
                 <thead>
                     <tr class="text-left">
                         <th class="text-center" nowrap width="1">No</th>
+                        <th class="text-center">Urutan</th>
                         <th nowrap style="min-width: 100px;">Kode Barang</th>
                         <th nowrap>Nama Barang</th>
                         <th nowrap>Jumlah Order</th>
@@ -38,6 +39,11 @@
                     <?php foreach ($data_or->details as $key => $detail) : ?>
                         <tr id="<?= $detail->goods_id ?>">
                             <td class="text-center font-weight-bold"><?= $key + 1 ?></td>
+                            <td>
+                                <div class="d-flex w-100 justify-content-center align-items-center">
+                                    <input type="number" name="barang[<?= $detail->goods_id ?>][order_placement]" style="max-width: 100px" class="form-control text-center" value="<?= $detail->order_placement ? $detail->order_placement : $key + 1 ?>" min="1">
+                                </div>
+                            </td>
                             <td>
                                 <div><?= $detail->barcode ?></div>
                             </td>

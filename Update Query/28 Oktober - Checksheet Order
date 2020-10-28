@@ -1,0 +1,1 @@
+ALTER TABLE `t_checksheet` ADD `order_placement` INT NULL AFTER `created_by`;
