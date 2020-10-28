@@ -88,6 +88,7 @@ class T_order_request_model extends CI_Model
         $this->db->join("m_unit", "m_unit.id = m_goods.unit", "left");
         $this->db->join("t_checksheet checksheet", "checksheet.order_request_detail_id = ordet.id", "left");
         $this->db->where(array("ordet.order_request_id" => $id));
+        $this->db->order_by("checksheet.order_placement asc");
         $mainobj->details = $this->db->get()->result();
 
         return $mainobj;
