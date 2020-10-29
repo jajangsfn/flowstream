@@ -82,26 +82,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.9/inputmask/inputmask.min.js" integrity="sha512-DVfS/GbZzLMmxBL/CW92N84eHP2Fq9d+r9RKbvctcvzISVfu+WvD+MCvbK9j8I6nVLrntGo3UUVrNFUDX0ukBw==" crossorigin="anonymous"></script>
     <!--end::Page Scripts-->
     <?= isset($page_js) ? $page_js : "" ?>
+    <script>
+        function nextfx() {
+            <?php if ($this->session->flashdata("newtab")) { ?>
+                window.open("<?= $this->session->flashdata("newtab") ?>");
+            <?php } ?>
+        }
+    </script>
     <?php if ($this->session->flashdata("error")) { ?>
         <script>
-            Swal.fire("Gagal!", "<?= $this->session->flashdata("error") ?>", "error");
+            Swal.fire("Gagal!", "<?= $this->session->flashdata("error") ?>", "error").then(function(result) {
+                nextfx();
+            });
         </script>
     <?php } ?>
     <?php if ($this->session->flashdata("success")) { ?>
         <script>
-            Swal.fire("Sukses!", "<?= $this->session->flashdata("success") ?>", "success");
+            Swal.fire("Sukses!", "<?= $this->session->flashdata("success") ?>", "success").then(function(result) {
+                nextfx();
+            });
         </script>
     <?php } ?>
     <?php if ($this->session->flashdata("warning")) { ?>
         <script>
-            Swal.fire("Peringatan!", "<?= $this->session->flashdata("warning") ?>", "warning");
+            Swal.fire("Peringatan!", "<?= $this->session->flashdata("warning") ?>", "warning").then(function(result) {
+                nextfx();
+            });
         </script>
     <?php } ?>
     <?php if ($this->session->flashdata("info")) { ?>
         <script>
-            Swal.fire("Informasi!", "<?= $this->session->flashdata("info") ?>", "info");
+            Swal.fire("Informasi!", "<?= $this->session->flashdata("info") ?>", "info").then(function(result) {
+                nextfx();
+            });
         </script>
     <?php } ?>
+
     <script>
         $(function() {
             $(".select2").select2();

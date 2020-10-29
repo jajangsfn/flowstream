@@ -147,7 +147,9 @@
             const row_id = $(this).attr("id");
             const row_quantity = $("#jumlah_" + row_id).val();
             const row_price = $("#harga_" + row_id).val();
-            total_price += (parseInt(row_quantity) * parseInt(row_price));
+            const row_discount = $("#diskon_" + row_id).val();
+            const subtotal = (parseInt(row_quantity) * parseInt(row_price));
+            total_price += subtotal * (100 - parseInt(row_discount)) / 100;
         });
 
         const pajak = tax_enabled ? total_price / 10 : 0;
@@ -271,7 +273,7 @@
                             ),
 
                             // diskon
-                            $(document.createElement("td")).attr("style", "width: 90px").addClass("d-none").append(
+                            $(document.createElement("td")).attr("style", "width: 90px").append(
                                 $(document.createElement("input"))
                                 .attr("type", "number")
                                 .addClass("form-control text-center")

@@ -531,7 +531,10 @@ class Api extends CI_Controller
             $this->or->insert_detail($good);
         }
 
-        $this->session->set_flashdata("success", "Order Request berhasil dicetak");
+        if (isset($_POST['cetak']) && $_POST['cetak'] == "1") {
+            $this->session->set_flashdata("newtab", base_url("index.php/penjualan/print_order_request/$id_new_or/2"));
+        }
+        $this->session->set_flashdata("success", "Order Request berhasil disimpan");
         redirect(base_url("index.php/penjualan/order_request"));
     }
 
@@ -571,7 +574,7 @@ class Api extends CI_Controller
 
         // get informasi order request
         $order_request_target = $this->or->get(array(
-            "or.id" => $data['id']
+            "or.id" => $_POST['id']
         ))->row();
 
         // clear details
@@ -633,7 +636,7 @@ class Api extends CI_Controller
         // ambil informasi branch
         $branch_target = $this->branch->get(
             array(
-                "id" => $_POST['branch_id']
+                "id" => $order_request->branch_id
             )
         )->row();
 
@@ -646,7 +649,9 @@ class Api extends CI_Controller
             // generate POS detail data
             $total = $or_det->checksheet_qty * $or_det->price * (100 - $or_det->discount) / 100;
             $tax = $branch_target->tax_status == 1 ? 10 * $total / 100 : 0;
-            $total = $branch_target->tax_status == 1 ? 110 * $total / 100 : $total;
+            $discount = $or_det->discount;
+            $sub = $branch_target->tax_status == 1 ? 110 * $total / 100 : $total;
+            $total = $sub * (100 - $discount) / 100;
             $payment_total += $total;
 
             $pos_det_data = array(
@@ -660,6 +665,7 @@ class Api extends CI_Controller
 
                 "warehouse_id" => 1, // default dulu buat test
 
+                "discount" => $discount,
                 "discount_code" => isset($or_det->discount_code) ? $or_det->discount_code : null,
                 "tax" => $tax,
                 "total" => $total,
@@ -684,6 +690,10 @@ class Api extends CI_Controller
         foreach ($_POST['barang'] as $id_barang => $barang) {
             $this->or->checksheet_update($order_request_id, $id_barang, $barang['quantity'], $barang['order_placement'], $barang['available']);
             $this->goods->update_quantity_from_checksheet($id_barang, $barang['quantity']);
+        }
+
+        if (isset($_POST['cetak']) && $_POST['cetak'] == "1") {
+            $this->session->set_flashdata("newtab", base_url("index.php/penjualan/print_order_request/$order_request_id/2"));
         }
 
         $this->session->set_flashdata("success", "Checksheet berhasil disimpan");
@@ -810,6 +820,9 @@ class Api extends CI_Controller
             $this->pos->insert_detail($pos_det_data);
         }
 
+        if (isset($_POST['cetak']) && $_POST['cetak'] == "1") {
+            $this->session->set_flashdata("newtab", base_url("index.php/penjualan/print_pos/$id_new_pos"));
+        }
         $this->session->set_flashdata("success", "Transaksi berhasil disimpan");
         redirect(base_url("/index.php/penjualan/pos"));
     }
