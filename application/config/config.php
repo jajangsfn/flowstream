@@ -25,7 +25,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 */
 // $config['base_url'] = 'http://demo.flowstream.id';
 $config['base_url'] = 'http://localhost/flowstream/';
-// $config['base_url'] = 'http://192.168.8.154/flowstream/';
+// $config['base_url'] = 'http://192.168.0.22/flowstream/';
 
 /*
 |--------------------------------------------------------------------------

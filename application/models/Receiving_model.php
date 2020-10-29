@@ -191,10 +191,15 @@ class Receiving_model extends CI_Model
         $detail = $this->db->get("t_receiving_detail")->result();
         
         $dpp_dipungut = 0;
+        //get dpp
+        $this->db->select("purchase_total,purchase_discount");
+        $this->db->where("id",$header[0]->purchase_order_id);
+        $order = $this->db->get("t_purchase_order")->result();
+        $dpp_dipungut = $order[0]->purchase_total;
         //counting dpp dipungut from detail
-        foreach($detail as $key => $row) {
-            $dpp_dipungut+= ($row->price * $row->quantity) - (( ($row->price * $row->quantity) * $row->discount) /100);
-        }
+        // foreach($detail as $key => $row) {
+        //     $dpp_dipungut+= ($row->price * $row->quantity) - (( ($row->price * $row->quantity) * $row->discount) /100);
+        // }
         
         
         //data

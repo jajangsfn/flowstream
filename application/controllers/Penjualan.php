@@ -143,7 +143,7 @@ class Penjualan extends CI_Controller
                     $qty = $val->checksheet_qty;
                 }
 
-                if ($qty > 0) {
+                if ($qty > 0 && $val->available == 1) {
                     $data[] = array(
                         "id" => $content->id,
                         "branch_id" => $content->branch_id,
