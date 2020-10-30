@@ -163,7 +163,6 @@
 						$("#partner_name").val(goods_arr[0].partner_name);
 					}
 
-					// get_salesman();
 				});
 			}
 	}
@@ -202,7 +201,7 @@
 		save_goods.name = goods_name;
 		save_goods.price= goods_price;
 		save_goods.qty  = goods_qty;
-		save_goods.discount  = 0;
+		save_goods.discount  = "";
 		// Build the "map"
 		var same = false;
 		$.each(chart_goods,function(id,val){
@@ -229,7 +228,7 @@
 	{
 		var rows = "";
 		var total = 0;
-		grant_total = 0;
+		var sub_total = 0;
 
 		$("#goods_chart_table").html('');
 		var sub_total = 0;
@@ -237,8 +236,8 @@
 			
 			$.each(chart_goods,function(id,val){
 				total = (val.price * val.qty);
+				total = double_discount(val.discount, total); 
 				sub_total+=total;
-				total-= total * (val.discount /100);
 				total = total > 0 ?  numeral(total).format('0,0[.]00')  : 0;
 				rows+="<tr id='"+id+"'>";
 				rows+="<td>"+(id+1)+"</td>";
@@ -249,7 +248,8 @@
 				rows+="<td class='goods_price_chart'>";
 				rows+="<input type='number' name='goods_price_chart[]' class='form-control' id='goods_price_chart_"+id+"' value='"+val.price+"' onchange='sum_total_goods("+id+")' style='width:90%' ></td>";
 				rows+="<td><input type='number' name='goods_qty_chart[]' class='form-control' id='goods_qty_chart_"+id+"' value='"+val.qty+"' onchange='sum_total_goods("+id+")' style='width:90%'></td>";
-				rows+="<td><input type='number' name='goods_discount_chart[]' class='form-control' id='goods_discount_chart_"+id+"' value='"+val.discount+"' onchange='sum_total_goods("+id+")'></td>";
+				rows+="<td><input type='number' name='goods_carton_chart[]' class='form-control' id='goods_carton_chart_"+id+"' value='"+val.carton+"'></td>";
+				rows+="<td><input type='text' name='goods_discount_chart[]' class='form-control' id='goods_discount_chart_"+id+"' value='"+val.discount+"' onchange='sum_total_goods("+id+")'></td>";
 				rows+="<td class='text-right'>"+total+"</td>";
 				rows+="<td><button type='button' class='btn btn-xs btn-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa fa-trash'></span></button></td>";
 				rows+="</tr>";	
@@ -274,7 +274,7 @@
 			var goods_id_chart = $(this).find('td #goods_id_chart_'+id).val();
 			var goods_qty_chart = ($(this).find('td #goods_qty_chart_'+id).val() ) ? parseInt( $(this).find('td #goods_qty_chart_'+id).val() ) : 0;
 			var goods_price_chart = ($(this).find('td #goods_price_chart_'+id).val()) ? parseInt( $(this).find('td #goods_price_chart_'+id).val() ) : 0;
-			var goods_discount_chart =  $(this).find('td #goods_discount_chart_'+id).val()!= "" ? parseInt( $(this).find('td #goods_discount_chart_'+id).val() )  : 0;
+			var goods_discount_chart =  $(this).find('td #goods_discount_chart_'+id).val()!= "" ?  $(this).find('td #goods_discount_chart_'+id).val()  : 0;
 			
 			// set new value to chart_goods array
 			new_input.id = goods_id_chart;
@@ -341,6 +341,7 @@
 				save_goods.price 	= parseInt(val.goods_price);
 				save_goods.qty  	= parseInt(val.goods_qty);
 				save_goods.discount = (val.goods_discount) ? val.goods_discount : 0;
+				save_goods.carton   = val.cartons;
 				chart_goods.push(save_goods);
 				
 				// set purchase discount

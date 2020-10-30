@@ -46,8 +46,59 @@ class Inventori extends CI_Controller
     // receiving
     public function receiving()
     {
-        #echo json_encode($_POST);exit;
-         if (count($_POST)) {
+        $data['receive']      = $this->rm->get_all_receive()->result();
+        $data['page_title']   = "Receiving";
+        $data['page_content'] = $this->load->view("inventori/receiving", $data, true);
+        $data['master']       = null;
+        // echo json_encode($data['receive']);exit;
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+        $this->load->view("inventori/receiving/receiving_js");
+    }
+
+
+    public function add_receiving()
+    {
+
+        $data['page_title']   = "Receiving";
+        $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
+        $data['po_no']        = generate_po_no(2);
+        $data['master']       = null;
+        $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
+        $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
+        $data['price_method'] = $this->rm->get_price_method()->result();
+        $data['page_content'] = $this->load->view("inventori/receiving/add_receiving", $data ,true);
+
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+        $this->load->view("inventori/receiving/receiving_edit_js");
+    }
+
+
+    public function edit_receiving($rv_id)
+    {
+
+        $data['page_title']   = "Receiving";
+        $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
+        $data['po_no']        = generate_po_no(2);
+        $data['master']       = $this->rm->get_all_receive("tab1.id=".$rv_id,null,"tab2.id")->result();
+        $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
+        $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
+        $data['price_method'] = $this->rm->get_price_method()->result();
+        $data['page_content'] = $this->load->view("inventori/receiving/edit_receiving", $data ,true);
+
+        
+        $this->load->view('layout/head');
+        $this->load->view('layout/base', $data);
+        $this->load->view('layout/js');
+        $this->load->view("inventori/receiving/receiving_edit_js");
+    }
+
+    public function save_receiving() {
+        // echo json_encode($_POST);exit;
+        if (count($_POST)) {
 
             $id_user           = $this->session->userdata('id');
             $name              = $this->session->userdata('name');
@@ -67,6 +118,8 @@ class Inventori extends CI_Controller
                                 "warehouse_id" => 1,
                                 "description" => $_POST['description'],
                                 "purchase_order_id" => $_POST['po_no_list'],
+                                "receiving_total" => $_POST['receiving_total'],
+                                "receiving_discount" => $_POST['disc'],
                                 "created_by" => $id_user,
                                 "updated_date" => date('Y-m-d H:i:s'),
                                 "updated_by" => $id_user,
@@ -101,6 +154,7 @@ class Inventori extends CI_Controller
                 $this->session->set_flashdata('msg','<div class="alert alert-success" role="alert">Penerimaan Barang berhasil diperbaharui</div>');
 
             } else {
+                
                 //get active price method
                  $price_method  = $this->ref->get_type_price("flag = 1")->row()->id;
                  
@@ -110,6 +164,8 @@ class Inventori extends CI_Controller
                                 "warehouse_id" => 1,
                                 "description" => $_POST['description'],
                                 "purchase_order_id" => $_POST['po_no_list'],
+                                "receiving_total" => $_POST['receiving_total'],
+                                "receiving_discount" => $_POST['disc'],
                                 "created_by" => $id_user,
                                 "created_date" => date('Y-m-d H:i:s'),
                                 "updated_date" => date('Y-m-d H:i:s'),
@@ -138,54 +194,7 @@ class Inventori extends CI_Controller
             }
         }
 
-        $data['receive']      = $this->rm->get_all_receive()->result();
-        $data['page_title']   = "Receiving";
-        $data['page_content'] = $this->load->view("inventori/receiving", $data, true);
-        $data['master']       = null;
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-        $this->load->view("inventori/receiving/receiving_js");
-    }
-
-
-    public function add_receiving()
-    {
-
-        $data['page_title']   = "Receiving";
-        $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
-        $data['po_no']        = generate_po_no(2);
-        $data['master']       = null;
-        $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
-        $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
-        $data['price_method'] = $this->rm->get_price_method()->result();
-        $data['page_content'] = $this->load->view("inventori/receiving/add_receiving", $data ,true);
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-        $this->load->view("inventori/receiving/receiving_js");
-    }
-
-
-    public function edit_receiving($rv_id)
-    {
-
-        $data['page_title']   = "Receiving";
-        $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
-        $data['po_no']        = generate_po_no(2);
-        $data['master']       = $this->rm->get_all_receive("tab1.id=".$rv_id,null,"tab2.id")->result();
-        $data['warehouse']    = $this->m_ws->get("flag<>99")->result();
-        $data['tgl_indo']     = longdate_indo( date('Y-m-d') );
-        $data['price_method'] = $this->rm->get_price_method()->result();
-        $data['page_content'] = $this->load->view("inventori/receiving/edit_receiving", $data ,true);
-
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base', $data);
-        $this->load->view('layout/js');
-        $this->load->view("inventori/receiving/receiving_edit_js");
+        redirect('inventori/receiving');
     }
 
 
@@ -241,6 +250,7 @@ class Inventori extends CI_Controller
                                             "price_method" => $param['price_method'],
                                             "goods_id" => $param['goods_id'][$i],
                                             "quantity" => $param['goods_qty'][$i],
+                                            "cartons" => $param['goods_carton'][$i],
                                             "price" => $param['goods_price'][$i],
                                             "discount" => $param['goods_discount'][$i],
                                         ); 
@@ -249,7 +259,6 @@ class Inventori extends CI_Controller
            }
         }
 
-        // echo json_encode($param);
         return $param;
     }
 
@@ -560,5 +569,7 @@ class Inventori extends CI_Controller
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
+        $this->load->view('layout/formula_js');
+        
     }
 }

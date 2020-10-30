@@ -28,8 +28,9 @@
 		    </div>
 		    <!-- end card header -->
 		    <div class="card-body">
-		      	<form method="post" id="form_receiving" action="<?=base_url()?>index.php/inventori/receiving">
+		      	<form method="post" id="form_receiving" action="<?=base_url()?>index.php/inventori/save_receiving">
 		      		<input type="hidden" name="supplier_id_temp" id="supplier_id_temp">
+					<input type="hidden" name="receiving_total" id="receiving_total">
 		      		<input type="hidden" name="po_id_temp" id="po_id_temp">
 		      		<div class="row ml-30">
 						<div class="col-md-1"></div>
@@ -74,63 +75,54 @@
 						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=$po_no?>">
 
 					</div>
-
 					<hr>
-
 					<div class="row mt-1">
 						<div class="col-md-1"></div>
-						<div class="col-md-10 ">
-							<!-- <div class="table-responsive"> -->
-								<table class="table table-condensed">
-									<thead>
-										<tr>
-											<th width="200">Kode Barang</th>
-											<th width="350">Nama Barang</th>
-											<th width="150">Quantity(Pc)</th>
-											<th width="150">Harga</th>
-											<th></th>
-										</tr>
-									</thead>
+						<div class="col-md-10">
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th width="200">Kode Barang</th>
+										<th width="350">Nama Barang</th>
+										<th width="150">Qty</th>
+										<th width="150">Carton</th>
+										<th width="150">Harga</th>
+										<th></th>
+									</tr>
+								</thead>
 
-									<tbody>
-										<tr>
-											<td>
-												<select name="goods_list" id="goods_list" class="form-control selectpicker" data-live-search="true" onchange="get_goods_detail()">
-													<option value="">Barang Kosong</option>
-												</select>
-											</td>
-											<td>
-												<input type="text" name="goods_name" id="goods_name" class="form-control" readonly placeholder="Nama Barang">
-											</td>
-											<td>
-												<input type="hidden" name="goods_code" id="goods_code" class="form-control" value="0">
-												<input type="hidden" name="goods_id" id="goods_id" class="form-control" value="0">
-												<input type="hidden" name="goods_discount" id="goods_discount" class="form-control" value="0">
+								<tbody>
+									<tr>
+										<td>
+											<select name="goods_list" id="goods_list" class="form-control selectpicker" data-live-search="true" onchange="get_goods_detail()">
+												<option value="">Pilih Kode Barang</option>
+											</select>
+										</td>
+										<td>
+											<input type="text" name="goods_name" id="goods_name" class="form-control" readonly placeholder="Nama Barang">
+										</td>
+										<td>
+											<input type="hidden" name="goods_code" id="goods_code" class="form-control" value="0">
+											<input type="hidden" name="goods_id" id="goods_id" class="form-control" value="0">
+											<input type="hidden" name="goods_discount" id="goods_discount" class="form-control" value="0">
 
-												<input type="hidden" name="goods_qty_sisa" id="goods_qty_sisa" class="form-control" min="1" value="1">
-												<input type="number" name="goods_qty" id="goods_qty" class="form-control" min="1" value="1">
-											</td>
-											<td>
-												<input type="number" name="goods_price" id="goods_price" class="form-control" min="0">
-											</td>
-											<td>
-												<button type="button" id="btn_add" class="btn btn-primary" onclick="add_to_chart()">Tambah
-												</button>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							<!-- </div> -->
-						</div>
-					</div>
-
-					<hr>
-					<div class="row mt-1">
-						<div class="col-md-10 text-right">
-							<p class="h4">Total</p>
-						</div>
-						<div class="col-md-2 text-left">
-							<p class="h5" id="grant_total"></p>
+											<input type="hidden" name="goods_qty_sisa" id="goods_qty_sisa" class="form-control" min="1" value="1">
+											<input type="number" name="goods_qty" id="goods_qty" class="form-control" min="1" value="1">
+										</td>
+										<td>
+										<input type="number" name="goods_carton" id="goods_carton" class="form-control" min="0" value="0">
+										</td>
+										<td>
+											<input type="text" name="goods_price" id="goods_price" class="form-control" readonly>
+										</td>
+										<td>
+											<button type="button" id="btn_add" class="btn btn-primary" onclick="add_to_chart()">
+												Tambah
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 					<hr>
@@ -143,24 +135,48 @@
 										<th>Kode Barang/PLU</th>
 										<th>Nama Barang</th>
 										<th>Harga</th>
-										<th>Quantity Receive(PCS)</th>
-										<th>Discount</th>
+										<th>Qty(Pcs)</th>
+										<th>Carton</th>
+										<th>Disc</th>
 										<th>Jumlah</th>
 										<th>#</th>
 									</tr>
 								</thead>
 								<tbody id="receive_list"></tbody>
+								<tfoot>
+									<tr>
+										<td colspan="6" class='text-right h6'>Sub Total</td>
+										<td class='h6 text-right' colspan='2' id="sub_total">Rp. 0</td>
+										<td></td>
+									</tr>
+									<tr class='w-50'>
+										<td colspan="6" class='text-right h6'>Diskon</td>
+										<td>
+											<input type="text" name="disc" id="disc_percent" class="form-control" onchange="sum_discount(1)">
+										</td>
+										<td>
+											<input type="text" name="disc_sum" id="disc_sum" class="form-control" onchange="sum_discount(2)">
+										</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td colspan="6" class='text-right h6'>Total</td>
+										<td class='h6 text-right' colspan='2' id="total">Rp. 0</td>
+										<td></td>
+									</tr>
+									<tr>  
+                                        <td colspan="9" class="text-center">
+											<button type="button" class="btn btn-light-success btn-md" id="btn_confirm_receiving">
+												<span class="fa la-save"></span> Save
+											</button>
+
+											<a href="<?=base_url()?>index.php/inventori/receiving" class="btn btn-light-danger btn-md">
+												<span class="fa la-arrow-left"></span> Cancel
+											</a>
+                                        </td>
+									</tr>
+								</tfoot>
 							</table>
-
-							<div class="text-center">
-								<button type="button" class="btn btn-light-success btn-md" id="btn_confirm_receiving"> 
-									<span class="fa la-save"></span> Save
-								</button>
-
-								<a href="<?=base_url()?>index.php/inventori/receiving" class="btn btn-light-danger btn-md">
-									<span class="fa la-arrow-left"></span> Cancel
-								</a>
-							</div>
 						</div>
 					</div>
 		        </form>

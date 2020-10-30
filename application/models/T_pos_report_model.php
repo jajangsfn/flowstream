@@ -23,10 +23,10 @@ class T_pos_report_model extends CI_Model
 								total,
 								(tab3.total / tab3.quantity) price_ppn,
 								tab3.price,(tab3.tax / tab3.quantity)  ppn,
-								tab1.*,tab4.id goods_id,tab4.barcode,tab4.plu_code,tab4.sku_code, 
+								tab1.*,DATE_FORMAT(tab1.pos_date,'%Y-%m-%d') pos_date,tab4.id goods_id,tab4.barcode,tab4.plu_code,tab4.sku_code, 
 								tab4.brand_name,tab4.brand_description,tab3.quantity,tab3.discount,tab3.tax ,
 								count(DISTINCT tab1.id) total_trans, tab5.initial unit_initial, tab5.name unit_desc,
-								tab6.no_seri_pajak_dipungut nomor_faktur_pajak
+								tab6.no_seri_pajak_dipungut nomor_faktur_pajak,tab2.address_1 address
 						FROM `t_pos` tab1 
 						JOIN m_partner tab2 ON tab2.id=tab1.partner_id
 						JOIN t_pos_detail tab3 ON tab3.pos_id=tab1.id

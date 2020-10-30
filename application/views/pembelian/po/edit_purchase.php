@@ -100,9 +100,10 @@
 							<tr>
 								<th>No</th>
 								<th width="100">Kode Barang/PLU</th>
-								<th width="150">Nama Barang</th>
+								<th width="100">Nama Barang</th>
 								<th>Harga</th>
 								<th>Qty(Pcs)</th>
+								<th>Carton</th>
 								<th width="100">Disc(%)</th>
 								<th>Jumlah</th>
 								<th>#</th>
@@ -112,12 +113,12 @@
 						</tbody>
 						<tfoot>
 							<tr>
-								<td colspan="5" class='text-right h5'>Sub Total</td>
+								<td colspan="6" class='text-right h5'>Sub Total</td>
 								<td class='h3 text-right' colspan="2" id="sub_total">Rp. 0</td>
 								<td></td>
 							</tr>
 							<tr class='w-50'>
-								<td colspan="5" class='text-right h5'>Diskon</td>
+								<td colspan="6" class='text-right h5'>Diskon</td>
 								<td>
 									<input type="text" name="disc" id="disc_percent" class="form-control" style="width:100px" onchange="sum_discount(1)">
 								</td>
@@ -127,7 +128,7 @@
 								<td></td>
 							</tr>
 							<tr>
-								<td colspan="5" class='text-right h5'>Total</td>
+								<td colspan="6" class='text-right h5'>Total</td>
 								<td class='h3 text-right' colspan="2" id="total">Rp. 0</td>
 								<td></td>
 							</tr>

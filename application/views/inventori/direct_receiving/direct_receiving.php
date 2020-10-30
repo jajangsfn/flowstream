@@ -58,6 +58,7 @@
                     <input type="hidden" name="branch_id" id="branch_id">
                     <input type="hidden" name="branch_name" id="branch_name">
                     <input type="hidden" name="partner_name" id="partner_name">
+                    <input type="hidden" name="receiving_total" id="receiving_total">
                     <input type="hidden" name="tgl_po" class="form-control col-md-3" readonly value="<?= date('Y-m-d') ?>">
                     <div class="row mb-5">
                         <label class="col-form-label col-md-2">Supplier</label>
@@ -84,7 +85,7 @@
                     </div>
 
                     <div class="row mb-5">
-                        <label class="col-form-label col-md-2">Tanggal Penerimaan</label>
+                        <label class="col-form-label col-md-2">Tgl Penerimaan</label>
                         <input type="date" name="receive_date" class="form-control col-md-3" value="<?= date("Y-m-d") ?>" required>
                         <div class="col-md-1"></div>
                         <label class="col-form-label col-md-2 text-right">No Receive</label>
@@ -92,50 +93,59 @@
                     </div>
 
                     <div class="row mb-5">
-                        <!-- <div class="col-md-1"></div> -->
                         <label class="col-form-label col-md-2">Deskripsi</label>
                         <textarea name="description" class="form-control col-md-9"></textarea>
                     </div>
-
-                    <hr>
-                    <div class="row p-6">
-                        <div class="col-md-10 text-right h3">
-                            Total
-                        </div>
-                        <div class="col-md-2 h3" id="grant_total">
-                            0
-                        </div>
-                    </div>
-
                     <div class="table-responsive">
-                        <table class="table table-bordered table-condensed table-striped">
+                        <table class="table table-condensed">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kode Barang/PLU</th>
+                                    <th>Kode Barang</th>
                                     <th>Nama Barang</th>
                                     <th>Harga</th>
-                                    <th>Quantity Order (PCS)</th>
-                                    <th>Discount</th>
+                                    <th>Qty(PCS)</th>
+                                    <th>Carton</th>
+                                    <th>Disc</th>
                                     <th>Jumlah</th>
                                     <th>#</th>
                                 </tr>
                             </thead>
                             <tbody id="goods_chart_table">
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="9" class="text-center">
-                                        <button type='button' class="btn btn-light-success btn-md" id="btn_save_purchase">
-                                            <span class="fa fa-save"></span>
-                                            Save
-                                        </button>
-                                        <a href="<?= base_url() ?>index.php/inventori/receiving" class="btn btn-light-danger btn-md">
-                                            <span class="fa la-arrow-left"></span> Cancel
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tfoot>
+                                <tfoot>
+									<tr>
+										<td colspan="6" class='text-right h6'>Sub Total</td>
+										<td class='h6 text-right' colspan='2' id="sub_total">Rp. 0</td>
+										<td></td>
+									</tr>
+									<tr class='w-50'>
+										<td colspan="6" class='text-right h6'>Diskon</td>
+										<td>
+											<input type="text" name="disc" id="disc_percent" class="form-control" style="width:100px" onchange="sum_discount(1)">
+										</td>
+										<td>
+											<input type="text" name="disc_sum" id="disc_sum" class="form-control" style="width:100px" onchange="sum_discount(2)">
+										</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td colspan="6" class='text-right h6'>Total</td>
+										<td class='h6 text-right' colspan='2' id="total">Rp. 0</td>
+										<td></td>
+									</tr>
+									<tr>  
+                                        <td colspan="9" class="text-center">
+                                            <button type='button' class="btn btn-light-success btn-md" id="btn_save_purchase">
+                                                <span class="fa fa-save"></span>
+                                                Save
+                                            </button>
+                                            <a href="<?= base_url() ?>index.php/inventori/receiving" class="btn btn-light-danger btn-md">
+                                                <span class="fa la-arrow-left"></span> Cancel
+                                            </a>
+                                        </td>
+									</tr>
+								</tfoot>
                         </table>
                     </div>
                 </form>

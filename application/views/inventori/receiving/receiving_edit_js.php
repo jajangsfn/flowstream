@@ -29,11 +29,11 @@
 	
 	function get_po_list()
 	{
-		var supplier_id_temp= <?=isset($master[0]) ? $master[0]->partner_id : "";?>;
-		
+		var supplier_id_temp= '<?=!is_null($master) ? $master[0]->partner_id : "";?>';
 		var supplier_id 	= $("#supplier_id").val();
-		var po_list_id  	= <?=isset($master[0]) ?  $master[0]->purchase_order_id : ""?>;
+		var po_list_id  	= '<?=!is_null($master[0]) ?  $master[0]->purchase_order_id : ""?>';
 
+		if (supplier_id) {
 			$.get("<?=base_url()?>index.php/inventori/get_po_list/1",
 				{"supplier_id":supplier_id})
 			.done(function(data){
@@ -79,12 +79,12 @@
 				$("#supplier_id_temp").val(supplier_id);
 			}
 		
-
+		}
 		clear_goods_chart();
 	}
 	function get_goods_list()
 	{
-		var po_id_temp  = '<?=isset($master) ?  $master[0]->purchase_order_id : "";?>';
+		var po_id_temp  = '<?=!is_null($master) ?  $master[0]->purchase_order_id : "";?>';
 		var po_id_change= $("#po_no_list").val();
 		var po_id       = (po_id_change) && (po_id_change!= po_id_temp) ? po_id_change : po_id_temp;
 		
@@ -162,6 +162,7 @@
 		var goods_qty_sisa  = parseInt( $("#goods_qty_sisa").val() );
 		var goods_qty 	    = parseInt( $("#goods_qty").val() );
 		var goods_price 	= parseInt( $("#goods_price").val() );
+		var goods_carton 	= parseInt( $("#goods_carton").val() );
 		var goods_discount  = parseInt( $("#goods_discount").val() );
 		
 		var save_input = {};
@@ -172,6 +173,7 @@
 		save_input.goods_name 		= goods_name;
 		save_input.goods_qty_sisa 	= goods_qty_sisa;
 		save_input.goods_qty  		= goods_qty;
+		save_input.goods_carton  	= goods_carton;
 		save_input.goods_price  	= goods_price;
 		save_input.goods_discount 	= goods_discount;
 
@@ -181,6 +183,7 @@
 				if (val.goods_id == goods_id)
 				{
 					val.goods_qty+=goods_qty;	
+					val.goods_carton+=goods_carton;	
 					val.goods_price = goods_price;
 					same = true;	
 				}
@@ -194,20 +197,18 @@
 		
 		clear_goods_chart();
 		show_goods_to_chart();
+		sum_discount();
 		
 	}
 
 	function show_goods_to_chart()
 	{
-		$("#btn_save").prop('disabled',true);
-
-		$("#receive_list").html('');
 		var goods_chart = "";
-		var grant_total = 0;
+		var sub_total = 0;
+		$("#btn_save").prop('disabled',true);
+		$("#receive_list").html('');
+
 		if ( chart_goods.length > 0) {
-
-			
-
 			$.each(chart_goods, function(id, val){
 
 				if (val.goods_discount) {
@@ -216,30 +217,33 @@
 					total = (val.goods_qty * val.goods_price);
 				} 
 				
-				grant_total+=total;
+				sub_total+=total;
 
 				goods_chart+="<tr id='"+id+"'>";
 				goods_chart+="<input type='hidden' name='po_detail_id[]' id='po_detail_id_"+id+"' value='"+val.po_detail_id+"'>";
 				goods_chart+="<input type='hidden' name='goods_id[]' id='goods_id_"+id+"' value='"+val.goods_id+"'>";
 				goods_chart+="<td>"+(id+1)+"</td>";
-				goods_chart+="<td>"+val.goods_code+"</td>";
-				goods_chart+="<td>"+val.goods_name+"</td>";
-				goods_chart+="<td><input type='number' name='goods_price[]' id='goods_price_"+id+"' class='form-control' value='"+val.goods_price+"' style='width:50%' onchange='sum_total("+id+")' min='0'></td>";
-				goods_chart+="<td><input type='number' name='goods_qty[]' id='goods_qty_"+id+"' value='"+val.goods_qty+"' min='1' class='form-control' style='width:50%' onchange='sum_total("+id+")'  min='0'></td>";
-				goods_chart+="<td><input type='number' name='goods_discount[]' id='goods_discount_"+id+"' class='form-control' value='"+val.goods_discount+"' style='width:50%' onchange='sum_total("+id+")'  min='0'></td>";
-				goods_chart+="<td>"+numeral(total).format('0,[.]00')+"</td>";
+				goods_chart+="<td style='width:100px'>"+val.goods_code+"</td>";
+				goods_chart+="<td style='width:150px'>"+val.goods_name+"</td>";
+				goods_chart+="<td><input type='number' name='goods_price[]' id='goods_price_"+id+"' class='form-control' value='"+val.goods_price+"' onchange='sum_total("+id+")' min='0'></td>";
+				goods_chart+="<td><input type='number' name='goods_qty[]' id='goods_qty_"+id+"' value='"+val.goods_qty+"' min='1' class='form-control' onchange='sum_total("+id+")'  min='0'></td>";
+				goods_chart+="<td><input type='number' name='goods_carton[]' class='form-control' id='goods_carton_" + id + "' value='"+val.goods_carton+"' min='0'></td>";
+				goods_chart+="<td><input type='number' name='goods_discount[]' id='goods_discount_"+id+"' class='form-control' value='"+val.goods_discount+"' onchange='sum_total("+id+")'  min='0'></td>";
+				goods_chart+="<td class='text-right'>"+numeral(total).format('0,[.]00')+"</td>";
 				goods_chart+="<td><button type='button' class='btn btn-light-danger' onclick='delete_goods_from_chart("+id+")'><span class='fa la-trash'></span></button></td>";
 				goods_chart+="</tr>";
 			});
 
 			$("#receive_list").append(goods_chart);
-			$("#grant_total").text(numeral(grant_total).format('0,[.]00'));
 			$("#btn_save").prop('disabled',false);
 
 
 		} else {
 			$("#receive_list").html('<tr><td colspan="9" class="text-center">Data Kosong</td></tr>');
 		}
+
+		$("#sub_total").html(numeral( sub_total ).format('0,0[.]00') );
+		sum_discount(1);
 	}
 
 	function delete_goods_from_chart(id)
@@ -258,14 +262,15 @@
 		$("#goods_discount").val(0);
 		$("#goods_qty_order").val(0);
 		$("#goods_qty").val(1);
+		$("#goods_carton").val(0);	
 		$("#goods_price").val('');	
 		$("#goods_discount").val(0);
 	}
 
 	function get_chart_goods_from_db()
 	{
-		var json = <?=isset($master) ? json_encode($master) : "";?>;
-		var data = (json!="") ? json : [];
+		var json = <?=!is_null($master) ? json_encode($master) : "null";?>;
+		var data = (json!=null) ? json : [];
 		
 
 		if (data.length > 0){
@@ -279,13 +284,19 @@
 				save_input.goods_price 		= parseInt(val.price);
 				save_input.goods_qty_order 	= val.qty_order;
 				save_input.goods_qty  		= parseInt(val.quantity);
+				save_input.goods_carton  	= parseInt(val.cartons);
 				save_input.goods_discount 	= (val.discount) ? val.discount : 0;
 				chart_goods.push(save_input);
+
+				// set purchase discount
+				$("#disc_percent").val(val.purchase_discount);
 				
 			});
 		}
-
+		
 		show_goods_to_chart();
+		//calculate discount
+		sum_discount(1);
 	}
 
 
@@ -373,10 +384,7 @@
 
 
 	function sum_total(id)
-	{
-		// var price = $("tr #"+id).find("input #goods_price_id_"+id).val();
-		// alert(id+' '+price);
-		
+	{		
 		$("tr#"+id).each(function() {
 			var goods_id_chart = $(this).find('#goods_id_'+id).val();
 			var goods_qty_chart = ($(this).find('td #goods_qty_'+id).val() ) ? parseInt( $(this).find('td #goods_qty_'+id).val() ) : 0;
@@ -413,6 +421,26 @@
 	function change_price_method()
 	{
 		$("#price_method").val( $("#price_method_dropdown").val());
+	}
+
+	function sum_discount(tipe=1) {
+
+		sub_total 		= numeral($("#sub_total").html()).value();
+		disc_percent 	= ($("#disc_percent").val()) ? parseInt($("#disc_percent").val()) : 0;
+		disc_sum 		= (numeral($("#disc_sum").val()).value()) ? numeral($("#disc_sum").val()).value() : 0;
+
+		if (tipe == 1) {
+			disc_sum 	= Math.round( sub_total * (disc_percent / 100));
+		}else {
+			disc_percent= Math.round((disc_sum / sub_total) * 100);
+		}
+
+		total = sub_total + disc_sum;
+
+		$("#disc_percent").val(disc_percent);
+		$("#disc_sum").val( disc_sum);
+		$("#total").html( numeral( total ).format('0,0[.]00') );
+		$("#receiving_total").val(total);
 	}
 
 </script>

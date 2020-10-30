@@ -52,11 +52,12 @@ class Receiving_model extends CI_Model
     function get_all_receive($where=null, $supplier_id=null, $group_by=null)
     {
 
-        return $this->db->query("SELECT tab1.*,tab4.name supplier_name,tab4.name partner_name,tab4.id partner_id FROM 
+        return $this->db->query("SELECT tab1.*,tab2.purchase_total,tab2.purchase_discount,
+                            tab4.name supplier_name,tab4.name partner_name,tab4.id partner_id FROM 
                             (
                             SELECT tab1.*,tab2.goods_id,tab3.barcode,tab3.brand_description goods_name,tab3.sku_code,tab3.plu_code, sum(tab2.quantity) receive_qty,
-                            floor (sum( (tab2.quantity * tab2.price) - ( (tab2.quantity * tab2.price * tab2.discount)/100) ))sum_trx ,tab1.flag flag_receive,tab1.id receiving_id,
-                            tab2.price,tab2.quantity,tab2.discount
+                            floor (sum( (tab2.quantity * tab2.price) - ( (tab2.quantity * tab2.price * tab2.discount)/100) ))sum_trx ,tab1.flag flag_receive,
+                            tab1.id receiving_id,tab2.price,tab2.quantity,tab2.discount,tab2.cartons
                             FROM t_receiving tab1 
                             JOIN t_receiving_detail tab2 on tab2.receiving_id=tab1.id
                             JOIN `m_goods` `tab3` ON `tab3`.`id`=`tab2`.`goods_id` 
@@ -196,11 +197,6 @@ class Receiving_model extends CI_Model
         $this->db->where("id",$header[0]->purchase_order_id);
         $order = $this->db->get("t_purchase_order")->result();
         $dpp_dipungut = $order[0]->purchase_total;
-        //counting dpp dipungut from detail
-        // foreach($detail as $key => $row) {
-        //     $dpp_dipungut+= ($row->price * $row->quantity) - (( ($row->price * $row->quantity) * $row->discount) /100);
-        // }
-        
         
         //data
         $branch_id    = $this->session->branch_id;

@@ -103,6 +103,7 @@
 										<th width="150">Nama Barang</th>
 										<th>Harga</th>
 										<th>Qty(Pcs)</th>
+										<th>Carton</th>
 										<th width="100">Disc(%)</th>
 										<th>Jumlah</th>
 										<th>#</th>

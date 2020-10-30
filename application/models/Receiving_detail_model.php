@@ -26,6 +26,7 @@ class Receiving_detail_model extends CI_Model
                $param['goods_id']           = $data['goods_id'][$i];
                $param['quantity']           = $data['goods_qty'][$i];
                $param['price']              = $data['goods_price'][$i];
+               $param['cartons']            = $data['goods_carton'][$i];
                $param['discount']           = $data['goods_discount'][$i];
                $param['flag']               = 1;
 
@@ -46,8 +47,6 @@ class Receiving_detail_model extends CI_Model
 
     function delete($where)
     {
-        // return $this->update($where, array("flag" => 99));
-
         $this->db->where($where);
         $this->db->set("flag",99);
         return $this->db->update("t_receiving_detail");

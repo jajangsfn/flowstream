@@ -27,17 +27,16 @@
 		    </div>
 		    <!-- end card header -->
 		    <div class="card-body">
-		      	<form method="post" action="<?=base_url()?>index.php/inventori/receiving" id="form_receiving">
+		      	<form method="post" action="<?=base_url()?>index.php/inventori/save_receiving" id="form_receiving">
 		      		<input type="hidden" name="id" id="rv_id" value="<?=($master) ? $master[0]->receiving_id : ""?>">
 					<input type="hidden" name="branch_id" id="branch_id" value="<?=($master) ? $master[0]->branch_id : ""?>">
 					<input type="hidden" name="partner_name" id="partner_name" value="<?=($master) ? $master[0]->partner_name : ""?>">
 					<input type="hidden" name="tgl_receive" class="form-control col-md-3" readonly value="<?=($master) ? $master[0]->created_date : date('Y-m-d')?>">
-
 					<input type="hidden" name="supplier_id_temp" id="supplier_id_temp">
+					<input type="hidden" name="receiving_total" id="receiving_total">
 		      		<input type="hidden" name="po_id_temp" id="po_id_temp">
 
 		      		<div class="row ml-30">
-						<!-- <div class="col-md-1"></div> -->
 						<label class="col-form-label col-md-2 text-right">Supplier</label>
 						<div class="form-group col-md-3">
 		                    <div class="w-100">
@@ -73,24 +72,6 @@
 					</div>
 
 					<div class="row ml-30">
-						<!-- <div class="col-md-1"></div>
-						<label class="col-form-label col-md-1 text-right">Gudang</label>
-						<div class="form-group col-md-3">
-		                    <div class="w-100">
-			                   <select name="ws" id="ws_id" class="form-control selectpicker" data-live-search="true">
-			                      	<option value="" selected>Pilih Gudang</option>
-			                       	<?php
-			                      	foreach ($warehouse as $key => $val) {
-			                      		if ($master && $master[0]->warehouse_id == $val->id) {
-			                      		?>
-			                       		<option value="<?=$val->id?>" selected><?=$val->name?></option>
-			                       	<?php } else { ?>
-			                       		<option value="<?=$val->id?>"><?=$val->name?></option>
-			                       	<?php } }?>
-			                    </select>
-			                </div>
-						</div> -->
-
 						<label class="col-form-label col-md-2 text-right">Deskripsi</label>
 						<div class="col-md-3">
 							<textarea name="description" id="description" class="form-control"><?=$master[0]->description?></textarea>
@@ -100,10 +81,7 @@
 						<input type="text" name="reference_no" class="col-md-3 form-control" value="<?=($master) ? $master[0]->reference_no : $po_no?>">
 
 					</div>
-
-
 					<hr>
-
 					<div class="row mt-1">
 						<div class="col-md-1"></div>
 						<div class="col-md-10">
@@ -112,7 +90,8 @@
 									<tr>
 										<th width="200">Kode Barang</th>
 										<th width="350">Nama Barang</th>
-										<th width="150">Quantity</th>
+										<th width="150">Qty</th>
+										<th width="150">Carton</th>
 										<th width="150">Harga</th>
 										<th></th>
 									</tr>
@@ -137,6 +116,9 @@
 											<input type="number" name="goods_qty" id="goods_qty" class="form-control" min="1" value="1">
 										</td>
 										<td>
+										<input type="number" name="goods_carton" id="goods_carton" class="form-control" min="0" value="0">
+										</td>
+										<td>
 											<input type="text" name="goods_price" id="goods_price" class="form-control" readonly>
 										</td>
 										<td>
@@ -149,16 +131,6 @@
 							</table>
 						</div>
 					</div>
-
-					<hr>
-					<div class="row mt-1">
-						<div class="col-md-10 text-right">
-							<p class="h4">Total</p>
-						</div>
-						<div class="col-md-2 text-left">
-							<p class="h5" id="grant_total"></p>
-						</div>
-					</div>
 					<hr>
 					<div class="row">
 						<div class="col-md-12">
@@ -169,24 +141,48 @@
 										<th>Kode Barang/PLU</th>
 										<th>Nama Barang</th>
 										<th>Harga</th>
-										<th>Quantity(Pc)</th>
-										<th>Discount</th>
+										<th>Qty(Pcs)</th>
+										<th>Carton</th>
+										<th>Disc</th>
 										<th>Jumlah</th>
 										<th>#</th>
 									</tr>
 								</thead>
 								<tbody id="receive_list"></tbody>
+								<tfoot>
+									<tr>
+										<td colspan="6" class='text-right h6'>Sub Total</td>
+										<td class='h6 text-right' colspan='2' id="sub_total">Rp. 0</td>
+										<td></td>
+									</tr>
+									<tr class='w-50'>
+										<td colspan="6" class='text-right h6'>Diskon</td>
+										<td>
+											<input type="text" name="disc" id="disc_percent" class="form-control" onchange="sum_discount(1)">
+										</td>
+										<td>
+											<input type="text" name="disc_sum" id="disc_sum" class="form-control" onchange="sum_discount(2)">
+										</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td colspan="6" class='text-right h6'>Total</td>
+										<td class='h6 text-right' colspan='2' id="total">Rp. 0</td>
+										<td></td>
+									</tr>
+									<tr>  
+                                        <td colspan="9" class="text-center">
+											<button type="button" class="btn btn-light-success btn-md" id="btn_confirm_receiving">
+												<span class="fa la-save"></span> Save
+											</button>
+
+											<a href="<?=base_url()?>index.php/inventori/receiving" class="btn btn-light-danger btn-md">
+												<span class="fa la-arrow-left"></span> Cancel
+											</a>
+                                        </td>
+									</tr>
+								</tfoot>
 							</table>
-
-							<div class="text-center">
-								<button type="button" class="btn btn-light-success btn-md" id="btn_confirm_receiving">
-									<span class="fa la-save"></span> Save
-								</button>
-
-								<a href="<?=base_url()?>index.php/inventori/receiving" class="btn btn-light-danger btn-md">
-									<span class="fa la-arrow-left"></span> Cancel
-								</a>
-							</div>
 						</div>
 					</div>
 		        </form>

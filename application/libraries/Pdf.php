@@ -123,7 +123,7 @@ class pdf
 												   								"align"=>'L',
 												   							),
 												   					2 => array( "title"=> "Nama Barang",
-												   								"width"=>6,
+												   								"width"=>6.5,
 												   								"height"=>0.4,
 												   								"align"=>'L',
 												   							),
@@ -162,7 +162,7 @@ class pdf
 																						  "position_x" => 5,
 																						), 
 												   					"sub_total" => array("title" => "Sub Total",
-														   								"width" => 16.3,
+														   								"width" => 16.8,
 														   								"height" => 0.6,
 														   								"align"=>'R',
 														   								"position_x" => 0.3),
@@ -172,7 +172,7 @@ class pdf
 														   								"align"=>'R',
 														   								"position_x" => 16.9),
 																	"ppn" => array("title" => "Pajak",
-																					"width" => 16.3,
+																					"width" => 16.8,
 																					"height" => 0.6,
 																					"align"=>'R',
 																					"position_x" => 0.3),
@@ -182,7 +182,7 @@ class pdf
 																					   "align"=>'R',
 																					   "position_x" => 16.9),
 																	"total" => array("title" => "Total",
-																					  "width" => 16.3,
+																					  "width" => 16.8,
 																					  "height" => 0.6,
 																					  "align"=>'R',
 																					  "position_x" => 0.3),
@@ -229,16 +229,16 @@ class pdf
 														   				"title" => 'Salesman',
 														   				"align" => 'L',
 														   				"index" => 'salesman_name'),
-														   	2 => array("position_x" => 0.8,
-														   				"position_y" => 34,
+														   	2 => array("position_x" => 148,
+														   				"position_y" => 26,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
 														   				"title" => 'No PO',
 														   				"align" => 'L',
 														   				"index" => "purchase_order_no"),
-														   	3 => array("position_x" => 0.8,
-														   				"position_y" => 38,
+														   	3 => array("position_x" => 148,
+														   				"position_y" => 30,
 														   				"name" => 18,
 														   				"pad" => 1.6,
 														   				"val" => 11.8,
@@ -246,7 +246,7 @@ class pdf
 														   				"align" => 'L',
 														   				"index" => "purchase_order_date"),
 																		),
-											"body_position_y" => 43,
+											"body_position_y" => 34,
 											"body_position_x" => 3,
 											"body_ln" => 4,
 											"body_start_y" => 5,
@@ -289,7 +289,7 @@ class pdf
 																	   
 															),
 											"footer" => array(
-														  	"footer_ln" => 0.9,
+														  	"footer_ln" => 0.1,
 														  	"signature" => array("title" => "Disiapkan Oleh :",
 																				"width" => 4,
 																				"height" => 0.8,
@@ -1322,12 +1322,12 @@ class pdf
 													   								"align"=>'C',
 													   							),
 													   					1 => array( "title"=> "PLU",
-													   								"width"=>4.3,
+													   								"width"=>3,
 													   								"height"=>0.5,
 													   								"align"=>'L',
 													   							),
 													   					2 => array( "title"=> "Nama Barang",
-													   								"width"=>8,
+													   								"width"=>10,
 													   								"height"=>0.5,
 													   								"align"=>'L',
 													   							),
@@ -1336,7 +1336,7 @@ class pdf
 													   								"height"=>0.5,
 													   								"align"=>'R',
 													   							),
-													   					4 => array( "title"=> "Rilis 1",
+													   					4 => array( "title"=> "Tersedia",
 													   								"width"=>2.5,
 													   								"height"=>0.5,
 													   								"align"=>'R',
@@ -1415,7 +1415,7 @@ class pdf
 																			),
 															"body_position_y" => 41,
 															"body_position_x" => 3,
-															"body_ln" => 4,
+															"body_ln" => 10,
 															"body_start_y" => 5,
 															"body_start_x" => 3,
 															"body" => array(0 => array( "title"=> "No",
@@ -1439,12 +1439,8 @@ class pdf
 																		   				"height"=>5,
 																		   				"align"=>'C',
 																		   			),
-																		//    4 => array( "title"=> "Pesan",
-																		//    				"width"=>25,
-																		//    				"height"=>5,
-																		//    				"align"=>'R',
-																		//    			),
-																		   4 => array( "title"=> "Rilis 1",
+					
+																		   4 => array( "title"=> "Tersedia",
 																		   				"width"=>25,
 																		   				"height"=>5,
 																		   				"align"=>'R',
@@ -1687,7 +1683,7 @@ class pdf
 												1 => array("paper"=>"A4",
 													   "view" => "P",
 													   "type_size" => "cm",
-													   "title_paper" => array( "title" => 'Penyiapan Barang',
+													   "title_paper" => array( "title" => 'Check Sheet',
 																				"width" => 20,
 																				"height" => 0.5,
 																				"align" => 'C'
@@ -1734,27 +1730,32 @@ class pdf
 													   								"align"=>'C',
 													   							),
 													   					1 => array( "title"=> "PLU",
-													   								"width"=>2.7,
+													   								"width"=>2.3,
 													   								"height"=>0.5,
 													   								"align"=>'L',
 													   							),
 													   					2 => array( "title"=> "Nama Barang",
-													   								"width"=>9,
+													   								"width"=>9.2,
 													   								"height"=>0.5,
 													   								"align"=>'L',
 													   							),
-													   					3 => array( "title"=> "Pesan",
-													   								"width"=>3.8,
-													   								"height"=>0.5,
-													   								"align"=>'C',
-													   							),
-													   					4 => array( "title"=> "Rilis 1",
-													   								"width"=>2,
+													   					3 => array( "title"=> "Harga",
+													   								"width"=>2.4,
 													   								"height"=>0.5,
 													   								"align"=>'R',
 																				   ),
-																		5 => array( "title"=> "Rilis 2",
+																		4 => array( "title"=> "Disc(%)",
 																				   "width"=>2,
+																				   "height"=>0.5,
+																				   "align"=>'C',
+																			   ),
+													   					5 => array( "title"=> "Tersedia",
+													   								"width"=>2,
+													   								"height"=>0.5,
+													   								"align"=>'C',
+																				   ),
+																		6 => array( "title"=> "Check",
+																				   "width"=>1.8,
 																				   "height"=>0.5,
 																				   "align"=>'R',
 																			   ),
@@ -1796,7 +1797,7 @@ class pdf
 												2 => array("paper"=> "a5",
 														   "view" => "L",
 														   "type_size" => "mm",
-														   "title_paper" => array( "title" => 'Penyiapan Barang',
+														   "title_paper" => array( "title" => 'Check Sheet',
 																					"width" => 200,
 																					"height" => 1,
 																					"align" => 'C'),
@@ -1847,25 +1848,30 @@ class pdf
 																		   			),
 
 																		   	2 => array( "title"=> "Nama Barang",
-																		   				"width"=> 80,
+																		   				"width"=> 85,
 																		   				"height"=>5,
 																		   				"align"=>'L',
 																		   			  ),																	   	
-																		   3 => array( "title"=> "Pesan",
-																		   				"width"=>30,
-																		   				"height"=>5,
-																		   				"align"=>'C',
-																		   			),
-																		   	4 => array( "title"=> "Rilis 1",
+																		   3 => array( "title"=> "Harga",
 																		   				"width"=>23,
 																		   				"height"=>5,
 																		   				"align"=>'R',
+																		   			),
+																		   	4 => array( "title"=> "Disc(%)",
+																		   				"width"=>15,
+																		   				"height"=>5,
+																		   				"align"=>'C',
 																					   ),
-																			5 => array( "title"=> "Rilis 2",
+																			5 => array( "title"=> "Tersedia",
 																					   "width"=>23,
 																					   "height"=>5,
 																					   "align"=>'R',
 																				   ),
+																			6 => array( "title"=> "Check",
+																				   "width"=>23,
+																				   "height"=>5,
+																				   "align"=>'R',
+																			   ),
 																		
 
 																			),
@@ -1913,7 +1919,7 @@ class pdf
 																						"align" => 'C'
 																					),
 															   "title_position_y" => 0.5,
-															   "space" => 2.5,
+															   "space" => 2.8,
 															   "header"=> array(
 															   					0 => array("position_x" => 0.2,
 															   								"position_y" => 2.3,
@@ -1937,29 +1943,38 @@ class pdf
 															   								"name" => 2,
 															   								"pad" => 0.2,
 															   								"val" => 11.8,
-															   								"title" => 'Customer',
+															   								"title" => 'Kepada',
 															   								"align" => 'L',
-															   								"index" => "partner_name"),
-
-															   					3 => array("position_x" => 14,
-															   								"position_y" => 2.3,
+																							"index" => "partner_name"),
+																				3 => array("position_x" => 0.2,
+															   								"position_y" => 3.5,
 															   								"name" => 2,
 															   								"pad" => 0.2,
 															   								"val" => 11.8,
-															   								"title" => 'Tgl Faktur',
+															   								"title" => 'Alamat',
 															   								"align" => 'L',
-																							"index" => "updated_date"
-																							),
+															   								"index" => "address"),
+
 																				4 => array("position_x" => 14,
-															   								"position_y" => 2.7,
+															   								"position_y" => 2.3,
 															   								"name" => 2,
 															   								"pad" => 0.2,
 															   								"val" => 11.8,
 															   								"title" => 'No. Faktur Pajak',
 															   								"align" => 'L',
-															   								"index" => "nomor_faktur_pajak"),
+																							"index" => "nomor_faktur_pajak"
+																						),
+																				5 => array("position_x" => 14,
+																						"position_y" => 2.7,
+																						"name" => 2,
+																						"pad" => 0.2,
+																						"val" => 11.8,
+																						"title" => 'Tgl Faktur',
+																						"align" => 'L',
+																					 	"index" => "pos_date"
+																						 ),
 															   				),
-															   "body_position_y" => 4,
+															   "body_position_y" => 4.3,
 															   "body_position_x" => 0.3,
 															   "body_ln" => 0.4,
 															   "body_start_y" => 0.5,
@@ -1976,7 +1991,7 @@ class pdf
 															   								"align"=>'L',
 															   							),
 															   					2 => array( "title"=> "Nama Barang",
-															   								"width"=>5.5,
+															   								"width"=>7.2,
 															   								"height"=>0.5,
 															   								"align"=>'L',
 															   							),
@@ -2009,7 +2024,7 @@ class pdf
 
 															   				),
 															   				
-															   "footer" => array("footer_ln" => 0.09,
+															   "footer" => array("footer_ln" => 0.04,
 															   					"signature" => array("title" => "Diterima Oleh :",
 																									  "width" => 4,
 																									  "height" => 0.8,
@@ -2025,7 +2040,7 @@ class pdf
 
 																								),
 																				"sub_total" => array("title" => "Sub Total",
-																								"width" => 16,
+																								"width" => 17.7,
 																								"height" => 0.4,
 																								"align"=>'R',
 																								"position_x" => 0.3),
@@ -2035,17 +2050,17 @@ class pdf
 																									"align"=>'R',
 																									"position_x" => 16.3),
 																				"ppn" => array("title" => "Pajak",
-																									"width" => 16,
+																									"width" => 17.7,
 																									"height" => 0.4,
 																									"align"=>'R',
 																									"position_x" => 0.3),
-																				"total_sum" => array("title" => "",
+																				"ppn_sum" => array("title" => "",
 																										"width" => 2.7,
 																										"height" => 0.4,
 																										"align"=>'R',
 																										"position_x" => 16.3),																									 
-															   					"total" => array("title" => "Sub Total",
-																	   							"width" => 16,
+															   					"total" => array("title" => "Total",
+																	   							"width" => 17.7,
 																	   							"height" => 0.4,
 																	   							"align"=>'R',
 																	   							"position_x" => 0.3),
@@ -2070,7 +2085,7 @@ class pdf
 																							"height" => 1,
 																							"align" => 'C'),
 																   "title_position_y" => 5,
-																   "space" => 25,
+																   "space" => 29,
 																   "header"=> array(
 																   					0 => array("position_x" => 1.5,
 																				   				"position_y" => 27,
@@ -2097,17 +2112,25 @@ class pdf
 																				   				"val" => 11.8,
 																				   				"title" => 'Kepada',
 																				   				"align" => 'L',
-																				   				"index" => "partner_name"),
-																   					3 => array("position_x" => 145,
+																								   "index" => "partner_name"),
+																					3 => array("position_x" => 1.5,
+																				   				"position_y" => 39,
+																				   				"name" => 18,
+																				   				"pad" => 1.6,
+																				   				"val" => 11.8,
+																				   				"title" => 'Alamat',
+																				   				"align" => 'L',
+																				   				"index" => "address"),
+																   					4 => array("position_x" => 145,
 																				   				"position_y" => 31,
 																				   				"name" => 20,
 																				   				"pad" => 1.6,
 																				   				"val" => 10.8,
 																				   				"title" => 'Tgl Faktur',
 																				   				"align" => 'L',
-																				   				"index" => "updated_date"
+																				   				"index" => "pos_date"
 																							   ),
-																					4 => array("position_x" => 145,
+																					5 => array("position_x" => 145,
 																							   "position_y" => 27,
 																							   "name" => 20,
 																							   "pad" => 1.6,
@@ -2117,7 +2140,7 @@ class pdf
 																							   "index" => "nomor_faktur_pajak"
 																						   ),
 																					),
-																	"body_position_y" => 40,
+																	"body_position_y" => 43,
 																	"body_position_x" => 3,
 																	"body_ln" => 4,
 																	"body_start_y" => 5,
@@ -2134,7 +2157,7 @@ class pdf
 																				   			),
 
 																				   	2 => array( "title"=> "Nama Barang",
-																				   				"width"=> 66,
+																				   				"width"=> 70,
 																				   				"height"=>5,
 																				   				"align"=>'L',
 																				   			  ),					   	
@@ -2179,7 +2202,7 @@ class pdf
 																										"position_x" => 65,
 																									),
 																				   	"sub_total" => array("title" => "Sub Total(Rounded)",
-																					   				"width" => 177,
+																					   				"width" => 181,
 																					   				"height" => 4,
 																					   				"align"=>'R',
 																					   				"position_x" => 3
@@ -2191,7 +2214,7 @@ class pdf
 																										"position_x" => 180
 																									),
 																					"ppn" => array("title" => "Pajak",
-																				   					   "width" => 177,
+																				   					   "width" => 181,
 																				   					   "height" => 4,
 																				   					   "align"=>'R',
 																									   "position_x" => 3
@@ -2203,7 +2226,7 @@ class pdf
 																										"position_x" => 181
 																									),
 																					"total" => array("title" => "Total",
-																				   					   "width" => 177,
+																				   					   "width" => 181,
 																				   					   "height" => 4,
 																				   					   "align"=>'R',
 																								       "position_x" => 3
@@ -3575,10 +3598,10 @@ class pdf
 		// count data
 		$count_data = count($data);
 
-		// if data > 14 then use A4 paper
-		// else use B4 paper
+		// if data > 15 then use A4 paper
+		// else use A5 paper
 		$use_paper = 1;
-		if ( $count_data <= 14 ) {
+		if ( $count_data <= 15) {
 			$use_paper = 2;
 		}
 		
@@ -3628,7 +3651,7 @@ class pdf
 					$header_reference[$use_paper]['address']['height'], 
 					$branch_address,0,1,'L');		
 		// set header 
-		$pdf->SetFont('Arial','B',9);
+		$pdf->SetFont('Arial','B',10);
 			foreach ($paper_reference[$type_print][$use_paper]['header'] as $key => $value) {
 				$pdf->SetY($value['position_y']);
 				$pdf->SetX($value['position_x']);
@@ -3655,14 +3678,14 @@ class pdf
 		$pdf->ln(0.8);	
 		$pdf->SetY($paper_reference[$type_print][$use_paper]['body_position_y']);
 		$pdf->SetX($paper_reference[$type_print][$use_paper]['body_position_x']);
-		$pdf->SetFont('Arial','B',9);
+		$pdf->SetFont('Arial','B',10);
 		foreach ($paper_reference[$type_print][$use_paper]['body'] as $key => $value) {
 			$pdf->Cell($value['width'], $value['height'], $value['title'],1,0,'C');	
 		}
 
 		$pdf->ln($paper_reference[$type_print][$use_paper]['body_start_y']);	
 	
-		$pdf->SetFont('Arial','',8);
+		$pdf->SetFont('Arial','',10);
 
 		$grant_total = 0;
 
@@ -3678,14 +3701,7 @@ class pdf
 				// if first row then set border top left and right
 				// if last row then set border bottom left right
 				// else set border to 0
-				if ( $key == 0)
-				{
-					$border = 'L,R,T';
-				} else if ( ($key+1) == $total_row) {
-					$border ='L,B,R';
-				}else {
-					$border = 'L,R';
-				}
+				$border = 1;
 
 				$discount = (($val['goods_price'] * $val['goods_qty'] * $val['goods_discount']) /100);
 				$total = $val['goods_price'] * $val['goods_qty'] - $discount;
@@ -3719,10 +3735,10 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
-						   number_format($total),$border,0,
+						   number_format($total),$border,1,
 						   $paper_reference[$type_print][$use_paper]['body'][6]['align']);	
 
-				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
+				// $pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
 
 				// set margin bottom
 				// jika data / row lebih dari atau sama dengan 14
@@ -3738,20 +3754,9 @@ class pdf
 		// ORDER REQUEST
 		if (in_array($type_print, array("order_request_out", "order_request_out_fix", "checksheet_out"))){
 			$show_tersedia = ($type_print == 'checksheet_out' ) ? true : false;
-			foreach ($data as $key => $val) {
-
-				// if first row then set border top left and right
-				// if last row then set border bottom left right
-				// else set border to 0
-				if ( count($data) == 1)
-				{
-					$border = 1;
-				} else if ( ($key+1) == $total_row) {
-					$border ='L,B,R';
-				}else {
-					$border = 'L,R';
-				}
-
+			$border = 1;
+			$i = 0;
+			foreach ($data as $key => $val) {			
 
 				$total = $val['price'] * $val['quantity'] - ( ($val['price'] * $val['quantity'] * $val['discount']) / 100);
 				$grant_total+=$total;
@@ -3771,22 +3776,39 @@ class pdf
 				
 				// if not yet checksheet process
 				if (in_array($type_print, array("order_request_out", "checksheet_out"))) {
-					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
-						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
-						   number_format($val['quantity'])." ".$val['unit_initial'],$border,0,
-						   $paper_reference[$type_print][$use_paper]['body'][3]['align']);
-
-					$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
-						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
-						   !empty($val['checksheet_qty']) ? number_format(intval($val['checksheet_qty']))." ".$val['unit_initial'] : ''
-						   ,$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
 					
 					if ($type_print == "checksheet_out") {
-				   		$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
-						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
-							''
-						   ,$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
+						$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
+						   number_format($val['price']),$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][3]['align']);
 
+						$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
+						   $val['discount']
+						   ,$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
+					
+				   		$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][5]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][5]['height'], 
+							!empty($val['checksheet_qty']) ? number_format($val['checksheet_qty']).' '.$val['unit_initial']:''
+ 						   ,$border,0,$paper_reference[$type_print][$use_paper]['body'][5]['align']);
+						
+						$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
+							''
+						   ,$border,0,$paper_reference[$type_print][$use_paper]['body'][6]['align']);
+
+					}else {
+						$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][3]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][3]['height'], 
+						   number_format($val['quantity']).' '.$val['unit_initial'],$border,0,
+						   $paper_reference[$type_print][$use_paper]['body'][3]['align']);
+
+						$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][4]['width'], 
+						   $paper_reference[$type_print][$use_paper]['body'][4]['height'], 
+						   ''
+						   ,$border,0,$paper_reference[$type_print][$use_paper]['body'][4]['align']);
+					
 					}
 						   
 				}
@@ -3800,13 +3822,15 @@ class pdf
 					
 				}
 				
-
-				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
+				$pdf->ln();
 
 				// set margin bottom
-				// jika data / row lebih dari atau sama dengan 14
-				if ( ($key+1) >= 14) {
-					$pdf->SetAutoPageBreak(true,0);
+				// jika data / row kurang dari atau sama dengan 13
+				if ( $i <=15) {
+					$pdf->SetAutoPageBreak(false,0);
+					$i = 0;
+				}else {
+					$i++;
 				}
 
 			}
@@ -3997,26 +4021,26 @@ class pdf
 			$ppn = 0;
 			$total_ppn = 0;
 			$discount = 0;
+			$border = 1;
 			foreach ($data as $key => $val) {
 
 				// if first row then set border top left and right
 				// if last row then set border bottom left right
 				// else set border to 0
-				if ( count($data) == 1)
-				{
-					$border = 1;
-				} else if ( ($key+1) == $total_row) {
-					$border ='L,B,R';
-				} else {
-					$border = 'L,R';
-				}
+				// if ( count($data) == 1)
+				// {
+				// 	$border = 1;
+				// } else if ( ($key+1) == $total_row) {
+				// 	$border ='L,B,R';
+				// } else {
+				// 	$border = 'L,R';
+				// }
 				
 				$dpp   = $val['price'] * $val['quantity'];
-				$ppn   = $val['ppn'];
+				$ppn   = $val['tax'];
 				$discount = ($dpp) * $val['discount'] / 100;
 
-				$total 		= $dpp - $discount + $ppn;
-				$grant_total+=$total+$ppn;
+				$total 		= $dpp - $discount;
 
 				$total_dpp	+=$total;
 				$total_ppn	+=$ppn;
@@ -4050,7 +4074,7 @@ class pdf
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][6]['width'], 
 						   $paper_reference[$type_print][$use_paper]['body'][6]['height'], 
-						   number_format($val['ppn']),$border,0,
+						   number_format($val['tax']),$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][6]['align']);	
 
 				$pdf->Cell($paper_reference[$type_print][$use_paper]['body'][7]['width'], 
@@ -4058,7 +4082,7 @@ class pdf
 						   number_format($total),$border,0,
 						   $paper_reference[$type_print][$use_paper]['body'][7]['align']);	
 
-				$pdf->ln($paper_reference[$type_print][$use_paper]['body_ln']);
+				$pdf->ln();
 
 				// set margin bottom
 				// jika data / row lebih dari atau sama dengan 14
@@ -4435,7 +4459,7 @@ class pdf
 		}
 
 		// set signature
-		$pdf->SetFont('Arial','',8);		
+		$pdf->SetFont('Arial','',10);		
 		$pdf->ln($paper_reference[$type_print][$use_paper]['footer']['footer_ln']);
 		// total
 		if (!in_array($type_print, array(
@@ -4461,7 +4485,7 @@ class pdf
 					   $paper_reference[$type_print][$use_paper]['footer']['summary']['align']);
 	
 		}else if (in_array($type_print, array("neraca_saldo","ikhtisar_buku_besar"))) {
-			$pdf->SetFont('Arial','B',9);	
+
 			$pdf->SetX($paper_reference[$type_print][$use_paper]['footer']['total']['position_x']);
 			$pdf->Cell($paper_reference[$type_print][$use_paper]['footer']['total']['width'], 
 					   $paper_reference[$type_print][$use_paper]['footer']['total']['height'], 
@@ -4559,7 +4583,10 @@ class pdf
 		}
 
 		// terbilang
-		if (!in_array($type_print, array("warehouse_in", 
+		$pdf->SetFont('Arial','B',9);	
+		if (!in_array($type_print, array(
+										"po_in",
+										"warehouse_in", 
 										"order_request_out", 
 										"order_request_out_fix", 
 										"checksheet_out",

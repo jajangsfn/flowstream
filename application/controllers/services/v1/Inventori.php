@@ -27,7 +27,7 @@ class Inventori extends CI_Controller
     {
         $id_user           = $this->session->userdata('id');
         $name              = $this->session->userdata('name');
-
+        // echo json_encode($_POST);exit;
         $entry_data   = array(
             "branch_id" => $_POST['branch_id'],
             "salesman_id" => $_POST['salesman'],
@@ -35,6 +35,8 @@ class Inventori extends CI_Controller
             "reference_no" => $_POST['reference_no'],
             "description" => $_POST['description'],
             "purchase_order_date" => $_POST['tgl_po'],
+            "purchase_total" => $_POST['receiving_total'],
+            "purchase_discount" => $_POST['disc'],
             "created_by" => $id_user,
             "created_date" => date('Y-m-d H:i:s'),
             "updated_date" => date('Y-m-d H:i:s'),
@@ -82,6 +84,8 @@ class Inventori extends CI_Controller
             "purchase_receive_no" => $_POST['purchase_order_no'],
             "po_no_list" => $po_id,
             "tgl_receive" => $_POST['receive_date'],
+            "receiving_total" => $_POST['receiving_total'],
+            "receiving_discount" => $_POST['disc'],
             "description" => $_POST['description'],
             "reference_no" => $_POST['reference_no'],
             "price_method" => $this->ref->get_type_price("flag = 1")->row()->id
@@ -99,18 +103,21 @@ class Inventori extends CI_Controller
         $goods_discount = array();
         $goods_qty = array();
         $goods_price = array();
+        $goods_carton = array();
         $po_detail_id = array();
         for ($i = 0; $i < count($pos_details); $i++) {
             array_push($goods_id, $pos_details[$i]['goods_id']);
             array_push($goods_discount, $pos_details[$i]['discount']);
             array_push($goods_qty, $pos_details[$i]['quantity']);
             array_push($goods_price, $pos_details[$i]['price']);
+            array_push($goods_carton, $pos_details[$i]['cartons']);
             array_push($po_detail_id, $pos_details[$i]['id']);
         }
         $receiving_data['goods_id'] = $goods_id;
         $receiving_data['goods_discount'] = $goods_discount;
         $receiving_data['goods_qty'] = $goods_qty;
         $receiving_data['goods_price'] = $goods_price;
+        $receiving_data['goods_carton'] = $goods_carton;
         $receiving_data['po_detail_id'] = $po_detail_id;
 
         //get active price method
@@ -123,6 +130,8 @@ class Inventori extends CI_Controller
             "warehouse_id" => 1,
             "description" => $receiving_data['description'],
             "purchase_order_id" => $receiving_data['po_no_list'],
+            "receiving_total" => $receiving_data['receiving_total'],
+            "receiving_discount" => $receiving_data['receiving_discount'],
             "created_by" => $id_user,
             "created_date" => date('Y-m-d H:i:s'),
             "updated_date" => date('Y-m-d H:i:s'),
@@ -145,7 +154,7 @@ class Inventori extends CI_Controller
                 "discount" => $receiving_data['goods_discount'][$i],
             );
             $receiving_data['goods_price'][$i] = $this->rdm->price_method($param_price_method);
-        }
+        } 
         $this->rdm->insert($rv_id, $receiving_data);
 
         // insert hitory activity

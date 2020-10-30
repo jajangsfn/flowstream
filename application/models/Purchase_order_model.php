@@ -49,7 +49,7 @@ class Purchase_order_model extends CI_Model
         $this->db->select_max('purchase_order_no');
         $this->db->where("branch_id", $branch_id);
         return $this->db->get("t_purchase_order");
-    }
+    } 
 
     function get_all_trx($where = null, $group_by = null)
     {
@@ -65,7 +65,7 @@ class Purchase_order_model extends CI_Model
                             ) sum_trx
                             ,tab2.goods_id,tab5.barcode,tab5.brand_description goods_name,tab2.price goods_price,sum( `tab2`.`quantity`) goods_qty,ifnull(tab2.discount,0) goods_discount,tab5.plu_code,tab5.sku_code,tab6.name branch_name,tab3.name salesman_name, tab2.id purchase_order_detail_id,
                                 ( sum(tab2.quantity) - ifnull(tab8.diterima, 0) )sisa,tab8.receiving_no,
-                                tab5.sku_code,tab5.brand_name,tab7.initial unit_initial");
+                                tab5.sku_code,tab5.brand_name,tab7.initial unit_initial,tab2.cartons");
         $this->db->from("t_purchase_order tab1");
         $this->db->join("t_purchase_order_detail tab2", "tab2.purchase_order_id=tab1.id ");
         $this->db->join("m_partner_salesman tab3", "tab3.id=tab1.salesman_id");

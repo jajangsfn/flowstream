@@ -38,31 +38,5 @@ class Receiving extends CI_Controller
     }
 
 
-    public function add_receiving()
-    {
-        if (count($_POST)) {
-
-            if (array_key_exists("id", $_POST)) {
-
-            } else {
-
-            }
-        }
-
-
-
-        $data['page_title']   = "Receiving";
-        $data['supplier']     = $this->get_partner(array("is_supplier"=>1));
-        $data['po_no']        = generate_po_receive_no();
-        $data['master']       = array();
-        $data['page_content'] = $this->load->view("inventori/receiving/add_receiving", $data ,true);
-
-        $this->load->view('layout/head');
-        $this->load->view('layout/base_maxwidth', $data);
-        $this->load->view('layout/js');
-        $this->load->view("inventori/receiving/receiving_js");
-    }
-
-
-
+    
 }

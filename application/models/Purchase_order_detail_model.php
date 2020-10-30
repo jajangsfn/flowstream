@@ -33,6 +33,7 @@ class Purchase_order_detail_model extends CI_Model
                $param['goods_id']           = $data['goods_id_chart'][$i];
                $param['quantity']           = $data['goods_qty_chart'][$i];
                $param['price']              = $data['goods_price_chart'][$i];
+               $param['cartons']            = $data['goods_carton_chart'][$i];
                $param['discount']           = $data['goods_discount_chart'][$i];
                $param['flag']               = 1;
 

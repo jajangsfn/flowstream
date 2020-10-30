@@ -43,7 +43,7 @@
                         <td><?=$val->supplier_name?></td>
                         <td class="text-center"><?=$val->created_date?></td>
                         <td><?=$val->description?></td>
-                        <td class="text-right"><?=number_format($val->sum_trx)?></td>
+                        <td class="text-right"><?=number_format($val->receiving_total)?></td>
                         <td><?=$val->flag_receive == 1 ? "<div class='badge badge-info'>Draft</div>" : "<div class='badge badge-success'>Approved</div>";?></td>
                         <td style="text-align: center;">
                             <?php
