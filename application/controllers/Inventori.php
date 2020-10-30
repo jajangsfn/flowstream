@@ -50,7 +50,7 @@ class Inventori extends CI_Controller
         $data['page_title']   = "Receiving";
         $data['page_content'] = $this->load->view("inventori/receiving", $data, true);
         $data['master']       = null;
-        // echo json_encode($data['receive']);exit;
+        
         $this->load->view('layout/head');
         $this->load->view('layout/base', $data);
         $this->load->view('layout/js');
